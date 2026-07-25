@@ -1,0 +1,17 @@
+torch
+torchvision
+timm
+opencv-python
+numpy
+pandas
+scikit-learn
+matplotlib
+seaborn
+albumentations
+pillow
+tqdm
+pyyaml
+tensorboard
+onnx
+onnxruntime-gpu
+grad-cam

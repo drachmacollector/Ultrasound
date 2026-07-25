@@ -1,1 +1,7 @@
 /implementation_plan.md
+data/raw/
+data/processed/
+checkpoints/
+logs/
+__pycache__/
+*.pyc

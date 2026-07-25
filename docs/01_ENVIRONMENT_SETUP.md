@@ -71,7 +71,7 @@ grad-cam                # pytorch-grad-cam library, saves reimplementing Grad-CA
 ## 4. Repository scaffold (agent should create this structure)
 
 ```
-fetal-plane-rt/
+Ultrasound/                   # Already the folder name 
 ├── configs/                  # YAML training configs per experiment
 ├── data/
 │   ├── raw/                  # untouched downloaded datasets — see 02_DATASETS.md

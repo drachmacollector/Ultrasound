@@ -30,7 +30,7 @@ We explicitly evaluated and rejected:
 ## 3. Deployment target (locks in a lot of downstream decisions)
 
 **Demo/portfolio pipeline** — local laptop (RTX 4060, 8GB VRAM), webcam or video file input, no real clinical hardware integration, no regulatory/FDA scope. This means:
-- We are NOT latency-starved (no need for sub-10ms inference); target is **stable, trustworthy signal within ~100–200ms perceived latency**, not raw fps maximization.
+- We are NOT latency-starved (no need for sub-10ms inference); target is **stable, trustworthy signal within ~100–600ms perceived latency**, not raw fps maximization.
 - We can afford heavier backbones than an edge/embedded target would allow (see `04_MODEL_TRAINING.md` for backbone comparison), but should still build the model export/quantization path as a stretch goal to prove it *could* scale down.
 - ONNX/TensorRT export, mobile deployment, Jetson targeting = stretch goals only, not required for v1.
 
