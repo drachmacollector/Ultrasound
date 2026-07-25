@@ -1,0 +1,65 @@
+"""
+src/data/transforms.py
+
+Defines train and eval preprocessing pipelines using albumentations.
+Uses A.MultiplicativeNoise for speckle augmentation (ultrasound-appropriate
+multiplicative noise model, not additive Gaussian).
+
+Grayscale→RGB replication is done in load_and_prep_grayscale_to_rgb()
+BEFORE any transform is applied, so the albumentations pipeline always
+receives a 3-channel uint8 image and ToTensorV2 produces a [3, H, W] tensor.
+"""
+import albumentations as A
+from albumentations.pytorch import ToTensorV2
+import cv2
+import numpy as np
+
+IMG_SIZE = 224
+IMAGENET_MEAN = [0.485, 0.456, 0.406]
+IMAGENET_STD = [0.229, 0.224, 0.225]
+
+
+def get_train_transform(img_size: int = IMG_SIZE) -> A.Compose:
+    """Full augmentation pipeline for training.
+
+    Augmentation choices:
+    - HorizontalFlip: safe for all 8 classes (none are laterality-defined)
+    - Affine: mild rotation/scale/translate to simulate probe placement variability
+    - RandomBrightnessContrast: accounts for gain/TGC variability across machines
+    - MultiplicativeNoise: ultrasound speckle is multiplicative (Rayleigh distributed),
+      not additive -- using A.MultiplicativeNoise here is physically correct
+    """
+    return A.Compose([
+        A.Resize(img_size, img_size),
+        A.HorizontalFlip(p=0.5),  # verified safe: none of our 8 classes are laterality-defined
+        A.Affine(rotate=(-10, 10), scale=(0.9, 1.1), translate_percent=(0.0, 0.1), p=0.7),
+        A.RandomBrightnessContrast(brightness_limit=0.2, contrast_limit=0.2, p=0.5),
+        A.MultiplicativeNoise(multiplier=(0.9, 1.1), per_channel=False, elementwise=True, p=0.3),
+        A.Normalize(mean=IMAGENET_MEAN, std=IMAGENET_STD),
+        ToTensorV2(),
+    ])
+
+
+def get_eval_transform(img_size: int = IMG_SIZE) -> A.Compose:
+    """Minimal pipeline for val/test/inference: resize + normalize only."""
+    return A.Compose([
+        A.Resize(img_size, img_size),
+        A.Normalize(mean=IMAGENET_MEAN, std=IMAGENET_STD),
+        ToTensorV2(),
+    ])
+
+
+def load_and_prep_grayscale_to_rgb(image_path: str) -> np.ndarray:
+    """Load an ultrasound image and replicate the single channel to 3 channels.
+
+    Ultrasound images are effectively single-channel (greyscale); replicating to
+    3ch is the simplest and most compatible approach for ImageNet-pretrained
+    backbones. Returns HxWx3 uint8 numpy array.
+
+    Raises FileNotFoundError if the file does not exist.
+    """
+    img = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+    if img is None:
+        raise FileNotFoundError(f"Could not read image: {image_path}")
+    img_rgb = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
+    return img_rgb
