@@ -38,6 +38,17 @@ Note: these paths are resolved at runtime via _get_layer_by_path() to guard
 against timm version differences that might rename attributes.  A RuntimeError
 with a clear message is raised if the path doesn't resolve, prompting the user
 to re-inspect named_modules().
+
+WARNING — RepVGG reparameterization invalidates the verified path:
+_BACKBONE_LAYER_PATHS["repvgg_a1/a2"] was verified against the *training-time*
+multi-branch RepVGG graph (each RepVggBlock has separate 3×3, 1×1, and identity
+branches).  Phase 4 Step 6 (reparameterization) collapses that multi-branch
+structure into a single plain conv stack, which changes the module tree.
+After reparameterization, re-run:
+    conda run -n fetalplane python scripts/_verify_gradcam_layers.py
+against the reparameterized model and update _BACKBONE_LAYER_PATHS if the
+path no longer resolves to the same layer type.  Do NOT assume the existing
+path still works — the layer names and nesting can change after reparam.
 """
 from __future__ import annotations
 
@@ -69,8 +80,9 @@ _BACKBONE_LAYER_PATHS: dict[str, list[str | int]] = {
     # model.blocks (Sequential of 7 groups) → group[6] → last InvertedResidual
     "efficientnet_lite0": ["blocks", 6, -1],
     # model.blocks (Sequential of 6 groups) → group[5] → last InvertedResidual
-    "tf_efficientnetv2_s": ["blocks", 5, -1],
+    "tf_efficientnetv2_s.in21k_ft_in1k": ["blocks", 5, -1],
 }
+
 
 
 def _get_layer_by_path(model: nn.Module, path: list[str | int]) -> nn.Module:

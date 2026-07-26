@@ -30,7 +30,7 @@ _BACKBONE_TEST_CONFIGS: dict[str, tuple[int, int]] = {
     "repvgg_a2": (224, 2),
     "mobilenetv3_large_100": (224, 2),
     "efficientnet_lite0": (224, 2),
-    "tf_efficientnetv2_s": (300, 1),  # larger input — smaller batch in test
+    "tf_efficientnetv2_s.in21k_ft_in1k": (300, 1),  # explicit tag per configs/tf_efficientnetv2_s.yaml
 }
 
 

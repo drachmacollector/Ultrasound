@@ -50,7 +50,11 @@ SMOKE_TEST_CONFIGS: list[str] = [
 
 
 def verify_checkpoint(ckpt_path: Path, backbone_name: str) -> bool:
-    """Load the checkpoint and verify it reloads correctly.
+    """Load the checkpoint and verify it reloads + forward-passes correctly.
+
+    Performs a real forward pass at the backbone's native image_size (read from
+    the config stored inside the checkpoint) rather than an arbitrary 4×4 tensor.
+    This catches head/shape mismatches that load_state_dict alone won't surface.
 
     Returns True on success, False on failure (prints error but does not raise).
     """
@@ -58,11 +62,24 @@ def verify_checkpoint(ckpt_path: Path, backbone_name: str) -> bool:
         ckpt = torch.load(str(ckpt_path), map_location="cpu", weights_only=False)
         model = build_model(backbone_name, num_classes=8, pretrained=False)
         model.load_state_dict(ckpt["model_state_dict"])
-        # Quick forward pass to confirm shape
-        dummy = torch.zeros(1, 3, 4, 4)  # tiny input just to test load; shape errors = real problem
-        # We cannot do a real forward at 4x4 for all backbones; just confirming load
-        log.info("  ✓ Checkpoint reloads successfully for %s (val_macro_f1=%.4f @ epoch %d)",
-                 backbone_name, ckpt.get("val_macro_f1", -1), ckpt.get("epoch", -1))
+        model.eval()
+
+        # Use native image_size from the saved config; fall back to 224 if absent.
+        saved_cfg = ckpt.get("config", {})
+        img_size: int = saved_cfg.get("image_size", 224)
+
+        with torch.no_grad():
+            out = model(torch.zeros(1, 3, img_size, img_size))
+
+        assert out.shape == (1, 8), (
+            f"Forward pass output shape {out.shape} != (1, 8). "
+            "Head may have been replaced incorrectly."
+        )
+        log.info(
+            "  ✓ Checkpoint reloads + forward-passes correctly for %s "
+            "(output=[1,8], val_macro_f1=%.4f @ epoch %d)",
+            backbone_name, ckpt.get("val_macro_f1", -1), ckpt.get("epoch", -1),
+        )
         return True
     except Exception as exc:  # noqa: BLE001
         log.error("  ✗ Checkpoint reload FAILED for %s: %s", backbone_name, exc)

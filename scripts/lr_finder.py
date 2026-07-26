@@ -31,23 +31,13 @@ from torch.optim import AdamW
 from torch.utils.data import DataLoader
 
 from src.data.dataset import CANONICAL_CLASSES, FocalPlanesDataset
+from src.data.transforms import get_eval_transform
 from src.models.backbone import build_model
 from src.train.train import build_class_weight_tensor, load_config
-
-import albumentations as A
-from albumentations.pytorch import ToTensorV2
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 log = logging.getLogger(__name__)
 
-
-def _make_transform(img_size: int, mean: list[float], std: list[float]) -> A.Compose:
-    """Minimal transform for LR finder: resize + normalize (no heavy augmentation)."""
-    return A.Compose([
-        A.Resize(img_size, img_size),
-        A.Normalize(mean=tuple(mean), std=tuple(std)),
-        ToTensorV2(),
-    ])
 
 
 def run_lr_finder(
@@ -81,7 +71,13 @@ def run_lr_finder(
     model = model.to(device)
     model.train()
 
-    transform = _make_transform(img_size, mean, std)
+    # Use eval-only transform (no augmentation) — augmentation would add noise
+    # to the loss signal and obscure the true LR-vs-loss relationship.
+    transform = get_eval_transform(
+        img_size=img_size,
+        mean=tuple(mean),
+        std=tuple(std),
+    )
     dataset = FocalPlanesDataset(csv_path=cfg["train_csv"], transform=transform)
     loader: DataLoader = DataLoader(  # type: ignore[type-arg]
         dataset,

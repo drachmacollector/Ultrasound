@@ -21,7 +21,7 @@ early_stopping_patience: 8
 early_stopping_metric: val_macro_f1
 
 optimizer: adamw
-lr: 3e-4
+lr: 3e-4                # placeholder — replace with lr_finder result before full run
 weight_decay: 0.01
 scheduler: cosine
 amp: true

@@ -23,6 +23,7 @@ from __future__ import annotations
 import argparse
 import json
 import logging
+import random
 import shutil
 import time
 from pathlib import Path
@@ -255,6 +256,7 @@ def train(cfg: dict) -> None:  # type: ignore[type-arg]
     seed: int = cfg.get("seed", 42)
     torch.manual_seed(seed)
     np.random.seed(seed)
+    random.seed(seed)  # albumentations p= gates use Python's stdlib random
 
     # ---- Device ----------------------------------------------------------
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -280,41 +282,17 @@ def train(cfg: dict) -> None:  # type: ignore[type-arg]
     img_size: int = cfg.get("image_size", 224)
     log.info("Image size: %dx%d", img_size, img_size)
 
-    # Override normalization if config specifies per-backbone values
-    # The transform functions use the module-level defaults if not patched;
-    # we honour config values by temporarily constructing with those params.
     normalize_mean: tuple[float, ...] = tuple(cfg.get("normalize_mean", [0.485, 0.456, 0.406]))
     normalize_std: tuple[float, ...] = tuple(cfg.get("normalize_std", [0.229, 0.224, 0.225]))
-
-    import albumentations as A
-    from albumentations.pytorch import ToTensorV2
-
-    def _train_transform() -> A.Compose:
-        return A.Compose([
-            A.Resize(img_size, img_size),
-            A.HorizontalFlip(p=0.5),
-            A.Affine(rotate=(-10, 10), scale=(0.9, 1.1), translate_percent=(0.0, 0.1), p=0.7),
-            A.RandomBrightnessContrast(brightness_limit=0.2, contrast_limit=0.2, p=0.5),
-            A.MultiplicativeNoise(multiplier=(0.9, 1.1), per_channel=False, elementwise=True, p=0.3),
-            A.Normalize(mean=normalize_mean, std=normalize_std),
-            ToTensorV2(),
-        ])
-
-    def _eval_transform() -> A.Compose:
-        return A.Compose([
-            A.Resize(img_size, img_size),
-            A.Normalize(mean=normalize_mean, std=normalize_std),
-            ToTensorV2(),
-        ])
 
     # ---- Datasets & DataLoaders ------------------------------------------
     train_dataset = FocalPlanesDataset(
         csv_path=cfg["train_csv"],
-        transform=_train_transform(),
+        transform=get_train_transform(img_size=img_size, mean=normalize_mean, std=normalize_std),
     )
     val_dataset = FocalPlanesDataset(
         csv_path=cfg["val_csv"],
-        transform=_eval_transform(),
+        transform=get_eval_transform(img_size=img_size, mean=normalize_mean, std=normalize_std),
     )
 
     num_workers: int = cfg.get("num_workers", 4)
