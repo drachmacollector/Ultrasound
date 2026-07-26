@@ -1,0 +1,42 @@
+# configs/tf_efficientnetv2_s.yaml
+#
+# pretrained_cfg verified 2026-07-26:
+#   input_size = (3, 300, 300)   ← NOT 224; running at native resolution per §0.3 decision
+#   mean       = (0.5, 0.5, 0.5)  ← NOT ImageNet stats; TF-style normalization
+#   std        = (0.5, 0.5, 0.5)
+#   crop_pct   = 1.0
+#
+# Resolution policy: (b) run at native pretrained resolution (300×300) for a fair
+# accuracy-ceiling measurement. This is the more defensible choice given the
+# accuracy-first directive in PHASE_4_KICKOFF_PROMPT.md §0.2.
+#
+# VRAM note: 300×300 at batch_size=32 is ~5.5 GB on the RTX 4060 with AMP;
+# batch_size=16 is the safe fallback if OOM occurs.
+
+backbone: tf_efficientnetv2_s
+num_classes: 8
+pretrained: true
+image_size: 300
+normalize_mean: [0.5, 0.5, 0.5]   # TF-pretrained normalization — NOT ImageNet
+normalize_std: [0.5, 0.5, 0.5]    # matches tf_efficientnetv2_s pretrained_cfg exactly
+
+train_csv: data/splits/train.csv
+val_csv: data/splits/val.csv
+class_weights_json: data/processed/class_weights.json
+
+batch_size: 24          # 300×300 is larger; reduce from 32 to stay within 8 GB VRAM with AMP
+num_workers: 4
+epochs_smoke_test: 5
+epochs_max: 60
+early_stopping_patience: 8
+early_stopping_metric: val_macro_f1
+
+optimizer: adamw
+lr: 3e-4
+weight_decay: 0.01
+scheduler: cosine
+amp: true
+
+log_dir: logs/tf_efficientnetv2_s
+checkpoint_dir: checkpoints/tf_efficientnetv2_s
+seed: 42
