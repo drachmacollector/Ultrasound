@@ -25,13 +25,14 @@ import sys
 from pathlib import Path
 
 import cv2
-import pandas as pd
-import numpy as np
 import matplotlib
+import numpy as np
+import pandas as pd
+
 matplotlib.use("Agg")  # Non-interactive backend -- no display required
 import matplotlib.pyplot as plt
-import matplotlib.gridspec as gridspec
 import seaborn as sns
+from matplotlib import gridspec
 
 # Allow imports from project root
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -82,7 +83,7 @@ def plot_class_distributions():
     dist_df = pd.DataFrame(counts)
     dist_df.index = [SHORT_NAMES.get(c, c) for c in dist_df.index]
 
-    fig, ax = plt.subplots(figsize=(14, 6))
+    _fig, ax = plt.subplots(figsize=(14, 6))
     x = np.arange(len(dist_df))
     width = 0.28
     colors = ["#4C72B0", "#55A868", "#C44E52"]
@@ -119,7 +120,7 @@ def plot_cross_device_distribution():
     df = pd.read_csv(CROSS_DEVICE_PATH)
     counts = df.groupby(["source_subset", "plane_label"]).size().unstack(fill_value=0)
 
-    fig, ax = plt.subplots(figsize=(8, 5))
+    _fig, ax = plt.subplots(figsize=(8, 5))
     counts.T.plot(kind="bar", ax=ax, colormap="Set2", edgecolor="white", width=0.6)
     ax.set_xlabel("Plane label")
     ax.set_ylabel("Image count")
@@ -141,12 +142,12 @@ def plot_cross_device_distribution():
 # 2. Sample image grids
 # ─────────────────────────────────────────────────────────────────────────────
 
-def _load_gray_rgb(path: str) -> np.ndarray:
+def _load_gray_rgb(path: str) -> np.ndarray | None:
     """Load image as RGB array regardless of whether it's stored as gray or color."""
-    img = cv2.imread(str(path))
+    img = cv2.imread(str(path))  # type: ignore
     if img is None:
         return None
-    return cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    return cv2.cvtColor(img, cv2.COLOR_BGR2RGB)  # type: ignore
 
 
 def plot_sample_grid_fetal_planes(n_per_class: int = 5):
@@ -187,7 +188,9 @@ def plot_sample_grid_cross_device(n_per_label: int = 5):
 
     df = pd.read_csv(CROSS_DEVICE_PATH)
     groups = df.groupby(["source_subset", "plane_label"])
-    keys = sorted(groups.groups.keys())
+    keys_raw = list(groups.groups.keys())
+    keys_tuple = [k for k in keys_raw if isinstance(k, tuple) and len(k) >= 2]
+    keys = sorted(keys_tuple, key=lambda x: (str(x[0]), str(x[1])))
 
     n_rows = len(keys)
     n_cols = n_per_label
@@ -197,7 +200,7 @@ def plot_sample_grid_cross_device(n_per_label: int = 5):
     fig.suptitle("Cross-device dataset — Sample images per (subset, label)",
                  fontsize=13, fontweight="bold", y=1.01)
 
-    for row_i, (subset, label) in enumerate(keys):
+    for row_i, (subset, label) in enumerate(keys):  # type: ignore
         grp = groups.get_group((subset, label))
         sampled = grp.sample(n=min(n_per_label, len(grp)), random_state=42)
         for col_i, (_, row) in enumerate(sampled.iterrows()):
@@ -246,7 +249,7 @@ def save_patient_count_table():
     print("---\n")
 
     # Plot as heatmap for easy visual review
-    fig, axes = plt.subplots(1, 2, figsize=(14, 5))
+    _fig, axes = plt.subplots(1, 2, figsize=(14, 5))
     for ax, cols, title in [
         (axes[0], ["Train_patients", "Val_patients", "Test_patients"], "Patients per class per split"),
         (axes[1], ["Train_images", "Val_images", "Test_images"], "Images per class per split"),
@@ -280,7 +283,7 @@ def plot_resolution_histogram(max_sample: int = 1000):
     widths, heights, aspects = [], [], []
     skipped = 0
     for _, row in sample.iterrows():
-        img = cv2.imread(str(row["image_path"]))
+        img = cv2.imread(str(row["image_path"]))  # type: ignore
         if img is None:
             skipped += 1
             continue

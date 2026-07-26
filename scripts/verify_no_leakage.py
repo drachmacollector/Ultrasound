@@ -2,8 +2,9 @@
 scripts/verify_no_leakage.py
 Hard-fails (raises) if any patient_id appears in more than one of train/val/test.
 """
-import pandas as pd
 from pathlib import Path
+
+import pandas as pd
 
 SPLITS_DIR = Path("data/splits")
 

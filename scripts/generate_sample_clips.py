@@ -10,12 +10,11 @@ These clips should be manually reviewed (Phase 3 checkpoint #2) before Phase 5
 smoothing development. The motion should look like plausible small probe wobble,
 NOT jittery per-frame noise.
 """
-import sys
 import random
+import sys
 from pathlib import Path
 
 import pandas as pd
-import cv2
 
 # Allow imports from project root when running as a script
 sys.path.insert(0, str(Path(__file__).parent.parent))

@@ -33,7 +33,7 @@ class _SmoothRandomWalk:
         return self.value
 
 
-def generate_ego_motion_clip(image: np.ndarray, n_frames: int = 16, seed: int = None) -> list:
+def generate_ego_motion_clip(image: np.ndarray, n_frames: int = 16, seed: int | None = None) -> list:
     """
     Generate a synthetic clip mimicking probe hand tremor/wobble.
 
@@ -73,7 +73,8 @@ def generate_ego_motion_clip(image: np.ndarray, n_frames: int = 16, seed: int = 
 
         # mild speckle (multiplicative) noise, ultrasound-appropriate
         speckle_sigma = 0.04
-        noise = rng.normal(1.0, speckle_sigma, warped.shape).astype(np.float32)
+        noise_raw = rng.normal(1.0, speckle_sigma, warped.shape)
+        noise = np.asarray(noise_raw, dtype=np.float32)
         speckled = np.clip(warped.astype(np.float32) * noise, 0, 255).astype(np.uint8)
 
         # slow blur jitter -- occasionally soften slightly, never sharpen
@@ -95,7 +96,7 @@ def save_clip_as_mp4(frames: list, out_path: str, fps: int = 24):
         fps: Frames per second for the output video.
     """
     h, w = frames[0].shape[:2]
-    fourcc = cv2.VideoWriter_fourcc(*"mp4v")
+    fourcc = cv2.VideoWriter_fourcc(*"mp4v")  # type: ignore
     writer = cv2.VideoWriter(out_path, fourcc, fps, (w, h))
     for frame in frames:
         writer.write(cv2.cvtColor(frame, cv2.COLOR_RGB2BGR))

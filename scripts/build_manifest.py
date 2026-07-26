@@ -5,8 +5,9 @@ Reads FETAL_PLANES_DB_data.csv and produces data/processed/manifest.csv with
 columns: image_path, patient_id, plane_label, brain_subplane_raw, source_machine,
 operator, original_split_flag.
 """
-import pandas as pd
 from pathlib import Path
+
+import pandas as pd
 
 RAW_CSV = Path("data/raw/fetal_planes_db/FETAL_PLANES_DB_data.csv")
 IMAGES_DIR = Path("data/raw/fetal_planes_db/Images")
@@ -18,7 +19,7 @@ CANONICAL_CLASSES = [
 ]
 
 def map_to_canonical(plane: str, brain_plane) -> str:
-    plane = str(plane).strip()
+    plane = plane.strip()
     brain_plane = str(brain_plane).strip() if pd.notna(brain_plane) else "Not A Brain"
 
     if plane == "Fetal brain":

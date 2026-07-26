@@ -15,6 +15,7 @@ every image here is a valid standard plane by construction.
 DO NOT read from images/FP/ or images/MULTICENTRE/ -- see 02_DATASETS.md §2.
 """
 from pathlib import Path
+
 import pandas as pd
 
 BASE = Path("data/raw/ucl_hc18/images")

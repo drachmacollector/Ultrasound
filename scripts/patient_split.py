@@ -6,8 +6,9 @@ using StratifiedGroupKFold so per-class patient representation in val is
 checked and maximized rather than left to chance. The Train==0 pool becomes
 the in-distribution test set, untouched.
 """
-import pandas as pd
 from pathlib import Path
+
+import pandas as pd
 from sklearn.model_selection import StratifiedGroupKFold
 
 MANIFEST_PATH = Path("data/processed/manifest.csv")
@@ -18,17 +19,20 @@ RANDOM_STATE = 42
 
 
 def patient_counts_per_class(df: pd.DataFrame) -> pd.Series:
-    return df.groupby("plane_label")["patient_id"].nunique()
+    counts = df.groupby("plane_label")["patient_id"].nunique()
+    if isinstance(counts, pd.Series):
+        return counts
+    return pd.Series(counts)
 
 
 def find_best_val_fold(train_pool: pd.DataFrame, n_splits: int):
     sgkf = StratifiedGroupKFold(n_splits=n_splits, shuffle=True, random_state=RANDOM_STATE)
-    X = train_pool.index.values
-    y = train_pool["plane_label"].values
-    groups = train_pool["patient_id"].values
+    X = train_pool.index.tolist()
+    y = train_pool["plane_label"].tolist()
+    groups = train_pool["patient_id"].tolist()
 
-    best_fold_idx, best_min_coverage, best_val_idx = None, -1, None
-    for fold_idx, (_, val_idx) in enumerate(sgkf.split(X, y, groups)):
+    best_fold_idx, best_min_coverage, best_train_idx, best_val_idx = None, -1, None, None
+    for fold_idx, (train_idx, val_idx) in enumerate(sgkf.split(X, y, groups)):
         val_df = train_pool.iloc[val_idx]
         counts = patient_counts_per_class(val_df)
         # every one of the 8 canonical classes must be represented
@@ -36,9 +40,9 @@ def find_best_val_fold(train_pool: pd.DataFrame, n_splits: int):
             [c for c in train_pool["plane_label"].unique()]
         ).fillna(0).min()
         if min_coverage > best_min_coverage:
-            best_fold_idx, best_min_coverage, best_val_idx = fold_idx, min_coverage, val_idx
+            best_fold_idx, best_min_coverage, best_train_idx, best_val_idx = fold_idx, min_coverage, train_idx, val_idx
 
-    return best_fold_idx, best_min_coverage, best_val_idx
+    return best_fold_idx, best_min_coverage, best_train_idx, best_val_idx
 
 
 def build_splits():
@@ -48,7 +52,10 @@ def build_splits():
     train_pool = df[df["original_split_flag"] == 1].copy().reset_index(drop=True)
 
     n_splits = round(1 / TARGET_VAL_FRACTION)  # e.g. 0.15 -> 7
-    best_fold_idx, best_min_coverage, best_val_idx = find_best_val_fold(train_pool, n_splits)
+    best_fold_idx, best_min_coverage, best_train_idx, best_val_idx = find_best_val_fold(train_pool, n_splits)
+
+    if best_train_idx is None or best_val_idx is None:
+        raise RuntimeError("Failed to generate any valid folds.")
 
     if best_min_coverage < MIN_PATIENTS_PER_CLASS_IN_VAL:
         raise RuntimeError(
@@ -60,7 +67,7 @@ def build_splits():
         )
 
     val_df = train_pool.iloc[best_val_idx].copy()
-    train_df = train_pool.drop(index=best_val_idx).copy()
+    train_df = train_pool.iloc[best_train_idx].copy()
 
     print(f"Chosen fold {best_fold_idx}/{n_splits}, min per-class patient coverage in val = {best_min_coverage}")
     print("Per-class patient counts (train pool, for reference):")

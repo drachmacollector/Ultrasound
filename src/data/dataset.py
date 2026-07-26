@@ -12,14 +12,14 @@ CrossDeviceDataset: reads cross_device_manifest.csv; returns the same tuple
 Both use the same CANONICAL_CLASSES list for consistent label → index mapping
 across the whole pipeline (training, eval, inference).
 """
+from collections.abc import Callable
 from pathlib import Path
-from typing import Optional, Callable
+from typing import ClassVar
 
 import pandas as pd
-import torch
 from torch.utils.data import Dataset
 
-from src.data.transforms import load_and_prep_grayscale_to_rgb, get_eval_transform
+from src.data.transforms import get_eval_transform, load_and_prep_grayscale_to_rgb
 
 # Single source of truth for label ordering — must match IDX_TO_CLASS in inference.py
 CANONICAL_CLASSES = [
@@ -50,7 +50,7 @@ class FocalPlanesDataset(Dataset):
     def __init__(
         self,
         csv_path: str,
-        transform: Optional[Callable] = None,
+        transform: Callable | None = None,
         label_col: str = "plane_label",
     ):
         self.df = pd.read_csv(csv_path)
@@ -68,8 +68,8 @@ class FocalPlanesDataset(Dataset):
     def __len__(self) -> int:
         return len(self.df)
 
-    def __getitem__(self, idx: int):
-        row = self.df.iloc[idx]
+    def __getitem__(self, index: int):
+        row = self.df.iloc[index]
         image_path = row["image_path"]
         label_str = row[self.label_col]
 
@@ -94,12 +94,12 @@ class CrossDeviceDataset(Dataset):
         transform: Callable albumentations pipeline. If None, uses get_eval_transform().
     """
 
-    CROSS_DEVICE_LABELS = {"Head", "Fetal_abdomen", "Fetal_femur"}
+    CROSS_DEVICE_LABELS: ClassVar[set[str]] = {"Head", "Fetal_abdomen", "Fetal_femur"}
 
     def __init__(
         self,
         csv_path: str,
-        transform: Optional[Callable] = None,
+        transform: Callable | None = None,
     ):
         self.df = pd.read_csv(csv_path)
         self.transform = transform if transform is not None else get_eval_transform()
@@ -120,8 +120,8 @@ class CrossDeviceDataset(Dataset):
     def __len__(self) -> int:
         return len(self.df)
 
-    def __getitem__(self, idx: int):
-        row = self.df.iloc[idx]
+    def __getitem__(self, index: int):
+        row = self.df.iloc[index]
         image_path = row["image_path"]
         label_str = row["plane_label"]
         is_collapsed = bool(row["is_collapsed_label"])

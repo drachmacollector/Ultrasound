@@ -10,13 +10,13 @@ BEFORE any transform is applied, so the albumentations pipeline always
 receives a 3-channel uint8 image and ToTensorV2 produces a [3, H, W] tensor.
 """
 import albumentations as A
-from albumentations.pytorch import ToTensorV2
 import cv2
 import numpy as np
+from albumentations.pytorch import ToTensorV2
 
 IMG_SIZE = 224
-IMAGENET_MEAN = [0.485, 0.456, 0.406]
-IMAGENET_STD = [0.229, 0.224, 0.225]
+IMAGENET_MEAN = (0.485, 0.456, 0.406)
+IMAGENET_STD = (0.229, 0.224, 0.225)
 
 
 def get_train_transform(img_size: int = IMG_SIZE) -> A.Compose:

@@ -14,8 +14,9 @@ than WeightedRandomSampler and produces equivalent gradient scaling, while
 being easier to reason about when combined with other regularization.
 """
 import json
-import pandas as pd
 from pathlib import Path
+
+import pandas as pd
 
 CANONICAL_CLASSES = [
     "Brain_Trans_cerebellum", "Brain_Trans_thalamic", "Brain_Trans_ventricular",
