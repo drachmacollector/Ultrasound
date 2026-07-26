@@ -29,11 +29,17 @@ class _SmoothRandomWalk:
 
     def step(self) -> float:
         self.velocity = self.momentum * self.velocity + (1 - self.momentum) * self.rng.normal(0, self.step_std)
-        self.value = float(np.clip(self.value + self.velocity, self.low, self.high))
+        new_value = self.value + self.velocity
+        
+        # Zero out velocity if we hit a boundary to prevent "sticking"
+        if new_value <= self.low or new_value >= self.high:
+            self.velocity = 0.0
+            
+        self.value = float(np.clip(new_value, self.low, self.high))
         return self.value
 
 
-def generate_ego_motion_clip(image: np.ndarray, n_frames: int = 16, seed: int | None = None) -> list:
+def generate_ego_motion_clip(image: np.ndarray, n_frames: int = 120, seed: int | None = None) -> list:
     """
     Generate a synthetic clip mimicking probe hand tremor/wobble.
 

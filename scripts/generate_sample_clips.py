@@ -25,7 +25,7 @@ from src.data.transforms import load_and_prep_grayscale_to_rgb
 TRAIN_CSV = Path("data/splits/train.csv")
 OUT_DIR = Path("data/processed/synthetic_clips")
 CLIPS_PER_CLASS = 2          # 2 × 8 classes = up to 16 clips (a few may be missing for rare classes)
-N_FRAMES = 16
+N_FRAMES = 120
 FPS = 24
 RANDOM_SEED = 42
 
