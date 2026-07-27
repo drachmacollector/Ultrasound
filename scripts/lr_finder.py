@@ -170,7 +170,6 @@ def plot_lr_finder(
     save_path: Path,
     backbone_name: str,
 ) -> None:
-    """Plot and save the LR finder curve."""
     save_path.parent.mkdir(parents=True, exist_ok=True)
     fig, ax = plt.subplots(figsize=(10, 5))
     ax.plot(lrs, losses, linewidth=1.5)
@@ -180,26 +179,39 @@ def plot_lr_finder(
     ax.set_title(f"LR Range Test — {backbone_name}")
     ax.grid(True, which="both", alpha=0.3)
 
-# Annotate the steepest descent region
     if len(losses) > 20:
-        # FIX: Skip the first 15 steps to ignore the initial bias-correction spike
         skip = 15
-        log_lrs = np.log10(lrs[skip:])
-        grads = np.gradient(losses[skip:], log_lrs)
-        
-        # Find the steepest downward slope in the valid region
-        best_step = int(np.argmin(grads))
-        best_lr = lrs[skip + best_step]
-        
-        ax.axvline(best_lr, color="red", linestyle="--", alpha=0.7,
-                   label=f"Steepest descent ≈ {best_lr:.2e}")
-        ax.legend()
-        log.info("Suggested LR (steepest descent): %.2e", best_lr)
+        ceil_lr = 1e-2
+        valid_end = next(
+            (i for i, lr in enumerate(lrs) if lr > ceil_lr),
+            len(lrs)
+        )
 
+        search_losses = losses[skip:valid_end]
+        search_lrs   = lrs[skip:valid_end]
+
+        if len(search_losses) < 3:
+            log.warning("Too few steps in valid LR range [%s:%s].", skip, valid_end)
+        else:
+            log_lrs_arr = np.log10(search_lrs)
+            # Use simple finite differences between adjacent points
+            # (more robust than np.gradient on noisy smoothed curves)
+            diffs = np.diff(search_losses) / np.diff(log_lrs_arr)
+            best_step = int(np.argmin(diffs))   # most negative = steepest drop
+            best_lr   = search_lrs[best_step]
+            suggested_lr = best_lr / 10.0
+
+            ax.axvline(best_lr, color="red", linestyle="--", alpha=0.7,
+                       label=f"Steepest descent ≈ {best_lr:.2e}")
+            ax.axvline(suggested_lr, color="orange", linestyle=":", alpha=0.8,
+                       label=f"Suggested LR ≈ {suggested_lr:.2e} (÷10)")
+            ax.legend()
+            log.info("Steepest descent LR: %.2e", best_lr)
+            log.info("Suggested training LR (steepest ÷ 10): %.2e", suggested_lr)
+            
     fig.savefig(str(save_path), dpi=150, bbox_inches="tight")
     plt.close(fig)
     log.info("LR finder plot saved → %s", save_path)
-
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="LR range test for a fetal plane backbone.")

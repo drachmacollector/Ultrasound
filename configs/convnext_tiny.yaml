@@ -29,7 +29,8 @@
 # VRAM note: 300×300 at batch_size=24 with AMP fits within 8 GB on RTX 4060.
 # Reduce to batch_size=16 if OOM occurs.
 
-backbone: convnext_tiny.in21k_ft_in1k   # explicit tag — NOT the bare identifier
+backbone: convnext_tiny.fb_in22k_ft_in1k
+   # explicit tag — NOT the bare identifier
 num_classes: 8
 pretrained: true
 image_size: 224
@@ -47,7 +48,7 @@ epochs_max: 60
 early_stopping_patience: 8
 
 optimizer: adamw
-lr: 3e-4                # placeholder — replace with lr_finder result before full run
+lr: 1e-4                # placeholder — replace with lr_finder result before full run
 weight_decay: 0.01
 scheduler: cosine
 amp: true
