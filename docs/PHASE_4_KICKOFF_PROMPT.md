@@ -64,7 +64,7 @@ artificially and unfairly tank that backbone's score in your comparison —
 which would be a real bug in the ablation, not a genuine finding about the
 architecture.
 
-**Required action before any training run:** for each of the four
+**Required action before any training run:** for each of the five
 candidates, run:
 
 ```python
@@ -74,8 +74,8 @@ print(m.pretrained_cfg)   # inspect input_size, mean, std, crop_pct
 ```
 
 and repeat for `repvgg_a1`, `mobilenetv3_large_100`, `efficientnet_lite0`.
-Record all four `pretrained_cfg`s in [EXPERIMENTS.md](EXPERIMENTS.md) (see §11 below).
-**Decision to make and document, not guess:** either (a) standardize all four
+Record all five `pretrained_cfg`s in [EXPERIMENTS.md](EXPERIMENTS.md) (see §11 below).
+**Decision to make and document, not guess:** either (a) standardize all five
 at 224×224 with ImageNet mean/std for a clean apples-to-apples comparison,
 explicitly noting this may under-represent EfficientNetV2-S's true ceiling,
 or (b) run each backbone at its own native pretrained resolution/normalization
@@ -114,7 +114,7 @@ python -c "import timm; print([m for m in timm.list_models('*efficientnetv2_s*')
 python -c "import timm; print([m for m in timm.list_models('mobilenetv3_large*')])"
 python -c "import timm; print([m for m in timm.list_models('efficientnet_lite0')])"
 ```
-Confirm every one of the four target identifiers actually resolves in your
+Confirm every one of the five target identifiers actually resolves in your
 installed `timm` version before writing any training code — timm renames or
 deprecates model strings between versions, and [04_MODEL_TRAINING.md](04_MODEL_TRAINING.md) itself
 warned "verify current exact string" rather than hardcoding blindly.
@@ -123,7 +123,7 @@ warned "verify current exact string" rather than hardcoding blindly.
 
 ## 2. Build `src/models/backbone.py`
 
-A single generic wrapper, not four separate model files:
+A single generic wrapper, not five separate model files:
 
 ```python
 import timm
@@ -148,7 +148,7 @@ def get_pretrained_cfg(backbone_name: str) -> dict:
 head for you — no manual `model.fc = nn.Linear(...)` needed the way
 `inference.py`'s hand-rolled `build_stage1_model()`/`build_stage2_model()`
 did. That hand-rolled pattern was fine for a 2-model static repo; don't
-carry it forward into a 4-backbone comparison, it doesn't generalize across
+carry it forward into a 5-backbone comparison, it doesn't generalize across
 architectures (RepVGG/MobileNetV3/EfficientNet don't all expose a `.fc`
 attribute the same way ResNet does).
 
@@ -264,18 +264,18 @@ you used.
 
 ---
 
-## 6. Smoke test — all 4 backbones, ~5 epochs, before any full run
+## 6. Smoke test — all 5 backbones, ~5 epochs, before any full run
 
 Confirm for each backbone: pipeline runs end-to-end, loss decreases,
 no shape/dtype errors, checkpoint saves and reloads correctly, TensorBoard
-logs appear. **Do not start a full run on any backbone until all four pass
+logs appear. **Do not start a full run on any backbone until all five pass
 this.** This is cheap insurance against burning hours on a backbone that
 has, e.g., a normalization mismatch from §0.3 that would only show up as
 "suspiciously bad accuracy" after a full run otherwise.
 
 ---
 
-## 7. Full training runs, all 4 backbones
+## 7. Full training runs, all 5 backbones
 
 Early stopping on val macro-F1, patience 8-10 epochs (§0.4). Save best
 checkpoint per backbone. Produce, per backbone:
@@ -289,7 +289,7 @@ checkpoint per backbone. Produce, per backbone:
 
 ## 8. Backbone decision — make it empirically, write it down
 
-Compare all four on val macro-F1 (primary) and per-class F1 for the brain
+Compare all five on val macro-F1 (primary) and per-class F1 for the brain
 sub-plane cluster specifically (Trans-ventricular vs. Trans-thalamic is the
 literature-documented hardest pair — expect it to remain the weakest
 category regardless of backbone, per your own README's Stage 2 numbers
@@ -392,7 +392,7 @@ Only run this if, after class-weighted CE on the winning backbone, the
 confusion matrix still shows Trans-ventricular ↔ Trans-thalamic confusion as
 a live problem (which, per the reference repo's own numbers, is likely).
 Compare focal loss vs. class-weighted CE specifically on brain sub-plane
-F1 — not a full re-run of the 4-backbone comparison, just this one
+F1 — not a full re-run of the 5-backbone comparison, just this one
 targeted ablation on the winner.
 
 ---
@@ -403,7 +403,7 @@ Should include, at minimum:
 - Per-backbone `pretrained_cfg` findings from §0.3, and which resolution
   policy you chose and why
 - Backbone comparison table (val macro-F1, per-class F1, brain sub-plane F1,
-  rough training time) — all four candidates, not just the winner
+  rough training time) — all five candidates, not just the winner
 - Final backbone decision + explicit reasoning tied to the accuracy-priority
   directive
 - Pretraining-init ablation result (or explicit "FUSC checkpoint not
@@ -417,7 +417,7 @@ Should include, at minimum:
 
 ## Deliverables checklist (from [04_MODEL_TRAINING.md](04_MODEL_TRAINING.md), reproduced for tracking)
 
-- [ ] All 4 backbones trained, compared on val macro-F1 and per-class F1
+- [ ] All 5 backbones trained, compared on val macro-F1 and per-class F1
 - [ ] Per-backbone `pretrained_cfg` verified (resolution/normalization), policy documented
 - [ ] Pretraining-init ablation run and documented (FUSC checked for portability)
 - [ ] Final backbone decision made and justified in writing, weighted toward accuracy per user directive

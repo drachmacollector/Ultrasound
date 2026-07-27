@@ -92,7 +92,7 @@ def run_lr_finder(
 
     optimizer = AdamW(model.parameters(), lr=lr_start, weight_decay=cfg.get("weight_decay", 0.01))
     use_amp: bool = cfg.get("amp", True) and device.type == "cuda"
-    scaler = torch.cuda.amp.GradScaler(enabled=use_amp)  # type: ignore[attr-defined]
+    scaler = torch.amp.GradScaler('cuda', enabled=use_amp)
 
     # Exponential LR multiplier per step
     lr_mult = (lr_end / lr_start) ** (1.0 / max_steps)
@@ -119,7 +119,7 @@ def run_lr_finder(
         labels = labels.to(device, non_blocking=True)
 
         optimizer.zero_grad(set_to_none=True)
-        with torch.cuda.amp.autocast(enabled=use_amp):  # type: ignore[attr-defined]
+        with torch.amp.autocast('cuda', enabled=use_amp):
             logits = model(images)
             loss = criterion(logits, labels)
 

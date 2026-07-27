@@ -18,10 +18,7 @@ from pathlib import Path
 
 import pandas as pd
 
-CANONICAL_CLASSES = [
-    "Brain_Trans_cerebellum", "Brain_Trans_thalamic", "Brain_Trans_ventricular",
-    "Fetal_abdomen", "Fetal_femur", "Fetal_thorax", "Maternal_cervix", "Other",
-]
+from src.data.dataset import CANONICAL_CLASSES
 
 def compute_class_weights(train_csv: str = "data/splits/train.csv",
                            out_path: str = "data/processed/class_weights.json"):

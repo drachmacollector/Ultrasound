@@ -48,10 +48,7 @@ OUT_DIR.mkdir(parents=True, exist_ok=True)
 MANIFEST_PATH = PROCESSED_DIR / "manifest.csv"
 CROSS_DEVICE_PATH = PROCESSED_DIR / "cross_device_manifest.csv"
 
-CANONICAL_CLASSES = [
-    "Brain_Trans_cerebellum", "Brain_Trans_thalamic", "Brain_Trans_ventricular",
-    "Fetal_abdomen", "Fetal_femur", "Fetal_thorax", "Maternal_cervix", "Other",
-]
+from src.data.dataset import CANONICAL_CLASSES
 
 # Shortened display names for cleaner chart axes
 SHORT_NAMES = {

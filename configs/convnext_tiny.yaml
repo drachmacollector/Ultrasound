@@ -1,9 +1,9 @@
-# configs/tf_efficientnetv2_s.yaml
+# configs/convnext_tiny.yaml
 #
 # Uses the explicit .in21k_ft_in1k pretrained tag rather than the bare identifier.
 #
 # Rationale (PHASE_4_KICKOFF_PROMPT.md §4):
-#   timm.create_model("tf_efficientnetv2_s", pretrained=True) resolves to the
+#   timm.create_model("convnext_tiny", pretrained=True) resolves to the
 #   default .in1k tag. The .in21k_ft_in1k variant (ImageNet-21k pretraining →
 #   fine-tuned on ImageNet-1k) consistently scores ~1-2 pp higher top-1 than
 #   the plain .in1k tag across the EfficientNetV2 family — this is the
@@ -12,10 +12,10 @@
 # pretrained_cfg verified 2026-07-26 via scripts/_check_effnetv2s_tags.py
 # (timm==1.0.28), compared against all four available tags:
 #   Tag                         input_size     mean         std          crop_pct
-#   tf_efficientnetv2_s         (3,300,300)    (0.5,0.5,0.5) (0.5,0.5,0.5)  1.0
-#   tf_efficientnetv2_s.in1k    (3,300,300)    (0.5,0.5,0.5) (0.5,0.5,0.5)  1.0
-#   tf_efficientnetv2_s.in21k   (3,300,300)    (0.5,0.5,0.5) (0.5,0.5,0.5)  1.0  [num_classes=21843]
-#   tf_efficientnetv2_s.in21k_ft_in1k (3,300,300) (0.5,0.5,0.5) (0.5,0.5,0.5) 1.0
+#   convnext_tiny         (3,300,300)    (0.5,0.5,0.5) (0.5,0.5,0.5)  1.0
+#   convnext_tiny.in1k    (3,300,300)    (0.5,0.5,0.5) (0.5,0.5,0.5)  1.0
+#   convnext_tiny.in21k   (3,300,300)    (0.5,0.5,0.5) (0.5,0.5,0.5)  1.0  [num_classes=21843]
+#   convnext_tiny.in21k_ft_in1k (3,300,300) (0.5,0.5,0.5) (0.5,0.5,0.5) 1.0
 #
 # All four tags share the same input_size / mean / std — re-verified, no change
 # needed to normalization values.  The .in21k tag is NOT used directly (it has
@@ -29,10 +29,10 @@
 # VRAM note: 300×300 at batch_size=24 with AMP fits within 8 GB on RTX 4060.
 # Reduce to batch_size=16 if OOM occurs.
 
-backbone: tf_efficientnetv2_s.in21k_ft_in1k   # explicit tag — NOT the bare identifier
+backbone: convnext_tiny.in21k_ft_in1k   # explicit tag — NOT the bare identifier
 num_classes: 8
 pretrained: true
-image_size: 300
+image_size: 224
 normalize_mean: [0.5, 0.5, 0.5]   # TF-pretrained normalization — NOT ImageNet; verified same for all tags
 normalize_std: [0.5, 0.5, 0.5]    # verified same for .in21k_ft_in1k as for default tag
 
@@ -52,6 +52,6 @@ weight_decay: 0.01
 scheduler: cosine
 amp: true
 
-log_dir: logs/tf_efficientnetv2_s
-checkpoint_dir: checkpoints/tf_efficientnetv2_s
+log_dir: logs/convnext_tiny
+checkpoint_dir: checkpoints/convnext_tiny
 seed: 42

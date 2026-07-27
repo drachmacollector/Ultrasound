@@ -150,7 +150,7 @@ def train_one_epoch(
     loader: DataLoader,  # type: ignore[type-arg]
     criterion: nn.Module,
     optimizer: AdamW,
-    scaler: torch.cuda.amp.GradScaler,  # type: ignore[name-defined]
+    scaler: torch.amp.GradScaler,
     device: torch.device,
     epoch: int,
     use_amp: bool,
@@ -172,7 +172,7 @@ def train_one_epoch(
 
         optimizer.zero_grad(set_to_none=True)
 
-        with torch.cuda.amp.autocast(enabled=use_amp):  # type: ignore[attr-defined]
+        with torch.amp.autocast('cuda', enabled=use_amp):
             logits = model(images)
             loss = criterion(logits, labels)
 
@@ -223,7 +223,7 @@ def validate(
         images = images.to(device, non_blocking=True)
         labels = labels.to(device, non_blocking=True)
 
-        with torch.cuda.amp.autocast(enabled=use_amp):  # type: ignore[attr-defined]
+        with torch.amp.autocast('cuda', enabled=use_amp):
             logits = model(images)
             loss = criterion(logits, labels)
 
@@ -338,7 +338,7 @@ def train(cfg: dict) -> None:  # type: ignore[type-arg]
 
     # ---- AMP scaler ------------------------------------------------------
     use_amp: bool = cfg.get("amp", True) and device.type == "cuda"
-    scaler = torch.cuda.amp.GradScaler(enabled=use_amp)  # type: ignore[attr-defined]
+    scaler = torch.amp.GradScaler('cuda', enabled=use_amp)
 
     # ---- TensorBoard writer ----------------------------------------------
     log_dir = Path(cfg.get("log_dir", f"logs/{backbone_name}"))

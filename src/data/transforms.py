@@ -49,7 +49,7 @@ def get_train_transform(
     return A.Compose([
         A.Resize(img_size, img_size),
         A.HorizontalFlip(p=0.5),  # verified safe: none of our 8 classes are laterality-defined
-        A.Affine(rotate=(-10, 10), scale=(0.9, 1.1), translate_percent=(0.0, 0.1), p=0.7),
+        A.Affine(rotate=(-10, 10), scale=(0.9, 1.1), translate_percent=(-0.1, 0.1), p=0.7),
         A.RandomBrightnessContrast(brightness_limit=0.2, contrast_limit=0.2, p=0.5),
         A.MultiplicativeNoise(multiplier=(0.9, 1.1), per_channel=False, elementwise=True, p=0.3),
         A.Normalize(mean=mean, std=std),

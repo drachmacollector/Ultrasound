@@ -13,10 +13,12 @@ RAW_CSV = Path("data/raw/fetal_planes_db/FETAL_PLANES_DB_data.csv")
 IMAGES_DIR = Path("data/raw/fetal_planes_db/Images")
 OUT_PATH = Path("data/processed/manifest.csv")
 
-CANONICAL_CLASSES = [
-    "Brain_Trans_cerebellum", "Brain_Trans_thalamic", "Brain_Trans_ventricular",
-    "Fetal_abdomen", "Fetal_femur", "Fetal_thorax", "Maternal_cervix", "Other",
-]
+import sys
+
+# Add project root to sys.path so we can import src.data.dataset
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+from src.data.dataset import CANONICAL_CLASSES
 
 def map_to_canonical(plane: str, brain_plane) -> str:
     plane = plane.strip()
@@ -60,7 +62,7 @@ def build_manifest():
         "Found a row that did not map to one of the 8 canonical classes."
     assert df["plane_label"].notna().all(), "Found null canonical labels."
 
-    df["image_path"] = df["Image_name"].apply(lambda name: str(IMAGES_DIR / f"{name}.png"))
+    df["image_path"] = df["Image_name"].apply(lambda name: (IMAGES_DIR / f"{name}.png").as_posix())
     df["patient_id"] = df["Patient_num"]
     df["brain_subplane_raw"] = df.get("Brain_plane")
     df["source_machine"] = df["US_Machine"]
