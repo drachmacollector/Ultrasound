@@ -9,3 +9,4 @@ pyrightconfig.json
 .vscode/settings.json
 pyrightconfig.json.bak
 docs/PHASE_4_KICKOFF_PROMPT.md
+.env

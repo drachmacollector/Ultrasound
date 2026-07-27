@@ -16,3 +16,4 @@ onnx
 onnxruntime-gpu
 grad-cam
 types-seaborn
+python-dotenv

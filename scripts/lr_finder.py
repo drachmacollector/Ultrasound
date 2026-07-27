@@ -21,6 +21,9 @@ import logging
 import math
 from pathlib import Path
 
+from dotenv import load_dotenv
+load_dotenv()
+
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -177,11 +180,17 @@ def plot_lr_finder(
     ax.set_title(f"LR Range Test — {backbone_name}")
     ax.grid(True, which="both", alpha=0.3)
 
-    # Annotate the steepest descent region
-    if len(losses) > 2:
-        grads = np.gradient(losses, lrs)
+# Annotate the steepest descent region
+    if len(losses) > 20:
+        # FIX: Skip the first 15 steps to ignore the initial bias-correction spike
+        skip = 15
+        log_lrs = np.log10(lrs[skip:])
+        grads = np.gradient(losses[skip:], log_lrs)
+        
+        # Find the steepest downward slope in the valid region
         best_step = int(np.argmin(grads))
-        best_lr = lrs[best_step]
+        best_lr = lrs[skip + best_step]
+        
         ax.axvline(best_lr, color="red", linestyle="--", alpha=0.7,
                    label=f"Steepest descent ≈ {best_lr:.2e}")
         ax.legend()
@@ -206,6 +215,15 @@ if __name__ == "__main__":
     cfg = load_config(args.config)
     backbone_name: str = cfg["backbone"]
 
+    log_dir = Path(cfg.get("log_dir", f"logs/{backbone_name}"))
+    log_dir.mkdir(parents=True, exist_ok=True)
+
+    file_handler = logging.FileHandler(log_dir / "output.txt")
+    file_handler.setFormatter(
+        logging.Formatter("[%(levelname)s] %(message)s")
+        )
+    logging.getLogger().addHandler(file_handler)
+
     lrs, losses = run_lr_finder(
         cfg=cfg,
         lr_start=args.lr_start,
@@ -213,5 +231,4 @@ if __name__ == "__main__":
         max_steps=args.max_steps,
     )
 
-    log_dir = Path(cfg.get("log_dir", f"logs/{backbone_name}"))
     plot_lr_finder(lrs, losses, log_dir / "lr_finder.png", backbone_name)
