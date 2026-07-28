@@ -452,10 +452,18 @@ def train(cfg: dict) -> None:  # type: ignore[type-arg]
         best_macro_f1, best_epoch,
     )
 
-    # Save final confusion matrix (may differ from best-checkpoint epoch)
-    if val_targets:  # last epoch's val preds still in scope
-        cm_final_path = ckpt_dir / f"confusion_matrix_final_epoch{epoch}.png"
-        save_confusion_matrix(val_targets, val_preds, cm_final_path, epoch)
+    # Reload best.pt before generating the final report
+    best_ckpt_path = ckpt_dir / "best.pt"
+    if best_ckpt_path.exists():
+        log.info("Reloading best checkpoint (epoch %d, macro_f1=%.4f) for final report", best_epoch, best_macro_f1)
+        best_state = torch.load(str(best_ckpt_path), map_location=device, weights_only=False)
+        model.load_state_dict(best_state["model_state_dict"])
+        val_loss, val_acc, val_macro_f1, val_targets, val_preds = validate(
+            model, val_loader, criterion, device, best_epoch, use_amp
+        )
+
+    cm_final_path = ckpt_dir / f"confusion_matrix_final_epoch{best_epoch}.png"
+    save_confusion_matrix(val_targets, val_preds, cm_final_path, best_epoch)
 
     # Save per-class classification report to text file
     report_path = ckpt_dir / "classification_report_final.txt"
@@ -464,7 +472,7 @@ def train(cfg: dict) -> None:  # type: ignore[type-arg]
         target_names=CANONICAL_CLASSES,
         zero_division=0,
     )
-    report_path.write_text(report)
+    report_path.write_text(report, encoding="utf-8")
     log.info("Classification report → %s", report_path)
 
     writer.close()
