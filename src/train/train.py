@@ -516,4 +516,11 @@ if __name__ == "__main__":
     ckpt_dir.mkdir(parents=True, exist_ok=True)
     shutil.copy(args.config, str(ckpt_dir / "config.yaml"))
 
+    # Setup file logging to ensure UTF-8 output
+    log_dir = Path("logs")
+    log_dir.mkdir(parents=True, exist_ok=True)
+    file_handler = logging.FileHandler(log_dir / f"{cfg['backbone']}_training_output.txt", mode="a", encoding="utf-8")
+    file_handler.setFormatter(logging.Formatter("%(asctime)s [%(levelname)s] %(message)s", datefmt="%H:%M:%S"))
+    logging.getLogger().addHandler(file_handler)
+
     train(cfg)

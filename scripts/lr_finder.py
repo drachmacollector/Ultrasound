@@ -230,7 +230,7 @@ if __name__ == "__main__":
     log_dir = Path(cfg.get("log_dir", f"logs/{backbone_name}"))
     log_dir.mkdir(parents=True, exist_ok=True)
 
-    file_handler = logging.FileHandler(log_dir / "output.txt")
+    file_handler = logging.FileHandler(log_dir / "output.txt", encoding="utf-8")
     file_handler.setFormatter(
         logging.Formatter("[%(levelname)s] %(message)s")
         )

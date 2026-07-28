@@ -38,6 +38,10 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
     datefmt="%H:%M:%S",
+    handlers=[
+        logging.FileHandler("smoke_test_results.txt", mode="a", encoding="utf-8"),
+        logging.StreamHandler()
+    ]
 )
 log = logging.getLogger(__name__)
 

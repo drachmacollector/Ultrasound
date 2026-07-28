@@ -33,7 +33,7 @@ def compute_class_weights(train_csv: str = "data/splits/train.csv",
     weights = (raw_weights / raw_weights.mean()).to_dict()
 
     Path(out_path).parent.mkdir(parents=True, exist_ok=True)
-    with open(out_path, "w") as f:
+    with open(out_path, "w", encoding="utf-8") as f:
         json.dump(weights, f, indent=2)
 
     print("Class counts:\n", counts)
