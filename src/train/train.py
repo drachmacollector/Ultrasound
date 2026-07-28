@@ -28,6 +28,9 @@ import shutil
 import time
 from pathlib import Path
 
+from dotenv import load_dotenv
+load_dotenv()
+
 import numpy as np
 import torch
 import torch.nn as nn
