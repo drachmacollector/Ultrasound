@@ -1,0 +1,127 @@
+All models evaluated on data/splits/test.csv — the genuine in-distribution
+held-out test set (5,271 images / 896 patients), NEVER used for early
+stopping or checkpoint selection. This supersedes any prior file that
+used validation-set numbers.
+See docs/validation_classification_metrics_all.txt for the val-set numbers
+(used only for checkpoint selection / early stopping, NOT reported numbers).
+
+
+============================================================
+Backbone: efficientnet_lite0
+Test macro-F1: 0.8823
+
+                         precision    recall  f1-score   support
+
+ Brain_Trans_cerebellum       0.82      0.90      0.86       339
+   Brain_Trans_thalamic       0.84      0.83      0.83       765
+Brain_Trans_ventricular       0.76      0.82      0.79       302
+          Fetal_abdomen       0.86      0.96      0.91       358
+            Fetal_femur       0.81      0.95      0.87       524
+           Fetal_thorax       0.93      0.90      0.91       660
+        Maternal_cervix       1.00      1.00      1.00       645
+                  Other       0.93      0.84      0.88      1678
+
+               accuracy                           0.89      5271
+              macro avg       0.87      0.90      0.88      5271
+           weighted avg       0.89      0.89      0.89      5271
+
+
+============================================================
+Backbone: mobilenetv3_large_100
+Test macro-F1: 0.8751
+
+                         precision    recall  f1-score   support
+
+ Brain_Trans_cerebellum       0.83      0.90      0.87       339
+   Brain_Trans_thalamic       0.81      0.88      0.84       765
+Brain_Trans_ventricular       0.84      0.68      0.75       302
+          Fetal_abdomen       0.89      0.88      0.89       358
+            Fetal_femur       0.79      0.96      0.87       524
+           Fetal_thorax       0.93      0.92      0.92       660
+        Maternal_cervix       0.99      1.00      0.99       645
+                  Other       0.92      0.84      0.88      1678
+
+               accuracy                           0.88      5271
+              macro avg       0.87      0.88      0.88      5271
+           weighted avg       0.89      0.88      0.88      5271
+
+
+============================================================
+Backbone: repvgg_a1
+Test macro-F1: 0.8760
+
+                         precision    recall  f1-score   support
+
+ Brain_Trans_cerebellum       0.84      0.86      0.85       339
+   Brain_Trans_thalamic       0.82      0.85      0.83       765
+Brain_Trans_ventricular       0.74      0.79      0.76       302
+          Fetal_abdomen       0.80      0.98      0.88       358
+            Fetal_femur       0.85      0.92      0.89       524
+           Fetal_thorax       0.92      0.92      0.92       660
+        Maternal_cervix       0.99      1.00      0.99       645
+                  Other       0.94      0.83      0.88      1678
+
+               accuracy                           0.88      5271
+              macro avg       0.86      0.89      0.88      5271
+           weighted avg       0.89      0.88      0.88      5271
+
+
+============================================================
+Backbone: tf_efficientnetv2_s.in21k_ft_in1k
+Test macro-F1: 0.8853
+
+                         precision    recall  f1-score   support
+
+ Brain_Trans_cerebellum       0.86      0.87      0.87       339
+   Brain_Trans_thalamic       0.83      0.88      0.85       765
+Brain_Trans_ventricular       0.78      0.82      0.80       302
+          Fetal_abdomen       0.87      0.92      0.89       358
+            Fetal_femur       0.81      0.95      0.88       524
+           Fetal_thorax       0.88      0.97      0.92       660
+        Maternal_cervix       0.99      1.00      0.99       645
+                  Other       0.95      0.81      0.87      1678
+
+               accuracy                           0.89      5271
+              macro avg       0.87      0.90      0.89      5271
+           weighted avg       0.89      0.89      0.89      5271
+
+
+============================================================
+Backbone: repvgg_a2
+Test macro-F1: 0.8811
+
+                         precision    recall  f1-score   support
+
+ Brain_Trans_cerebellum       0.88      0.82      0.85       339
+   Brain_Trans_thalamic       0.82      0.83      0.82       765
+Brain_Trans_ventricular       0.70      0.81      0.75       302
+          Fetal_abdomen       0.86      0.96      0.91       358
+            Fetal_femur       0.86      0.92      0.89       524
+           Fetal_thorax       0.92      0.95      0.94       660
+        Maternal_cervix       0.99      1.00      0.99       645
+                  Other       0.93      0.86      0.90      1678
+
+               accuracy                           0.89      5271
+              macro avg       0.87      0.89      0.88      5271
+           weighted avg       0.89      0.89      0.89      5271
+
+
+============================================================
+Backbone: convnext_tiny.fb_in22k_ft_in1k
+Test macro-F1: 0.8927
+
+                         precision    recall  f1-score   support
+
+ Brain_Trans_cerebellum       0.82      0.92      0.87       339
+   Brain_Trans_thalamic       0.84      0.85      0.85       765
+Brain_Trans_ventricular       0.83      0.73      0.77       302
+          Fetal_abdomen       0.88      0.97      0.92       358
+            Fetal_femur       0.87      0.92      0.89       524
+           Fetal_thorax       0.94      0.93      0.94       660
+        Maternal_cervix       1.00      0.99      0.99       645
+                  Other       0.93      0.88      0.90      1678
+
+               accuracy                           0.90      5271
+              macro avg       0.89      0.90      0.89      5271
+           weighted avg       0.90      0.90      0.90      5271
+

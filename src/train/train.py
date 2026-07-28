@@ -37,9 +37,10 @@ import torch.nn as nn
 import yaml
 from sklearn.metrics import (
     classification_report,
-    confusion_matrix,
     f1_score,
 )
+
+from src.eval.metrics_utils import save_confusion_matrix
 from torch.optim import AdamW
 from torch.optim.lr_scheduler import CosineAnnealingLR
 from torch.utils.data import DataLoader
@@ -102,46 +103,6 @@ def build_class_weight_tensor(
     ).to(device)
     return weights
 
-
-def save_confusion_matrix(
-    all_targets: list[int],
-    all_preds: list[int],
-    save_path: Path,
-    epoch: int,
-) -> None:
-    """Save a confusion matrix PNG using matplotlib/seaborn."""
-    try:
-        import matplotlib
-        matplotlib.use("Agg")
-        import matplotlib.pyplot as plt
-        import seaborn as sns
-
-        cm = confusion_matrix(all_targets, all_preds, labels=list(range(NUM_CLASSES)))
-        # Normalize rows to show recall per class
-        cm_norm = cm.astype(float) / (cm.sum(axis=1, keepdims=True) + 1e-8)
-
-        short_labels = [c.replace("Brain_Trans_", "BT_").replace("Fetal_", "F_").replace("Maternal_", "M_") for c in CANONICAL_CLASSES]
-
-        fig, ax = plt.subplots(figsize=(10, 8))
-        sns.heatmap(
-            cm_norm,
-            annot=True,
-            fmt=".2f",
-            xticklabels=short_labels,
-            yticklabels=short_labels,
-            cmap="Blues",
-            ax=ax,
-        )
-        ax.set_title(f"Normalized Confusion Matrix — epoch {epoch}")
-        ax.set_ylabel("True label")
-        ax.set_xlabel("Predicted label")
-        plt.tight_layout()
-        save_path.parent.mkdir(parents=True, exist_ok=True)
-        fig.savefig(str(save_path), dpi=150)
-        plt.close(fig)
-        log.info("Confusion matrix saved → %s", save_path)
-    except Exception as exc:  # noqa: BLE001
-        log.warning("Could not save confusion matrix: %s", exc)
 
 
 # ---------------------------------------------------------------------------
