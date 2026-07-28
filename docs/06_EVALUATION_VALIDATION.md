@@ -39,7 +39,7 @@ Per the SonoNet paper's own finding, live/video-realistic evaluation is dramatic
 
 ## 5. Ablations to actually run (not just discuss)
 
-- Backbone comparison table (all 4 candidates, in-distribution + cross-device metrics) — feeds the Phase 4 backbone decision.
+- Backbone comparison table (all 6 candidates, in-distribution + cross-device metrics) — feeds the Phase 4 backbone decision.
 - Pretraining init (ImageNet vs. domain-specific, if available) — feeds the Phase 4 decision.
 - Smoothing on/off, and across the tuned parameter sweep — feeds the Phase 5 decision.
 - Class-weighted CE vs. focal loss, specifically on brain sub-plane F1 — only worth running if the confusion matrix from the main run shows this is still a live problem after basic class weighting.

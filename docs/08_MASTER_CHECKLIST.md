@@ -34,7 +34,7 @@ The single top-to-bottom list. Everything here is detailed in files `00`–`07`;
 
 ### Phase 4 — Model Training ([04_MODEL_TRAINING.md](04_MODEL_TRAINING.md))
 - [ ] `[A]` Implement config-driven training loop with TensorBoard logging
-- [ ] `[A]` Smoke-test all 4 backbone candidates (RepVGG, MobileNetV3, EfficientNet-Lite0, EfficientNetV2-S)
+- [ ] `[A]` Smoke-test all 6 backbone candidates (RepVGG, MobileNetV3, EfficientNet-Lite0, EfficientNetV2-S, ConvNeXt-Tiny)
 - [ ] `[A]` Full training runs, early stopping on val macro-F1
 - [ ] `[A]` Pretraining-init ablation (`[M]` search for a usable public domain-specific checkpoint first)
 - [ ] `[M+A]` Final backbone decision made empirically, documented

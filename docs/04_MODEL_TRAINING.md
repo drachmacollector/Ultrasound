@@ -6,7 +6,7 @@
 
 ## Step 1 — Backbone candidates (all available via `timm`)
 
-Train and compare all five before committing to one for the final real-time system:
+Train and compare all six before committing to one for the final real-time system:
 
 | Backbone | Role in comparison | timm identifier (verify current exact string) |
 |---|---|---|
@@ -14,6 +14,7 @@ Train and compare all five before committing to one for the final real-time syst
 | MobileNetV3-Large | Standard efficient baseline | `mobilenetv3_large_100` |
 | EfficientNet-Lite0 | Standard efficient baseline, alternative family | `efficientnet_lite0` |
 | EfficientNetV2-S | Accuracy-ceiling reference (per FAUSP-NET's own benchmark, this or Swin-Tiny scored highest but slowest) | `tf_efficientnetv2_s` |
+| ConvNeXt-Tiny | Modern pure-CNN baseline added during investigation | `convnext_tiny` |
 
 Since we're not latency-starved (demo/portfolio deployment target), the decision axis is **accuracy vs. training/inference time on the 4060**, not a hard latency ceiling. If EfficientNetV2-S is meaningfully more accurate and still comfortably real-time on this GPU (which FAUSP-NET's own 24ms/frame number on similar-class hardware suggests it should be), there's no reason to force RepVGG as the final choice purely on the earlier "edge deployment" reasoning — that reasoning applied to a different deployment target than the one we settled on. **Make this call empirically once you have the comparison numbers, not a priori.**
 
@@ -44,7 +45,7 @@ Standard augmentation for ultrasound classification (via `albumentations`):
 ## Step 5 — Training loop (chronological)
 
 1. Implement `src/train/train.py` — config-driven (reads a YAML from `configs/`), logs to TensorBoard (loss, accuracy, macro-F1, per-class F1, LR, throughput).
-2. Run a short (~5 epoch) smoke test on each of the 5 backbone candidates to confirm the pipeline runs end-to-end and loss decreases, before committing to full training runs.
+2. Run a short (~5 epoch) smoke test on each of the 6 backbone candidates to confirm the pipeline runs end-to-end and loss decreases, before committing to full training runs.
 3. Full training run per backbone candidate (expect convergence within a modest number of epochs given dataset size — monitor val macro-F1 plateau rather than fixing epoch count in advance; use early stopping, patience ~8-10 epochs, matching the reference repo's Stage 1 approach).
 4. Save best checkpoint per candidate (by val macro-F1) to `checkpoints/<backbone_name>/best.pt`.
 5. Run the pretraining-init ablation (Step 2) on whichever backbone wins Step 5.3.
@@ -59,7 +60,7 @@ Implement using the `pytorch-grad-cam` library rather than hand-rolling hooks (t
 
 ## Deliverables checklist
 
-- [ ] All 5 backbones trained, compared on val macro-F1 and per-class F1
+- [ ] All 6 backbones trained, compared on val macro-F1 and per-class F1
 - [ ] Pretraining-init ablation run and documented
 - [ ] Final backbone decision made and justified in writing (a short [EXPERIMENTS.md](EXPERIMENTS.md) note is enough)
 - [ ] Best checkpoint saved

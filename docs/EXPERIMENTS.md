@@ -17,6 +17,7 @@ Run `python scripts/inspect_pretrained_cfg.py` to populate this table.
 | mobilenetv3_large_100 | (3, 224, 224) | (0.485, 0.456, 0.406) | (0.229, 0.224, 0.225) | 0.875 | N/A |
 | efficientnet_lite0 | (3, 224, 224) | (0.485, 0.456, 0.406) | (0.229, 0.224, 0.225) | 0.875 | N/A |
 | tf_efficientnetv2_s.in21k_ft_in1k | **(3, 300, 300)** | **(0.5, 0.5, 0.5)** | **(0.5, 0.5, 0.5)** | **1.0** | center |
+| convnext_tiny.fb_in22k_ft_in1k | (3, 224, 224) | (0.485, 0.456, 0.406) | (0.229, 0.224, 0.225) | 0.875 | N/A |
 
 > **Verified 2026-07-26** via `timm==1.0.28` and `scripts/inspect_pretrained_cfg.py`.
 > **Tag comparison** (`scripts/_check_effnetv2s_tags.py`): all four tf_efficientnetv2_s tags
@@ -53,6 +54,7 @@ but the comparison is still more fair than forcing 224×224 onto it.
 | mobilenetv3_large_100 | — | — | — | — | — | — | — | — | — | — |
 | efficientnet_lite0 | — | — | — | — | — | — | — | — | — | — |
 | tf_efficientnetv2_s | — | — | — | — | — | — | — | — | — | — |
+| convnext_tiny | — | — | — | — | — | — | — | — | — | — |
 
 ---
 
@@ -142,8 +144,9 @@ Status: **TBD** — decision deferred to post-full-run confusion matrix review.
 
 | Backbone | Suggested LR (steepest descent) | Chosen LR | Notes |
 |---|---|---|---|
-| repvgg_a1 | — | 3e-4 (placeholder) | — |
-| repvgg_a2 | — | 3e-4 (placeholder) | — |
-| mobilenetv3_large_100 | — | 3e-4 (placeholder) | — |
-| efficientnet_lite0 | — | 3e-4 (placeholder) | — |
-| tf_efficientnetv2_s | — | 3e-4 (placeholder) | — |
+| repvgg_a1 | N/A (auto-detection unreliable) | 5e-4 | Based on 4 repeated runs, all consistent |
+| repvgg_a2 | N/A (auto-detection unreliable) | 3e-4 | More LR-sensitive than A1 — divergence starts earlier |
+| mobilenetv3_large_100 | N/A (auto-detection unreliable) | 7e-4 | More tolerant of higher LR than RepVGG variants |
+| efficientnet_lite0 | N/A (auto-detection unreliable) | 1.5e-3 | Confirmed via direct log read |
+| tf_efficientnetv2_s | N/A (auto-detection unreliable) | 1.5e-3 | Sharp cliff right after the minimum |
+| convnext_tiny | N/A (auto-detection unreliable) | 1e-4 | Most fragile of the six — picked conservatively |

@@ -1,54 +1,28 @@
 # configs/convnext_tiny.yaml
 #
-# Uses the explicit .in21k_ft_in1k pretrained tag rather than the bare identifier.
-#
-# Rationale (PHASE_4_KICKOFF_PROMPT.md §4):
-#   timm.create_model("convnext_tiny", pretrained=True) resolves to the
-#   default .in1k tag. The .in21k_ft_in1k variant (ImageNet-21k pretraining →
-#   fine-tuned on ImageNet-1k) consistently scores ~1-2 pp higher top-1 than
-#   the plain .in1k tag across the EfficientNetV2 family — this is the
-#   accuracy-first choice given our explicit project directive.
-#
-# pretrained_cfg verified 2026-07-26 via scripts/_check_effnetv2s_tags.py
-# (timm==1.0.28), compared against all four available tags:
-#   Tag                         input_size     mean         std          crop_pct
-#   convnext_tiny         (3,300,300)    (0.5,0.5,0.5) (0.5,0.5,0.5)  1.0
-#   convnext_tiny.in1k    (3,300,300)    (0.5,0.5,0.5) (0.5,0.5,0.5)  1.0
-#   convnext_tiny.in21k   (3,300,300)    (0.5,0.5,0.5) (0.5,0.5,0.5)  1.0  [num_classes=21843]
-#   convnext_tiny.in21k_ft_in1k (3,300,300) (0.5,0.5,0.5) (0.5,0.5,0.5) 1.0
-#
-# All four tags share the same input_size / mean / std — re-verified, no change
-# needed to normalization values.  The .in21k tag is NOT used directly (it has
-# 21843 output classes and timm will replace the head, but the .in21k_ft_in1k
-# variant is cleaner — it's already fine-tuned back to 1k classes before we
-# re-replace the head for our 8-way task).
-#
-# Resolution policy: (b) run at native pretrained resolution (300×300) for a
-# fair accuracy-ceiling measurement per §0.3.
-#
-# VRAM note: 300×300 at batch_size=24 with AMP fits within 8 GB on RTX 4060.
-# Reduce to batch_size=16 if OOM occurs.
+# Added as a 6th backbone candidate during Phase 4 LR finder investigations.
+# Standard ImageNet parameters apply to this architecture variant.
+# VRAM note: 224x224 at batch_size=64 with AMP fits within 8 GB on RTX 4060.
 
 backbone: convnext_tiny.fb_in22k_ft_in1k
-   # explicit tag — NOT the bare identifier
 num_classes: 8
 pretrained: true
 image_size: 224
-normalize_mean: [0.5, 0.5, 0.5]   # TF-pretrained normalization — NOT ImageNet; verified same for all tags
-normalize_std: [0.5, 0.5, 0.5]    # verified same for .in21k_ft_in1k as for default tag
+normalize_mean: [0.485, 0.456, 0.406]
+normalize_std: [0.229, 0.224, 0.225]
 
 train_csv: data/splits/train.csv
 val_csv: data/splits/val.csv
 class_weights_json: data/processed/class_weights.json
 
-batch_size: 24          # 300×300 is larger; reduce from 64 to stay within 8 GB VRAM with AMP
+batch_size: 64
 num_workers: 4
 epochs_smoke_test: 5
 epochs_max: 60
 early_stopping_patience: 8
 
 optimizer: adamw
-lr: 1e-4                # placeholder — replace with lr_finder result before full run
+lr: 1e-4
 weight_decay: 0.01
 scheduler: cosine
 amp: true

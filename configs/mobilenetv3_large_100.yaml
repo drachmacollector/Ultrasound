@@ -19,7 +19,7 @@ epochs_max: 60
 early_stopping_patience: 8
 
 optimizer: adamw
-lr: 7e-4                # placeholder — replace with lr_finder result before full run
+lr: 7e-4
 weight_decay: 0.01
 scheduler: cosine
 amp: true

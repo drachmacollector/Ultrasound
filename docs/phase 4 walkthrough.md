@@ -18,7 +18,7 @@
 | [configs/efficientnet_lite0.yaml](file:///d:/Ultrasound/configs/efficientnet_lite0.yaml) | backbone config |
 | [configs/tf_efficientnetv2_s.yaml](file:///d:/Ultrasound/configs/tf_efficientnetv2_s.yaml) | backbone config — **300×300, TF normalization** |
 | [scripts/lr_finder.py](file:///d:/Ultrasound/scripts/lr_finder.py) | LR range test (self-contained, no extra dependency) |
-| [scripts/smoke_test.py](file:///d:/Ultrasound/scripts/smoke_test.py) | 5-epoch smoke test for all 4 backbones |
+| [scripts/smoke_test.py](file:///d:/Ultrasound/scripts/smoke_test.py) | 5-epoch smoke test for all 6 backbones |
 | [scripts/inspect_pretrained_cfg.py](file:///d:/Ultrasound/scripts/inspect_pretrained_cfg.py) | Print pretrained_cfg for all backbones |
 | [docs/EXPERIMENTS.md](file:///d:/Ultrasound/docs/EXPERIMENTS.md) | Pre-populated with verified cfg data; tables ready |
 
