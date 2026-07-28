@@ -117,6 +117,7 @@ conda run -n fetalplane python -m src.train.train --config configs/repvgg_a2.yam
 conda run -n fetalplane python -m src.train.train --config configs/mobilenetv3_large_100.yaml
 conda run -n fetalplane python -m src.train.train --config configs/efficientnet_lite0.yaml
 conda run -n fetalplane python -m src.train.train --config configs/tf_efficientnetv2_s.yaml
+conda run -n fetalplane python -m src.train.train --config configs/convnext_tiny.yaml
 ```
 
 ### Step 4 — Monitor with TensorBoard
