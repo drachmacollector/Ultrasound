@@ -9,7 +9,6 @@ matplotlib
 seaborn
 albumentations
 pillow
-tqdm
 pyyaml
 tensorboard
 onnx
