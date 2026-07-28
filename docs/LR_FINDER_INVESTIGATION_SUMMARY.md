@@ -18,9 +18,7 @@ smoke test or full training run, so the `lr:` placeholder in each
 of the `3e-4` guess every config ships with.
 
 Six backbone configs exist (five from the original plan + one extra,
-`convnext_tiny`, added along the way — **note:** this 6th candidate is not yet
-reflected in `docs/EXPERIMENTS.md`'s comparison table or the deliverables
-checklist; add it there if it's staying in the comparison):
+`convnext_tiny`, added along the way
 
 - `repvgg_a1`
 - `repvgg_a2`
@@ -138,19 +136,6 @@ shipped with every config from the initial Phase 4 build.
 
 ## 5. Things to double check before the smoke test
 
-- [ ] Confirm all six YAML configs have their `lr:` field updated to the
-      table above (not left at the `3e-4` placeholder)
-- [ ] `convnext_tiny.yaml`'s header comments are currently copy-pasted from
-      `tf_efficientnetv2_s.yaml` (mentions "300×300," "TF-pretrained
-      normalization," "the EfficientNetV2 family") — these don't match its
-      actual settings (`image_size: 224`) and should be corrected/removed if
-      the file is going to stick around
-- [ ] If `convnext_tiny` is staying as a genuine 6th backbone candidate
-      (rather than an experiment that gets dropped), add it explicitly to:
-  - `docs/EXPERIMENTS.md`'s backbone comparison table
-  - `docs/04_MODEL_TRAINING.md` §1's candidate table
-  - `docs/08_MASTER_CHECKLIST.md`'s Phase 4 checklist (currently says "all 4
-    backbone candidates" in a couple of places, predating this addition)
 - [ ] Decide whether to implement the `best_loss_lr` fix in
       `scripts/lr_finder.py` before running it again on any future backbone,
       or whether reading logs directly (as done here) is good enough going

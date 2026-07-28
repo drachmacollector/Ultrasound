@@ -1,8 +1,7 @@
 """
 scripts/smoke_test.py
 
-Runs a 5-epoch mini-training run for each of the four backbone candidates to
-confirm the full pipeline works end-to-end before committing to full runs.
+Runs a 5-epoch mini-training run for each of the 6 backbone candidates to confirm the full pipeline works end-to-end before committing to full runs.
 
 Per PHASE_4_KICKOFF_PROMPT.md §6: confirms for each backbone:
   ✓ Pipeline runs end-to-end
@@ -46,8 +45,8 @@ SMOKE_TEST_CONFIGS: list[str] = [
     "configs/mobilenetv3_large_100.yaml",
     "configs/efficientnet_lite0.yaml",
     "configs/tf_efficientnetv2_s.yaml",
+    "configs/convnext_tiny.yaml",
 ]
-
 
 def verify_checkpoint(ckpt_path: Path, backbone_name: str) -> bool:
     """Load the checkpoint and verify it reloads + forward-passes correctly.

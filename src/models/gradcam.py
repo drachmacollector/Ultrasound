@@ -81,6 +81,8 @@ _BACKBONE_LAYER_PATHS: dict[str, list[str | int]] = {
     "efficientnet_lite0": ["blocks", 6, -1],
     # model.blocks (Sequential of 6 groups) → group[5] → last InvertedResidual
     "tf_efficientnetv2_s.in21k_ft_in1k": ["blocks", 5, -1],
+    # model.stages (Sequential of 4 stages) → stage[3] → blocks → last ConvNeXtBlock
+    "convnext_tiny.fb_in22k_ft_in1k": ["stages", 3, "blocks", -1],
 }
 
 

@@ -30,9 +30,9 @@ _BACKBONE_TEST_CONFIGS: dict[str, tuple[int, int]] = {
     "repvgg_a2": (224, 2),
     "mobilenetv3_large_100": (224, 2),
     "efficientnet_lite0": (224, 2),
-    "tf_efficientnetv2_s.in21k_ft_in1k": (300, 1),  # explicit tag per configs/tf_efficientnetv2_s.yaml
+    "tf_efficientnetv2_s.in21k_ft_in1k": (300, 1),
+    "convnext_tiny.fb_in22k_ft_in1k": (224, 2),
 }
-
 
 def test_build_model_output_shape(backbone_name: str, img_size: int, batch: int) -> None:
     """Assert that build_model produces logits of shape [B, NUM_CLASSES]."""
