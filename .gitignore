@@ -6,6 +6,7 @@ data/**/*
 # Un-ignore markdown files
 !data/**/*.md
 !data/**/*.MD
+!data/**/class_weights.json
 # checkpoints/
 # logs/
 __pycache__/
