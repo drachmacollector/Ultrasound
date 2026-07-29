@@ -1,0 +1,196 @@
+TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=TEST SET EVALUATION — convnext_tiny_focal
+Source: data/splits/test.csv (5,271 images / 896 patients)
+Ablation: Focal Loss (gamma=2.0) + class-weighted, vs. CE baseline in convnext_tiny.
+=
+
+                         precision    recall  f1-score   support
+
+ Brain_Trans_cerebellum       0.88      0.80      0.84       339
+   Brain_Trans_thalamic       0.81      0.86      0.83       765
+Brain_Trans_ventricular       0.74      0.76      0.75       302
+          Fetal_abdomen       0.90      0.91      0.91       358
+            Fetal_femur       0.81      0.95      0.88       524
+           Fetal_thorax       0.94      0.93      0.93       660
+        Maternal_cervix       0.99      1.00      1.00       645
+                  Other       0.92      0.86      0.89      1678
+
+               accuracy                           0.89      5271
+              macro avg       0.88      0.88      0.88      5271
+           weighted avg       0.89      0.89      0.89      5271

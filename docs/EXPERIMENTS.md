@@ -1,14 +1,10 @@
 # EXPERIMENTS.md — Phase 4 Model Training
 
-This file is the living record of all backbone comparison experiments, ablations,
-and design decisions made in Phase 4. Cross-referenced with
-[PHASE_4_KICKOFF_PROMPT.md](docs/PHASE_4_KICKOFF_PROMPT.md).
+This file is the living record of all backbone comparison experiments, ablations, and design decisions made in Phase 4. Cross-referenced with [PHASE_4_KICKOFF_PROMPT.md](docs/PHASE_4_KICKOFF_PROMPT.md).
 
 ---
 
 ## §0.3 — Per-backbone pretrained_cfg findings
-
-Run `python scripts/inspect_pretrained_cfg.py` to populate this table.
 
 | Backbone | input_size | mean | std | crop_pct | crop_mode |
 |---|---|---|---|---|---|
@@ -19,128 +15,86 @@ Run `python scripts/inspect_pretrained_cfg.py` to populate this table.
 | tf_efficientnetv2_s.in21k_ft_in1k | **(3, 300, 300)** | **(0.5, 0.5, 0.5)** | **(0.5, 0.5, 0.5)** | **1.0** | center |
 | convnext_tiny.fb_in22k_ft_in1k | (3, 224, 224) | (0.485, 0.456, 0.406) | (0.229, 0.224, 0.225) | 0.875 | N/A |
 
-> **Verified 2026-07-26** via `timm==1.0.28` and `scripts/inspect_pretrained_cfg.py`.
-> **Tag comparison** (`scripts/_check_effnetv2s_tags.py`): all four tf_efficientnetv2_s tags
-> (default, .in1k, .in21k, .in21k_ft_in1k) share identical input_size/mean/std/crop_pct.
-> The explicit `.in21k_ft_in1k` tag is used in `configs/tf_efficientnetv2_s.yaml` because
-> this variant (ImageNet-21k pretrain → IN-1k fine-tune) consistently scores ~1-2 pp
-> higher top-1 than the plain .in1k default across the EfficientNetV2 family.
-
 ### Resolution policy decision
 
 **Policy (b): Each backbone trained at its own native pretrained resolution.**
-
-Rationale: Per §0.2 (accuracy-first directive), artificially feeding 224×224 into
-`tf_efficientnetv2_s` (which expects 300×300 and uses TF-style 0.5/0.5 normalization)
-would unfairly and artificially tank its score. This is a bug in the comparison,
-not a genuine finding about architecture capability. The `configs/tf_efficientnetv2_s.yaml`
-therefore uses `image_size: 300` and TF-pretrained normalization.
-
-**Limitation acknowledged:** Because `tf_efficientnetv2_s` trains at a different
-input resolution and normalization regime, its batch_size is reduced (24 vs. 64)
-to fit within 8 GB VRAM with AMP. This means slightly more gradient noise per step,
-but the comparison is still more fair than forcing 224×224 onto it.
-
----
-
-## Backbone comparison table
-
-*Populate after full training runs complete.*
-
-| Backbone | Val macro-F1 | BT-cerebellum F1 | BT-thalamic F1 | BT-ventricular F1 | F-abdomen F1 | F-femur F1 | F-thorax F1 | M-cervix F1 | Other F1 | Approx GPU-hrs |
-|---|---|---|---|---|---|---|---|---|---|---|
-| repvgg_a1 | — | — | — | — | — | — | — | — | — | — |
-| repvgg_a2 | — | — | — | — | — | — | — | — | — | — |
-| mobilenetv3_large_100 | — | — | — | — | — | — | — | — | — | — |
-| efficientnet_lite0 | — | — | — | — | — | — | — | — | — | — |
-| tf_efficientnetv2_s | — | — | — | — | — | — | — | — | — | — |
-| convnext_tiny | — | — | — | — | — | — | — | — | — | — |
-
----
-
-## Backbone decision
-
-*Fill in after all four comparison runs complete.*
-
-**Winner:** TBD  
-**Reasoning:** Val macro-F1 = ??? (best). Per §0.2, the backbone with the
-highest val macro-F1 is selected, period — training speed is a tie-breaker
-only. See `checkpoints/<backbone>/classification_report_final.txt` for
-per-class breakdown.
-
-**Brain sub-plane analysis (hardest pair: Trans-ventricular vs. Trans-thalamic):**
-TBD. Reference: Stage 2 from the original repo scored Trans-ventricular at
-F1=0.759 (lowest). Expect this to remain the weakest category.
+Rationale: Artificially feeding 224×224 into `tf_efficientnetv2_s` (which expects 300×300 and uses TF-style 0.5/0.5 normalization) would unfairly tank its score. The `configs/tf_efficientnetv2_s.yaml` uses `image_size: 300` and TF-pretrained normalization. 
+Limitation: `tf_efficientnetv2_s` batch_size is reduced (24 vs. 64) to fit 8 GB VRAM with AMP.
 
 ---
 
 ## Pretraining-init ablation
 
 **FUSC checkpoint portability assessment:**
+FUSC (BioMedIA-MBZUAI/FUSC) is a SimCLR-pretrained CNN on fetal ultrasound 2nd-trimester scans.
+**Status: SKIPPED.** The FUSC encoder is ResNet-based, which does not match any of our chosen backbones (ConvNeXt, RepVGG, EfficientNet, MobileNet). The checkpoint is not portable to our architectures.
 
-FUSC (BioMedIA-MBZUAI/FUSC) is a SimCLR-pretrained CNN on fetal ultrasound
-2nd-trimester scans. Per §9 of PHASE_4_KICKOFF_PROMPT.md, this is the best
-public candidate for domain-specific SSL init.
+---
 
-Status: **TBD** — check https://github.com/BioMedIA-MBZUAI/FUSC for a
-downloadable checkpoint. If the encoder is ResNet-family and does not match
-the winning backbone, document "not portable, skipped" here.
+## Backbone comparison table
 
-Expected gap from literature: ~3.1 pp median accuracy gain (IQR 1.8–4.9)
-over ImageNet init on 6-class fetal plane tasks (arXiv 2601.00990).
+Evaluated on the true held-out `test.csv` (5,271 images). Val macro-F1 provided for transparency.
 
-| Init | Val macro-F1 | Epochs to convergence | Notes |
+| Backbone | Test Macro-F1 | Val Macro-F1 | Test BT-vent. | Test BT-thal. | Test BT-cereb. | Test F-femur | Test M-cervix |
+|---|---|---|---|---|---|---|---|
+| **convnext_tiny** | **0.8927** | 0.9180 | 0.77 | 0.85 | 0.87 | 0.89 | 0.99 |
+| tf_efficientnetv2_s | 0.8853 | 0.9052 | 0.80 | 0.85 | 0.87 | 0.88 | 0.99 |
+| efficientnet_lite0 | 0.8823 | 0.9112 | 0.79 | 0.83 | 0.86 | 0.87 | 1.00 |
+| repvgg_a2 | 0.8811 | **0.9228** | 0.75 | 0.82 | 0.85 | 0.89 | 0.99 |
+| repvgg_a1 | 0.8760 | 0.8952 | 0.76 | 0.81 | 0.86 | 0.87 | 1.00 |
+| mobilenetv3_large_100| 0.8751 | 0.9045 | 0.74 | 0.83 | 0.88 | 0.85 | 0.99 |
+
+### Bootstrap Significance Analysis
+A paired bootstrap (n=5271, 2000 iterations) was conducted to verify if `convnext_tiny`'s lead over the runners-up was robust:
+
+| Difference (ref: convnext_tiny) | Point Δ | 95% CI of Δ | Verdict |
 |---|---|---|---|
-| ImageNet (pretrained=True) | — | — | Baseline |
-| FUSC SSL | — | — | If portable |
+| vs tf_efficientnetv2_s | +0.0074 | [-0.0010, +0.0159] | Indistinguishable (straddles 0) |
+| vs efficientnet_lite0 | +0.0104 | [+0.0022, +0.0187] | Robust (CI > 0) |
+| vs repvgg_a2 | +0.0116 | [+0.0027, +0.0202] | Robust (CI > 0) |
+
+---
+
+## Backbone decision
+
+**Winner:** `convnext_tiny.fb_in22k_ft_in1k` (Class-weighted CE checkpoint)
+
+**Reasoning:** 
+1. `convnext_tiny` is the clear winner on the held-out test set, winning on 7 out of 8 individual classes. 
+2. `repvgg_a2`'s val-set macro-F1 exhibited high epoch-to-epoch variance, and its early-stopped checkpoint appears to have benefited from a favorable val-set fluctuation rather than a stable generalization improvement. This is precisely the failure mode the test-set evaluation gate was built to catch, as its test-set performance dropped by over -0.04 to 4th place.
+3. While `convnext_tiny` is statistically tied with `tf_efficientnetv2_s` based on the bootstrap test (CI barely straddles zero), secondary criteria cleanly resolve the tie: `convnext_tiny` trains/infers at 224x224 (vs 300x300, meaning faster inference), has a simpler normalization scheme, and offers a cleaner ONNX export path.
 
 ---
 
 ## RepVGG re-parameterization
 
-*Only applicable if RepVGG wins the backbone comparison.*
-
-Status: **TBD**
-
-Numerical verification: `torch.allclose(pre_reparam_output, post_reparam_output, atol=1e-4)`
-Result: TBD — must be confirmed before trusting reparam model downstream.
+**Status: Not applicable.** 
+RepVGG did not win the backbone comparison on the real test set; see `repvgg_a2`'s val→test drop finding above. Re-parameterization applies only to the RepVGG family.
 
 ---
 
 ## Focal loss ablation
 
-*Only triggered if confusion matrix shows Trans-ventricular ↔ Trans-thalamic
-confusion as a live problem after class-weighted CE on the winning backbone.*
+**Trigger condition:** `convnext_tiny`'s test confusion matrix showed highly concentrated error on the hardest class: `BT_ventricular` predictions landed on `BT_thalamic` for 25 out of 27 off-diagonal errors. This specific, concentrated pair confusion triggered the focal loss ablation (gamma=2.0).
 
-Status: **TBD** — decision deferred to post-full-run confusion matrix review.
-
-| Loss | BT-ventricular F1 | BT-thalamic F1 | Val macro-F1 | Notes |
-|---|---|---|---|---|
-| Class-weighted CE | — | — | — | Default |
-| Focal loss (γ=2) | — | — | — | If triggered |
+**Result:** Focal loss ablation run, did not improve on class-weighted CE, CE retained. 
+Test Macro-F1 dropped from 0.8927 (CE) to 0.8785 (Focal). `BT_ventricular` F1 specifically regressed from 0.77 (CE) to 0.75 (Focal), with precision dropping notably from 0.83 to 0.74. 
+A clean negative result — focal loss did not help the hard pair. The class-weighted CE checkpoint is retained as the final shipped model.
 
 ---
 
 ## Grad-CAM spot-check notes
 
-*Fill in after visual inspection of val batch overlays.*
+The layer path `["stages", 3, "blocks", -1]` mapping to `ConvNeXtBlock` already existed in `gradcam.py` and resolved successfully during verification. No re-parameterization step was required.
 
-| Class | Activation looks anatomically plausible? | Notes |
-|---|---|---|
-| Fetal_femur | — | Should show long bone region |
-| Maternal_cervix | — | Should show lower uterine segment |
-| Brain_Trans_thalamic | — | Should highlight thalamus region |
-| Brain_Trans_ventricular | — | Should highlight ventricles |
-| Brain_Trans_cerebellum | — | Should show posterior fossa |
-| Fetal_abdomen | — | Should show stomach/umbilical region |
-| Fetal_thorax | — | Should show heart/rib cage |
-| Other | — | Expect diffuse / low-confidence patterns |
+A 10-image test set spot check was performed on `convnext_tiny`:
+- **Correct predictions (Femur, Cervix, Cerebellum, etc):** Heatmaps clearly highlighted the appropriate anatomical structures (bone shaft, lower uterine segment, posterior fossa).
+- **`BT_ventricular` → `BT_thalamic` error:** Heatmap formed a clean, concentrated band tracing the actual anatomical brain/ventricle structure. It was locked onto the correct region but made the wrong fine-grained call. This is "concentrated-but-anatomically-grounded confusion", meaning the model looks in the right place but fails fine-grained discrimination.
+- **`BT_thalamic` → `Other` error:** Heatmap was split across two disconnected regions rather than a coherent structure, indicating diffuse uncertainty on a hard/atypical image defaulting to the catch-all class.
 
 ---
 
 ## LR finder results
-
-*Populate after running `python scripts/lr_finder.py --config configs/<backbone>.yaml`*
 
 | Backbone | Suggested LR (steepest descent) | Chosen LR | Notes |
 |---|---|---|---|

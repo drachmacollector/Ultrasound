@@ -1,0 +1,162 @@
+﻿conda.exe : 
+At D:\miniconda\shell\condabin\Conda.psm1:194 char:17
++ ...             & $Env:CONDA_EXE $Env:_CE_M $Env:_CE_CONDA $Command @Othe ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+# >>>>>>>>>>>>>>>>>>>>>> ERROR REPORT <<<<<<<<<<<<<<<<<<<<<<
+
+    Traceback (most recent call last):
+      File "D:\miniconda\Lib\site-packages\conda\exception_handler.py", line 30, in __call__
+        return func(*args, **kwargs)
+      File "D:\miniconda\Lib\site-packages\conda\cli\main.py", line 53, in main_subshell
+        exit_code = do_call(args, parser)
+      File "D:\miniconda\Lib\site-packages\conda\cli\conda_argparse.py", line 190, in do_call
+        result = getattr(module, func_name)(args, parser)
+      File "D:\miniconda\Lib\site-packages\conda\cli\main_run.py", line 121, in execute
+        script, command = wrap_subprocess_call(
+                          ~~~~~~~~~~~~~~~~~~~~^
+            context.root_prefix,
+            ^^^^^^^^^^^^^^^^^^^^
+        ...<3 lines>...
+            args.executable_call,
+            ^^^^^^^^^^^^^^^^^^^^^
+        )
+        ^
+      File "D:\miniconda\Lib\site-packages\conda\deprecations.py", line 197, in inner
+        return func(*args, **kwargs)
+      File "D:\miniconda\Lib\site-packages\conda\utils.py", line 239, in wrap_subprocess_call
+        raise NotImplementedError(
+        ...<6 lines>...
+        )
+    NotImplementedError: Support for scripts where arguments contain newlines not implemented.
+    .. requires writing the script to an external file and knowing how to transform the command-line (e.g. `python -c 
+args` => `python file`) in a tool dependent way, or attempting something like:
+    .. https://stackoverflow.com/a/15032476 (adds unacceptable escapingrequirements)
+
+`$ D:\miniconda\Scripts\conda-script.py run -n fetalplane python -c 
+import sys; sys.path.insert(0, '.')
+from pathlib import Path
+from src.eval.evaluate_test import evaluate_checkpoint
+from src.eval.metrics_utils import save_confusion_matrix
+
+ckpt = Path('checkpoints/convnext_tiny_focal/best.pt')
+r = evaluate_checkpoint(ckpt)
+
+# Save test report
+header = 'TEST SET EVALUATION ù convnext_tiny_focal\nSource: data/splits/test.csv (5,271 images / 896 patients)\nFocal 
+Loss (gamma=2.0) + class-weighted ablation.\n' + '='*60 + '\n\n'
+p = Path('checkpoints/convnext_tiny_focal/classification_report_TEST.txt')
+p.write_text(header + r['report_str'], encoding='utf-8')
+
+# Save confusion matrix
+save_confusion_matrix(r['all_targets'], r['all_preds'], 
+Path('checkpoints/convnext_tiny_focal/confusion_matrix_TEST.png'), epoch=0)
+
+print(r['report_str'])
+print('Test macro-F1:', round(r['test_macro_f1'], 4))
+`
+
+  environment variables:
+                 CIO_TEST=<not set>
+        CONDA_DEFAULT_ENV=base
+                CONDA_EXE=D:\miniconda\Scripts\conda.exe
+             CONDA_PREFIX=D:\miniconda
+    CONDA_PROMPT_MODIFIER=(base)
+         CONDA_PYTHON_EXE=D:\miniconda\python.exe
+               CONDA_ROOT=D:\miniconda
+              CONDA_SHLVL=1
+           CURL_CA_BUNDLE=<not set>
+                 HOMEPATH=\Users\Nakul
+               LD_PRELOAD=<not set>
+                     PATH=D:\miniconda;D:\miniconda\Library\mingw-
+                          w64\bin;D:\miniconda\Library\usr\bin;D:\miniconda\Library\bin;D:\minic
+                          onda\Scripts;D:\miniconda\bin;D:\miniconda\condabin;C:\Users\Nakul\.ge
+                          mini\antigravity-ide\bin;C:\Program Files\Common Files\Oracle\Java\jav
+                          apath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windo
+                          ws\System32\WindowsPowerShell\v1.0;C:\Windows\System32\OpenSSH;C:\Prog
+                          ram Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\dotne
+                          t;C:\MinGW\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem
+                          ;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSS
+                          H;C:\Program Files\Git\cmd;C:\Program Files\nodejs;C:\Users\Nakul\Soft
+                          ware\mongosh-2.5.1-win32-x64\mongosh-2.5.1-win32-x64\bin;C:\Program
+                          Files\NVIDIA Corporation\NVIDIA App\NvDLISR;C:\Program Files\GitHub
+                          CLI;C:\Program Files\MySQL\MySQL Server 8.0\bin;C:\Program Files\Vim\v
+                          im92;C:\Users\Nakul\AppData\Local\Programs\Ollama;C:\Program
+                          Files\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows
+                          ;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C
+                          :\Windows\System32\OpenSSH;C:\Program Files (x86)\NVIDIA
+                          Corporation\PhysX\Common;C:\Program Files\dotnet;C:\MinGW\bin;C:\WINDO
+                          WS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\Wi
+                          ndowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program
+                          Files\Git\cmd;C:\Program Files\nodejs;C:\Users\Nakul\Software\mongosh-
+                          2.5.1-win32-x64\mongosh-2.5.1-win32-x64\bin;C:\Program Files\NVIDIA
+                          Corporation\NVIDIA App\NvDLISR;C:\Program Files\GitHub CLI;C:\Program
+                          Files\MySQL\MySQL Server 8.0\bin;C:\Program Files\Vim\vim92;C:\Users\N
+                          akul\AppData\Local\Programs\Ollama;C:\Program Files\Common Files\Oracl
+                          e\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbe
+                          m;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Windows\System32\OpenS
+                          SH;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program F
+                          iles\dotnet;C:\MinGW\bin;C:\WINDOWS\system32;C:\;C:\Users\Nakul\AppDat
+                          a\Local\Programs\Microsoft VS Code\bin;C:\Users\Nakul\AppData\Local\Pr
+                          ograms\Python\Python311;C:\Users\Nakul\AppData\Local\Programs\Python\P
+                          ython311\Scripts;C:\Users\Nakul\AppData\Local\Programs\Python\Launcher
+                          ;.;C:\Users\Nakul\.bun\bin
+             PSMODULEPATH=C:\Users\Nakul\Documents\WindowsPowerShell\Modules;C:\Program Files\Wi
+                          ndowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Mod
+                          ules
+       REQUESTS_CA_BUNDLE=<not set>
+            SSL_CERT_FILE=D:\miniconda\Library\ssl\cacert.pem
+   VSCODE_CODE_CACHE_PATH=C:\Users\Nakul\AppData\Roaming\Antigravity
+                          IDE\CachedData\e0b7a2bcf575cfba10528c4e7c10bd3ce2d7769a
+
+     active environment : base
+    active env location : D:\miniconda
+            shell level : 1
+       user config file : C:\Users\Nakul\.condarc
+ populated config files : D:\miniconda\.condarc
+                          D:\miniconda\condarc.d\anaconda-auth.yml
+          conda version : 26.5.3
+    conda-build version : not installed
+         python version : 3.14.6.final.0
+                 solver : libmamba (default)
+       virtual packages : __archspec=1=skylake
+                          __conda=26.5.3=0
+                          __cuda=13.3=0
+                          __win=10.0.26200=0
+       base environment : D:\miniconda  (writable)
+      conda av data dir : D:\miniconda\etc\conda
+  conda av metadata url : None
+           channel URLs : https://repo.anaconda.com/pkgs/main/win-64
+                          https://repo.anaconda.com/pkgs/main/noarch
+                          https://repo.anaconda.com/pkgs/r/win-64
+                          https://repo.anaconda.com/pkgs/r/noarch
+                          https://repo.anaconda.com/pkgs/msys2/win-64
+                          https://repo.anaconda.com/pkgs/msys2/noarch
+          package cache : D:\miniconda\pkgs
+                          C:\Users\Nakul\.conda\pkgs
+                          C:\Users\Nakul\AppData\Local\conda\conda\pkgs
+       envs directories : D:\miniconda\envs
+                          C:\Users\Nakul\.conda\envs
+                          C:\Users\Nakul\AppData\Local\conda\conda\envs
+    temporary directory : C:\Users\Nakul\AppData\Local\Temp
+               platform : win-64
+             user-agent : conda/26.5.3 requests/2.34.2 CPython/3.14.6 Windows/11 Windows/10.0.26200 solver/libmamba 
+conda-libmamba-solver/26.6.0 libmambapy/2.3.2 aau/0.8.1 c/. s/. e/. i/.
+          administrator : False
+             netrc file : None
+           offline mode : False
+
+
+An unexpected error has occurred. Conda has prepared the above report.
+If you suspect this error is being caused by a malfunctioning plugin,
+consider using the --no-plugins option to turn off plugins.
+
+Example: conda --no-plugins install <package>
+
+Alternatively, you can set the CONDA_NO_PLUGINS environment variable on
+the command line to run the command without plugins enabled.
+
+Example: CONDA_NO_PLUGINS=true conda install <package>
+
