@@ -90,3 +90,17 @@ def load_and_prep_grayscale_to_rgb(image_path: str) -> np.ndarray:
         raise FileNotFoundError(f"Could not read image: {image_path}")
     img_rgb = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
     return img_rgb
+
+
+def prep_frame_grayscale_to_rgb(frame_bgr: np.ndarray) -> np.ndarray:
+    """In-memory equivalent of load_and_prep_grayscale_to_rgb() for live video/webcam
+    frames (cv2.VideoCapture.read() output), which arrive as BGR arrays, not file paths.
+    Must produce bit-identical output to the path-based function for the same underlying
+    image, to guarantee training/serving preprocessing parity.
+    """
+    _, buf = cv2.imencode('.png', frame_bgr)
+    gray = cv2.imdecode(buf, cv2.IMREAD_GRAYSCALE)
+    if gray is None:
+        raise ValueError("Failed to decode frame buffer to grayscale.")
+    img_rgb = cv2.cvtColor(gray, cv2.COLOR_GRAY2RGB)
+    return img_rgb
