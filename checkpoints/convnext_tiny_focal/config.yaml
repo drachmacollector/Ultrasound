@@ -1,0 +1,48 @@
+# configs/convnext_tiny_focal.yaml
+#
+# Focal-loss ablation run targeting Brain_Trans_ventricular ↔ Brain_Trans_thalamic
+# confusion on the winning backbone (convnext_tiny).
+#
+# Trigger condition (confirmed from confusion_matrix_TEST.png for convnext_tiny):
+#   BT_ventricular row: 0.73 diagonal, 0.25 → BT_thalamic, ≤0.01 elsewhere.
+#   That is ~25/27 off-diagonal errors landing on one specific column —
+#   concentrated pair confusion, not diffuse — meeting the focal-loss trigger.
+#
+# Differences from configs/convnext_tiny.yaml:
+#   loss_fn:           focal        (was: implicit ce)
+#   focal_gamma:       2.0          (Lin et al. 2017 default)
+#   log_dir:           logs/convnext_tiny_focal
+#   checkpoint_dir:    checkpoints/convnext_tiny_focal
+#
+# Everything else is identical — same lr=1e-4, batch_size=64, image_size=224,
+# same patience=8, same seed=42.  This ensures the only variable is the loss.
+
+backbone: convnext_tiny.fb_in22k_ft_in1k
+num_classes: 8
+pretrained: true
+image_size: 224
+normalize_mean: [0.485, 0.456, 0.406]
+normalize_std: [0.229, 0.224, 0.225]
+
+train_csv: data/splits/train.csv
+val_csv: data/splits/val.csv
+class_weights_json: data/processed/class_weights.json
+
+batch_size: 64
+num_workers: 4
+epochs_smoke_test: 5
+epochs_max: 60
+early_stopping_patience: 8
+
+optimizer: adamw
+lr: 1e-4
+weight_decay: 0.01
+scheduler: cosine
+amp: true
+
+loss_fn: focal
+focal_gamma: 2.0
+
+log_dir: logs/convnext_tiny_focal
+checkpoint_dir: checkpoints/convnext_tiny_focal
+seed: 42

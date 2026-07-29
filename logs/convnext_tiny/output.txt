@@ -1,0 +1,20 @@
+[INFO] LR finder using device: cuda
+[INFO] LR finder using device: cuda
+[INFO] Loading pretrained weights from Hugging Face hub (timm/convnext_tiny.fb_in22k_ft_in1k)
+[INFO] HTTP Request: HEAD https://huggingface.co/timm/convnext_tiny.fb_in22k_ft_in1k/resolve/main/model.safetensors "HTTP/1.1 302 Found"
+[INFO] [timm/convnext_tiny.fb_in22k_ft_in1k] Safe alternative available for 'pytorch_model.bin' (as 'model.safetensors'). Loading weights using safetensors.
+[INFO] Missing keys (head.fc.weight, head.fc.bias) discovered while loading pretrained weights. This is expected if model is being adapted.
+[INFO] Running LR range test: 100 steps, LR 1.00e-07 → 1.00e+00
+[INFO] Step   0 | LR=1.00e-07 | loss=2.1502 (smoothed=43.0038)
+[INFO] Step  10 | LR=5.01e-07 | loss=2.2230 (smoothed=5.0082)
+[INFO] Step  20 | LR=2.51e-06 | loss=2.2314 (smoothed=3.2740)
+[INFO] Step  30 | LR=1.26e-05 | loss=1.8987 (smoothed=2.6554)
+[INFO] Step  40 | LR=6.31e-05 | loss=1.5368 (smoothed=2.2481)
+[INFO] Step  50 | LR=3.16e-04 | loss=1.8860 (smoothed=1.8793)
+[INFO] Step  60 | LR=1.58e-03 | loss=1.3835 (smoothed=1.6461)
+[INFO] Step  70 | LR=7.94e-03 | loss=1.8426 (smoothed=1.9559)
+[INFO] Step  80 | LR=3.98e-02 | loss=9.1354 (smoothed=2.4832)
+[INFO] Step  90 | LR=2.00e-01 | loss=nan (smoothed=nan)
+[INFO] Steepest descent LR: 1.12e-06
+[INFO] Suggested training LR (steepest ÷ 10): 1.12e-07
+[INFO] LR finder plot saved → logs\convnext_tiny\lr_finder.png

@@ -1,0 +1,117 @@
+﻿conda.exe : 20:41:46 [INFO] Using device: cuda
+At D:\miniconda\shell\condabin\Conda.psm1:194 char:17
++ ...             & $Env:CONDA_EXE $Env:_CE_M $Env:_CE_CONDA $Command @Othe ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (20:41:46 [INFO] Using device: cuda:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+20:41:46 [INFO] Building model: mobilenetv3_large_100 (pretrained=True)
+20:41:47 [INFO] Loading pretrained weights from Hugging Face hub (timm/mobilenetv3_large_100.ra_in1k)
+20:41:47 [INFO] HTTP Request: HEAD 
+https://huggingface.co/timm/mobilenetv3_large_100.ra_in1k/resolve/main/model.safetensors "HTTP/1.1 302 Found"
+20:41:47 [INFO] [timm/mobilenetv3_large_100.ra_in1k] Safe alternative available for 'pytorch_model.bin' (as 
+'model.safetensors'). Loading weights using safetensors.
+20:41:47 [INFO] Missing keys (classifier.weight, classifier.bias) discovered while loading pretrained weights. This is 
+expected if model is being adapted.
+20:41:47 [INFO] Image size: 224x224
+20:41:48 [INFO] Starting training: backbone=mobilenetv3_large_100, epochs_max=60, patience=8, lr=7.00e-04, amp=True
+20:43:42 [INFO] Epoch 1 TRAIN | loss=0.9584 acc=0.7125 | 53 img/s
+20:45:02 [INFO] Epoch 1 VAL   | loss=0.3251 acc=0.8319 macro_f1=0.7906
+20:45:03 [INFO] Γ£ô New best checkpoint (val macro-F1=0.7906) ΓåÆ checkpoints\mobilenetv3_large_100\best.pt
+20:45:05 [INFO] Confusion matrix saved ΓåÆ checkpoints\mobilenetv3_large_100\confusion_matrix_best_epoch1.png
+20:45:33 [INFO] Epoch 2 TRAIN | loss=0.3658 acc=0.8610 | 215 img/s
+20:45:37 [INFO] Epoch 2 VAL   | loss=0.2499 acc=0.8788 macro_f1=0.8431
+20:45:38 [INFO] Γ£ô New best checkpoint (val macro-F1=0.8431) ΓåÆ checkpoints\mobilenetv3_large_100\best.pt
+20:45:38 [INFO] Confusion matrix saved ΓåÆ checkpoints\mobilenetv3_large_100\confusion_matrix_best_epoch2.png
+20:46:07 [INFO] Epoch 3 TRAIN | loss=0.2858 acc=0.8887 | 212 img/s
+20:46:11 [INFO] Epoch 3 VAL   | loss=0.3163 acc=0.8592 macro_f1=0.8179
+20:46:11 [INFO] No improvement for 1/8 epochs (best=0.8431 @ epoch 2)
+20:46:39 [INFO] Epoch 4 TRAIN | loss=0.2500 acc=0.9025 | 216 img/s
+20:46:43 [INFO] Epoch 4 VAL   | loss=0.4003 acc=0.8788 macro_f1=0.8538
+20:46:44 [INFO] Γ£ô New best checkpoint (val macro-F1=0.8538) ΓåÆ checkpoints\mobilenetv3_large_100\best.pt
+20:46:44 [INFO] Confusion matrix saved ΓåÆ checkpoints\mobilenetv3_large_100\confusion_matrix_best_epoch4.png
+20:47:12 [INFO] Epoch 5 TRAIN | loss=0.2237 acc=0.9118 | 218 img/s
+20:47:16 [INFO] Epoch 5 VAL   | loss=0.2515 acc=0.8915 macro_f1=0.8619
+20:47:16 [INFO] Γ£ô New best checkpoint (val macro-F1=0.8619) ΓåÆ checkpoints\mobilenetv3_large_100\best.pt
+20:47:17 [INFO] Confusion matrix saved ΓåÆ checkpoints\mobilenetv3_large_100\confusion_matrix_best_epoch5.png
+20:47:45 [INFO] Epoch 6 TRAIN | loss=0.1715 acc=0.9334 | 218 img/s
+20:47:49 [INFO] Epoch 6 VAL   | loss=0.2601 acc=0.9052 macro_f1=0.8802
+20:47:49 [INFO] Γ£ô New best checkpoint (val macro-F1=0.8802) ΓåÆ checkpoints\mobilenetv3_large_100\best.pt
+20:47:51 [INFO] Confusion matrix saved ΓåÆ checkpoints\mobilenetv3_large_100\confusion_matrix_best_epoch6.png
+20:48:18 [INFO] Epoch 7 TRAIN | loss=0.1662 acc=0.9324 | 220 img/s
+20:48:22 [INFO] Epoch 7 VAL   | loss=0.2341 acc=0.9032 macro_f1=0.8868
+20:48:23 [INFO] Γ£ô New best checkpoint (val macro-F1=0.8868) ΓåÆ checkpoints\mobilenetv3_large_100\best.pt
+20:48:23 [INFO] Confusion matrix saved ΓåÆ checkpoints\mobilenetv3_large_100\confusion_matrix_best_epoch7.png
+20:48:51 [INFO] Epoch 8 TRAIN | loss=0.1600 acc=0.9347 | 224 img/s
+20:48:55 [INFO] Epoch 8 VAL   | loss=0.2321 acc=0.9130 macro_f1=0.8912
+20:48:55 [INFO] Γ£ô New best checkpoint (val macro-F1=0.8912) ΓåÆ checkpoints\mobilenetv3_large_100\best.pt
+20:48:56 [INFO] Confusion matrix saved ΓåÆ checkpoints\mobilenetv3_large_100\confusion_matrix_best_epoch8.png
+20:49:23 [INFO] Epoch 9 TRAIN | loss=0.1344 acc=0.9472 | 221 img/s
+20:49:27 [INFO] Epoch 9 VAL   | loss=0.2657 acc=0.9022 macro_f1=0.8782
+20:49:27 [INFO] No improvement for 1/8 epochs (best=0.8912 @ epoch 8)
+20:49:54 [INFO] Epoch 10 TRAIN | loss=0.1162 acc=0.9525 | 225 img/s
+20:49:58 [INFO] Epoch 10 VAL   | loss=0.2479 acc=0.9032 macro_f1=0.8762
+20:49:58 [INFO] No improvement for 2/8 epochs (best=0.8912 @ epoch 8)
+20:50:25 [INFO] Epoch 11 TRAIN | loss=0.1138 acc=0.9556 | 226 img/s
+20:50:29 [INFO] Epoch 11 VAL   | loss=0.3310 acc=0.9032 macro_f1=0.8738
+20:50:29 [INFO] No improvement for 3/8 epochs (best=0.8912 @ epoch 8)
+20:50:57 [INFO] Epoch 12 TRAIN | loss=0.0989 acc=0.9577 | 220 img/s
+20:51:01 [INFO] Epoch 12 VAL   | loss=0.2735 acc=0.9091 macro_f1=0.8852
+20:51:01 [INFO] No improvement for 4/8 epochs (best=0.8912 @ epoch 8)
+20:51:29 [INFO] Epoch 13 TRAIN | loss=0.0894 acc=0.9640 | 220 img/s
+20:51:33 [INFO] Epoch 13 VAL   | loss=0.2605 acc=0.9267 macro_f1=0.9016
+20:51:33 [INFO] Γ£ô New best checkpoint (val macro-F1=0.9016) ΓåÆ checkpoints\mobilenetv3_large_100\best.pt
+20:51:34 [INFO] Confusion matrix saved ΓåÆ checkpoints\mobilenetv3_large_100\confusion_matrix_best_epoch13.png
+20:52:02 [INFO] Epoch 14 TRAIN | loss=0.1001 acc=0.9615 | 216 img/s
+20:52:06 [INFO] Epoch 14 VAL   | loss=0.2813 acc=0.9150 macro_f1=0.8904
+20:52:06 [INFO] No improvement for 1/8 epochs (best=0.9016 @ epoch 13)
+20:52:34 [INFO] Epoch 15 TRAIN | loss=0.1156 acc=0.9586 | 222 img/s
+20:52:38 [INFO] Epoch 15 VAL   | loss=0.3283 acc=0.8964 macro_f1=0.8709
+20:52:38 [INFO] No improvement for 2/8 epochs (best=0.9016 @ epoch 13)
+20:53:07 [INFO] Epoch 16 TRAIN | loss=0.0898 acc=0.9628 | 211 img/s
+20:53:11 [INFO] Epoch 16 VAL   | loss=0.3681 acc=0.9032 macro_f1=0.8851
+20:53:11 [INFO] No improvement for 3/8 epochs (best=0.9016 @ epoch 13)
+20:53:38 [INFO] Epoch 17 TRAIN | loss=0.0806 acc=0.9673 | 221 img/s
+20:53:42 [INFO] Epoch 17 VAL   | loss=0.3042 acc=0.9179 macro_f1=0.8987
+20:53:42 [INFO] No improvement for 4/8 epochs (best=0.9016 @ epoch 13)
+20:54:10 [INFO] Epoch 18 TRAIN | loss=0.0652 acc=0.9745 | 224 img/s
+20:54:14 [INFO] Epoch 18 VAL   | loss=0.3659 acc=0.9130 macro_f1=0.8857
+20:54:14 [INFO] No improvement for 5/8 epochs (best=0.9016 @ epoch 13)
+20:54:41 [INFO] Epoch 19 TRAIN | loss=0.0547 acc=0.9791 | 225 img/s
+20:54:45 [INFO] Epoch 19 VAL   | loss=0.2972 acc=0.9169 macro_f1=0.9015
+20:54:45 [INFO] No improvement for 6/8 epochs (best=0.9016 @ epoch 13)
+20:55:12 [INFO] Epoch 20 TRAIN | loss=0.0574 acc=0.9780 | 225 img/s
+20:55:16 [INFO] Epoch 20 VAL   | loss=0.3690 acc=0.9257 macro_f1=0.9045
+20:55:16 [INFO] Γ£ô New best checkpoint (val macro-F1=0.9045) ΓåÆ checkpoints\mobilenetv3_large_100\best.pt
+20:55:17 [INFO] Confusion matrix saved ΓåÆ checkpoints\mobilenetv3_large_100\confusion_matrix_best_epoch20.png
+20:55:45 [INFO] Epoch 21 TRAIN | loss=0.0591 acc=0.9776 | 220 img/s
+20:55:49 [INFO] Epoch 21 VAL   | loss=0.2605 acc=0.9150 macro_f1=0.9006
+20:55:49 [INFO] No improvement for 1/8 epochs (best=0.9045 @ epoch 20)
+20:56:16 [INFO] Epoch 22 TRAIN | loss=0.0428 acc=0.9806 | 224 img/s
+20:56:20 [INFO] Epoch 22 VAL   | loss=0.3289 acc=0.9159 macro_f1=0.9008
+20:56:20 [INFO] No improvement for 2/8 epochs (best=0.9045 @ epoch 20)
+20:56:47 [INFO] Epoch 23 TRAIN | loss=0.0647 acc=0.9758 | 228 img/s
+20:56:51 [INFO] Epoch 23 VAL   | loss=0.3676 acc=0.9130 macro_f1=0.8944
+20:56:51 [INFO] No improvement for 3/8 epochs (best=0.9045 @ epoch 20)
+20:57:17 [INFO] Epoch 24 TRAIN | loss=0.0531 acc=0.9783 | 230 img/s
+20:57:21 [INFO] Epoch 24 VAL   | loss=0.4018 acc=0.9032 macro_f1=0.8837
+20:57:21 [INFO] No improvement for 4/8 epochs (best=0.9045 @ epoch 20)
+20:57:48 [INFO] Epoch 25 TRAIN | loss=0.0480 acc=0.9776 | 226 img/s
+20:57:52 [INFO] Epoch 25 VAL   | loss=0.3635 acc=0.9130 macro_f1=0.8937
+20:57:52 [INFO] No improvement for 5/8 epochs (best=0.9045 @ epoch 20)
+20:58:19 [INFO] Epoch 26 TRAIN | loss=0.0333 acc=0.9844 | 227 img/s
+20:58:23 [INFO] Epoch 26 VAL   | loss=0.3878 acc=0.9159 macro_f1=0.8914
+20:58:23 [INFO] No improvement for 6/8 epochs (best=0.9045 @ epoch 20)
+20:58:50 [INFO] Epoch 27 TRAIN | loss=0.0348 acc=0.9837 | 225 img/s
+20:58:54 [INFO] Epoch 27 VAL   | loss=0.3906 acc=0.9140 macro_f1=0.8928
+20:58:54 [INFO] No improvement for 7/8 epochs (best=0.9045 @ epoch 20)
+20:59:21 [INFO] Epoch 28 TRAIN | loss=0.0318 acc=0.9880 | 224 img/s
+20:59:25 [INFO] Epoch 28 VAL   | loss=0.3365 acc=0.9198 macro_f1=0.9002
+20:59:25 [INFO] No improvement for 8/8 epochs (best=0.9045 @ epoch 20)
+20:59:25 [INFO] Early stopping triggered after 8 epochs without improvement.
+20:59:25 [INFO] Training complete. Best val macro-F1=0.9045 at epoch 20.
+20:59:25 [INFO] Reloading best checkpoint (epoch 20, macro_f1=0.9045) for final report
+20:59:29 [INFO] Epoch 20 VAL   | loss=0.3690 acc=0.9257 macro_f1=0.9045
+20:59:30 [INFO] Confusion matrix saved ΓåÆ checkpoints\mobilenetv3_large_100\confusion_matrix_final_epoch20.png
+20:59:30 [INFO] Classification report ΓåÆ checkpoints\mobilenetv3_large_100\classification_report_final.txt
+20:59:30 [INFO] TensorBoard logs ΓåÆ logs\mobilenetv3_large_100

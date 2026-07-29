@@ -1,0 +1,32 @@
+﻿conda.exe : 01:46:55 [INFO] Using device: cuda
+At D:\miniconda\shell\condabin\Conda.psm1:194 char:17
++ ...             & $Env:CONDA_EXE $Env:_CE_M $Env:_CE_CONDA $Command @Othe ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (01:46:55 [INFO] Using device: cuda:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+01:46:55 [INFO] Loading checkpoint: checkpoints\convnext_tiny\best.pt
+01:46:58 [INFO] Model loaded: convnext_tiny.fb_in22k_ft_in1k
+01:46:58 [INFO] Selected 10 images for spot-check
+01:47:17 [INFO]   Saved ΓåÆ Fetal_femur__Patient01323_Plane5_2_of_2__CORRECT.png  [true=Fetal_femur, pred=Fetal_femur]
+01:47:17 [INFO]   Saved ΓåÆ Fetal_femur__Patient01538_Plane5_1_of_1__CORRECT.png  [true=Fetal_femur, pred=Fetal_femur]
+01:47:17 [INFO]   Saved ΓåÆ Maternal_cervix__Patient01509_Plane4_2_of_2__CORRECT.png  [true=Maternal_cervix, 
+pred=Maternal_cervix]
+01:47:17 [INFO]   Saved ΓåÆ Maternal_cervix__Patient01669_Plane4_1_of_2__CORRECT.png  [true=Maternal_cervix, 
+pred=Maternal_cervix]
+01:47:18 [INFO]   Saved ΓåÆ Brain_Trans_cerebellum__Patient01227_Plane3_2_of_4__CORRECT.png  
+[true=Brain_Trans_cerebellum, pred=Brain_Trans_cerebellum]
+01:47:18 [INFO]   Saved ΓåÆ Brain_Trans_cerebellum__Patient01557_Plane3_2_of_4__CORRECT.png  
+[true=Brain_Trans_cerebellum, pred=Brain_Trans_cerebellum]
+01:47:18 [INFO]   Saved ΓåÆ Brain_Trans_thalamic__Patient01366_Plane3_3_of_4__WRONG_pred_Other.png  
+[true=Brain_Trans_thalamic, pred=Other]
+01:47:19 [INFO]   Saved ΓåÆ Brain_Trans_thalamic__Patient01347_Plane3_4_of_4__CORRECT.png  [true=Brain_Trans_thalamic, 
+pred=Brain_Trans_thalamic]
+01:47:19 [INFO]   Saved ΓåÆ Brain_Trans_ventricular__Patient01422_Plane3_2_of_2__CORRECT.png  
+[true=Brain_Trans_ventricular, pred=Brain_Trans_ventricular]
+01:47:19 [INFO]   Saved ΓåÆ Brain_Trans_ventricular__Patient01508_Plane3_2_of_2__WRONG_pred_Brain_Trans_thalamic.png  
+[true=Brain_Trans_ventricular, pred=Brain_Trans_thalamic]
+01:47:19 [INFO] Done. Spot-check images ΓåÆ checkpoints\convnext_tiny\gradcam_spotcheck
+01:47:19 [INFO] [MANUAL] Open those PNGs and verify activation lands on plausible anatomy.
+01:47:19 [INFO]   Femur/cervix: should clearly highlight bone shaft / lower uterine segment.
+01:47:19 [INFO]   Brain sub-planes: check heatmap localises to fetal skull region even on errors.

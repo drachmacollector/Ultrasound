@@ -1,0 +1,19 @@
+TEST SET EVALUATION — repvgg_a1
+Source: data/splits/test.csv (5,271 images / 896 patients)
+This is the genuine held-out in-distribution test set.
+============================================================
+
+                         precision    recall  f1-score   support
+
+ Brain_Trans_cerebellum       0.84      0.86      0.85       339
+   Brain_Trans_thalamic       0.82      0.85      0.83       765
+Brain_Trans_ventricular       0.74      0.79      0.76       302
+          Fetal_abdomen       0.80      0.98      0.88       358
+            Fetal_femur       0.85      0.92      0.89       524
+           Fetal_thorax       0.92      0.92      0.92       660
+        Maternal_cervix       0.99      1.00      0.99       645
+                  Other       0.94      0.83      0.88      1678
+
+               accuracy                           0.88      5271
+              macro avg       0.86      0.89      0.88      5271
+           weighted avg       0.89      0.88      0.88      5271

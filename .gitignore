@@ -1,8 +1,8 @@
 /implementation_plan.md
 data/raw/
 data/processed/
-checkpoints/
-logs/
+# checkpoints/
+# logs/
 __pycache__/
 *.pyc
 pyrightconfig.json
@@ -12,3 +12,8 @@ docs/PHASE_4_KICKOFF_PROMPT.md
 .env
 ultrasound_project.zip
 convert_utf16.py
+
+events.out.tfevents.*
+lr_finder.png
+*.png
+*.pt

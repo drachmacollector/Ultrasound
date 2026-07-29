@@ -1,0 +1,19 @@
+[INFO] LR finder using device: cuda
+[INFO] Loading pretrained weights from Hugging Face hub (timm/mobilenetv3_large_100.ra_in1k)
+[INFO] HTTP Request: HEAD https://huggingface.co/timm/mobilenetv3_large_100.ra_in1k/resolve/main/model.safetensors "HTTP/1.1 302 Found"
+[INFO] [timm/mobilenetv3_large_100.ra_in1k] Safe alternative available for 'pytorch_model.bin' (as 'model.safetensors'). Loading weights using safetensors.
+[INFO] Missing keys (classifier.weight, classifier.bias) discovered while loading pretrained weights. This is expected if model is being adapted.
+[INFO] Running LR range test: 100 steps, LR 1.00e-07 → 1.00e+00
+[INFO] Step   0 | LR=1.00e-07 | loss=3.6329 (smoothed=72.6583)
+[INFO] Step  10 | LR=5.01e-07 | loss=3.7313 (smoothed=8.3873)
+[INFO] Step  20 | LR=2.51e-06 | loss=3.6060 (smoothed=5.4912)
+[INFO] Step  30 | LR=1.26e-05 | loss=3.7632 (smoothed=4.5598)
+[INFO] Step  40 | LR=6.31e-05 | loss=1.9983 (smoothed=3.7121)
+[INFO] Step  50 | LR=3.16e-04 | loss=1.3414 (smoothed=2.9405)
+[INFO] Step  60 | LR=1.58e-03 | loss=0.6081 (smoothed=2.0592)
+[INFO] Step  70 | LR=7.94e-03 | loss=0.9422 (smoothed=1.7521)
+[INFO] Step  80 | LR=3.98e-02 | loss=4.4971 (smoothed=3.1995)
+[INFO] Loss diverging at LR=5.50e-02 — stopping early at step 82.
+[INFO] Steepest descent LR: 1.12e-06
+[INFO] Suggested training LR (steepest ÷ 10): 1.12e-07
+[INFO] LR finder plot saved → logs\mobilenetv3_large_100\lr_finder.png

@@ -1,0 +1,116 @@
+﻿conda.exe : 22:34:02 [INFO] Using device: cuda
+At D:\miniconda\shell\condabin\Conda.psm1:194 char:17
++ ...             & $Env:CONDA_EXE $Env:_CE_M $Env:_CE_CONDA $Command @Othe ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (22:34:02 [INFO] Using device: cuda:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+22:34:02 [INFO] Building model: convnext_tiny.fb_in22k_ft_in1k (pretrained=True)
+22:34:03 [INFO] Loading pretrained weights from Hugging Face hub (timm/convnext_tiny.fb_in22k_ft_in1k)
+22:34:03 [INFO] HTTP Request: HEAD 
+https://huggingface.co/timm/convnext_tiny.fb_in22k_ft_in1k/resolve/main/model.safetensors "HTTP/1.1 302 Found"
+22:34:03 [INFO] [timm/convnext_tiny.fb_in22k_ft_in1k] Safe alternative available for 'pytorch_model.bin' (as 
+'model.safetensors'). Loading weights using safetensors.
+22:34:04 [INFO] Missing keys (head.fc.weight, head.fc.bias) discovered while loading pretrained weights. This is 
+expected if model is being adapted.
+22:34:04 [INFO] Image size: 224x224
+22:34:04 [INFO] Starting training: backbone=convnext_tiny.fb_in22k_ft_in1k, epochs_max=60, patience=8, lr=1.00e-04, 
+amp=True
+22:36:03 [INFO] Epoch 1 TRAIN | loss=0.6861 acc=0.7248 | 51 img/s
+22:37:25 [INFO] Epoch 1 VAL   | loss=0.2405 acc=0.9052 macro_f1=0.8711
+22:37:26 [INFO] Γ£ô New best checkpoint (val macro-F1=0.8711) ΓåÆ checkpoints\convnext_tiny\best.pt
+22:37:28 [INFO] Confusion matrix saved ΓåÆ checkpoints\convnext_tiny\confusion_matrix_best_epoch1.png
+22:37:57 [INFO] Epoch 2 TRAIN | loss=0.2864 acc=0.8840 | 207 img/s
+22:38:02 [INFO] Epoch 2 VAL   | loss=0.1789 acc=0.9032 macro_f1=0.8790
+22:38:03 [INFO] Γ£ô New best checkpoint (val macro-F1=0.8790) ΓåÆ checkpoints\convnext_tiny\best.pt
+22:38:03 [INFO] Confusion matrix saved ΓåÆ checkpoints\convnext_tiny\confusion_matrix_best_epoch2.png
+22:38:33 [INFO] Epoch 3 TRAIN | loss=0.2131 acc=0.9081 | 204 img/s
+22:38:37 [INFO] Epoch 3 VAL   | loss=0.1666 acc=0.9198 macro_f1=0.9017
+22:38:38 [INFO] Γ£ô New best checkpoint (val macro-F1=0.9017) ΓåÆ checkpoints\convnext_tiny\best.pt
+22:38:39 [INFO] Confusion matrix saved ΓåÆ checkpoints\convnext_tiny\confusion_matrix_best_epoch3.png
+22:39:08 [INFO] Epoch 4 TRAIN | loss=0.1687 acc=0.9308 | 209 img/s
+22:39:12 [INFO] Epoch 4 VAL   | loss=0.1569 acc=0.9140 macro_f1=0.8915
+22:39:12 [INFO] No improvement for 1/8 epochs (best=0.9017 @ epoch 3)
+22:39:41 [INFO] Epoch 5 TRAIN | loss=0.1415 acc=0.9388 | 213 img/s
+22:39:45 [INFO] Epoch 5 VAL   | loss=0.1551 acc=0.9238 macro_f1=0.9040
+22:39:46 [INFO] Γ£ô New best checkpoint (val macro-F1=0.9040) ΓåÆ checkpoints\convnext_tiny\best.pt
+22:39:47 [INFO] Confusion matrix saved ΓåÆ checkpoints\convnext_tiny\confusion_matrix_best_epoch5.png
+22:40:16 [INFO] Epoch 6 TRAIN | loss=0.1323 acc=0.9456 | 211 img/s
+22:40:20 [INFO] Epoch 6 VAL   | loss=0.1944 acc=0.9159 macro_f1=0.8921
+22:40:20 [INFO] No improvement for 1/8 epochs (best=0.9040 @ epoch 5)
+22:40:58 [INFO] Epoch 7 TRAIN | loss=0.0863 acc=0.9645 | 160 img/s
+22:41:08 [INFO] Epoch 7 VAL   | loss=0.1882 acc=0.8993 macro_f1=0.8739
+22:41:08 [INFO] No improvement for 2/8 epochs (best=0.9040 @ epoch 5)
+22:42:21 [INFO] Epoch 8 TRAIN | loss=0.0838 acc=0.9648 | 83 img/s
+22:42:31 [INFO] Epoch 8 VAL   | loss=0.1775 acc=0.9189 macro_f1=0.9005
+22:42:31 [INFO] No improvement for 3/8 epochs (best=0.9040 @ epoch 5)
+22:43:26 [INFO] Epoch 9 TRAIN | loss=0.0649 acc=0.9738 | 110 img/s
+22:43:32 [INFO] Epoch 9 VAL   | loss=0.1968 acc=0.9189 macro_f1=0.8977
+22:43:32 [INFO] No improvement for 4/8 epochs (best=0.9040 @ epoch 5)
+22:44:34 [INFO] Epoch 10 TRAIN | loss=0.0637 acc=0.9763 | 98 img/s
+22:44:39 [INFO] Epoch 10 VAL   | loss=0.1887 acc=0.9179 macro_f1=0.8966
+22:44:39 [INFO] No improvement for 5/8 epochs (best=0.9040 @ epoch 5)
+22:45:11 [INFO] Epoch 11 TRAIN | loss=0.0487 acc=0.9819 | 188 img/s
+22:45:16 [INFO] Epoch 11 VAL   | loss=0.2062 acc=0.9267 macro_f1=0.9097
+22:45:18 [INFO] Γ£ô New best checkpoint (val macro-F1=0.9097) ΓåÆ checkpoints\convnext_tiny\best.pt
+22:45:19 [INFO] Confusion matrix saved ΓåÆ checkpoints\convnext_tiny\confusion_matrix_best_epoch11.png
+22:45:54 [INFO] Epoch 12 TRAIN | loss=0.0510 acc=0.9778 | 171 img/s
+22:46:00 [INFO] Epoch 12 VAL   | loss=0.2498 acc=0.9257 macro_f1=0.9085
+22:46:00 [INFO] No improvement for 1/8 epochs (best=0.9097 @ epoch 11)
+22:46:31 [INFO] Epoch 13 TRAIN | loss=0.0434 acc=0.9798 | 191 img/s
+22:46:36 [INFO] Epoch 13 VAL   | loss=0.1944 acc=0.9296 macro_f1=0.9124
+22:46:38 [INFO] Γ£ô New best checkpoint (val macro-F1=0.9124) ΓåÆ checkpoints\convnext_tiny\best.pt
+22:46:39 [INFO] Confusion matrix saved ΓåÆ checkpoints\convnext_tiny\confusion_matrix_best_epoch13.png
+22:47:12 [INFO] Epoch 14 TRAIN | loss=0.0308 acc=0.9885 | 180 img/s
+22:47:18 [INFO] Epoch 14 VAL   | loss=0.2686 acc=0.9286 macro_f1=0.9107
+22:47:18 [INFO] No improvement for 1/8 epochs (best=0.9124 @ epoch 13)
+22:48:35 [INFO] Epoch 15 TRAIN | loss=0.0250 acc=0.9914 | 79 img/s
+22:48:46 [INFO] Epoch 15 VAL   | loss=0.2336 acc=0.9189 macro_f1=0.9002
+22:48:46 [INFO] No improvement for 2/8 epochs (best=0.9124 @ epoch 13)
+22:50:08 [INFO] Epoch 16 TRAIN | loss=0.0508 acc=0.9837 | 74 img/s
+22:50:19 [INFO] Epoch 16 VAL   | loss=0.2136 acc=0.9198 macro_f1=0.9019
+22:50:19 [INFO] No improvement for 3/8 epochs (best=0.9124 @ epoch 13)
+22:50:53 [INFO] Epoch 17 TRAIN | loss=0.0248 acc=0.9914 | 179 img/s
+22:50:58 [INFO] Epoch 17 VAL   | loss=0.2309 acc=0.9286 macro_f1=0.9091
+22:50:58 [INFO] No improvement for 4/8 epochs (best=0.9124 @ epoch 13)
+22:51:29 [INFO] Epoch 18 TRAIN | loss=0.0177 acc=0.9911 | 196 img/s
+22:51:34 [INFO] Epoch 18 VAL   | loss=0.2983 acc=0.9228 macro_f1=0.9076
+22:51:34 [INFO] No improvement for 5/8 epochs (best=0.9124 @ epoch 13)
+22:52:05 [INFO] Epoch 19 TRAIN | loss=0.0566 acc=0.9819 | 192 img/s
+22:52:10 [INFO] Epoch 19 VAL   | loss=0.1947 acc=0.9081 macro_f1=0.8828
+22:52:10 [INFO] No improvement for 6/8 epochs (best=0.9124 @ epoch 13)
+22:52:37 [INFO] Epoch 20 TRAIN | loss=0.0270 acc=0.9903 | 224 img/s
+22:52:41 [INFO] Epoch 20 VAL   | loss=0.2396 acc=0.9384 macro_f1=0.9180
+22:52:41 [INFO] Γ£ô New best checkpoint (val macro-F1=0.9180) ΓåÆ checkpoints\convnext_tiny\best.pt
+22:52:42 [INFO] Confusion matrix saved ΓåÆ checkpoints\convnext_tiny\confusion_matrix_best_epoch20.png
+22:53:09 [INFO] Epoch 21 TRAIN | loss=0.0157 acc=0.9931 | 223 img/s
+22:53:13 [INFO] Epoch 21 VAL   | loss=0.2137 acc=0.9286 macro_f1=0.9107
+22:53:13 [INFO] No improvement for 1/8 epochs (best=0.9180 @ epoch 20)
+22:53:40 [INFO] Epoch 22 TRAIN | loss=0.0138 acc=0.9938 | 224 img/s
+22:53:44 [INFO] Epoch 22 VAL   | loss=0.2606 acc=0.9267 macro_f1=0.9097
+22:53:44 [INFO] No improvement for 2/8 epochs (best=0.9180 @ epoch 20)
+22:54:11 [INFO] Epoch 23 TRAIN | loss=0.0178 acc=0.9931 | 227 img/s
+22:54:15 [INFO] Epoch 23 VAL   | loss=0.2513 acc=0.9296 macro_f1=0.9101
+22:54:15 [INFO] No improvement for 3/8 epochs (best=0.9180 @ epoch 20)
+22:54:42 [INFO] Epoch 24 TRAIN | loss=0.0143 acc=0.9947 | 227 img/s
+22:54:46 [INFO] Epoch 24 VAL   | loss=0.2427 acc=0.9326 macro_f1=0.9177
+22:54:46 [INFO] No improvement for 4/8 epochs (best=0.9180 @ epoch 20)
+22:55:13 [INFO] Epoch 25 TRAIN | loss=0.0152 acc=0.9926 | 225 img/s
+22:55:17 [INFO] Epoch 25 VAL   | loss=0.2500 acc=0.9267 macro_f1=0.9154
+22:55:17 [INFO] No improvement for 5/8 epochs (best=0.9180 @ epoch 20)
+22:55:44 [INFO] Epoch 26 TRAIN | loss=0.0109 acc=0.9949 | 226 img/s
+22:55:48 [INFO] Epoch 26 VAL   | loss=0.2366 acc=0.9218 macro_f1=0.9068
+22:55:48 [INFO] No improvement for 6/8 epochs (best=0.9180 @ epoch 20)
+22:56:15 [INFO] Epoch 27 TRAIN | loss=0.0098 acc=0.9954 | 218 img/s
+22:56:25 [INFO] Epoch 27 VAL   | loss=0.2587 acc=0.9326 macro_f1=0.9134
+22:56:25 [INFO] No improvement for 7/8 epochs (best=0.9180 @ epoch 20)
+22:57:32 [INFO] Epoch 28 TRAIN | loss=0.0069 acc=0.9962 | 90 img/s
+22:57:36 [INFO] Epoch 28 VAL   | loss=0.2594 acc=0.9296 macro_f1=0.9133
+22:57:36 [INFO] No improvement for 8/8 epochs (best=0.9180 @ epoch 20)
+22:57:36 [INFO] Early stopping triggered after 8 epochs without improvement.
+22:57:36 [INFO] Training complete. Best val macro-F1=0.9180 at epoch 20.
+22:57:36 [INFO] Reloading best checkpoint (epoch 20, macro_f1=0.9180) for final report
+22:57:41 [INFO] Epoch 20 VAL   | loss=0.2396 acc=0.9384 macro_f1=0.9180
+22:57:42 [INFO] Confusion matrix saved ΓåÆ checkpoints\convnext_tiny\confusion_matrix_final_epoch20.png
+22:57:42 [INFO] Classification report ΓåÆ checkpoints\convnext_tiny\classification_report_final.txt
+22:57:42 [INFO] TensorBoard logs ΓåÆ logs\convnext_tiny
