@@ -1,6 +1,7 @@
 # 05 — Temporal Smoothing & Real-Time Serving Pipeline
 
 This is the phase that actually differentiates this project from the original static-image repo. `[AGENT]`-heavy, with a couple of `[MANUAL]` tuning/inspection checkpoints.
+If any step requires a GPU, be sure to use the RTX 4060 GPU that this device has to speedup the required task.
 
 ---
 

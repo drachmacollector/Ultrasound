@@ -18,6 +18,7 @@ docs/PHASE_4_KICKOFF_PROMPT.md
 .env
 ultrasound_project.zip
 convert_utf16.py
+.tmpgit/
 
 events.out.tfevents.*
 lr_finder.png
