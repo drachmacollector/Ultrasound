@@ -53,6 +53,7 @@ from src.data.dataset import (
 )
 from src.data.transforms import get_eval_transform, get_train_transform
 from src.models.backbone import build_model
+from src.train.losses import FocalLoss
 
 # ---------------------------------------------------------------------------
 # Logging
@@ -282,7 +283,14 @@ def train(cfg: dict) -> None:  # type: ignore[type-arg]
 
     # ---- Loss function ---------------------------------------------------
     weight_tensor = build_class_weight_tensor(cfg["class_weights_json"], device)
-    criterion = nn.CrossEntropyLoss(weight=weight_tensor)
+    loss_fn_name: str = cfg.get("loss_fn", "ce").lower()
+    if loss_fn_name == "focal":
+        focal_gamma: float = float(cfg.get("focal_gamma", 2.0))
+        criterion: nn.Module = FocalLoss(weight=weight_tensor, gamma=focal_gamma)
+        log.info("Loss: FocalLoss (gamma=%.1f, class-weighted)", focal_gamma)
+    else:
+        criterion = nn.CrossEntropyLoss(weight=weight_tensor)
+        log.info("Loss: CrossEntropyLoss (class-weighted)")
 
     # ---- Optimizer + scheduler -------------------------------------------
     lr: float = float(cfg.get("lr", 3e-4))
