@@ -71,19 +71,21 @@ pip install -r requirements.txt
 ### 4. Training
 To train the model from scratch on the processed dataset:
 ```bash
-python src/train/train.py --config configs/train_config.yaml
+python src/train/train.py --config configs/convnext_tiny.yaml
 ```
+*(You can use any of the provided per-backbone configuration files in the `configs/` directory.)*
 *Note: You can also run `python scripts/smoke_test.py` to verify the pipeline before starting full training.*
 
 ### 5. Evaluation
-To evaluate the trained model on the held-out test set and the cross-device generalization set:
+To evaluate the trained model on the held-out test set:
 ```bash
-python src/eval/evaluate.py --weights checkpoints/best.pt
+python scripts/evaluate_test.py --weights checkpoints/convnext_tiny/best.pt
 ```
 
-### 6. Real-Time Inference
+### 6. Real-Time Inference (WIP)
+*(Note: Real-time inference scripts are currently being built in Phase 5 and are not yet fully implemented.)*
 Run the real-time application using your trained model checkpoint:
 ```bash
-python src/realtime/app.py --weights checkpoints/best.pt --source 0
+python src/realtime/app.py --weights checkpoints/convnext_tiny/best.pt --source 0
 ```
 *(Use `--source 0` for your primary webcam, or provide a path to an `.mp4` video file.)*
