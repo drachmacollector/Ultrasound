@@ -1,6 +1,11 @@
 /implementation_plan.md
-data/raw/
-data/processed/
+# Ignore everything in the data folder
+data/**/*
+# Un-ignore directories so git can traverse them
+!data/**/
+# Un-ignore markdown files
+!data/**/*.md
+!data/**/*.MD
 # checkpoints/
 # logs/
 __pycache__/
