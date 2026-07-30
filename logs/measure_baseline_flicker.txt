@@ -1,0 +1,31 @@
+Loading model...
+[Brain_Trans_cerebellum_clip01.mp4] Switches/sec: 0.00, Mean Switch Conf: 0.00, Mean Stable Conf: 1.00
+[Brain_Trans_cerebellum_clip02.mp4] Switches/sec: 0.00, Mean Switch Conf: 0.00, Mean Stable Conf: 1.00
+[Brain_Trans_thalamic_clip01.mp4] Switches/sec: 0.00, Mean Switch Conf: 0.00, Mean Stable Conf: 1.00
+[Brain_Trans_thalamic_clip02.mp4] Switches/sec: 0.00, Mean Switch Conf: 0.00, Mean Stable Conf: 1.00
+[Brain_Trans_ventricular_clip01.mp4] Switches/sec: 0.00, Mean Switch Conf: 0.00, Mean Stable Conf: 1.00
+[Brain_Trans_ventricular_clip02.mp4] Switches/sec: 0.00, Mean Switch Conf: 0.00, Mean Stable Conf: 0.99
+[Fetal_abdomen_clip01.mp4] Switches/sec: 0.00, Mean Switch Conf: 0.00, Mean Stable Conf: 1.00
+[Fetal_abdomen_clip02.mp4] Switches/sec: 0.00, Mean Switch Conf: 0.00, Mean Stable Conf: 1.00
+[Fetal_femur_clip01.mp4] Switches/sec: 0.00, Mean Switch Conf: 0.00, Mean Stable Conf: 0.99
+[Fetal_femur_clip02.mp4] Switches/sec: 0.00, Mean Switch Conf: 0.00, Mean Stable Conf: 0.99
+[Fetal_thorax_clip01.mp4] Switches/sec: 0.00, Mean Switch Conf: 0.00, Mean Stable Conf: 1.00
+[Fetal_thorax_clip02.mp4] Switches/sec: 0.00, Mean Switch Conf: 0.00, Mean Stable Conf: 1.00
+[Maternal_cervix_clip01.mp4] Switches/sec: 0.00, Mean Switch Conf: 0.00, Mean Stable Conf: 1.00
+[Maternal_cervix_clip02.mp4] Switches/sec: 0.00, Mean Switch Conf: 0.00, Mean Stable Conf: 1.00
+[Other_clip01.mp4] Switches/sec: 0.00, Mean Switch Conf: 0.00, Mean Stable Conf: 1.00
+[Other_clip02.mp4] Switches/sec: 0.00, Mean Switch Conf: 0.00, Mean Stable Conf: 1.00
+[20190726T095643_0.avi] Switches/sec: 0.00, Mean Switch Conf: 0.00, Mean Stable Conf: 1.00
+[test_10_80.avi] Switches/sec: 0.00, Mean Switch Conf: 0.00, Mean Stable Conf: 1.00
+[test_11_14.avi] Switches/sec: 0.00, Mean Switch Conf: 0.00, Mean Stable Conf: 0.98
+[test_12_79.avi] Switches/sec: 0.00, Mean Switch Conf: 0.00, Mean Stable Conf: 0.96
+[test_13_70.avi] Switches/sec: 0.00, Mean Switch Conf: 0.00, Mean Stable Conf: 0.95
+[test_14_51.avi] Switches/sec: 0.59, Mean Switch Conf: 0.56, Mean Stable Conf: 0.92
+[202012132137152159400I1.avi] Switches/sec: 0.00, Mean Switch Conf: 0.00, Mean Stable Conf: 0.97
+[202101071849301901010I3.avi] Switches/sec: 0.00, Mean Switch Conf: 0.00, Mean Stable Conf: 1.00
+[202101071849301901010I4.avi] Switches/sec: 0.00, Mean Switch Conf: 0.00, Mean Stable Conf: 1.00
+[202101141947512000310I1.avi] Switches/sec: 0.00, Mean Switch Conf: 0.00, Mean Stable Conf: 0.87
+[202101141947512000310I2.avi] Switches/sec: 0.00, Mean Switch Conf: 0.00, Mean Stable Conf: 0.95
+Total frames processed: 1172
+Total inference time: 28.08 s
+Raw inference FPS: 41.73

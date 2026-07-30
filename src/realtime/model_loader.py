@@ -10,6 +10,7 @@ from pathlib import Path
 import torch
 from src.models.backbone import build_model
 from src.data.transforms import get_eval_transform
+import albumentations as A
 
 @dataclass
 class LoadedModel:
@@ -19,7 +20,7 @@ class LoadedModel:
     img_size: int
     normalize_mean: tuple
     normalize_std: tuple
-    transform: object  # albumentations.Compose
+    transform: A.Compose
 
 def load_inference_model(ckpt_path: str, device: torch.device | None = None) -> LoadedModel:
     device = device or torch.device("cuda" if torch.cuda.is_available() else "cpu")

@@ -24,3 +24,8 @@ events.out.tfevents.*
 lr_finder.png
 *.png
 *.pt
+!*.txt
+data/raw/fetal_planes_db/LICENSE_NOTE.txt
+!baseline_flicker_chart.png
+!baseline_flicker_report.csv
+!transition_annotations_template.json
