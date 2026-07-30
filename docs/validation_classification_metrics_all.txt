@@ -1,4 +1,4 @@
-VALIDATION-SET NUMBERS ONLY � used for model selection / early stopping.\nNOT the held-out test set. See docs/test_classification_metrics_all.txt for the genuine test-set evaluation.\nSource: data/splits/val.csv (1,023 images / 124 patients).\n
+VALIDATION-SET NUMBERS ONLY — used for model selection / early stopping.\nNOT the held-out test set. See docs/test_classification_metrics_all.txt for the genuine test-set evaluation.\nSource: data/splits/val.csv (1,023 images / 124 patients).\n
 All models were evaluated on the same test set.
 
 Support (number of samples per class) (same for all models):
@@ -98,7 +98,7 @@ Other:{p:0.97,r:0.93,f1:0.95}
 
 
 Training order (by parameter count):
-efficientnet_lite0 (~4.7M) → mobilenetv3_large_100 (~5.5M) → repvgg_a1 (~8.3M) → tf_efficientnetv2_s (~21M) → repvgg_a2 (~25.5M) → convnext_tiny (~28M)
+efficientnet_lite0 (~4.7M) â†’ mobilenetv3_large_100 (~5.5M) â†’ repvgg_a1 (~8.3M) â†’ tf_efficientnetv2_s (~21M) â†’ repvgg_a2 (~25.5M) â†’ convnext_tiny (~28M)
 
 efficientnet_lite0
 best_val_macro_f1=0.9112

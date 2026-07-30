@@ -62,7 +62,7 @@ Implement using the `pytorch-grad-cam` library rather than hand-rolling hooks (t
 
 - [ ] All 6 backbones trained, compared on val macro-F1 and per-class F1
 - [ ] Pretraining-init ablation run and documented
-- [ ] Final backbone decision made and justified in writing (a short [EXPERIMENTS.md](EXPERIMENTS.md) note is enough)
+- [ ] Final backbone decision made and justified in writing (a short [EXPERIMENTS.md](../EXPERIMENTS.md) note is enough)
 - [ ] Best checkpoint saved
 - [ ] Re-parameterization implemented and numerically verified (if RepVGG chosen)
 - [ ] Grad-CAM module implemented and visually spot-checked

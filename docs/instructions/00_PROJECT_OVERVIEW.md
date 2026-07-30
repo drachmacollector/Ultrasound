@@ -84,7 +84,7 @@ The paper itself states this dataset **"combines three sources: the Fetal Plane 
 - 3DFETUS (arXiv 2511.10412) — spatial-transformer normalization pattern (not directly used, informs design philosophy)
 - **UCL/HC18 multi-centre benchmark (arXiv 2512.16710 / Sci Rep s41598-026-47854-3)** — our cross-device generalization test set. **Confirmed via the paper itself that this bundle's `FP` component is sourced from Burgos-Artizzu et al. 2020 (same as FETAL_PLANES_DB) — only its `HC18` and `UCL` components are used by us; see §5a.**
 - **IUGC / Zenodo intrapartum dataset (Bai et al., *Scientific Data*, doi:10.5281/zenodo.17655183)** — confirmed 774 videos / 68,106 frames from 3 institutions (JNU, SYSU, SMU), released CC BY 4.0.
-- Original student repo (`inference.py`, `app.py`, [README.md](README.md)) — reference for what to keep (patient-level split, Grad-CAM concept, two-stage philosophy) vs. discard (Flask serving, per-frame double-forward-pass, no temporal handling)
+- Original student repo (`inference.py`, `app.py`, [README.md](../README.md)) — reference for what to keep (patient-level split, Grad-CAM concept, two-stage philosophy) vs. discard (Flask serving, per-frame double-forward-pass, no temporal handling)
 
 ## 8. Non-goals (explicitly out of scope for v1)
 

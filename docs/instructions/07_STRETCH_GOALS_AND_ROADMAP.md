@@ -40,4 +40,4 @@ Explicitly deprioritized during scoping (see [00_PROJECT_OVERVIEW.md](00_PROJECT
 
 ## Notes for whoever picks this up
 
-Each stretch goal above assumes files 01-06 are fully complete, evaluated, and documented first ([EVAL_REPORT.md](EVAL_REPORT.md) exists and the primary system demonstrably works end-to-end on video). Don't let stretch-goal scope creep delay getting the core v1 system working — that's the actual deliverable.
+Each stretch goal above assumes files 01-06 are fully complete, evaluated, and documented first ([EVAL_REPORT.md](../EVAL_REPORT.md) exists and the primary system demonstrably works end-to-end on video). Don't let stretch-goal scope creep delay getting the core v1 system working — that's the actual deliverable.

@@ -1,6 +1,6 @@
 # EXPERIMENTS.md — Phase 4 Model Training
 
-This file is the living record of all backbone comparison experiments, ablations, and design decisions made in Phase 4. Cross-referenced with [PHASE_4_KICKOFF_PROMPT.md](docs/PHASE_4_KICKOFF_PROMPT.md).
+This file is the living record of all backbone comparison experiments, ablations, and design decisions made in Phase 4. Cross-referenced with [PHASE_4_KICKOFF_PROMPT.md](kickoff & results/PHASE_4_KICKOFF_PROMPT.md).
 
 ---
 

@@ -22,7 +22,7 @@ This evaluation therefore uses only:
 Concretely:
 - Same metrics as §1, computed **separately** per `source_subset` (HC18 vs. UCL) as well as combined, restricted to the 3 classes this set covers (map our three brain sub-planes to a single "Head" bucket, and document that mapping explicitly).
 - Report the **gap** between in-distribution and cross-device performance per class — this gap *is* the generalization result, more informative than either number alone. Expect a meaningful drop; the source paper's own experiments found exactly this pattern across sites/devices. If our drop is severe, that's a legitimate, reportable finding, not a failure to hide — document it plainly.
-- **Explicit scope limitation to state in [EVAL_REPORT.md](EVAL_REPORT.md):** because HC18/UCL are pure landmark-biometry datasets, every image in them is a valid standard plane by construction — there is no "Other"/non-standard example in this set. This evaluation therefore validates *plane-identity classification* cross-device (i.e., "given a standard image, does the model pick the right one of Head/Abdomen/Femur"), **not** Stage 1's standard-vs-other decision, and **not** "Thorax" or "Maternal cervix" generalization at all, since no available external dataset covers those two classes. State this plainly rather than implying the whole 8-way pipeline was cross-device validated.
+- **Explicit scope limitation to state in [EVAL_REPORT.md](../EVAL_REPORT.md):** because HC18/UCL are pure landmark-biometry datasets, every image in them is a valid standard plane by construction — there is no "Other"/non-standard example in this set. This evaluation therefore validates *plane-identity classification* cross-device (i.e., "given a standard image, does the model pick the right one of Head/Abdomen/Femur"), **not** Stage 1's standard-vs-other decision, and **not** "Thorax" or "Maternal cervix" generalization at all, since no available external dataset covers those two classes. State this plainly rather than implying the whole 8-way pipeline was cross-device validated.
 - HC18's internal `Head_Train.csv`/`Head_Test.csv` (737/262) split is the multi-centre paper authors' own internal split, not the original HC18 grand-challenge split — irrelevant to us since we never train on this data; use the full 999 images as held-out evaluation data.
 
 ## 3. Realistic-video classification metric (SonoNet-style honest benchmark)
@@ -46,7 +46,7 @@ Per the SonoNet paper's own finding, live/video-realistic evaluation is dramatic
 
 ## 6. Reporting format
 
-Produce a single [EVAL_REPORT.md](EVAL_REPORT.md) (or notebook rendered to markdown) at the end covering all of the above, with the confusion matrix and class-distribution charts embedded as images. This is the artifact that documents "does this thing actually work and by how much," separate from the code itself.
+Produce a single [EVAL_REPORT.md](../EVAL_REPORT.md) (or notebook rendered to markdown) at the end covering all of the above, with the confusion matrix and class-distribution charts embedded as images. This is the artifact that documents "does this thing actually work and by how much," separate from the code itself.
 
 ## Deliverables checklist
 
@@ -55,4 +55,4 @@ Produce a single [EVAL_REPORT.md](EVAL_REPORT.md) (or notebook rendered to markd
 - [ ] Realistic-video frame-level accuracy measured with/without smoothing
 - [ ] Video stability metrics computed (switches/min, latency-to-stabilize, mean dwell time)
 - [ ] All planned ablations run
-- [ ] [EVAL_REPORT.md](EVAL_REPORT.md) written, including honest statement of limitations (video-transition validation gap, cross-device set covering only 3/7 classes and containing no "Other" examples, `FP`/`MULTICENTRE` exclusion rationale, no true clinical validation)
+- [ ] [EVAL_REPORT.md](../EVAL_REPORT.md) written, including honest statement of limitations (video-transition validation gap, cross-device set covering only 3/7 classes and containing no "Other" examples, `FP`/`MULTICENTRE` exclusion rationale, no true clinical validation)

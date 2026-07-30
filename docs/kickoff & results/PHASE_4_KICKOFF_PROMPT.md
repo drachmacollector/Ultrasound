@@ -3,21 +3,21 @@
 Phase 3 is complete and verified (12,400-row manifest, patient-disjoint
 train/val/test splits, `class_weights.json`, `cross_device_manifest.csv`,
 synthetic clips). This prompt assumes all of that already exists on disk
-exactly as described in [03_DATA_PIPELINE.md](03_DATA_PIPELINE.md).
+exactly as described in [03_DATA_PIPELINE.md](../instructions/03_DATA_PIPELINE.md).
 the created files are within /scripts /src/data/
 
 ---
 
 ## 0. Non-negotiable corrections to the plan doc — read this before anything else
 
-Three things below aren't in [04_MODEL_TRAINING.md](04_MODEL_TRAINING.md) verbatim — they come from
+Three things below aren't in [04_MODEL_TRAINING.md](../instructions/04_MODEL_TRAINING.md) verbatim — they come from
 things I found by actually reading your Phase 3 code and by researching
 current library/checkpoint state. Don't skip them.
 
 ### 0.1 — This is 8-way single-softmax, not the reference repo's 2-stage cascade
 `inference.py` (the original student reference) uses a binary Stage-1 model +
 7-class Stage-2 model. **This project does not.** Per
-[00_PROJECT_OVERVIEW.md](00_PROJECT_OVERVIEW.md) §4 and confirmed by `src/data/dataset.py`'s own
+[00_PROJECT_OVERVIEW.md](../instructions/00_PROJECT_OVERVIEW.md) §4 and confirmed by `src/data/dataset.py`'s own
 `CANONICAL_CLASSES`, this is **one 8-way softmax head** over:
 
 ```python
@@ -39,7 +39,7 @@ this list a second time anywhere in the training/eval code. That file's own
 docstring calls it "the single source of truth"; treat it as such.
 
 ### 0.2 — User directive: accuracy is prioritized over latency, explicitly and repeatedly
-This project is not latency-starved ([00_PROJECT_OVERVIEW.md](00_PROJECT_OVERVIEW.md) §3, confirmed
+This project is not latency-starved ([00_PROJECT_OVERVIEW.md](../instructions/00_PROJECT_OVERVIEW.md) §3, confirmed
 again by the project owner directly). When Step 9 (backbone decision) comes
 around: **weight val macro-F1 as the primary decision criterion.**
 Training/inference speed on the 4060 is a tie-breaker, or a reason to
@@ -48,7 +48,7 @@ backbone over a more accurate one unless the more accurate one is so slow
 that it meaningfully blocks *iteration* (e.g., a single epoch taking hours).
 Do not default to RepVGG or MobileNetV3 "because they're the primary
 candidate" if EfficientNetV2-S beats them on macro-F1 and is still trainable
-in reasonable time on 8GB VRAM — [04_MODEL_TRAINING.md](04_MODEL_TRAINING.md) §1 already says this
+in reasonable time on 8GB VRAM — [04_MODEL_TRAINING.md](../instructions/04_MODEL_TRAINING.md) §1 already says this
 explicitly, this note is just reinforcing it since it's the single most
 important call in this phase.
 
@@ -74,7 +74,7 @@ print(m.pretrained_cfg)   # inspect input_size, mean, std, crop_pct
 ```
 
 and repeat for `repvgg_a1`, `mobilenetv3_large_100`, `efficientnet_lite0`.
-Record all five `pretrained_cfg`s in [EXPERIMENTS.md](EXPERIMENTS.md) (see §11 below).
+Record all five `pretrained_cfg`s in [EXPERIMENTS.md](../EXPERIMENTS.md) (see §11 below).
 **Decision to make and document, not guess:** either (a) standardize all five
 at 224×224 with ImageNet mean/std for a clean apples-to-apples comparison,
 explicitly noting this may under-represent EfficientNetV2-S's true ceiling,
@@ -86,12 +86,12 @@ choice** — pick it unless VRAM or time genuinely doesn't allow it, and say so
 either way in the write-up.
 
 ### 0.4 — A minor inconsistency in the planning docs, flagged so you don't chase a ghost
-[04_MODEL_TRAINING.md](04_MODEL_TRAINING.md) §5.3 says early-stopping patience "~8-10 epochs,
+[04_MODEL_TRAINING.md](../instructions/04_MODEL_TRAINING.md) §5.3 says early-stopping patience "~8-10 epochs,
 matching the reference repo's Stage 1 approach" — but the actual reference
-[README.md](README.md) documents Stage 1's real patience as **4** epochs. These two
+[README.md](../README.md) documents Stage 1's real patience as **4** epochs. These two
 docs disagree with each other; it's not something you did wrong. Since the
 architecture is different anyway (8-way vs. 2-stage), there's no strong
-reason to match either number exactly — use 8-10 as [04_MODEL_TRAINING.md](04_MODEL_TRAINING.md)
+reason to match either number exactly — use 8-10 as [04_MODEL_TRAINING.md](../instructions/04_MODEL_TRAINING.md)
 recommends (more patience is safer for a from-scratch comparison across
 4 unfamiliar backbones with class-weighted loss, which can have noisier
 validation curves early on), just don't be confused if you go looking for
@@ -116,7 +116,7 @@ python -c "import timm; print([m for m in timm.list_models('efficientnet_lite0')
 ```
 Confirm every one of the five target identifiers actually resolves in your
 installed `timm` version before writing any training code — timm renames or
-deprecates model strings between versions, and [04_MODEL_TRAINING.md](04_MODEL_TRAINING.md) itself
+deprecates model strings between versions, and [04_MODEL_TRAINING.md](../instructions/04_MODEL_TRAINING.md) itself
 warned "verify current exact string" rather than hardcoding blindly.
 
 ---
@@ -229,7 +229,7 @@ an argument, so this is a config wiring change only, not a rewrite.
 - AdamW, weight decay ~0.01 as a starting point.
 - Cosine annealing (`torch.optim.lr_scheduler.CosineAnnealingLR`) or step
   decay — either is fine, document which you picked and why in
-  [EXPERIMENTS.md](EXPERIMENTS.md).
+  [EXPERIMENTS.md](../EXPERIMENTS.md).
 - `torch.cuda.amp.autocast()` + `GradScaler` for mixed precision — the 4060
   benefits meaningfully from this, use it for every run, not just the
   "final" one.
@@ -238,12 +238,12 @@ an argument, so this is a config wiring change only, not a rewrite.
 - Track **macro-F1** (`sklearn.metrics.f1_score(..., average='macro')`) as
   the early-stopping and model-selection metric — not accuracy. This
   matches both the reference repo's own convention and
-  [04_MODEL_TRAINING.md](04_MODEL_TRAINING.md) §3's explicit reasoning (accuracy lets "Other" and
+  [04_MODEL_TRAINING.md](../instructions/04_MODEL_TRAINING.md) §3's explicit reasoning (accuracy lets "Other" and
   majority classes mask minority-class failure).
 - Also log per-class F1, precision, recall, and a confusion matrix every N
   epochs (or at minimum: final epoch + best-checkpoint epoch).
 - Log to TensorBoard: loss, accuracy, macro-F1, per-class F1, LR, images/sec
-  throughput — per [01_ENVIRONMENT_SETUP.md](01_ENVIRONMENT_SETUP.md)'s TensorBoard decision, already
+  throughput — per [01_ENVIRONMENT_SETUP.md](../instructions/01_ENVIRONMENT_SETUP.md)'s TensorBoard decision, already
   locked in, don't re-litigate W&B here.
 
 ### 4.5 Checkpointing
@@ -300,13 +300,13 @@ unless there's a genuinely blocking training-time problem. If
 EfficientNetV2-S wins, that's a fine outcome — don't force RepVGG to "win"
 because it was labeled "primary candidate" in the original plan; that label
 reflected an edge-deployment assumption this project explicitly rejected in
-[00_PROJECT_OVERVIEW.md](00_PROJECT_OVERVIEW.md) §3.
+[00_PROJECT_OVERVIEW.md](../instructions/00_PROJECT_OVERVIEW.md) §3.
 
 ---
 
 ## 9. Pretraining-init ablation — concrete candidates found via research
 
-[04_MODEL_TRAINING.md](04_MODEL_TRAINING.md) §2 left this open-ended ("search for a public
+[04_MODEL_TRAINING.md](../instructions/04_MODEL_TRAINING.md) §2 left this open-ended ("search for a public
 fetal-ultrasound or general-ultrasound SSL checkpoint"). Here's what
 actually exists publicly as of mid-2026, so you don't burn time
 rediscovering this:
@@ -326,7 +326,7 @@ checking rather than taking at face value.
 **If FUSC's checkpoint isn't practically portable to your winning backbone**
 (likely, since FUSC's own encoder choice may not match your winner),
 document that explicitly and fall back to ImageNet init only — per
-[04_MODEL_TRAINING.md](04_MODEL_TRAINING.md)'s own instruction, this ablation is expected to help,
+[04_MODEL_TRAINING.md](../instructions/04_MODEL_TRAINING.md)'s own instruction, this ablation is expected to help,
 not required to work.
 
 ---
@@ -346,7 +346,7 @@ before trusting the reparam model anywhere downstream.
 
 ## 11. Grad-CAM module — use the library, current API confirmed
 
-[04_MODEL_TRAINING.md](04_MODEL_TRAINING.md) §7 correctly says: use `pytorch-grad-cam`
+[04_MODEL_TRAINING.md](../instructions/04_MODEL_TRAINING.md) §7 correctly says: use `pytorch-grad-cam`
 (`pip install grad-cam`), don't hand-roll hooks the way `inference.py` did.
 Confirmed current API (v1.5.5, `jacobgil/pytorch-grad-cam`):
 
@@ -382,7 +382,7 @@ happened to rely on).
 Visually spot-check on a validation batch: confirm activation lands on
 plausible anatomical regions for at least the well-separated classes (femur,
 cervix) before trusting it on the harder brain sub-planes, per
-[04_MODEL_TRAINING.md](04_MODEL_TRAINING.md) §7.
+[04_MODEL_TRAINING.md](../instructions/04_MODEL_TRAINING.md) §7.
 
 ---
 
@@ -397,7 +397,7 @@ targeted ablation on the winner.
 
 ---
 
-## 13. Write [EXPERIMENTS.md](EXPERIMENTS.md)
+## 13. Write [EXPERIMENTS.md](../EXPERIMENTS.md)
 
 Should include, at minimum:
 - Per-backbone `pretrained_cfg` findings from §0.3, and which resolution
@@ -415,7 +415,7 @@ Should include, at minimum:
 
 ---
 
-## Deliverables checklist (from [04_MODEL_TRAINING.md](04_MODEL_TRAINING.md), reproduced for tracking)
+## Deliverables checklist (from [04_MODEL_TRAINING.md](../instructions/04_MODEL_TRAINING.md), reproduced for tracking)
 
 - [ ] All 5 backbones trained, compared on val macro-F1 and per-class F1
 - [ ] Per-backbone `pretrained_cfg` verified (resolution/normalization), policy documented
@@ -425,4 +425,4 @@ Should include, at minimum:
 - [ ] Re-parameterization implemented and numerically verified (if RepVGG chosen)
 - [ ] Grad-CAM module implemented via `pytorch-grad-cam`, correct target_layers identified per architecture, visually spot-checked
 - [ ] Focal loss ablation run only if confusion matrix warrants it
-- [ ] [EXPERIMENTS.md](EXPERIMENTS.md) written
+- [ ] [EXPERIMENTS.md](../EXPERIMENTS.md) written

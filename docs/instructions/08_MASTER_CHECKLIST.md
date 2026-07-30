@@ -59,7 +59,7 @@ The single top-to-bottom list. Everything here is detailed in files `00`–`07`;
 - [ ] `[A]` Realistic-video frame-level accuracy, with/without smoothing
 - [ ] `[A]` Video stability metrics (switches/min, latency-to-stabilize, dwell time)
 - [ ] `[A]` Run all planned ablations
-- [ ] `[M+A]` Write final [EVAL_REPORT.md](EVAL_REPORT.md) including honest limitations section
+- [ ] `[M+A]` Write final [EVAL_REPORT.md](../EVAL_REPORT.md) including honest limitations section
 
 ### Phase 7 — Stretch Goals ([07_STRETCH_GOALS_AND_ROADMAP.md](07_STRETCH_GOALS_AND_ROADMAP.md)) — only after Phases 0-6 are fully done
 - [ ] Detection-informed multi-task head

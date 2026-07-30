@@ -10,8 +10,8 @@ tuning again, so context doesn't need to be rebuilt from scratch.
 
 ## 1. Where this sits in the project
 
-This is part of Phase 4 ([docs/04_MODEL_TRAINING.md](docs/04_MODEL_TRAINING.md),
-[docs/PHASE_4_KICKOFF_PROMPT.md](docs/PHASE_4_KICKOFF_PROMPT.md)) — specifically
+This is part of Phase 4 ([docs/04_MODEL_TRAINING.md](../instructions/04_MODEL_TRAINING.md),
+[docs/PHASE_4_KICKOFF_PROMPT.md](PHASE_4_KICKOFF_PROMPT.md)) — specifically
 §5, the Leslie Smith-style LR range test that's supposed to run *before* any
 smoke test or full training run, so the `lr:` placeholder in each
 `configs/<backbone>.yaml` gets replaced with a real, justified value instead

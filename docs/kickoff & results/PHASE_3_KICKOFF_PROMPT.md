@@ -1,12 +1,12 @@
 # Phase 3 Kickoff — Data Pipeline Build
 
-Follow this instruction & implementation plan & read the following attached files for reference [00_PROJECT_OVERVIEW.md](00_PROJECT_OVERVIEW.md), [02_DATASETS.md](02_DATASETS.md), [03_DATA_PIPELINE.md](03_DATA_PIPELINE.md), and [08_MASTER_CHECKLIST.md](08_MASTER_CHECKLIST.md)
+Follow this instruction & implementation plan & read the following attached files for reference [00_PROJECT_OVERVIEW.md](../instructions/00_PROJECT_OVERVIEW.md), [02_DATASETS.md](../instructions/02_DATASETS.md), [03_DATA_PIPELINE.md](../instructions/03_DATA_PIPELINE.md), and [08_MASTER_CHECKLIST.md](../instructions/08_MASTER_CHECKLIST.md)
 
 ---
 
 ## Context
 
-Phases 0–2 are complete: environment is set up, and all raw data is downloaded and sitting in `data/raw/` per the structure documented in [02_DATASETS.md](02_DATASETS.md) §5:
+Phases 0–2 are complete: environment is set up, and all raw data is downloaded and sitting in `data/raw/` per the structure documented in [02_DATASETS.md](../instructions/02_DATASETS.md) §5:
 
 ```
 data/raw/
@@ -20,7 +20,7 @@ data/raw/
     └── DatasetV3/...
 ```
 
-You are now executing **Phase 3** exactly as scoped in [03_DATA_PIPELINE.md](03_DATA_PIPELINE.md). Read that file (and [02_DATASETS.md](02_DATASETS.md) §2 for the critical dataset-contamination context) before writing anything.
+You are now executing **Phase 3** exactly as scoped in [03_DATA_PIPELINE.md](../instructions/03_DATA_PIPELINE.md). Read that file (and [02_DATASETS.md](../instructions/02_DATASETS.md) §2 for the critical dataset-contamination context) before writing anything.
 
 ## Non-negotiable constraints — read before writing any code
 
@@ -220,7 +220,7 @@ if __name__ == "__main__":
     build_splits()
 ```
 
-If `MIN_PATIENTS_PER_CLASS_IN_VAL` can't be hit at any fraction you try, that's a legitimate finding to report (per [03_DATA_PIPELINE.md](03_DATA_PIPELINE.md) Step 2.3) — don't silently lower the bar without printing the actual per-class patient counts so it's a documented, deliberate decision.
+If `MIN_PATIENTS_PER_CLASS_IN_VAL` can't be hit at any fraction you try, that's a legitimate finding to report (per [03_DATA_PIPELINE.md](../instructions/03_DATA_PIPELINE.md) Step 2.3) — don't silently lower the bar without printing the actual per-class patient counts so it's a documented, deliberate decision.
 
 ---
 
@@ -376,7 +376,7 @@ Wire this into a standard `torch.utils.data.Dataset` reading from `manifest.csv`
 
 ## Task 6 — Class weights
 
-Create `src/data/class_weights.py`. Per [04_MODEL_TRAINING.md](04_MODEL_TRAINING.md) Step 3, class-weighted cross-entropy is the committed default — compute and persist the weights now so Phase 4 just loads a JSON rather than recomputing:
+Create `src/data/class_weights.py`. Per [04_MODEL_TRAINING.md](../instructions/04_MODEL_TRAINING.md) Step 3, class-weighted cross-entropy is the committed default — compute and persist the weights now so Phase 4 just loads a JSON rather than recomputing:
 
 ```python
 """
@@ -506,7 +506,7 @@ Write a small driver script `scripts/generate_sample_clips.py` that picks ~10 ra
 
 ## Task 8 — Sanity-check visualizations
 
-Per [03_DATA_PIPELINE.md](03_DATA_PIPELINE.md) Step 7, produce and save to `data/processed/sanity_checks/`:
+Per [03_DATA_PIPELINE.md](../instructions/03_DATA_PIPELINE.md) Step 7, produce and save to `data/processed/sanity_checks/`:
 - Class distribution bar chart for train/val/test (FETAL_PLANES_DB) **and** a separate one for the cross-device manifest, broken down by `source_subset`.
 - A grid of ~5 sample images per class (use matplotlib subplots), for both datasets.
 - A table/printout of patient count per class per split.
