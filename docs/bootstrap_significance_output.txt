@@ -1,44 +1,88 @@
-﻿conda.exe : 01:45:37 [INFO] Device: cuda
-At D:\miniconda\shell\condabin\Conda.psm1:194 char:17
-+ ...             & $Env:CONDA_EXE $Env:_CE_M $Env:_CE_CONDA $Command @Othe ...
-+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    + CategoryInfo          : NotSpecified: (01:45:37 [INFO] Device: cuda:String) [], RemoteException
-    + FullyQualifiedErrorId : NativeCommandError
- 
-01:45:37 [INFO] Running inference for top-4 backbones (cached after first run)...
-01:45:38 [INFO] Inference: convnext_tiny.fb_in22k_ft_in1k (img_size=224)
-01:48:44 [INFO] Inference: tf_efficientnetv2_s.in21k_ft_in1k (img_size=300)
-01:51:37 [INFO] Inference: efficientnet_lite0 (img_size=224)
-01:53:44 [INFO] Inference: repvgg_a2 (img_size=224)
-01:55:47 [INFO] Predictions cached ΓåÆ scripts\_bootstrap_preds_cache.npz
-01:55:47 [INFO] Running 2000 bootstrap iterations (n=5271)...
-
-========================================================================
-BOOTSTRAP SIGNIFICANCE ΓÇö 2,000 iterations, n=5271 images
-Reference (winner by point estimate): convnext_tiny.fb_in22k_ft_in1k
-========================================================================
-
-Backbone                                    Point F1     Bootstrap 95% CI
-------------------------------------------------------------------------
-  convnext_tiny.fb_in22k_ft_in1k              0.8927   [0.8828, 0.9014]
-  tf_efficientnetv2_s.in21k_ft_in1k           0.8853   [0.8758, 0.8945]
-  efficientnet_lite0                          0.8823   [0.8725, 0.8911]
-  repvgg_a2                                   0.8811   [0.8716, 0.8905]
-
-Difference (ref ΓêÆ other)                     Point ╬ö          95% CI of ╬ö             Verdict
-------------------------------------------------------------------------
-  convnext_tiny.fb_in22k_ft_in1k vs tf_efficientnetv2_s.in21k_ft_in1k
-                                              0.0074   [-0.0010, 0.0159]   indistinguishable
-
-  convnext_tiny.fb_in22k_ft_in1k vs efficientnet_lite0
-                                              0.0104   [0.0022, 0.0187]     robust (CI > 0)
-
-  convnext_tiny.fb_in22k_ft_in1k vs repvgg_a2
-                                              0.0116   [0.0027, 0.0202]     robust (CI > 0)
-
-========================================================================
-Interpretation guide:
-  CI > 0 (both bounds positive) ΓåÆ robust evidence reference leads
-  CI straddles 0               ΓåÆ statistically indistinguishable;
-                                  secondary criteria should decide
-========================================================================
+conda.exe : 01:45:37 [INFO] Device: cuda
+
+At D:\miniconda\shell\condabin\Conda.psm1:194 char:17
+
++ ...             & $Env:CONDA_EXE $Env:_CE_M $Env:_CE_CONDA $Command @Othe ...
+
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    + CategoryInfo          : NotSpecified: (01:45:37 [INFO] Device: cuda:String) [], RemoteException
+
+    + FullyQualifiedErrorId : NativeCommandError
+
+ 
+
+01:45:37 [INFO] Running inference for top-4 backbones (cached after first run)...
+
+01:45:38 [INFO] Inference: convnext_tiny.fb_in22k_ft_in1k (img_size=224)
+
+01:48:44 [INFO] Inference: tf_efficientnetv2_s.in21k_ft_in1k (img_size=300)
+
+01:51:37 [INFO] Inference: efficientnet_lite0 (img_size=224)
+
+01:53:44 [INFO] Inference: repvgg_a2 (img_size=224)
+
+01:55:47 [INFO] Predictions cached → scripts\_bootstrap_preds_cache.npz
+
+01:55:47 [INFO] Running 2000 bootstrap iterations (n=5271)...
+
+
+
+========================================================================
+
+BOOTSTRAP SIGNIFICANCE — 2,000 iterations, n=5271 images
+
+Reference (winner by point estimate): convnext_tiny.fb_in22k_ft_in1k
+
+========================================================================
+
+
+
+Backbone                                    Point F1     Bootstrap 95% CI
+
+------------------------------------------------------------------------
+
+  convnext_tiny.fb_in22k_ft_in1k              0.8927   [0.8828, 0.9014]
+
+  tf_efficientnetv2_s.in21k_ft_in1k           0.8853   [0.8758, 0.8945]
+
+  efficientnet_lite0                          0.8823   [0.8725, 0.8911]
+
+  repvgg_a2                                   0.8811   [0.8716, 0.8905]
+
+
+
+Difference (ref − other)                     Point Δ          95% CI of Δ             Verdict
+
+------------------------------------------------------------------------
+
+  convnext_tiny.fb_in22k_ft_in1k vs tf_efficientnetv2_s.in21k_ft_in1k
+
+                                              0.0074   [-0.0010, 0.0159]   indistinguishable
+
+
+
+  convnext_tiny.fb_in22k_ft_in1k vs efficientnet_lite0
+
+                                              0.0104   [0.0022, 0.0187]     robust (CI > 0)
+
+
+
+  convnext_tiny.fb_in22k_ft_in1k vs repvgg_a2
+
+                                              0.0116   [0.0027, 0.0202]     robust (CI > 0)
+
+
+
+========================================================================
+
+Interpretation guide:
+
+  CI > 0 (both bounds positive) → robust evidence reference leads
+
+  CI straddles 0               → statistically indistinguishable;
+
+                                  secondary criteria should decide
+
+========================================================================
+

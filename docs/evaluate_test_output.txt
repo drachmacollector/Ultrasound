@@ -1,70 +1,140 @@
-﻿conda.exe : 01:07:20 [INFO] Loading checkpoint: checkpoints\efficientnet_lite0\best.pt
-At D:\miniconda\shell\condabin\Conda.psm1:194 char:17
-+ ...             & $Env:CONDA_EXE $Env:_CE_M $Env:_CE_CONDA $Command @Othe ...
-+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    + CategoryInfo          : NotSpecified: (01:07:20 [INFO]...t_lite0\best.pt:String) [], RemoteException
-    + FullyQualifiedErrorId : NativeCommandError
- 
-01:07:21 [INFO]   backbone=efficientnet_lite0  img_size=224  mean=(0.485, 0.456, 0.406)  std=(0.229, 0.224, 0.225)
-01:07:21 [INFO]   Running inference on 5271 test images...
-01:09:27 [INFO]   Test macro-F1 = 0.8823
-01:09:29 [INFO]   Saved ΓåÆ checkpoints\efficientnet_lite0\classification_report_TEST.txt
-01:09:32 [INFO] Confusion matrix saved ΓåÆ checkpoints\efficientnet_lite0\confusion_matrix_TEST.png
-01:09:32 [INFO] Loading checkpoint: checkpoints\mobilenetv3_large_100\best.pt
-01:09:33 [INFO]   backbone=mobilenetv3_large_100  img_size=224  mean=(0.485, 0.456, 0.406)  std=(0.229, 0.224, 0.225)
-01:09:33 [INFO]   Running inference on 5271 test images...
-01:11:10 [INFO]   Test macro-F1 = 0.8751
-01:11:12 [INFO]   Saved ΓåÆ checkpoints\mobilenetv3_large_100\classification_report_TEST.txt
-01:11:13 [INFO] Confusion matrix saved ΓåÆ checkpoints\mobilenetv3_large_100\confusion_matrix_TEST.png
-01:11:13 [INFO] Loading checkpoint: checkpoints\repvgg_a1\best.pt
-01:11:13 [INFO]   backbone=repvgg_a1  img_size=224  mean=(0.485, 0.456, 0.406)  std=(0.229, 0.224, 0.225)
-01:11:14 [INFO]   Running inference on 5271 test images...
-01:12:41 [INFO]   Test macro-F1 = 0.8760
-01:12:43 [INFO]   Saved ΓåÆ checkpoints\repvgg_a1\classification_report_TEST.txt
-01:12:43 [INFO] Confusion matrix saved ΓåÆ checkpoints\repvgg_a1\confusion_matrix_TEST.png
-01:12:43 [INFO] Loading checkpoint: checkpoints\tf_efficientnetv2_s\best.pt
-01:12:44 [INFO]   backbone=tf_efficientnetv2_s.in21k_ft_in1k  img_size=300  mean=(0.5, 0.5, 0.5)  std=(0.5, 0.5, 0.5)
-01:12:45 [INFO]   Running inference on 5271 test images...
-01:14:21 [INFO]   Test macro-F1 = 0.8853
-01:14:23 [INFO]   Saved ΓåÆ checkpoints\tf_efficientnetv2_s\classification_report_TEST.txt
-01:14:24 [INFO] Confusion matrix saved ΓåÆ checkpoints\tf_efficientnetv2_s\confusion_matrix_TEST.png
-01:14:24 [INFO] Loading checkpoint: checkpoints\repvgg_a2\best.pt
-01:14:24 [INFO]   backbone=repvgg_a2  img_size=224  mean=(0.485, 0.456, 0.406)  std=(0.229, 0.224, 0.225)
-01:14:25 [INFO]   Running inference on 5271 test images...
-D:\miniconda\envs\fetalplane\Lib\site-packages\albumentations\check_version.py:147: UserWarning: Error fetching 
-version info <urlopen error timed out>
-  data = fetch_version_info()
-D:\miniconda\envs\fetalplane\Lib\site-packages\albumentations\check_version.py:147: UserWarning: Error fetching 
-version info <urlopen error timed out>
-  data = fetch_version_info()
-01:16:30 [INFO]   Test macro-F1 = 0.8811
-01:16:34 [INFO]   Saved ΓåÆ checkpoints\repvgg_a2\classification_report_TEST.txt
-01:16:36 [INFO] Confusion matrix saved ΓåÆ checkpoints\repvgg_a2\confusion_matrix_TEST.png
-01:16:36 [INFO] Loading checkpoint: checkpoints\convnext_tiny\best.pt
-01:16:37 [INFO]   backbone=convnext_tiny.fb_in22k_ft_in1k  img_size=224  mean=(0.485, 0.456, 0.406)  std=(0.229, 
-0.224, 0.225)
-01:16:39 [INFO]   Running inference on 5271 test images...
-01:19:47 [INFO]   Test macro-F1 = 0.8927
-01:19:51 [INFO]   Saved ΓåÆ checkpoints\convnext_tiny\classification_report_TEST.txt
-01:19:53 [INFO] Confusion matrix saved ΓåÆ checkpoints\convnext_tiny\confusion_matrix_TEST.png
-01:19:53 [INFO] Aggregate test report ΓåÆ docs\test_classification_metrics_all.txt
-
-===========================================================================
-BACKBONE COMPARISON ΓÇö Val macro-F1 (selection criterion) vs. Test macro-F1 (real)
-===========================================================================
-Backbone                                   Val F1   Test F1      Gap
----------------------------------------------------------------------------
-convnext_tiny.fb_in22k_ft_in1k             0.9180    0.8927  -0.0253
-tf_efficientnetv2_s.in21k_ft_in1k          0.9052    0.8853  -0.0199
-efficientnet_lite0                         0.9112    0.8823  -0.0289
-repvgg_a2                                  0.9228    0.8811  -0.0417
-repvgg_a1                                  0.8952    0.8760  -0.0192
-mobilenetv3_large_100                      0.9045    0.8751  -0.0294
-===========================================================================
-
-Aggregate test report ΓåÆ docs\test_classification_metrics_all.txt
-Per-backbone reports  ΓåÆ checkpoints/<backbone>/classification_report_TEST.txt
-Per-backbone matrices ΓåÆ checkpoints/<backbone>/confusion_matrix_TEST.png
-
-[MANUAL PAUSE] ΓÇö Review the gap table and confusion_matrix_TEST.png for
-repvgg_a2 before confirming the backbone decision and proceeding to B.4.
+﻿conda.exe : 01:07:20 [INFO] Loading checkpoint: checkpoints\efficientnet_lite0\best.pt
+
+At D:\miniconda\shell\condabin\Conda.psm1:194 char:17
+
++ ...             & $Env:CONDA_EXE $Env:_CE_M $Env:_CE_CONDA $Command @Othe ...
+
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    + CategoryInfo          : NotSpecified: (01:07:20 [INFO]...t_lite0\best.pt:String) [], RemoteException
+
+    + FullyQualifiedErrorId : NativeCommandError
+
+ 
+
+01:07:21 [INFO]   backbone=efficientnet_lite0  img_size=224  mean=(0.485, 0.456, 0.406)  std=(0.229, 0.224, 0.225)
+
+01:07:21 [INFO]   Running inference on 5271 test images...
+
+01:09:27 [INFO]   Test macro-F1 = 0.8823
+
+01:09:29 [INFO]   Saved → checkpoints\efficientnet_lite0\classification_report_TEST.txt
+
+01:09:32 [INFO] Confusion matrix saved → checkpoints\efficientnet_lite0\confusion_matrix_TEST.png
+
+01:09:32 [INFO] Loading checkpoint: checkpoints\mobilenetv3_large_100\best.pt
+
+01:09:33 [INFO]   backbone=mobilenetv3_large_100  img_size=224  mean=(0.485, 0.456, 0.406)  std=(0.229, 0.224, 0.225)
+
+01:09:33 [INFO]   Running inference on 5271 test images...
+
+01:11:10 [INFO]   Test macro-F1 = 0.8751
+
+01:11:12 [INFO]   Saved → checkpoints\mobilenetv3_large_100\classification_report_TEST.txt
+
+01:11:13 [INFO] Confusion matrix saved → checkpoints\mobilenetv3_large_100\confusion_matrix_TEST.png
+
+01:11:13 [INFO] Loading checkpoint: checkpoints\repvgg_a1\best.pt
+
+01:11:13 [INFO]   backbone=repvgg_a1  img_size=224  mean=(0.485, 0.456, 0.406)  std=(0.229, 0.224, 0.225)
+
+01:11:14 [INFO]   Running inference on 5271 test images...
+
+01:12:41 [INFO]   Test macro-F1 = 0.8760
+
+01:12:43 [INFO]   Saved → checkpoints\repvgg_a1\classification_report_TEST.txt
+
+01:12:43 [INFO] Confusion matrix saved → checkpoints\repvgg_a1\confusion_matrix_TEST.png
+
+01:12:43 [INFO] Loading checkpoint: checkpoints\tf_efficientnetv2_s\best.pt
+
+01:12:44 [INFO]   backbone=tf_efficientnetv2_s.in21k_ft_in1k  img_size=300  mean=(0.5, 0.5, 0.5)  std=(0.5, 0.5, 0.5)
+
+01:12:45 [INFO]   Running inference on 5271 test images...
+
+01:14:21 [INFO]   Test macro-F1 = 0.8853
+
+01:14:23 [INFO]   Saved → checkpoints\tf_efficientnetv2_s\classification_report_TEST.txt
+
+01:14:24 [INFO] Confusion matrix saved → checkpoints\tf_efficientnetv2_s\confusion_matrix_TEST.png
+
+01:14:24 [INFO] Loading checkpoint: checkpoints\repvgg_a2\best.pt
+
+01:14:24 [INFO]   backbone=repvgg_a2  img_size=224  mean=(0.485, 0.456, 0.406)  std=(0.229, 0.224, 0.225)
+
+01:14:25 [INFO]   Running inference on 5271 test images...
+
+D:\miniconda\envs\fetalplane\Lib\site-packages\albumentations\check_version.py:147: UserWarning: Error fetching 
+
+version info <urlopen error timed out>
+
+  data = fetch_version_info()
+
+D:\miniconda\envs\fetalplane\Lib\site-packages\albumentations\check_version.py:147: UserWarning: Error fetching 
+
+version info <urlopen error timed out>
+
+  data = fetch_version_info()
+
+01:16:30 [INFO]   Test macro-F1 = 0.8811
+
+01:16:34 [INFO]   Saved → checkpoints\repvgg_a2\classification_report_TEST.txt
+
+01:16:36 [INFO] Confusion matrix saved → checkpoints\repvgg_a2\confusion_matrix_TEST.png
+
+01:16:36 [INFO] Loading checkpoint: checkpoints\convnext_tiny\best.pt
+
+01:16:37 [INFO]   backbone=convnext_tiny.fb_in22k_ft_in1k  img_size=224  mean=(0.485, 0.456, 0.406)  std=(0.229, 
+
+0.224, 0.225)
+
+01:16:39 [INFO]   Running inference on 5271 test images...
+
+01:19:47 [INFO]   Test macro-F1 = 0.8927
+
+01:19:51 [INFO]   Saved → checkpoints\convnext_tiny\classification_report_TEST.txt
+
+01:19:53 [INFO] Confusion matrix saved → checkpoints\convnext_tiny\confusion_matrix_TEST.png
+
+01:19:53 [INFO] Aggregate test report → docs\test_classification_metrics_all.txt
+
+
+
+===========================================================================
+
+BACKBONE COMPARISON — Val macro-F1 (selection criterion) vs. Test macro-F1 (real)
+
+===========================================================================
+
+Backbone                                   Val F1   Test F1      Gap
+
+---------------------------------------------------------------------------
+
+convnext_tiny.fb_in22k_ft_in1k             0.9180    0.8927  -0.0253
+
+tf_efficientnetv2_s.in21k_ft_in1k          0.9052    0.8853  -0.0199
+
+efficientnet_lite0                         0.9112    0.8823  -0.0289
+
+repvgg_a2                                  0.9228    0.8811  -0.0417
+
+repvgg_a1                                  0.8952    0.8760  -0.0192
+
+mobilenetv3_large_100                      0.9045    0.8751  -0.0294
+
+===========================================================================
+
+
+
+Aggregate test report → docs\test_classification_metrics_all.txt
+
+Per-backbone reports  → checkpoints/<backbone>/classification_report_TEST.txt
+
+Per-backbone matrices → checkpoints/<backbone>/confusion_matrix_TEST.png
+
+
+
+[MANUAL PAUSE] — Review the gap table and confusion_matrix_TEST.png for
+
+repvgg_a2 before confirming the backbone decision and proceeding to B.4.
+
