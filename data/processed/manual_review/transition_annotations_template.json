@@ -1,17 +1,46 @@
 {
   "20190726T095643_0.avi": {
-    "transitions": []
+    "transitions": [
+      {"frame": 92, "event": "settle"},
+      {"frame": 95, "event": "leave"},
+      {"frame": 133, "event": "settle"},
+      {"frame": 148, "event": "leave"},
+      {"frame": 167, "event": "settle"},
+      {"frame": 192, "event": "leave"},
+      {"frame": 208, "event": "settle"},
+      {"frame": 228, "event": "leave"},
+      {"frame": 280, "event": "settle"},
+      {"frame": 421, "event": "leave"}
+    ]
   },
   "test_10_80.avi": {
-    "transitions": []
+    "transitions": [
+      {"frame": 50, "event": "settle"},
+      {"frame": 80, "event": "leave"}
+    ]
   },
   "test_11_14.avi": {
-    "transitions": []
+    "transitions": [
+      {"frame": 24, "event": "settle"},
+      {"frame": 29, "event": "leave"},
+      {"frame": 37, "event": "settle"},
+      {"frame": 46, "event": "leave"},
+      {"frame": 54, "event": "settle"},
+      {"frame": 65, "event": "leave"}
+    ]
   },
   "test_12_79.avi": {
-    "transitions": []
+    "transitions": [
+      {"frame": 36, "event": "settle"},
+      {"frame": 47, "event": "leave"},
+      {"frame": 71, "event": "settle"}
+    ]
   },
   "test_13_70.avi": {
-    "transitions": []
+    "transitions": [
+      {"frame": 9, "event": "settle"},
+      {"frame": 13, "event": "leave"},
+      {"frame": 52, "event": "settle"}
+    ]
   }
 }
