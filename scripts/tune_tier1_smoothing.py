@@ -435,7 +435,10 @@ def main() -> None:
     print(f"\nConfig saved to {CONFIG_OUTPUT_PATH}")
 
     # --- Write PHASE5_SMOOTHING_TUNING.md ---
-    write_tuning_doc(df_sweep, best_row, baseline_total_switches_per_min, baseline_fps, annotations)
+    write_tuning_doc(
+        df_sweep, best_row, sweep_total_raw, sweep_baseline_per_clip,
+        baseline_fps, annotations,
+    )
     print(f"Tuning doc saved to {TUNING_DOC_PATH}")
 
     # --- Save full sweep CSV for reference ---
@@ -447,7 +450,8 @@ def main() -> None:
 def write_tuning_doc(
     df_sweep: pd.DataFrame,
     best_row: pd.Series,
-    baseline_switches_per_min: float,
+    sweep_total_raw: float,
+    sweep_baseline_per_clip: dict[str, float],
     baseline_fps: float,
     annotations: dict,
 ) -> None:
@@ -467,25 +471,48 @@ def write_tuning_doc(
     )
 
     lines.append("## Context\n")
+    n_clips = len(sweep_baseline_per_clip)
+    n_flickery = sum(1 for v in sweep_baseline_per_clip.values() if v > 0.0)
     lines.append(
         f"- **Measured inference FPS** (RTX 4060, convnext_tiny, 224×224): **{baseline_fps:.2f} fps**\n"
     )
     lines.append(
-        f"- **Baseline switches/min** (raw argmax, no smoothing): **{baseline_switches_per_min:.2f}**\n"
+        f"- **Baseline switches/min** (raw argmax, sweep-internal self-consistent measurement, "
+        f"{n_clips} clips): **{sweep_total_raw:.2f}** total across all clips, "
+        f"of which **{n_flickery} clip(s)** had non-zero raw flicker.\n"
+    )
+    lines.append(
+        "> **Note on baseline scope**: Task 4 (`measure_baseline_flicker.py`) "
+        "characterised only 27 of these 46 clips, because it filtered IUGC clips through "
+        "`train_info.csv` pos/neg columns rather than the direct glob used here. "
+        "The self-consistent 46-clip figure above is the correct baseline for "
+        "interpreting the sweep results.\n"
     )
     lines.append(
         "- **Target dwell window**: 150–300 ms → "
         f"{150/1000*baseline_fps:.1f}–{300/1000*baseline_fps:.1f} frames at measured FPS\n"
     )
+    n_annotated_events = sum(len(v['transitions']) for v in annotations.values())
     lines.append(
-        "- **Manual transition annotations**: used from 5 IUGC clips "
-        f"({sum(len(v['transitions']) for v in annotations.values())} total events). "
-        "Latency = frames from annotated 'settle' event to Tier1Smoother reporting "
-        "the correct label with `is_stable=True`, converted to ms.\n"
+        f"- **Manual transition annotations**: 5 IUGC clips, {n_annotated_events} total events.\n"
     )
     lines.append(
         "- **Gate criterion**: mean latency ≤ 400 ms. Among passing combos, "
         "maximise flicker-suppression (reduction %).\n"
+    )
+    lines.append(
+        "\n> **Latency measurement caveat**: All 5 annotated clips showed "
+        "raw argmax switches/sec = 0.0 in the baseline measurement — i.e., the "
+        "classifier's predicted class never changed within these clips regardless of visual "
+        "clarity. As a result, `measure_transition_latency()` is measuring cold-start dwell "
+        "accumulation (how many frames until `is_stable` first trips), not genuine "
+        "model-level transition tracking. This is the scenario described in "
+        "PHASE_5_KICKOFF_PROMPT.md §Task 6 (\"If manual annotations were not available\": "
+        "report only flicker-suppression and state explicitly that transition latency was "
+        "not validated). Transition latency cannot be meaningfully validated against real "
+        "transitions on this clip set. The reported ≈0 ms figures are an artefact, not a "
+        "result. Flicker suppression (100%, zero spurious) remains a valid and correct "
+        "result measured across all 46 clips.\n"
     )
 
     lines.append("\n## Top-20 Combinations (by % suppression of flickery clip, zero spurious)\n")
@@ -515,25 +542,49 @@ def write_tuning_doc(
                  f"{best_row['dwell_ms']:.0f} ms @ {baseline_fps:.1f} fps\n")
     lines.append("hold_floor: null\n```\n")
 
+    # Identify all clips with non-zero raw baseline for accurate reasoning prose
+    truly_flickery = {
+        name: val for name, val in sweep_baseline_per_clip.items() if val > 0.0
+    }
+    n_truly_flickery = len(truly_flickery)
+    if n_truly_flickery == 1:
+        flickery_desc = (
+            f"1 clip ({list(truly_flickery.keys())[0]}, "
+            f"{list(truly_flickery.values())[0]:.2f} switches/min)"
+        )
+    else:
+        top_flickery = sorted(truly_flickery.items(), key=lambda x: x[1], reverse=True)[:5]
+        flickery_desc = (
+            f"{n_truly_flickery} clips with non-zero flicker (top 5: "
+            + ", ".join(f"{n} {v:.1f}/min" for n, v in top_flickery)
+            + ")"
+        )
+
     lines.append("\n## Reasoning\n")
     lines.append(
-        f"The selected combination reduces the one genuinely flickery clip's label-switch rate "
-        f"from **{best_row['flickery_raw']:.2f} to {best_row['flickery_smoothed']:.2f} switches/min** "
-        f"(**{best_row['flickery_reduction_pct']:.1f}% suppression**) while introducing "
-        f"**{best_row['spurious_new']:.2f} spurious switches/min** on previously-stable clips "
-        f"(net delta across all clips: {best_row['net_switch_delta']:+.2f}/min). "
-        f"Mean latency-to-stable at annotated settle events: **{best_row['mean_latency_ms']} ms** "
-        f"(worst-case: **{best_row['max_latency_ms']} ms**), both within the 400 ms gate.\n\n"
+        f"The sweep evaluated {len(sweep_baseline_per_clip)} clips with a self-consistent "
+        f"sweep-internal raw baseline of **{sweep_total_raw:.2f} switches/min** total. "
+        f"Of these, **{n_truly_flickery}** had non-zero baseline flicker: {flickery_desc}. "
+        f"The selected combination achieves **{best_row['flickery_reduction_pct']:.1f}% suppression** "
+        f"of `test_14_51.avi` (the primary target clip, {best_row['flickery_raw']:.2f} → "
+        f"{best_row['flickery_smoothed']:.2f} switches/min) with **zero spurious switches** "
+        f"introduced on any previously-stable clip "
+        f"(net switch delta across all clips: {best_row['net_switch_delta']:+.2f}/min). "
+        "The `min_dwell_frames` value of "
+        f"{int(best_row['min_dwell_frames'])} frames ({best_row['dwell_ms']:.0f} ms) sits within the "
+        "150–300 ms target window. `alpha=0.25` gives a balanced EMA that is "
+        "neither too sluggish nor too reactive; `switch_threshold=0.70` imposes "
+        "conservative hysteresis requiring high-confidence predictions before any switch "
+        "is committed. `hold_floor` is `null` (default pseudocode behaviour) as it "
+        "proved unnecessary on this clip set.\n\n"
     )
     lines.append(
-        "The baseline showed minimal flicker on synthetic clips (all were within-class "
-        "by design) and one IUGC clip (`test_14_51.avi`) with 0.59 switches/sec. "
-        "`min_dwell_frames` translates the target 150–300 ms window into frame counts "
-        "at the measured FPS. `alpha` was tuned to balance EMA responsiveness versus "
-        "stability; `switch_threshold` provides hysteresis against low-confidence "
-        "flickering. `hold_floor` remains `null` as the default pseudocode behavior "
-        "proved sufficient — the optional hold_floor gate would only help if the held "
-        "label's confidence dropped near zero, which did not occur in this clip set.\n"
+        "> **Latency caveat** (see Context section for detail): all 180 parameter combinations "
+        "reported ≈0 ms mean latency, because the 5 annotated clips had no model-level "
+        "transitions — the classifier’s raw argmax never changed within them. Reported "
+        "latency figures reflect cold-start dwell accumulation only and should not be "
+        "interpreted as genuine transition-tracking latency. Flicker suppression and "
+        "spurious-switch metrics are unaffected by this limitation.\n"
     )
 
     lines.append(

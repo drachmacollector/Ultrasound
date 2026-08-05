@@ -65,34 +65,28 @@ def main():
     
     video_paths = []
     iugc_clips = []
-    
-    synthetic_clips = glob.glob("data/processed/synthetic_clips/*.mp4")
+
+    # Synthetic clips
+    synthetic_clips = sorted(glob.glob("data/processed/synthetic_clips/*.mp4"))
     video_paths.extend(synthetic_clips)
-    
+
     iugc_dir = "data/raw/iugc_video/DatasetV3"
     iugc_present = os.path.exists(iugc_dir)
-    
+
+    # IUGC clips: use the same direct-glob strategy as tune_tier1_smoothing.py
+    # (first 10 .avi per split/videos/) so both scripts characterise identical clip sets.
+    # The previous CSV-filtered approach (pos/neg columns + file-existence check) silently
+    # found only 1 IUGC clip from train and missed 19 clips that the sweep evaluated,
+    # causing a silent disagreement about what "the dataset" was.
     if iugc_present:
         for split in ['train', 'val', 'test']:
-            info_path = os.path.join(iugc_dir, split, f"{split}_info.csv")
-            if os.path.exists(info_path):
-                try:
-                    df = pd.read_csv(info_path, encoding="latin1")
-                    if 'pos' in df.columns:
-                        pos_df = df[df['pos'].notnull()].head(5)
-                        neg_df = df[df['pos'].isnull()].head(5)
-                    else:
-                        pos_df = pd.DataFrame()
-                        neg_df = df.head(5)
-                    
-                    for _, row in pd.concat([pos_df, neg_df]).iterrows():
-                        v_path = os.path.join(iugc_dir, split, "videos", row['filename'])
-                        if os.path.exists(v_path):
-                            video_paths.append(v_path)
-                            pos_val = str(row['pos']) if 'pos' in df.columns else 'nan'
-                            iugc_clips.append({'path': v_path, 'pos': pos_val})
-                except Exception as e:
-                    print(f"Error reading {info_path}: {e}")
+            vid_dir = os.path.join(iugc_dir, split, "videos")
+            if os.path.exists(vid_dir):
+                avs = sorted(glob.glob(os.path.join(vid_dir, "*.avi")))[:10]
+                for v_path in avs:
+                    video_paths.append(v_path)
+                    iugc_clips.append({'path': v_path, 'pos': 'n/a'})
+
                     
     results = []
     total_frames_processed = 0
