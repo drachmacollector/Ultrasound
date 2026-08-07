@@ -1,0 +1,9 @@
+plane_label,Train_patients,Val_patients,Test_patients,Train_images,Val_images,Test_images
+Brain_Trans_cerebellum,265,43,267,322,53,339
+Brain_Trans_thalamic,391,67,451,747,126,765
+Brain_Trans_ventricular,197,34,215,252,43,302
+Fetal_abdomen,250,42,303,302,51,358
+Fetal_femur,315,55,384,442,74,524
+Fetal_thorax,382,61,312,906,152,660
+Maternal_cervix,429,70,418,840,141,645
+Other,353,57,362,2295,383,1678

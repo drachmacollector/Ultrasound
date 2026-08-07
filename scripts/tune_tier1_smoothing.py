@@ -515,7 +515,7 @@ def write_tuning_doc(
     )
     lines.append(
         "> **Note on baseline scope**: Task 4 (`measure_baseline_flicker.py`) "
-        "Task 4 and Task 6 are now reconciled on the same 46-clip set "
+        "Task 4 and Task 6 now use identical clip selection (first 10 .avi per split, glob-based), so the baseline reported here is consistent across both scripts. "
         "`train_info.csv` pos/neg columns rather than the direct glob used here. "
         "The self-consistent 46-clip figure above is the correct baseline for "
         "interpreting the sweep results.\n"
