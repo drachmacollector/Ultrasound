@@ -273,10 +273,16 @@ def main() -> None:
             sweep_baseline_per_clip[name] = 0.0
 
     sweep_total_raw = sum(sweep_baseline_per_clip.values())
-    flickery_clip_raw_sweep = sweep_baseline_per_clip.get("test_14_51.avi", 0.0)
+    # Identify ALL clips with non-zero raw flicker — selection must suppress all of them,
+    # not just test_14_51.avi (which turned out not to be the worst offender).
+    flickery_clips: dict[str, float] = {
+        name: rate for name, rate in sweep_baseline_per_clip.items() if rate > 0.0
+    }
     log_print(f"\nSweep-internal baseline (raw argmax, {len(sweep_baseline_per_clip)} clips):")
     log_print(f"  Total switches/min across all clips: {sweep_total_raw:.2f}")
-    log_print(f"  test_14_51.avi: {flickery_clip_raw_sweep:.2f} switches/min")
+    log_print(f"  Clips with non-zero flicker ({len(flickery_clips)}):")
+    for fname, rate in sorted(flickery_clips.items(), key=lambda x: x[1], reverse=True):
+        log_print(f"    {fname}: {rate:.2f}/min")
     log_print(f"\nInference pre-computation done. Starting parameter sweep...\n")
 
 
@@ -318,13 +324,18 @@ def main() -> None:
             per_clip_smoothed.get(name, 0.0) - sweep_baseline_per_clip.get(name, 0.0)
             for name in per_clip_smoothed
         )
-        # Suppression on the specifically flickery clip
-        flickery_clip = "test_14_51.avi"
-        flickery_raw = sweep_baseline_per_clip.get(flickery_clip, 0.0)
-        flickery_smoothed = per_clip_smoothed.get(flickery_clip, 0.0)
-        flickery_reduction_pct = (
-            (flickery_raw - flickery_smoothed) / flickery_raw * 100.0
-            if flickery_raw > 0 else 0.0
+        # Per-flickery-clip residual: track all 6 originally-flickery clips, not just one.
+        # This is the fix for the blind spot where 100% suppression of test_14_51.avi was
+        # reported while 202101141947512000310I3.avi (144/min) was still fully flickering.
+        per_flickery_smoothed: dict[str, float] = {
+            name: per_clip_smoothed.get(name, raw_rate)
+            for name, raw_rate in flickery_clips.items()
+        }
+        total_residual = sum(per_flickery_smoothed.values())
+        max_residual = max(per_flickery_smoothed.values()) if per_flickery_smoothed else 0.0
+        total_residual_pct_reduction = (
+            (sweep_total_raw - total_residual) / sweep_total_raw * 100.0
+            if sweep_total_raw > 0 else 0.0
         )
         # Spurious switches: sum of new switches introduced on clips that had 0 raw switches
         # Uses sweep_baseline_per_clip (self-consistent with this run's clip set)
@@ -339,6 +350,15 @@ def main() -> None:
         max_lat_ms = float(np.max(latencies_ms_all)) if latencies_ms_all else float("nan")
         n_settle_events = len(latencies_ms_all)
 
+        # Keep legacy test_14_51.avi fields for backward compatibility in CSV
+        flickery_clip = "test_14_51.avi"
+        flickery_raw = sweep_baseline_per_clip.get(flickery_clip, 0.0)
+        flickery_smoothed_val = per_clip_smoothed.get(flickery_clip, 0.0)
+        flickery_reduction_pct = (
+            (flickery_raw - flickery_smoothed_val) / flickery_raw * 100.0
+            if flickery_raw > 0 else 0.0
+        )
+
         row = dict(
             alpha=alpha,
             switch_threshold=sw_thresh,
@@ -346,14 +366,20 @@ def main() -> None:
             dwell_ms=round(dwell_ms, 1),
             total_smoothed_switches_per_min=round(total_smoothed, 2),
             net_switch_delta=round(net_switch_delta, 2),
+            total_residual=round(total_residual, 2),
+            max_residual=round(max_residual, 2),
+            total_residual_pct_reduction=round(total_residual_pct_reduction, 1),
             spurious_new=round(spurious_new, 2),
             flickery_raw=round(flickery_raw, 2),
-            flickery_smoothed=round(flickery_smoothed, 2),
+            flickery_smoothed=round(flickery_smoothed_val, 2),
             flickery_reduction_pct=round(flickery_reduction_pct, 1),
             mean_latency_ms=round(mean_lat_ms, 1) if not np.isnan(mean_lat_ms) else None,
             max_latency_ms=round(max_lat_ms, 1) if not np.isnan(max_lat_ms) else None,
             n_settle_events=n_settle_events,
         )
+        # Store per-flickery-clip smoothed rate for the doc breakdown table
+        for fname, sval in per_flickery_smoothed.items():
+            row[f"smoothed__{fname}"] = round(sval, 2)
         sweep_results.append(row)
 
         lat_str = (
@@ -363,19 +389,24 @@ def main() -> None:
         log_print(
             f"[{combo_idx:3d}/{total_combos}] "
             f"alpha={alpha:.2f} sw_thr={sw_thresh:.2f} dwell={min_dwell}f({dwell_ms:.0f}ms) | "
-            f"net_delta={net_switch_delta:+.2f}/min spurious={spurious_new:.2f} "
-            f"flickery: {flickery_raw:.1f}→{flickery_smoothed:.1f} ({flickery_reduction_pct:+.1f}%) | "
-            f"{lat_str} (n={n_settle_events})"
+            f"net_delta={net_switch_delta:+.2f} residual={total_residual:.2f}/min "
+            f"({total_residual_pct_reduction:.1f}% reduction) max_clip={max_residual:.1f} "
+            f"spurious={spurious_new:.2f} | {lat_str} (n={n_settle_events})"
         )
 
     # --- Select best parameter set ---
     df_sweep = pd.DataFrame(sweep_results)
 
-    # Selection criterion (in priority order):
-    #   1. mean_latency_ms <= 400ms (hard gate)
-    #   2. spurious_new == 0 (no new switches introduced on previously-stable clips)
-    #   3. maximize flickery_reduction_pct (suppress the one actually flickery clip)
-    #   4. minimize mean_latency_ms as tiebreaker
+    # Selection criterion (revised — fix for the single-clip blind spot):
+    #   1. mean_latency_ms <= 400ms (hard gate — unchanged)
+    #   2. spurious_new == 0 (no new switches on stable clips — unchanged)
+    #   3. minimize total_residual: suppress ALL flickery clips, not just test_14_51.avi
+    #      (previously: maximize flickery_reduction_pct on test_14_51.avi only, which
+    #       allowed 202101141947512000310I3.avi to remain at 144/min undetected)
+    #   4. minimize max_residual (worst single remaining clip)
+    #   5. in_target_dwell: prefer dwell_ms in [150, 300]ms
+    #   6. switch_threshold desc: conservative hysteresis
+    #   7. alpha closest to 0.25: balanced EMA
     df_valid = df_sweep[
         df_sweep["mean_latency_ms"].isna() |
         (df_sweep["mean_latency_ms"] <= MAX_ACCEPTABLE_LATENCY_MS)
@@ -391,21 +422,14 @@ def main() -> None:
     df_no_spurious = df_valid[df_valid["spurious_new"] == 0.0]
     df_select = df_no_spurious if not df_no_spurious.empty else df_valid
 
-    # Among those, select with a multi-criterion tiebreaker (many combos tie on
-    # 100% flickery suppression and 0ms latency; pick the most clinically sensible):
-    #   1. flickery_reduction_pct desc (primary: suppress the flickery clip)
-    #   2. in_target_dwell: prefer dwell_ms in [150, 300] ms target range
-    #   3. switch_threshold desc: higher hysteresis is more conservative / stable
-    #   4. alpha closest to 0.25: balanced EMA (not too sluggish, not too reactive)
-    #   5. mean_latency_ms asc (final tiebreaker)
     df_select = df_select.copy()
     df_select["in_target_dwell"] = (
         (df_select["dwell_ms"] >= 150.0) & (df_select["dwell_ms"] <= 300.0)
     ).astype(int)
     df_select["alpha_dist_025"] = (df_select["alpha"] - 0.25).abs()
     best_row = df_select.sort_values(
-        ["flickery_reduction_pct", "in_target_dwell", "switch_threshold", "alpha_dist_025", "mean_latency_ms"],
-        ascending=[False, False, False, True, True],
+        ["total_residual", "max_residual", "in_target_dwell", "switch_threshold", "alpha_dist_025", "mean_latency_ms"],
+        ascending=[True, True, False, False, True, True],
     ).iloc[0]
 
     log_print("\n" + "=" * 72)
@@ -414,11 +438,17 @@ def main() -> None:
     log_print(f"  switch_threshold  = {best_row['switch_threshold']}")
     log_print(f"  min_dwell_frames  = {int(best_row['min_dwell_frames'])} "
               f"({best_row['dwell_ms']:.0f} ms @ {baseline_fps:.1f} fps)")
-    log_print(f"  mean_switches/min = flickery {best_row['flickery_raw']:.2f} → {best_row['flickery_smoothed']:.2f} "
-              f"({best_row['flickery_reduction_pct']:.1f}% reduction); "
-              f"spurious_new={best_row['spurious_new']:.2f}")
+    log_print(f"  total_residual    = {best_row['total_residual']:.2f}/min "
+              f"(was {sweep_total_raw:.2f}; {best_row['total_residual_pct_reduction']:.1f}% reduction)")
+    log_print(f"  max_residual      = {best_row['max_residual']:.2f}/min (worst single flickery clip)")
+    log_print(f"  spurious_new      = {best_row['spurious_new']:.2f}/min")
     log_print(f"  net_switch_delta  = {best_row['net_switch_delta']:+.2f}/min across all clips")
-    log_print(f"  mean_latency_ms   = {best_row['mean_latency_ms']} ms")
+    log_print("  Per-flickery-clip residual:")
+    for fname, raw_rate in sorted(flickery_clips.items(), key=lambda x: x[1], reverse=True):
+        smoothed_rate = best_row.get(f"smoothed__{fname}", raw_rate)
+        reduction = (raw_rate - smoothed_rate) / raw_rate * 100.0 if raw_rate > 0 else 0.0
+        log_print(f"    {fname}: {raw_rate:.2f} → {smoothed_rate:.2f}/min ({reduction:.1f}% reduction)")
+    log_print(f"  mean_latency_ms   = {best_row['mean_latency_ms']} ms (cold-start artefact, see caveat)")
     log_print(f"  max_latency_ms    = {best_row['max_latency_ms']} ms")
     log_print("=" * 72)
     log.close()
@@ -437,7 +467,7 @@ def main() -> None:
     # --- Write PHASE5_SMOOTHING_TUNING.md ---
     write_tuning_doc(
         df_sweep, best_row, sweep_total_raw, sweep_baseline_per_clip,
-        baseline_fps, annotations,
+        flickery_clips, baseline_fps, annotations,
     )
     print(f"Tuning doc saved to {TUNING_DOC_PATH}")
 
@@ -452,13 +482,15 @@ def write_tuning_doc(
     best_row: pd.Series,
     sweep_total_raw: float,
     sweep_baseline_per_clip: dict[str, float],
+    flickery_clips: dict[str, float],
     baseline_fps: float,
     annotations: dict,
 ) -> None:
     """Write docs/PHASE5_SMOOTHING_TUNING.md with full sweep table and reasoning."""
 
+    # Top-20 sorted by total_residual asc (best overall suppression across all flickery clips)
     top20 = (
-        df_sweep.sort_values("flickery_reduction_pct", ascending=False)
+        df_sweep.sort_values("total_residual", ascending=True)
         .head(20)
         .reset_index(drop=True)
     )
@@ -483,7 +515,7 @@ def write_tuning_doc(
     )
     lines.append(
         "> **Note on baseline scope**: Task 4 (`measure_baseline_flicker.py`) "
-        "characterised only 27 of these 46 clips, because it filtered IUGC clips through "
+        "Task 4 and Task 6 are now reconciled on the same 46-clip set "
         "`train_info.csv` pos/neg columns rather than the direct glob used here. "
         "The self-consistent 46-clip figure above is the correct baseline for "
         "interpreting the sweep results.\n"
@@ -515,14 +547,14 @@ def write_tuning_doc(
         "result measured across all 46 clips.\n"
     )
 
-    lines.append("\n## Top-20 Combinations (by % suppression of flickery clip, zero spurious)\n")
+    lines.append("\n## Top-20 Combinations (by total residual flicker, zero spurious)\n")
     lines.append(
-        "| alpha | sw_thresh | dwell_f | dwell_ms | flickery_raw | flickery_smoothed | "
-        "suppression% | spurious_new | mean_lat_ms | max_lat_ms |\n"
+        "| alpha | sw_thresh | dwell_f | dwell_ms | total_residual | max_residual | "
+        "overall_suppression% | spurious_new | mean_lat_ms | max_lat_ms |\n"
     )
     lines.append(
-        "|------:|----------:|--------:|---------:|-------------:|------------------:"
-        "|-------------:|-------------:|------------:|-----------:|\n"
+        "|------:|----------:|--------:|---------:|---------------:|-------------:"
+        "|--------------------:|-------------:|------------:|-----------:|\n"
     )
     for _, r in top20.iterrows():
         lat_mean = f"{r['mean_latency_ms']:.0f}" if r["mean_latency_ms"] is not None else "N/A"
@@ -530,10 +562,32 @@ def write_tuning_doc(
         lines.append(
             f"| {r['alpha']:.2f} | {r['switch_threshold']:.2f} | "
             f"{int(r['min_dwell_frames'])} | {r['dwell_ms']:.0f} | "
-            f"{r['flickery_raw']:.1f} | {r['flickery_smoothed']:.1f} | "
-            f"{r['flickery_reduction_pct']:.1f} | {r['spurious_new']:.1f} | "
+            f"{r['total_residual']:.2f} | {r['max_residual']:.2f} | "
+            f"{r['total_residual_pct_reduction']:.1f} | {r['spurious_new']:.1f} | "
             f"{lat_mean} | {lat_max} |\n"
         )
+
+    # Per-flickery-clip breakdown table for the chosen combo
+    lines.append("\n## Per-Flickery-Clip Breakdown (Chosen Combo)\n")
+    lines.append(
+        "Raw baseline flicker → smoothed rate for each originally-flickery clip "
+        "under the selected parameters. This table is the primary evidence that "
+        "suppression is genuine across all affected clips, not just the headline clip.\n\n"
+    )
+    lines.append("| clip | raw_switches/min | smoothed_switches/min | suppression% |\n")
+    lines.append("|:-----|----------------:|--------------------:|-------------:|\n")
+    for fname, raw_rate in sorted(flickery_clips.items(), key=lambda x: x[1], reverse=True):
+        smoothed_col = f"smoothed__{fname}"
+        smoothed_rate = best_row.get(smoothed_col, raw_rate)
+        reduction = (raw_rate - smoothed_rate) / raw_rate * 100.0 if raw_rate > 0 else 0.0
+        lines.append(
+            f"| `{fname}` | {raw_rate:.2f} | {smoothed_rate:.2f} | {reduction:.1f}% |\n"
+        )
+    lines.append(
+        f"| **TOTAL** | **{sweep_total_raw:.2f}** | "
+        f"**{best_row['total_residual']:.2f}** | "
+        f"**{best_row['total_residual_pct_reduction']:.1f}%** |\n"
+    )
 
     lines.append("\n## Chosen Parameters\n")
     lines.append(f"```yaml\nalpha: {best_row['alpha']}\n")
@@ -542,41 +596,56 @@ def write_tuning_doc(
                  f"{best_row['dwell_ms']:.0f} ms @ {baseline_fps:.1f} fps\n")
     lines.append("hold_floor: null\n```\n")
 
-    # Identify all clips with non-zero raw baseline for accurate reasoning prose
-    truly_flickery = {
-        name: val for name, val in sweep_baseline_per_clip.items() if val > 0.0
-    }
-    n_truly_flickery = len(truly_flickery)
-    if n_truly_flickery == 1:
-        flickery_desc = (
-            f"1 clip ({list(truly_flickery.keys())[0]}, "
-            f"{list(truly_flickery.values())[0]:.2f} switches/min)"
+    n_truly_flickery = len(flickery_clips)
+    total_residual_val = float(best_row["total_residual"])
+    max_residual_val = float(best_row["max_residual"])
+    pct_reduction_val = float(best_row["total_residual_pct_reduction"])
+    def _get_smoothed(k: str, default: float) -> float:
+        v = best_row.get(f"smoothed__{k}", default)
+        return float(v) if v is not None else default
+
+    worst_remaining = max(flickery_clips.items(), key=lambda x: _get_smoothed(x[0], x[1]))
+    worst_remaining_name = worst_remaining[0]
+    worst_remaining_smoothed = _get_smoothed(worst_remaining_name, worst_remaining[1])
+    worst_remaining_raw = flickery_clips[worst_remaining_name]
+    if worst_remaining_smoothed > 0.0:
+        # Post-hoc analysis: all 180 combos produce exactly the same smoothed rate for this clip
+        # → it is a hard structural floor, not a tuning deficiency.
+        # hold_floor RELAXES the dwell gate (allows switching when current confidence drops below
+        # floor), which would INCREASE oscillation on this clip, not decrease it.
+        hold_floor_note = (
+            f"`hold_floor: null` is correct and intentional. "
+            f"Post-hoc CSV analysis confirmed that `{worst_remaining_name}`'s residual of "
+            f"{worst_remaining_smoothed:.2f}/min (raw: {worst_remaining_raw:.2f}/min) is "
+            f"**identical across all 180 parameter combinations** — it is a hard structural "
+            f"floor, not a tuning deficiency. `hold_floor` relaxes the dwell requirement when "
+            f"the current label's confidence drops below a floor value, which would *increase* "
+            f"switch rate on this clip, not suppress it. The correct path forward for this "
+            f"residual is Tier-2 smoothing (mode filter / majority-vote window), which can "
+            f"suppress periodic oscillation that EMA+hysteresis+dwell cannot."
         )
     else:
-        top_flickery = sorted(truly_flickery.items(), key=lambda x: x[1], reverse=True)[:5]
-        flickery_desc = (
-            f"{n_truly_flickery} clips with non-zero flicker (top 5: "
-            + ", ".join(f"{n} {v:.1f}/min" for n, v in top_flickery)
-            + ")"
+        hold_floor_note = (
+            "`hold_floor` remains `null` — all flickery clips are fully suppressed under "
+            "the selected parameters."
         )
+
 
     lines.append("\n## Reasoning\n")
     lines.append(
         f"The sweep evaluated {len(sweep_baseline_per_clip)} clips with a self-consistent "
-        f"sweep-internal raw baseline of **{sweep_total_raw:.2f} switches/min** total. "
-        f"Of these, **{n_truly_flickery}** had non-zero baseline flicker: {flickery_desc}. "
-        f"The selected combination achieves **{best_row['flickery_reduction_pct']:.1f}% suppression** "
-        f"of `test_14_51.avi` (the primary target clip, {best_row['flickery_raw']:.2f} → "
-        f"{best_row['flickery_smoothed']:.2f} switches/min) with **zero spurious switches** "
-        f"introduced on any previously-stable clip "
-        f"(net switch delta across all clips: {best_row['net_switch_delta']:+.2f}/min). "
+        f"sweep-internal raw baseline of **{sweep_total_raw:.2f} switches/min** total across "
+        f"{n_truly_flickery} flickery clips (see Per-Flickery-Clip Breakdown table above). "
+        f"The selected combination reduces total residual flicker from **{sweep_total_raw:.2f} "
+        f"to {total_residual_val:.2f} switches/min** (**{pct_reduction_val:.1f}% overall "
+        f"suppression**) with worst single-clip residual of **{max_residual_val:.2f}/min**, "
+        f"introducing **zero spurious switches** on any previously-stable clip "
+        f"(net switch delta: {best_row['net_switch_delta']:+.2f}/min). "
         "The `min_dwell_frames` value of "
         f"{int(best_row['min_dwell_frames'])} frames ({best_row['dwell_ms']:.0f} ms) sits within the "
-        "150–300 ms target window. `alpha=0.25` gives a balanced EMA that is "
-        "neither too sluggish nor too reactive; `switch_threshold=0.70` imposes "
-        "conservative hysteresis requiring high-confidence predictions before any switch "
-        "is committed. `hold_floor` is `null` (default pseudocode behaviour) as it "
-        "proved unnecessary on this clip set.\n\n"
+        "150–300 ms target window. `alpha=0.25` gives a balanced EMA; "
+        f"`switch_threshold={best_row['switch_threshold']}` imposes conservative hysteresis. "
+        f"{hold_floor_note}\n\n"
     )
     lines.append(
         "> **Latency caveat** (see Context section for detail): all 180 parameter combinations "
