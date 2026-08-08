@@ -359,6 +359,7 @@ Then `src/realtime/pipeline.py`:
   4. **Grad-CAM, throttled**: instantiate the `pytorch_grad_cam.GradCAM` object **once**, outside the per-frame loop (reuse it across the whole session — do not create/destroy it every throttled call, which just adds unnecessary hook registration overhead on top of the throttling that's already there for compute reasons). Every `gradcam_every_n_frames` processed frames (default from a CLI flag, suggest default of 10) or every 200ms wall-clock (whichever the CLI selects), call `run_gradcam()` targeting the currently displayed (smoothed) label, not necessarily the raw argmax. On skipped frames, reuse the last computed overlay.
   5. Push a result dict — `{label, confidence, smoothed_probs, is_stable, overlay_or_none, frame, timings}` — to a second `DropOldestQueue`.
   6. Track and expose: rolling inference FPS, and per-stage timings (preprocess_ms, forward_ms, gradcam_ms-when-run, smoothing_ms) via a small thread-safe stats object (a simple class with a lock is fine, no need for anything fancier).
+  7. **Mandatory Re-measurement of Pipeline FPS**: Because the single-threaded baseline FPS (~24.3 fps) measured in Task 4 does not account for threading concurrency (e.g. data preprocessing happening concurrently with inference), the actual real-time pipeline FPS must be empirically measured here. **HOW**: Add a simple script or flag to run the pipeline in headless mode for a fixed number of frames (or time) over a video file, and log the average inference FPS. **WHY**: This real, batched/threaded FPS number is strictly necessary to correctly calibrate time-based budgets downstream (like the Grad-CAM throttle cadence, which expects 200ms equivalents) and to understand actual system capacity.
 
 Both threads should support a clean `stop()` via a shared `threading.Event`.
 
@@ -368,7 +369,7 @@ Both threads should support a clean `stop()` via a shared `threading.Event`.
 
 Create `src/realtime/app.py`:
 
-- CLI args: `--source` (int for webcam index, or path string for video file), `--checkpoint` (default `checkpoints/convnext_tiny/best.pt`), `--smoothing-config` (default `configs/smoothing_tier1.yaml`), `--gradcam-every-n-frames` (default 10), `--no-gradcam` (disable entirely), `--loop` (for file sources).
+- CLI args: `--source` (int for webcam index, or path string for video file), `--checkpoint` (default `checkpoints/convnext_tiny/best.pt`), `--smoothing-config` (default `configs/smoothing_tier1.yaml`), `--gradcam-every-n-frames` (default computed from re-measured FPS to target ~200ms; do NOT blindly use 10, calculate it based on Task 8's actual threaded throughput), `--no-gradcam` (disable entirely), `--loop` (for file sources).
 - Runs `CaptureThread` and `InferenceThread` as background threads; the **main thread** runs the render loop: pull latest result (non-blocking — if none yet, just redisplay the previous frame so the window doesn't stall), draw onto the frame:
   - Predicted label (from `IDX_TO_CLASS`) + confidence, large and legible.
   - Stability indicator: e.g. a green "● STABLE" vs. amber "◐ SETTLING" text/dot, driven directly by `Tier1Smoother`'s `is_stable` flag.

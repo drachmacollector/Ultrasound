@@ -1,4 +1,4 @@
 alpha: 0.2
 hold_floor: null
-min_dwell_frames: 8
+min_dwell_frames: 4
 switch_threshold: 0.7

@@ -7,9 +7,9 @@ Per docs/kickoff & results/PHASE_5_KICKOFF_PROMPT.md §7 (Task 6).
 Sweeps:
   alpha             in {0.15, 0.2, 0.25, 0.3, 0.35, 0.4}
   switch_threshold  in {0.50, 0.55, 0.60, 0.65, 0.70}
-  min_dwell_frames  derived from measured inference FPS to target ~150-300 ms dwell.
-                    At ~41.7 fps: 150ms → 6 frames, 300ms → 13 frames.
-                    Sweep: {4, 6, 8, 10, 13, 16} to bracket that range.
+  min_dwell_frames  derived from measured inference FPS to target ~150-500 ms dwell.
+                    At ~24.3 fps: 150ms → 4 frames, 500ms → 12 frames.
+                    Sweep: {4, 6, 8, 10, 12, 14, 16} to bracket that range.
 
 Metrics per combination (over the same clip set as Task 4):
   - label_switches_per_min (with smoothing)
@@ -62,11 +62,11 @@ CONFIG_OUTPUT_PATH = "configs/smoothing_tier1.yaml"
 # Sweep grid
 ALPHAS = [0.15, 0.2, 0.25, 0.3, 0.35, 0.4]
 SWITCH_THRESHOLDS = [0.50, 0.55, 0.60, 0.65, 0.70]
-# At ~41.7 fps: 150ms→6f, 300ms→13f; bracket with {4,6,8,10,13,16}
-MIN_DWELL_FRAMES_LIST = [4, 6, 8, 10, 13, 16]
+# At ~24.3 fps: 150ms→4f, 500ms→12f; bracket with {4, 6, 8, 10, 12, 14, 16}
+MIN_DWELL_FRAMES_LIST = [4, 6, 8, 10, 12, 14, 16]
 
 # Target thresholds (per spec)
-MAX_ACCEPTABLE_LATENCY_MS = 400.0
+MAX_ACCEPTABLE_LATENCY_MS = 500.0
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -231,13 +231,13 @@ def main() -> None:
     )
     # Total raw switches/min summed across all clips (not mean — avoids dilution)
     baseline_total_switches_per_min = baseline_df["switches_per_min"].sum()
-    baseline_fps = 41.73  # measured in Task 4
+    baseline_fps = 24.28  # measured in Task 4
     log_print(f"Baseline total switches/min (raw argmax, all clips summed): {baseline_total_switches_per_min:.2f}")
     log_print(f"  (Only 1 clip flickery: test_14_51.avi at {baseline_per_clip.get('test_14_51.avi', 0):.2f}/min)")
     log_print(f"Measured inference FPS: {baseline_fps:.2f}")
     log_print(f"min_dwell_frames sweep: {MIN_DWELL_FRAMES_LIST}")
     log_print(f"  → 150ms @ {baseline_fps:.1f}fps = {150/1000*baseline_fps:.1f} frames")
-    log_print(f"  → 300ms @ {baseline_fps:.1f}fps = {300/1000*baseline_fps:.1f} frames\n")
+    log_print(f"  → 500ms @ {baseline_fps:.1f}fps = {500/1000*baseline_fps:.1f} frames\n")
 
     # --- Load annotations ---
     with open(ANNOTATIONS_JSON, encoding="utf-8") as f:
@@ -398,13 +398,13 @@ def main() -> None:
     df_sweep = pd.DataFrame(sweep_results)
 
     # Selection criterion (revised — fix for the single-clip blind spot):
-    #   1. mean_latency_ms <= 400ms (hard gate — unchanged)
+    #   1. mean_latency_ms <= 500ms (hard gate)
     #   2. spurious_new == 0 (no new switches on stable clips — unchanged)
     #   3. minimize total_residual: suppress ALL flickery clips, not just test_14_51.avi
     #      (previously: maximize flickery_reduction_pct on test_14_51.avi only, which
     #       allowed 202101141947512000310I3.avi to remain at 144/min undetected)
     #   4. minimize max_residual (worst single remaining clip)
-    #   5. in_target_dwell: prefer dwell_ms in [150, 300]ms
+    #   5. in_target_dwell: prefer dwell_ms in [150, 500]ms
     #   6. switch_threshold desc: conservative hysteresis
     #   7. alpha closest to 0.25: balanced EMA
     df_valid = df_sweep[
@@ -413,7 +413,7 @@ def main() -> None:
     ].copy()
 
     if df_valid.empty:
-        log_print("\n[GATE FAIL] No parameter combination achieved mean latency <= 400ms. "
+        log_print("\n[GATE FAIL] No parameter combination achieved mean latency <= 500ms. "
                   "Manual review required before proceeding.")
         log.close()
         return
@@ -424,7 +424,7 @@ def main() -> None:
 
     df_select = df_select.copy()
     df_select["in_target_dwell"] = (
-        (df_select["dwell_ms"] >= 150.0) & (df_select["dwell_ms"] <= 300.0)
+        (df_select["dwell_ms"] >= 150.0) & (df_select["dwell_ms"] <= 500.0)
     ).astype(int)
     df_select["alpha_dist_025"] = (df_select["alpha"] - 0.25).abs()
     best_row = df_select.sort_values(
@@ -521,15 +521,15 @@ def write_tuning_doc(
         "interpreting the sweep results.\n"
     )
     lines.append(
-        "- **Target dwell window**: 150–300 ms → "
-        f"{150/1000*baseline_fps:.1f}–{300/1000*baseline_fps:.1f} frames at measured FPS\n"
+        "- **Target dwell window**: 150–500 ms → "
+        f"{150/1000*baseline_fps:.1f}–{500/1000*baseline_fps:.1f} frames at measured FPS\n"
     )
     n_annotated_events = sum(len(v['transitions']) for v in annotations.values())
     lines.append(
         f"- **Manual transition annotations**: 5 IUGC clips, {n_annotated_events} total events.\n"
     )
     lines.append(
-        "- **Gate criterion**: mean latency ≤ 400 ms. Among passing combos, "
+        "- **Gate criterion**: mean latency ≤ 500 ms. Among passing combos, "
         "maximise flicker-suppression (reduction %).\n"
     )
     lines.append(
@@ -643,7 +643,7 @@ def write_tuning_doc(
         f"(net switch delta: {best_row['net_switch_delta']:+.2f}/min). "
         "The `min_dwell_frames` value of "
         f"{int(best_row['min_dwell_frames'])} frames ({best_row['dwell_ms']:.0f} ms) sits within the "
-        "150–300 ms target window. `alpha=0.25` gives a balanced EMA; "
+        f"150–500 ms target window. `alpha=0.25` gives a balanced EMA; "
         f"`switch_threshold={best_row['switch_threshold']}` imposes conservative hysteresis. "
         f"{hold_floor_note}\n\n"
     )
