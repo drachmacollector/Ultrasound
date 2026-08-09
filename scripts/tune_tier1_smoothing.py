@@ -220,6 +220,13 @@ def main() -> None:
     # --- Load model (once, reused for all clips) ---
     log_print("\nLoading model...")
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    if device.type != "cuda":
+        log_print(
+            "[WARNING] CUDA not available — running on CPU.  Measured FPS will be "
+            "~24fps (not ~42fps GPU).  This affects dwell_ms calibration and will "
+            "cause a WRONG parameter selection: dwell=4f→96ms on GPU but→165ms on CPU. "
+            "Re-run on GPU for the correct tuned YAML."
+        )
     loaded = load_inference_model(CKPT_PATH, device=device)
     model, transform = loaded.model, loaded.transform
 
@@ -231,13 +238,14 @@ def main() -> None:
     )
     # Total raw switches/min summed across all clips (not mean — avoids dilution)
     baseline_total_switches_per_min = baseline_df["switches_per_min"].sum()
-    baseline_fps = 24.28  # measured in Task 4
     log_print(f"Baseline total switches/min (raw argmax, all clips summed): {baseline_total_switches_per_min:.2f}")
     log_print(f"  (Only 1 clip flickery: test_14_51.avi at {baseline_per_clip.get('test_14_51.avi', 0):.2f}/min)")
-    log_print(f"Measured inference FPS: {baseline_fps:.2f}")
-    log_print(f"min_dwell_frames sweep: {MIN_DWELL_FRAMES_LIST}")
-    log_print(f"  → 150ms @ {baseline_fps:.1f}fps = {150/1000*baseline_fps:.1f} frames")
-    log_print(f"  → 500ms @ {baseline_fps:.1f}fps = {500/1000*baseline_fps:.1f} frames\n")
+    # baseline_fps is measured dynamically from the precompute pass below (NOT hardcoded)
+    # so that dwell_ms calibration always reflects the real inference device (GPU vs CPU).
+    # An earlier version hardcoded 24.28 (CPU Task-4 value), which caused incorrect
+    # YAML on GPU: at 24fps dwell=4→165ms qualifies as in-target, but at 41.7fps GPU
+    # speed dwell=4→96ms is outside [150, 500ms], selecting the wrong minimum dwell.
+    baseline_fps: float = 1.0  # placeholder; updated after precompute timing below
 
     # --- Load annotations ---
     with open(ANNOTATIONS_JSON, encoding="utf-8") as f:
@@ -256,11 +264,18 @@ def main() -> None:
     clip_cache: dict[str, tuple[list[np.ndarray], float]] = {}
     sweep_baseline_per_clip: dict[str, float] = {}   # raw argmax switches/min per clip
 
+    # Time the entire precompute pass to measure actual inference throughput on this device.
+    # This must NOT be hardcoded — CPU and GPU give very different FPS (~24 vs ~42),
+    # and using the wrong value makes dwell_ms calibration pick the wrong min_dwell_frames.
+    _precompute_t0 = time.time()
+    _total_precompute_frames = 0
+
     for vp in video_paths:
         name = os.path.basename(vp)
         log_print(f"  Running inference on: {name}")
         probs_list, fps = run_inference_on_clip(vp, model, transform, device)
         clip_cache[name] = (probs_list, fps)
+        _total_precompute_frames += len(probs_list)
         # Raw argmax baseline for this clip
         if probs_list:
             raw_switches = sum(
@@ -272,12 +287,19 @@ def main() -> None:
         else:
             sweep_baseline_per_clip[name] = 0.0
 
+    _precompute_elapsed = time.time() - _precompute_t0
+    baseline_fps = _total_precompute_frames / _precompute_elapsed if _precompute_elapsed > 0 else 1.0
+
     sweep_total_raw = sum(sweep_baseline_per_clip.values())
     # Identify ALL clips with non-zero raw flicker — selection must suppress all of them,
     # not just test_14_51.avi (which turned out not to be the worst offender).
     flickery_clips: dict[str, float] = {
         name: rate for name, rate in sweep_baseline_per_clip.items() if rate > 0.0
     }
+    log_print(f"\nMeasured inference FPS (from precompute pass, device={device.type}): {baseline_fps:.2f}")
+    log_print(f"min_dwell_frames sweep: {MIN_DWELL_FRAMES_LIST}")
+    log_print(f"  → 150ms @ {baseline_fps:.1f}fps = {150/1000*baseline_fps:.1f} frames")
+    log_print(f"  → 500ms @ {baseline_fps:.1f}fps = {500/1000*baseline_fps:.1f} frames")
     log_print(f"\nSweep-internal baseline (raw argmax, {len(sweep_baseline_per_clip)} clips):")
     log_print(f"  Total switches/min across all clips: {sweep_total_raw:.2f}")
     log_print(f"  Clips with non-zero flicker ({len(flickery_clips)}):")

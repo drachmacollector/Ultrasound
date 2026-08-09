@@ -97,10 +97,14 @@ def prep_frame_grayscale_to_rgb(frame_bgr: np.ndarray) -> np.ndarray:
     frames (cv2.VideoCapture.read() output), which arrive as BGR arrays, not file paths.
     Must produce bit-identical output to the path-based function for the same underlying
     image, to guarantee training/serving preprocessing parity.
+
+    Implementation note: uses COLOR_BGR2GRAY → COLOR_GRAY2RGB, which is the direct
+    in-memory equivalent of imread(IMREAD_GRAYSCALE) → cvtColor(GRAY2RGB).  Both
+    apply OpenCV's standard luminance formula (0.114·B + 0.587·G + 0.299·R), so
+    the outputs are bit-identical for any input image.  A previous implementation
+    round-tripped through imencode/imdecode, which was functionally equivalent but
+    unnecessarily slow for a per-frame hot path.
     """
-    _, buf = cv2.imencode('.png', frame_bgr)
-    gray = cv2.imdecode(buf, cv2.IMREAD_GRAYSCALE)
-    if gray is None:
-        raise ValueError("Failed to decode frame buffer to grayscale.")
+    gray = cv2.cvtColor(frame_bgr, cv2.COLOR_BGR2GRAY)
     img_rgb = cv2.cvtColor(gray, cv2.COLOR_GRAY2RGB)
     return img_rgb

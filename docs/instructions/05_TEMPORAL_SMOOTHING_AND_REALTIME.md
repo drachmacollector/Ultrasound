@@ -12,7 +12,7 @@ If any step requires a GPU, be sure to use the RTX 4060 GPU that this device has
 Implement `src/smoothing/tier1.py` as a small stateful class the real-time loop calls once per frame:
 
 ```
-State: 
+State:
   - smoothed_probs: exponential moving average of the per-frame softmax vector
   - current_displayed_label
   - frames_since_last_switch
@@ -33,7 +33,7 @@ On each new frame's raw softmax output `p`:
   5. Return (current_displayed_label, candidate_confidence, smoothed_probs)  # for UI + logging
 ```
 
-Parameters to tune empirically (not guessed): `alpha`, `switch_threshold` (should be noticeably higher than the "hold" confidence, e.g. hold at >0.4 but require >0.6 to switch — exact numbers come from tuning below), `min_dwell_frames` (translate to a target ~150-300ms of real time given your measured fps).
+Parameters to tune empirically (not guessed): `alpha`, `switch_threshold` (should be noticeably higher than the "hold" confidence, e.g. hold at >0.4 but require >0.6 to switch — exact numbers come from tuning below), `min_dwell_frames` (translate to a target ~150-500ms of real time given your measured fps).
 
 ### A2. Tuning procedure against real video (IUGC sandbox)
 
@@ -47,7 +47,7 @@ If you skipped the IUGC download in Phase 2, fall back to tuning against the syn
 
 ### A3. Tier-2 (only if Tier-1 empirically insufficient)
 
-Do not build this speculatively. Only implement if, after tuning A2, you still observe unacceptable flicker or lag on real test video. If needed: a small causal GRU or 1D-conv over the last 8-16 frame *embeddings* (not raw pixels — take the backbone's penultimate-layer feature vector per frame, buffer the last N, feed through a lightweight temporal head). This is a meaningfully bigger lift (needs its own training data/labels over sequences) — treat as a stretch goal, not default path.
+Do not build this speculatively. Only implement if, after tuning A2, you still observe unacceptable flicker or lag on real test video. If needed: a small causal GRU or 1D-conv over the last 8-16 frame _embeddings_ (not raw pixels — take the backbone's penultimate-layer feature vector per frame, buffer the last N, feed through a lightweight temporal head). This is a meaningfully bigger lift (needs its own training data/labels over sequences) — treat as a stretch goal, not default path.
 
 ---
 
@@ -56,6 +56,7 @@ Do not build this speculatively. Only implement if, after tuning A2, you still o
 ### B1. Video input abstraction
 
 `src/realtime/capture.py`: a single interface that accepts either:
+
 - A webcam device index (`cv2.VideoCapture(0)`), or
 - A video file path (`cv2.VideoCapture(path)`)
 
@@ -77,12 +78,14 @@ Recommend a simple multi-threaded (not necessarily multi-process — GIL content
 ### B3. Latency/throughput instrumentation
 
 Build in **from the start**, not as an afterthought:
+
 - Rolling FPS counter (capture fps vs. actual inference fps — these will diverge, that's expected and fine given the drop-oldest queue policy)
 - Per-stage latency logging (preprocess, forward pass, Grad-CAM when run, smoothing, render) — log to console or a lightweight overlay toggle, so you can actually see where time goes rather than guessing.
 
 ### B4. `[MANUAL] Decision point:` UI approach
 
 Two reasonable options:
+
 1. **`cv2.imshow` window** — fastest to build, adequate for a personal/portfolio demo, no web server needed.
 2. **Simple web app (Streamlit or Gradio) streaming the annotated frames** — nicer for showing off / sharing, adds moving parts (frame streaming over HTTP has its own latency considerations).
 

@@ -1,6 +1,6 @@
 # PHASE_5_KICKOFF_PROMPT.md — Temporal Smoothing & Real-Time Pipeline
 
-Read, in this order, before writing any code: [docs/00_PROJECT_OVERVIEW.md](../instructions/00_PROJECT_OVERVIEW.md), [docs/05_TEMPORAL_SMOOTHING_AND_REALTIME.md](../instructions/05_TEMPORAL_SMOOTHING_AND_REALTIME.md), [docs/08_MASTER_CHECKLIST.md](../instructions/08_MASTER_CHECKLIST.md), [docs/EXPERIMENTS.md](../EXPERIMENTS.md) (for the final backbone decision), and this file in full. This file is more prescriptive than [05_TEMPORAL_SMOOTHING_AND_REALTIME.md](../instructions/05_TEMPORAL_SMOOTHING_AND_REALTIME.md) on purpose — where the two disagree on a concrete detail, follow this file, since it was written after seeing the actual Phase 4 outputs (checkpoint contents, config schema, existing Grad-CAM implementation) that [05_...md](../instructions/05_TEMPORAL_SMOOTHING_AND_REALTIME.md) was written without.
+Read, in this order, before writing any code: [docs/00_PROJECT_OVERVIEW.md](../instructions/00_PROJECT_OVERVIEW.md), [docs/05_TEMPORAL_SMOOTHING_AND_REALTIME.md](../instructions/05_TEMPORAL_SMOOTHING_AND_REALTIME.md), [docs/08_MASTER_CHECKLIST.md](../instructions/08_MASTER_CHECKLIST.md), [docs/EXPERIMENTS.md](../EXPERIMENTS.md) (for the final backbone decision), and this file in full. This file is more prescriptive than [05_TEMPORAL_SMOOTHING_AND_REALTIME.md](../instructions/05_TEMPORAL_SMOOTHING_AND_REALTIME.md) on purpose — where the two disagree on a concrete detail, follow this file, since it was written after seeing the actual Phase 4 outputs (checkpoint contents, config schema, existing Grad-CAM implementation) that [05\_...md](../instructions/05_TEMPORAL_SMOOTHING_AND_REALTIME.md) was written without.
 
 Phases 0–4 are complete and verified. The winning model is **`convnext_tiny.fb_in22k_ft_in1k`**, trained with class-weighted cross-entropy (not the focal-loss variant), checkpoint at [checkpoints/convnext_tiny/best.pt](../checkpoints/convnext_tiny/best.pt). Test macro-F1 = 0.8927.
 
@@ -193,9 +193,10 @@ class Tier1Smoother:
         return self.current_displayed_label, candidate_confidence, self.smoothed_probs.copy(), is_stable
 ```
 
-**Important correction to the doc's own pseudocode:** the doc's step 4 resets `frames_since_last_switch = 0` on hold, which would mean `frames_since_last_switch` never actually accumulates while holding a stable label, making `min_dwell_frames` only ever gate *switches away from a fresh state*, not "how long has the current label been stable." The implementation above instead counts `frames_since_last_switch` **up** while holding, and only resets it to 0 at the moment of an actual switch — this is necessary to make `is_stable` meaningful (otherwise it would be true/false only immediately after each switch and never reflect ongoing stability). Verify this reasoning yourself against a few synthetic sequences before trusting it; if you disagree with this correction after testing, flag it in the walkthrough rather than silently reverting to the doc's literal (and, I believe, buggy) reset behavior.
+**Important correction to the doc's own pseudocode:** the doc's step 4 resets `frames_since_last_switch = 0` on hold, which would mean `frames_since_last_switch` never actually accumulates while holding a stable label, making `min_dwell_frames` only ever gate _switches away from a fresh state_, not "how long has the current label been stable." The implementation above instead counts `frames_since_last_switch` **up** while holding, and only resets it to 0 at the moment of an actual switch — this is necessary to make `is_stable` meaningful (otherwise it would be true/false only immediately after each switch and never reflect ongoing stability). Verify this reasoning yourself against a few synthetic sequences before trusting it; if you disagree with this correction after testing, flag it in the walkthrough rather than silently reverting to the doc's literal (and, I believe, buggy) reset behavior.
 
 Write `src/smoothing/test_tier1.py` with at least these three cases, using hand-constructed sequences of softmax vectors:
+
 1. **Stable input** (same class dominant every frame) → smoother should track it immediately and stay `is_stable=True`.
 2. **Rapid flicker** (argmax alternates between two classes every frame, neither confidently) → smoother should suppress this and keep displaying one label without switching.
 3. **Genuine class change** (first N frames class A confidently, then a clean switch to class B confidently for the remaining frames) → smoother should eventually switch to B and reach `is_stable=True` again within a bounded number of frames, and log/assert what that frame-lag actually was.
@@ -211,14 +212,14 @@ Before tuning anything, measure how bad the problem actually is. Create `scripts
 - Also run it over the 16 existing `data/processed/synthetic_clips/*.mp4` from Phase 3 regardless of IUGC availability (these are always available and give you the within-class jitter number even if IUGC is missing).
 - For each clip, log: raw label-switches-per-second, mean/median confidence at switch points, mean/median confidence when stable. Aggregate into `data/processed/tier1_tuning/baseline_flicker_report.csv` and a summary Markdown table.
 - While processing the clips, also write the detailed per-clip progress and raw metrics to a log file (e.g., `logs/measure_baseline_flicker.txt` with strictly `encoding="utf-8"`) so the verbose output is preserved for debugging.
-- **This also gives you the real achieved inference FPS on this hardware for convnext_tiny at 224×224** — record this number explicitly, you need it in Task 7 to convert `min_dwell_frames` into a target millisecond range (the doc wants ~150–300ms dwell; you cannot pick a frame count sensibly without knowing real fps first).
+- **This also gives you the real achieved inference FPS on this hardware for convnext_tiny at 224×224** — record this number explicitly, you need it in Task 7 to convert `min_dwell_frames` into a target millisecond range (the doc wants ~150–500ms dwell; you cannot pick a frame count sensibly without knowing real fps first).
 - Produce one chart (`data/processed/tier1_tuning/baseline_flicker_chart.png`): switches-per-second per clip, sorted, so it's visually obvious how bad unsmoothed flicker is before you show the "after smoothing" comparison later.
 
 ---
 
 ## 6. Task 5 — MANUAL CHECKPOINT: transition annotation request (conditional — read carefully)
 
-**This step only applies if `data/raw/iugc_video/DatasetV3/` was confirmed present in Task 0 (Preflight).** If it is not present, skip directly to the note at the end of this section — do not attempt to fabricate transition ground truth from synthetic clips, since synthetic ego-motion clips (Phase 3) contain *only within-class jitter, never a genuine plane change* by design (per `src/data/synthetic_video.py`'s own docstring: "Does NOT synthesize class transitions"), so there is nothing real to annotate in them for this purpose.
+**This step only applies if `data/raw/iugc_video/DatasetV3/` was confirmed present in Task 0 (Preflight).** If it is not present, skip directly to the note at the end of this section — do not attempt to fabricate transition ground truth from synthetic clips, since synthetic ego-motion clips (Phase 3) contain _only within-class jitter, never a genuine plane change_ by design (per `src/data/synthetic_video.py`'s own docstring: "Does NOT synthesize class transitions"), so there is nothing real to annotate in them for this purpose.
 
 **If IUGC is present:**
 
@@ -254,11 +255,13 @@ Do not write any code for Task 7 until you have received this input back from th
 ## 7. Task 6 — Tier-1 parameter sweep and final tuning
 
 Create `scripts/tune_tier1_smoothing.py`. Sweep:
+
 - `alpha ∈ {0.15, 0.2, 0.25, 0.3, 0.35, 0.4}`
 - `switch_threshold ∈ {0.5, 0.55, 0.6, 0.65, 0.7}`
-- `min_dwell_frames` — convert your Task 4 measured real inference FPS into frame counts targeting **~150–300ms** dwell (e.g., if you measured ~60fps, that's roughly 9–18 frames; sweep a few values spanning that range plus a bit outside it for context)
+- `min_dwell_frames` — convert your Task 4 measured real inference FPS into frame counts targeting **~150–500ms** dwell (e.g., if you measured ~60fps, that's roughly 9–18 frames; sweep a few values spanning that range plus a bit outside it for context)
 
 For each parameter combination, run the `Tier1Smoother` over the same clip set as Task 4 and measure:
+
 - Label-switches-per-minute with smoothing on, compared against the Task 4 baseline (report both raw numbers and % reduction).
 - **If manual annotations were provided (Task 5):** latency-to-first-stable-label after each annotated `"settle"` event — i.e., frames from the annotated event to the point where `Tier1Smoother` reports the correct label with `is_stable=True` — converted to milliseconds using your measured FPS.
 - **If manual annotations were not available:** report only the flicker-suppression numbers on synthetic clips, and state explicitly in the output that transition latency was not validated.
@@ -269,7 +272,7 @@ Throughout the sweep, log the per-iteration parameter sets and their correspondi
 alpha: <chosen>
 switch_threshold: <chosen>
 min_dwell_frames: <chosen>
-hold_floor: null   # or a value, if Task 3's optional param proved useful
+hold_floor: null # or a value, if Task 3's optional param proved useful
 ```
 
 **Gate check:** if no parameter combination gets label-switches-per-minute meaningfully below baseline while keeping stabilize-lag reasonable, stop here and report this to the user explicitly rather than proceeding — this is the trigger condition for considering Tier-2 (§0.6 above), and building Tier-2 is a decision for the user to make, not you.
