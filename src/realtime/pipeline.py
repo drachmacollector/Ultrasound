@@ -34,7 +34,7 @@ import logging
 import threading
 import time
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 import cv2
 import numpy as np
@@ -84,6 +84,7 @@ class PipelineStats:
         self._smoothing_ms: float = 0.0
         self._gradcam_ms: float = 0.0   # EWMA of runs that actually ran GradCAM
         self._gradcam_calls: int = 0    # total GradCAM invocations
+        self.frames_processed: int = 0  # Total inference frames processed
         # Queue drop counters — updated by InferenceThread from queue.drops
         self.cap_queue_drops: int = 0
         self.inf_queue_drops: int = 0
@@ -152,6 +153,7 @@ class PipelineStats:
             self._preprocess_ms = a * preprocess_ms + (1 - a) * self._preprocess_ms
             self._forward_ms    = a * forward_ms    + (1 - a) * self._forward_ms
             self._smoothing_ms  = a * smoothing_ms  + (1 - a) * self._smoothing_ms
+            self.frames_processed += 1
 
     def record_gradcam(self, gradcam_ms: float) -> None:
         a = 0.25  # slightly higher alpha for GradCAM since it runs infrequently
@@ -172,6 +174,7 @@ class PipelineStats:
                 "smoothing_ms":    self._smoothing_ms,
                 "gradcam_ms":      self._gradcam_ms,
                 "gradcam_calls":   self._gradcam_calls,
+                "frames_processed": self.frames_processed,
                 "cap_queue_drops": self.cap_queue_drops,
                 "inf_queue_drops": self.inf_queue_drops,
             }
@@ -220,12 +223,12 @@ class CaptureThread(threading.Thread):
         drops_before = self._queue.drops
         while not self._stop_event.is_set():
             ret, frame = self._source.read()
-            if not ret:
+            if not ret or frame is None:
                 log.info("CaptureThread: source exhausted — signalling stop.")
                 self._stop_event.set()
                 break
             self._stats.record_capture_frame()
-            self._queue.put((frame, time.monotonic()))
+            self._queue.put((cast(np.ndarray, frame), time.monotonic()))
             # Sync drop counter into stats (reads are approximate but safe)
             self._stats.cap_queue_drops = self._queue.drops - drops_before
         log.info("CaptureThread: exiting.")

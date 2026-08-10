@@ -249,7 +249,7 @@ if clips:
     time.sleep(0.5)
     stop_ev.set()
     ct.join(timeout=3.0)
-    check("CaptureThread produced ≥ 1 frame", fq.qsize >= 0)  # may have been consumed
+    check("CaptureThread produced ≥ 1 frame", fq.qsize > 0 or fq.drops > 0)
     check("CaptureThread joins cleanly", not ct.is_alive())
     fs_ct.release()
 

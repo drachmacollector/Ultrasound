@@ -117,12 +117,20 @@ def run_benchmark(
 
     # Drain the result queue periodically so it never backs up
     frames_consumed = 0
+    fps_history: list[float] = []
+    last_sample_t = time.monotonic()
+
     while time.monotonic() - t_start < duration_secs:
         result = result_queue.get_nowait_or_none()
         if result is not None:
             frames_consumed += 1
         else:
             time.sleep(0.005)
+
+        now = time.monotonic()
+        if now - last_sample_t >= 1.0:
+            fps_history.append(stats.inference_fps)
+            last_sample_t = now
 
     elapsed = time.monotonic() - t_start
     stop_event.set()
@@ -133,11 +141,21 @@ def run_benchmark(
 
     # --- Collect final stats -------------------------------------------------
     snap = stats.snapshot()
+    
+    if fps_history:
+        min_fps = min(fps_history)
+        max_fps = max(fps_history)
+        mean_fps = sum(fps_history) / len(fps_history)
+    else:
+        min_fps = max_fps = mean_fps = snap["inference_fps"]
+
     emit(f"\n{'='*60}")
     emit(f"Benchmark complete — {elapsed:.1f} s elapsed")
     emit(f"{'='*60}")
     emit(f"  capture FPS         : {snap['capture_fps']:.1f}")
-    emit(f"  inference FPS       : {snap['inference_fps']:.1f}")
+    emit(f"  inference FPS (mean): {mean_fps:.1f}  [min: {min_fps:.1f}, max: {max_fps:.1f}]")
+    emit(f"  inference FPS (end) : {snap['inference_fps']:.1f}")
+    emit(f"  total inf frames    : {snap.get('frames_processed', 0)}")
     emit(f"  preprocess_ms (ewma): {snap['preprocess_ms']:.2f}")
     emit(f"  forward_ms    (ewma): {snap['forward_ms']:.2f}")
     emit(f"  smoothing_ms  (ewma): {snap['smoothing_ms']:.3f}")
