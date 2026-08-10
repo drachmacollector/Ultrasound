@@ -665,7 +665,7 @@ def write_tuning_doc(
         f"(net switch delta: {best_row['net_switch_delta']:+.2f}/min). "
         "The `min_dwell_frames` value of "
         f"{int(best_row['min_dwell_frames'])} frames ({best_row['dwell_ms']:.0f} ms) sits within the "
-        f"150–500 ms target window. `alpha=0.25` gives a balanced EMA; "
+        f"150–500 ms target window. `alpha={best_row['alpha']}` gives a balanced EMA; "
         f"`switch_threshold={best_row['switch_threshold']}` imposes conservative hysteresis. "
         f"{hold_floor_note}\n\n"
     )
