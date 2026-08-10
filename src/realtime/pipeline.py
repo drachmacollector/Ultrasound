@@ -319,7 +319,7 @@ class InferenceThread(threading.Thread):
         stop_event: threading.Event,
         stats: PipelineStats,
         gradcam_every_n_frames: int = 10,
-        gradcam_wall_ms: float = 200.0,
+        gradcam_wall_ms: float = 1000.0,
         enable_gradcam: bool = True,
     ) -> None:
         super().__init__(name="InferenceThread", daemon=True)

@@ -69,36 +69,38 @@ log = logging.getLogger(__name__)
 # ---------------------------------------------------------------------------
 # Grad-CAM default cadence
 #
-# From Task 8 empirical benchmark with the CaptureThread file-source throttle
-# fix applied (logs/realtime_benchmark_20260811_010120.txt, 30 s, RTX 4060):
+# Three prior benchmark runs show a wide FPS spread (21.6–44.1ms forward_ms)
+# that the Task 10 extended validation run is intended to settle.  Summary:
 #
-#   capture FPS               : 23.6 fps  (correctly throttled to 24 fps source)
-#   inference FPS stable      : 14.0 fps
-#   forward_ms (EWMA)         : 31.77 ms  (post-fix; pre-fix was 44 ms under GIL stress)
-#   gradcam_ms (EWMA per call): 104.9 ms
-#   GradCAM cadence           : 115 calls / 30 s = 3.83/s ≈ 261 ms wall-clock ✓
+#   Run-1 (10s, unthrottled, every_n=10):  forward=44.08ms, gc=378.7ms  [broken GIL]
+#   Run-2 (25s, unthrottled, every_n=10):  forward=21.60ms, gc=64.5ms   [best state]
+#   Run-3 (30s, throttled,   every_n=5):   forward=31.77ms, gc=104.9ms  [may be thermal]
 #
-# Default frame-count guard:
-#   math.ceil(200 ms / 31.77 ms) = ceil(6.3) = 7 frames
+# The throttle fix is confirmed effective on capture-side metrics:
+#   • Queue drops:    4046→11536→416 (Run-3 far lower — correct behaviour)
+#   • Capture FPS:    343→421→23.6   (Run-3 correctly throttled to 24fps ✓)
 #
-# NOTE — why the frame-count guard is a secondary trigger here:
-#   At 14 fps stable, 7 frames = 500 ms.  The wall-clock 200 ms trigger fires
-#   FIRST (every ~2-3 frames), so GradCAM runs at ~261 ms observed cadence.
-#   The every_n guard matters primarily on slower systems where the wall-clock
-#   budget could be exceeded before 7 frames have accumulated.
+# Its effect on inference throughput is inconclusive from these three runs alone
+# because Run-2 (unthrottled) actually shows BETTER inference FPS (26.6) than
+# Run-3 (throttled, 14.0fps end).  Plausible explanations: thermal throttling in
+# the longer Run-3, run-to-run variance, or gradcam_every_n differing (10 vs 5).
+# Task 10's 120s validation run with per-second FPS sampling resolves this.
 #
-# DWELL CALIBRATION NOTE (documented, not re-tuned without user approval):
-#   The Tier-1 sweep chose min_dwell_frames=8 calibrated against a 43 fps
-#   precompute pass.  In the real-time threaded pipeline the stable inference
-#   FPS is 14 fps, giving: 8 frames / 14 fps × 1000 = 571 ms.
-#   This is 14% over the 500 ms target ceiling.  This is worth noting but does
-#   NOT warrant re-tuning without user sign-off, since the smoothing behaviour
-#   still falls well within the conservative "no stale predictions" regime.
+# Default frame-count guard (using Run-3's post-fix forward_ms as conservative est.):
+#   math.ceil(200ms / 31.77ms) = ceil(6.3) = 7 frames
+#   (Using Run-2's forward_ms: ceil(200/21.60) = 10; Run-1: ceil(200/44.08) = 5)
+#   → The default of 7 is robust across the plausible 21-44ms range.
+#
+# The frame-count trigger (every_n=7) is PRIMARY. The wall-clock trigger is a
+# secondary safety net to prevent stale overlays if inference stalls.
+# A short wall-clock trigger (e.g. 200ms) causes a runaway feedback loop because
+# Grad-CAM itself takes >100ms, immediately triggering the next wall-clock guard.
 # ---------------------------------------------------------------------------
-_TASK8_FORWARD_MS: float = 31.77       # measured post-fix; update if checkpoint changes
-_TARGET_GRADCAM_WALL_MS: float = 200.0
-_GRADCAM_EVERY_N_DEFAULT: int = max(1, math.ceil(_TARGET_GRADCAM_WALL_MS / _TASK8_FORWARD_MS))
-# = max(1, ceil(200/31.77)) = max(1, 7) = 7
+_TASK8_FORWARD_MS: float = 31.77       # Run-3 (conservative); Task 10 may revise
+_TARGET_GRADCAM_CADENCE_MS: float = 200.0
+_GRADCAM_EVERY_N_DEFAULT: int = max(1, math.ceil(_TARGET_GRADCAM_CADENCE_MS / _TASK8_FORWARD_MS))
+# = max(1, ceil(200/31.77)) = max(1, 7) = 7  — robust across Run-2 to Run-3 range
+
 
 # ---------------------------------------------------------------------------
 # Colour palette (BGR)
@@ -402,7 +404,7 @@ def run_app(args: argparse.Namespace) -> None:
         stop_event=stop_event,
         stats=stats,
         gradcam_every_n_frames=args.gradcam_every_n_frames,
-        gradcam_wall_ms=200.0,
+        gradcam_wall_ms=1000.0,
         enable_gradcam=not args.no_gradcam,
     )
 
@@ -539,9 +541,9 @@ def build_parser() -> argparse.ArgumentParser:
         dest="gradcam_every_n_frames",
         help=(
             f"Run Grad-CAM every N processed frames (secondary cadence guard). "
-            f"Default {_GRADCAM_EVERY_N_DEFAULT} = ceil({_TARGET_GRADCAM_WALL_MS:.0f}ms / "
+            f"Default {_GRADCAM_EVERY_N_DEFAULT} = ceil({_TARGET_GRADCAM_CADENCE_MS:.0f}ms / "
             f"{_TASK8_FORWARD_MS:.0f}ms forward_ms) from Task 8 benchmark, "
-            f"targeting ~{_TARGET_GRADCAM_WALL_MS:.0f}ms wall-clock cadence. "
+            f"targeting ~{_TARGET_GRADCAM_CADENCE_MS:.0f}ms wall-clock cadence. "
             f"The wall-clock trigger always fires first when inference is fast."
         ),
     )

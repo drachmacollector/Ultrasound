@@ -104,7 +104,7 @@ def run_benchmark(
         stop_event=stop_event,
         stats=stats,
         gradcam_every_n_frames=gradcam_every_n,
-        gradcam_wall_ms=200.0,
+        gradcam_wall_ms=1000.0,
         enable_gradcam=enable_gradcam,
     )
 
