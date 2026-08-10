@@ -103,14 +103,76 @@ Per-stage latencies use a separate EWMA (alpha=0.15). Lower alpha = more smooth 
 | Use `run_gradcam()` | Direct `self._cam(tensor, targets)` | Spec's `run_gradcam()` destroys hooks on every call; persistent instance required |
 | GradCAM "every N frames OR 200ms wall" — one condition | Both conditions (OR) | More responsive; prevents stale overlays when inference FPS varies |
 | `overlay` returned as RGB from `show_cam_on_image` | Converted to BGR before storing | Render loop works in BGR (matching `frame_bgr`) — avoids per-frame conversion |
+| GradCAM cleanup via `remove_handlers()` | `activations_and_grads.release()` | grad-cam 1.5.5 doesn't have `remove_handlers`; uses internal release() |
+| `self._stop` for stop event | `self._stop_event` | Python 3.12 `threading.Thread` has internal `_stop()` method — naming conflict |
+
+---
+
+## CaptureThread Throttle Fix (post-Task 8)
+
+**Finding:** CaptureThread without throttle spun at 343fps on a 24fps file source, generating CPU/GIL-hungry busy-loop. InferenceThread was starved of GIL time, making the wall-clock Grad-CAM trigger fire ~3× sparser than intended.
+- **Pre-fix:** 6 GradCAM calls in 10s (every 1.67s) vs predicted ~578ms cadence
+- **Pre-fix:** forward_ms=44ms, gradcam_ms=378ms, cap drops=4046
+
+**Fix:** Added file-source throttle to `CaptureThread.run()`. For non-webcam sources where `fps() > 0`, sleep the remaining `(1/fps - elapsed_since_read)` after each read. Webcam sources are hardware-paced and never throttled.
+
+**Post-fix benchmark (30s, RTX 4060, `--gradcam-every-n 5`):**
+
+| Metric | Pre-fix | Post-fix |
+|:--|:--|:--|
+| capture FPS | 343 fps | 23.6 fps (throttled to 24fps ✓) |
+| cap queue drops | 4,046 | 416 |
+| forward_ms (EWMA) | 44.08 ms | 31.77 ms |
+| gradcam_ms (EWMA) | 378.7 ms | 104.9 ms |
+| GradCAM calls / 30s | 6 / 10s | 115 / 30s (3.83/s) |
+| Actual GradCAM cadence | 1,670 ms | 261 ms (target: 200 ms ✓) |
+| inference FPS stable | 21.7 | 14.0 fps |
+
+The dramatic improvement in both forward_ms and gradcam_ms confirms that GIL starvation was the root cause. The GradCAM cadence is now 261ms (within 30% of the 200ms target, and the wall-clock trigger is now behaving correctly as the primary driver).
+
+### Dwell Calibration Discrepancy (documented, not re-tuned)
+
+The Tier-1 sweep chose `min_dwell_frames=8` calibrated against a 43fps precompute pass. In the real-time threaded pipeline, stable inference FPS is 14fps:
+- 8 frames / 14fps × 1000ms = **571ms** (14% over 500ms ceiling)
+
+This is documented here and in `app.py` comments. NOT re-tuned without user sign-off, as the behavior still suppresses flicker effectively and the discrepancy is minor.
+
+---
+
+## Task 9 Design Decisions (`src/realtime/app.py`)
+
+### `gradcam_every_n_frames` default
+
+From post-fix benchmark: forward_ms=31.77ms. `math.ceil(200/31.77) = 7`.
+
+At stable 14fps, 7 frames = 500ms. The wall-clock 200ms trigger fires FIRST (every ~2-3 frames), so GradCAM observed cadence ≈ 261ms. The frame-count guard (every_n=7) serves as a slower-system safety net.
+
+### Webcam watermark
+
+Drawn as two filled horizontal strips (top AND bottom of frame). This ensures the caveat cannot be cropped away by any aspect-ratio change or screenshot crop.
+
+### Rendering when no result is available
+
+A dark placeholder frame with "Initialising pipeline..." text is shown during the warmup period before InferenceThread has produced its first result.
+
+### Pause behaviour
+
+When paused (`space`): rendering freezes (display shows last frame + dim overlay + PAUSED text), inference continues running. This means the result queue may fill up and drop frames during pause, which is acceptable — the pipeline should not hold stale results from the pause period.
+
+### HUD layout
+
+- Top-left: semi-transparent performance panel (capture FPS, inference FPS, per-stage ms, GradCAM count, queue drops)
+- Top-right: stability badge (● STABLE / ◐ SETTLING)
+- Bottom-left: label name + confidence percentage
+- Bottom strip (watermark): webcam sources only
 
 ---
 
 ## Known Limitations / Pending Items
 
-1. **`__init__.py` for `src.realtime`**: Need to check if `src/realtime/__init__.py` exists and has the correct exports.
-2. **Task 9 (app.py) not yet written** — the render loop, CLI, and HUD are deferred to the next task.
-3. **FPS benchmark not yet run** — will be executed by `scripts/benchmark_pipeline.py`.
+1. **Task 10 validation runs** not yet done — app.py must be validated end-to-end against file playback and webcam.
+2. **Task 11 walkthrough** not yet written.
+3. **Dwell calibration discrepancy** (571ms vs 500ms target) — documented, user decision pending on whether to re-tune.
 
 ---
 

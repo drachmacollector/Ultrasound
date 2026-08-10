@@ -1,0 +1,38 @@
+Pipeline headless benchmark
+  source            : data/processed/synthetic_clips/Brain_Trans_cerebellum_clip01.mp4
+  checkpoint        : checkpoints/convnext_tiny/best.pt
+  smoothing config  : configs/smoothing_tier1.yaml
+  duration          : 30 s
+  gradcam_every_n   : 5 (enabled)
+
+Loading model...
+  backbone          : convnext_tiny.fb_in22k_ft_in1k
+  device            : cuda
+  image_size        : 224
+  mean/std          : (0.485, 0.456, 0.406) / (0.229, 0.224, 0.225)
+
+  source resolution : 958x660
+  source fps (nominal): 24.0
+
+Starting benchmark for 30 s ...
+
+============================================================
+Benchmark complete — 30.0 s elapsed
+============================================================
+  capture FPS         : 23.6
+  inference FPS (mean): 9.7  [min: 0.0, max: 14.9]
+  inference FPS (end) : 14.0
+  total inf frames    : 290
+  preprocess_ms (ewma): 0.33
+  forward_ms    (ewma): 31.77
+  smoothing_ms  (ewma): 0.000
+  gradcam_ms    (ewma): 104.9 (n=115 runs)
+  cap queue drops     : 416
+  inf queue drops     : 0
+  result frames consumed: 289
+============================================================
+
+Tier-1 dwell calibration check:
+  min_dwell_frames = 8
+  at 14.0 fps → 569.9 ms  (target: 150–500 ms)
+  ⚠ dwell OUT OF target range — consider re-tuning if GPU FPS changed

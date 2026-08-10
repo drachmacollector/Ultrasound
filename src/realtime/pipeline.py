@@ -221,7 +221,35 @@ class CaptureThread(threading.Thread):
     def run(self) -> None:
         log.info("CaptureThread: starting.")
         drops_before = self._queue.drops
+
+        # --- File-source throttle -----------------------------------------------
+        # Webcam feeds are hardware-paced (cap.read() blocks until the sensor
+        # delivers the next frame), so no throttle is needed or wanted there.
+        #
+        # File sources decode as fast as OpenCV+CPU can go — potentially 300+ fps
+        # for the tiny synthetic clips used in this project.  That creates a
+        # CPU/GIL-hungry busy-loop running concurrently with InferenceThread's
+        # Python-side preprocessing, starving the inference thread and making
+        # the wall-clock Grad-CAM throttle fire ~3× less often than intended
+        # (observed: 6 GradCAM calls/10 s vs. ~17 predicted).
+        #
+        # Fix: for non-webcam sources, sleep the remainder of each 1/fps interval
+        # after the read completes.  This costs nothing in practice (the clip
+        # can't be consumed faster than inference allows anyway) while giving
+        # InferenceThread essentially un-contended GIL time.
+        if not self._source.is_webcam and self._source.fps() > 0:
+            target_interval = 1.0 / self._source.fps()
+            log.info(
+                "CaptureThread: file source — throttling to %.1f fps "
+                "(%.1f ms/frame).",
+                self._source.fps(), target_interval * 1000.0,
+            )
+        else:
+            target_interval = None  # webcam: rely on hardware pacing
+        # -------------------------------------------------------------------------
+
         while not self._stop_event.is_set():
+            t_read_start = time.monotonic()
             ret, frame = self._source.read()
             if not ret or frame is None:
                 log.info("CaptureThread: source exhausted — signalling stop.")
@@ -229,8 +257,14 @@ class CaptureThread(threading.Thread):
                 break
             self._stats.record_capture_frame()
             self._queue.put((cast(np.ndarray, frame), time.monotonic()))
-            # Sync drop counter into stats (reads are approximate but safe)
             self._stats.cap_queue_drops = self._queue.drops - drops_before
+
+            if target_interval is not None:
+                elapsed = time.monotonic() - t_read_start
+                slack = target_interval - elapsed
+                if slack > 0.0:
+                    time.sleep(slack)
+
         log.info("CaptureThread: exiting.")
 
 
