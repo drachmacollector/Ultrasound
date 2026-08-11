@@ -1,0 +1,80 @@
+﻿Folder PATH listing for volume Storage
+Volume serial number is 00000173 64DE:9883
+D:\ULTRASOUND\LOGS
+ª   .gitkeep
+ª   convnext_tiny.fb_in22k_ft_in1k_training_output.txt
+ª   measure_baseline_flicker.txt
+ª   realtime_benchmark_20260810_102610.txt
+ª   realtime_benchmark_20260811_004330.txt
+ª   realtime_benchmark_20260811_010120.txt
+ª   realtime_validation_run_20260811_023040.txt
+ª   realtime_validation_run_20260811_024537.txt
+ª   realtime_validation_stats_20260811_023040.csv
+ª   realtime_validation_stats_20260811_024537.csv
+ª   task8_implementation.md
+ª   tune_tier1_smoothing_sweep.txt
+ª   
++---backbones
+ª   +---convnext_tiny
+ª   ª   ª   convnext_tiny_training_output.txt
+ª   ª   ª   events.out.tfevents.1785258244.NX-ASUS.5560.0
+ª   ª   ª   lr_finder.png
+ª   ª   ª   output.txt
+ª   ª   ª   
+ª   ª   +---smoke_test
+ª   ª           events.out.tfevents.1785214331.NX-ASUS.7172.5
+ª   ª           
+ª   +---convnext_tiny_focal
+ª   ª       convnext_tiny_focal_training_output.txt
+ª   ª       events.out.tfevents.1785310525.NX-ASUS.24168.0
+ª   ª       
+ª   +---efficientnet_lite0
+ª   ª   ª   efficientnet_lite0_training_output.txt
+ª   ª   ª   events.out.tfevents.1785249827.NX-ASUS.20020.0
+ª   ª   ª   lr_finder.png
+ª   ª   ª   output.txt
+ª   ª   ª   
+ª   ª   +---smoke_test
+ª   ª           events.out.tfevents.1785213815.NX-ASUS.7172.3
+ª   ª           
+ª   +---mobilenetv3_large_100
+ª   ª   ª   events.out.tfevents.1785251508.NX-ASUS.23192.0
+ª   ª   ª   lr_finder.png
+ª   ª   ª   mobilenetv3_large_100_training_output.txt
+ª   ª   ª   output.txt
+ª   ª   ª   
+ª   ª   +---smoke_test
+ª   ª           events.out.tfevents.1785213610.NX-ASUS.7172.2
+ª   ª           
+ª   +---repvgg_a1
+ª   ª   ª   events.out.tfevents.1785252624.NX-ASUS.10552.0
+ª   ª   ª   lr_finder.png
+ª   ª   ª   output.txt
+ª   ª   ª   repvgg_a1_training_output.txt
+ª   ª   ª   
+ª   ª   +---smoke_test
+ª   ª           events.out.tfevents.1785213017.NX-ASUS.4432.0
+ª   ª           events.out.tfevents.1785213185.NX-ASUS.7172.0
+ª   ª           
+ª   +---repvgg_a2
+ª   ª   ª   events.out.tfevents.1785256831.NX-ASUS.21240.0
+ª   ª   ª   lr_finder.png
+ª   ª   ª   output.txt
+ª   ª   ª   repvgg_a2_training_output.txt
+ª   ª   ª   
+ª   ª   +---smoke_test
+ª   ª           events.out.tfevents.1785213399.NX-ASUS.7172.1
+ª   ª           
+ª   +---tf_efficientnetv2_s
+ª       ª   events.out.tfevents.1785253334.NX-ASUS.12192.0
+ª       ª   lr_finder.png
+ª       ª   output.txt
+ª       ª   tf_efficientnetv2_s_training_output.txt
+ª       ª   
+ª       +---smoke_test
+ª               events.out.tfevents.1785214008.NX-ASUS.7172.4
+ª               
++---smoketest
+        smoketest classification all.txt
+        smoke_test_results.txt
+        
