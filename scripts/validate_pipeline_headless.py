@@ -17,8 +17,8 @@ It answers the three open questions from the Task 8/9 benchmark discrepancy (Fin
 
 It also produces the Task 10 deliverables required by PHASE_5_KICKOFF_PROMPT.md §11:
 
-  • logs/realtime_validation_run.txt  — per-5s stats CSV + narrative report
-  • docs/phase5_screenshots/          — annotated proof-of-execution PNGs
+  • logs/realtime/realtime_validation_run.txt  — per-5s stats CSV + narrative report
+  • docs/phases/phase_05/phase5_screenshots/          — annotated proof-of-execution PNGs
     - validation_file_t010s.png       — frame at t≈10s  (early warm-up)
     - validation_file_t030s.png       — frame at t≈30s  (stabilisation)
     - validation_file_t060s.png       — frame at t≈60s  (steady state)
@@ -38,7 +38,7 @@ USAGE
   conda run -n fetalplane python scripts/validate_pipeline_headless.py \\
       --source data/processed/synthetic_clips/Brain_Trans_thalamic_clip01.mp4 \\
       --checkpoint checkpoints/convnext_tiny/best.pt \\
-      --output-dir docs/phase5_screenshots
+      --output-dir docs/phases/phase_05/phase5_screenshots
 
 FPS INTERPRETATION KEY
 ----------------------
@@ -430,7 +430,7 @@ def write_report(
         fh.write("  5. g/h/space keybindings function correctly\n")
         fh.write("  6. Clean shutdown on ESC/q with no hanging threads\n\n")
         fh.write("  When done, save a representative screenshot as:\n")
-        fh.write("  docs/phase5_screenshots/validation_webcam_demo.png\n\n")
+        fh.write("  docs/phases/phase_05/phase5_screenshots/validation_webcam_demo.png\n\n")
 
         fh.write("=" * 70 + "\n")
 
@@ -451,12 +451,12 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--checkpoint", default="checkpoints/convnext_tiny/best.pt")
     p.add_argument("--smoothing-config", default="configs/smoothing_tier1.yaml",
                    dest="smoothing_config")
-    p.add_argument("--output-dir", default="docs/phase5_screenshots",
+    p.add_argument("--output-dir", default="docs/phases/phase_05/phase5_screenshots",
                    dest="output_dir")
     p.add_argument("--run-a-duration", type=float, default=120.0,
                    dest="run_a_duration",
                    help="Duration of the primary GradCAM-ON run (seconds).")
-    p.add_argument("--run-b-duration", type=float, default=30.0,
+    p.add_argument("--run-b-duration", type=float, default=100.0,
                    dest="run_b_duration",
                    help="Duration of the GradCAM-OFF comparison run (seconds).")
     p.add_argument("--gradcam-every-n", type=int, default=7,
@@ -468,7 +468,7 @@ def main() -> None:
     args = build_parser().parse_args()
 
     ts = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-    log_path = Path(f"logs/realtime_validation_run_{ts}.txt")
+    log_path = Path(f"logs/realtime/realtime_validation_run_{ts}.txt")
     log_path.parent.mkdir(parents=True, exist_ok=True)
     screenshot_dir = Path(args.output_dir)
     screenshot_dir.mkdir(parents=True, exist_ok=True)
@@ -489,7 +489,7 @@ def main() -> None:
     log.info("Screenshots : %s", screenshot_dir)
 
     # Open CSV stats file (append so multiple runs accumulate)
-    stats_csv_path = Path(f"logs/realtime_validation_stats_{ts}.csv")
+    stats_csv_path = Path(f"logs/realtime/realtime_validation_stats_{ts}.csv")
     with open(stats_csv_path, "w", encoding="utf-8") as stats_fh:
         stats_fh.write(
             "run_tag,elapsed_s,capture_fps,inference_fps,"

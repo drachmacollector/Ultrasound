@@ -28,10 +28,11 @@
 ---
 
 ## 3. Baseline Flicker Results
-- **Measured inference FPS** (RTX 4060, `convnext_tiny`, 224×224): **43.28 fps** (Single-threaded raw inference)
+- **Measured inference FPS** (`convnext_tiny`, 224×224):
+  - Task 4 single-threaded baseline: **52.51 fps** (device=cuda).
+  - Task 6 sweep-internal precompute: **43.28 fps** (device=cuda), used for dwell-frame calibration.
 - **Baseline switches/min**:
-  - The Task 4 script generated a baseline CSV evaluating an initial subset of clips yielding **35.56 switches/min** total.
-  - The Task 6 internal sweep logic accurately aggregated across all 46 viable clips (30 real IUGC `.avi` videos + 16 synthetic `.mp4` clips), yielding **788.75 switches/min** total across 6 specific flickery clips.
+  - The Task 4 script generated a baseline CSV measuring **788.75 switches/min total across 6 flickery clips** (matches Task 6's independently-recomputed sweep baseline).
 
 ---
 
@@ -73,8 +74,9 @@ A 155-second headless test sequence generated definitive metrics on the RTX 4060
   - Stabilised inference FPS: **23.7 fps**
   - Thermal assessment: **STABLE** (No thermal throttling; late-stage FPS was 23.6 fps).
   - Grad-CAM Cadence: **316 ms** (Healthy, responsive).
-- **Run B (30s, GradCAM OFF, Pure Inference)**:
-  - Stabilised inference FPS: **23.6 fps** (Native file-throttle bottleneck reached; 19.75ms forward time).
+- **Run B (100s, GradCAM OFF, Pure Inference)**:
+  - Stabilised inference FPS: **23.4 fps** (Genuine stable window 30-90s; 19.94ms forward time).
+  - GradCAM overhead: **-0.8% FPS reduction** (23.4 fps → 23.6 fps).
 
 > [!TIP]
 > The pipeline comfortably consumes 24fps native video in real-time with Grad-CAM enabled without breaking a sweat on the RTX 4060. 

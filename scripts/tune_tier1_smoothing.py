@@ -20,8 +20,8 @@ Metrics per combination (over the same clip set as Task 4):
   - max_latency_ms_to_stable: worst-case lag across all settle events
 
 Outputs:
-  logs/tune_tier1_smoothing_sweep.txt   — per-iteration verbose log (utf-8)
-  docs/PHASE5_SMOOTHING_TUNING.md       — full sweep table + chosen params + reasoning
+  logs/tuning/tune_tier1_smoothing_sweep.txt   — per-iteration verbose log (utf-8)
+  docs/phases/phase_05/PHASE5_SMOOTHING_TUNING.md       — full sweep table + chosen params + reasoning
   configs/smoothing_tier1.yaml          — final chosen parameters
 """
 from __future__ import annotations
@@ -55,8 +55,8 @@ BASELINE_CSV = "data/processed/tier1_tuning/baseline_flicker_report.csv"
 ANNOTATIONS_JSON = "data/processed/manual_review/transition_annotations_template.json"
 IUGC_VIDEO_DIR = "data/raw/iugc_video/DatasetV3"
 SYNTHETIC_CLIPS_DIR = "data/processed/synthetic_clips"
-LOG_PATH = "logs/tune_tier1_smoothing_sweep.txt"
-TUNING_DOC_PATH = "docs/PHASE5_SMOOTHING_TUNING.md"
+LOG_PATH = "logs/tuning/tune_tier1_smoothing_sweep.txt"
+TUNING_DOC_PATH = "docs/phases/phase_05/PHASE5_SMOOTHING_TUNING.md"
 CONFIG_OUTPUT_PATH = "configs/smoothing_tier1.yaml"
 
 # Sweep grid
@@ -508,7 +508,7 @@ def write_tuning_doc(
     baseline_fps: float,
     annotations: dict,
 ) -> None:
-    """Write docs/PHASE5_SMOOTHING_TUNING.md with full sweep table and reasoning."""
+    """Write docs/phases/phase_05/PHASE5_SMOOTHING_TUNING.md with full sweep table and reasoning."""
 
     # Top-20 sorted by total_residual asc (best overall suppression across all flickery clips)
     top20 = (

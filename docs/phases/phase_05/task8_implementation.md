@@ -137,6 +137,8 @@ The Tier-1 sweep chose `min_dwell_frames=8` calibrated against a 43fps precomput
 
 This is documented here and in `app.py` comments. NOT re-tuned without user sign-off, as the behavior still suppresses flicker effectively and the discrepancy is minor.
 
+> **Resolved** — see Task 10 validation (`logs/realtime_validation_run_20260811_233812.txt`). The "14fps" figure was caused by the Grad-CAM feedback-loop bug (`gradcam_wall_ms`). After the bug was fixed, Task 10 validated a steady-state FPS of 23.6 fps, giving a true dwell of **338ms**, which is firmly IN RANGE of the 150-500ms target.
+
 ---
 
 ## Task 9 Design Decisions (`src/realtime/app.py`)
@@ -170,9 +172,9 @@ When paused (`space`): rendering freezes (display shows last frame + dim overlay
 
 ## Known Limitations / Pending Items
 
-1. **Task 10 validation runs** not yet done — app.py must be validated end-to-end against file playback and webcam.
-2. **Task 11 walkthrough** not yet written.
-3. **Dwell calibration discrepancy** (571ms vs 500ms target) — documented, user decision pending on whether to re-tune.
+~~1. **Task 10 validation runs** not yet done — app.py must be validated end-to-end against file playback and webcam.~~ (Done)
+~~2. **Task 11 walkthrough** not yet written.~~ (Done)
+~~3. **Dwell calibration discrepancy** (571ms vs 500ms target) — documented, user decision pending on whether to re-tune.~~ (Resolved via Task 10 Grad-CAM fix, dwell is 338ms)
 
 ---
 

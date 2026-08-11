@@ -1,46 +1,17 @@
 {
   "20190726T095643_0.avi": {
-        "transitions": [
-      {"frame": 92, "event": "settle"},
-      {"frame": 95, "event": "leave"},
-      {"frame": 133, "event": "settle"},
-      {"frame": 148, "event": "leave"},
-      {"frame": 167, "event": "settle"},
-      {"frame": 192, "event": "leave"},
-      {"frame": 208, "event": "settle"},
-      {"frame": 228, "event": "leave"},
-      {"frame": 280, "event": "settle"},
-      {"frame": 421, "event": "leave"}
-    ]
+    "transitions": []
   },
-  "test_10_80.avi": {
-    "transitions": [
-      {"frame": 50, "event": "settle"},
-      {"frame": 80, "event": "leave"}
-    ]
+  "20190830T115644__B_\u4ea7\u79d1_tmp_0.avi": {
+    "transitions": []
   },
-  "test_11_14.avi": {
-    "transitions": [
-      {"frame": 24, "event": "settle"},
-      {"frame": 29, "event": "leave"},
-      {"frame": 37, "event": "settle"},
-      {"frame": 46, "event": "leave"},
-      {"frame": 54, "event": "settle"},
-      {"frame": 65, "event": "leave"}
-    ]
+  "20190906T105145__B_\u4ea7\u79d1_0.avi": {
+    "transitions": []
   },
-  "test_12_79.avi": {
-    "transitions": [
-      {"frame": 36, "event": "settle"},
-      {"frame": 47, "event": "leave"},
-      {"frame": 71, "event": "settle"}
-    ]
+  "20190906T105237__B_\u4ea7\u79d1_tmp_0.avi": {
+    "transitions": []
   },
-  "test_13_70.avi": {
-    "transitions": [
-      {"frame": 9, "event": "settle"},
-      {"frame": 13, "event": "leave"},
-      {"frame": 52, "event": "settle"}
-    ]
+  "20190909T155747I1__20190909T155747I1.avi": {
+    "transitions": []
   }
 }

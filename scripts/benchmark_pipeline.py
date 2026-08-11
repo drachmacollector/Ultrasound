@@ -22,7 +22,7 @@ Usage:
         [--no-gradcam] [--gradcam-every-n 10]
 
 Output:
-    Printed summary + logs/realtime_benchmark_<timestamp>.txt (UTF-8)
+    Printed summary + logs/realtime/realtime_benchmark_<timestamp>.txt (UTF-8)
 """
 from __future__ import annotations
 
@@ -211,7 +211,7 @@ def main() -> None:
         pass
 
     ts = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-    log_path = Path(f"logs/realtime_benchmark_{ts}.txt")
+    log_path = Path(f"logs/realtime/realtime_benchmark_{ts}.txt")
 
     run_benchmark(
         source=source,

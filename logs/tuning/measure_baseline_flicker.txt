@@ -46,5 +46,5 @@ Loading model...
 [202101191945432007060I1.avi] Switches/sec: 0.00, Mean Switch Conf: 0.00, Mean Stable Conf: 0.97
 [202101191945432007060I2.avi] Switches/sec: 0.00, Mean Switch Conf: 0.00, Mean Stable Conf: 0.99
 Total frames processed: 2684
-Total inference time: 110.53 s
-Raw inference FPS: 24.28
+Total inference time: 51.12 s
+Raw inference FPS: 52.51

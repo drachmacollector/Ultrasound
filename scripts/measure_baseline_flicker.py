@@ -9,8 +9,14 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from pathlib import Path
 
+import logging
+
 import sys
 sys.path.insert(0, ".")
+
+logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
+log = logging.getLogger(__name__)
+
 
 from src.realtime.model_loader import load_inference_model
 from src.data.transforms import prep_frame_grayscale_to_rgb
@@ -54,11 +60,12 @@ def main():
     os.makedirs("logs", exist_ok=True)
     os.makedirs("data/processed/manual_review", exist_ok=True)
     
-    log_file = open("logs/measure_baseline_flicker.txt", "w", encoding="utf-8")
+    log_file = open("logs/tuning/measure_baseline_flicker.txt", "w", encoding="utf-8")
     
     print("Loading model...", file=log_file)
     print("Loading model...")
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    log.info("Using device: %s", device.type)
     loaded_model = load_inference_model("checkpoints/convnext_tiny/best.pt", device=device)
     model = loaded_model.model
     transform = loaded_model.transform
