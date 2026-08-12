@@ -36,13 +36,13 @@ except Exception as e:
 try:
     import src.realtime.app as app_mod
     # Verify the gradcam default was correctly computed
-    assert app_mod._GRADCAM_EVERY_N_DEFAULT == 7, \
-        f"Expected 7, got {app_mod._GRADCAM_EVERY_N_DEFAULT}"
+    assert app_mod._GRADCAM_EVERY_N_DEFAULT == 5, \
+        f"Expected 5, got {app_mod._GRADCAM_EVERY_N_DEFAULT}"
     # Verify build_parser() works
     p = app_mod.build_parser()
     args = p.parse_args(["--source", "data/processed/synthetic_clips/Brain_Trans_cerebellum_clip01.mp4", "--no-gradcam"])
     assert args.no_gradcam
-    assert args.gradcam_every_n_frames == 7
+    assert args.gradcam_every_n_frames == 5
     assert not args.loop
     print(f"PASS  app.py import  (gradcam_every_n default={app_mod._GRADCAM_EVERY_N_DEFAULT})")
 except Exception as e:

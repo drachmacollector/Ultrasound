@@ -189,9 +189,7 @@ def main():
     log_file.close()
     
     if iugc_present and len(iugc_clips) >= 5:
-        candidate_clips = [c for c in iugc_clips if c['pos'] != 'n/a'][:5]
-        if len(candidate_clips) < 5:
-            candidate_clips = iugc_clips[:5]
+        candidate_clips = iugc_clips[:5]
             
         print("\nSelected 5 clips for manual annotation:")
         template_dict = {}
