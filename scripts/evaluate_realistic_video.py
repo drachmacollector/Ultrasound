@@ -291,9 +291,6 @@ def main() -> None:
     all_raw_spm: list[float] = []
     all_sm_spm: list[float] = []
     all_dwell_ms: list[float] = []
-    total_raw_switches = 0
-    total_sm_switches = 0
-    total_duration_sec = 0.0
 
     lines: list[str] = []  # for text log
 
@@ -338,19 +335,7 @@ def main() -> None:
 
         # --- Duration ---
         duration_sec = len(all_probs) / video_fps if video_fps > 0 else 0.0
-        total_duration_sec += duration_sec
 
-        # --- Tally switches (for aggregate reproduction of Phase 5 total) ---
-        n_raw_sw = sum(
-            1 for i in range(1, len(all_probs))
-            if int(np.argmax(all_probs[i])) != int(np.argmax(all_probs[i - 1]))
-        )
-        n_sm_sw = sum(
-            1 for i in range(1, len(smoothed_labels))
-            if smoothed_labels[i] != smoothed_labels[i - 1]
-        )
-        total_raw_switches += n_raw_sw
-        total_sm_switches += n_sm_sw
 
         all_raw_spm.append(raw_spm)
         all_sm_spm.append(sm_spm)
@@ -492,13 +477,6 @@ def main() -> None:
             f"(raw Δ={raw_match:.1f}, smoothed Δ={sm_match:.1f}) — investigate data drift or re-implementation inconsistency"
         )
 
-    # Dwell-time gate check
-    if rows:
-        full_clip_dwell_count = sum(
-            1 for row in rows
-            if row["mean_dwell_ms"] > 0
-            and abs(row["mean_dwell_ms"] - (row.get("n_frames", 0)))  # approximate gate
-        )
     lines.append("")
     lines.append("-" * 72)
     lines.append("§4b LATENCY-TO-STABILIZE — HONEST LIMITATION STATEMENT")

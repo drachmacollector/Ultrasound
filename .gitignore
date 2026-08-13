@@ -31,5 +31,7 @@ data/raw/fetal_planes_db/LICENSE_NOTE.txt
 !transition_annotations_template.json
 !data/processed/manual_review/**/*
 !data/processed/sanity_checks/**/*
+!data/processed/eval_cross_device/**/*
+!data/processed/eval_realistic_video/**/*
 !docs/phase5_screenshots/**/*.png
 !docs/phases/phase_05/phase5_screenshots/*.png
