@@ -1,4 +1,4 @@
-# Real-Time Sonography Assistant
+<!-- # Real-Time Sonography Assistant
 
 ## Project Overview
 This project is an assistive tool for sonographers to perform real-time standard anatomical plane detection. Given a live video stream (such as a webcam standing in for an ultrasound probe, or a pre-recorded video file), the system continuously classifies each moment of the scan into one of 7 standard anatomical planes, or "Other" (non-standard/transitional). 
@@ -88,4 +88,4 @@ Run the real-time application using your trained model checkpoint:
 ```bash
 python src/realtime/app.py --weights checkpoints/convnext_tiny/best.pt --source 0
 ```
-*(Use `--source 0` for your primary webcam, or provide a path to an `.mp4` video file.)*
+*(Use `--source 0` for your primary webcam, or provide a path to an `.mp4` video file.)* -->

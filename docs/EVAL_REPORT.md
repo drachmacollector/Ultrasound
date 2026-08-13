@@ -1,5 +1,12 @@
 # Phase 6 Evaluation Report: Fetal Standard Plane Real-Time Detection
 
+**Checkpoint evaluated:** `checkpoints/convnext_tiny/best.pt` (`convnext_tiny.fb_in22k_ft_in1k`, class-weighted CE)  
+**Generated:** Phase 6 — evaluation only; no retraining, no hyperparameter changes  
+**Scope:** In-distribution performance · Cross-device generalization (HC18 + UCL) · Realistic-video stability (46 clips) · Ablation consolidation  
+**Phase 6 principle:** *Phase 6 measures; it does not fix.*
+
+---
+
 ## 1. In-Distribution Performance
 
 Performance on the held-out FETAL_PLANES_DB test set (5,271 images from 896 patients) for the primary selected backbone (`convnext_tiny.fb_in22k_ft_in1k`, class-weighted CE).
@@ -177,4 +184,180 @@ Five IUGC clips trigger the gate condition where raw argmax flickered but the sm
 ### §3b — Latency-to-Stabilize: Honest Limitation Statement
 
 > True transition-latency validation was not possible in this project because no available real video source contains an annotated genuine plane-to-plane transition — the primary dataset (FETAL_PLANES_DB) never released source video, and manual annotation of the 5 IUGC candidate clips (Phase 5, Task 5) found zero raw model-level transitions to time. The dwell-time metric above (§3b) is the closest available proxy for responsiveness, but it measures steady-state holding behaviour, not transition-tracking speed.
+
+---
+
+## 4. Ablations
+
+All ablations were completed in Phases 4–5. **No experiments were re-run for this section** — results are consolidated here verbatim from their original source documents with citations. This matches the Phase 6 spec (Task 4): Phase 6 measures and reports, it does not re-train or re-tune.
+
+### 4.1 Backbone Comparison (In-Distribution, 6 Candidates)
+
+**Source:** [`docs/EXPERIMENTS.md`](../EXPERIMENTS.md) — Backbone comparison table + Bootstrap significance analysis section.
+
+Six backbone candidates were fully trained and evaluated on the held-out `data/splits/test.csv` (5,271 images, 896 patients). Each backbone trained at its native pretrained resolution with per-backbone normalization stats (see EXPERIMENTS.md §0.3 for the resolution-policy decision rationale).
+
+| Backbone | Test Macro-F1 | Val Macro-F1 | BT-vent. F1 | BT-thal. F1 | BT-cereb. F1 | Femur F1 | Cervix F1 |
+|----------|-------------|------------|------------|------------|------------|---------|---------|
+| **convnext_tiny** | **0.8927** | 0.9180 | 0.77 | 0.85 | 0.87 | 0.89 | 0.99 |
+| tf_efficientnetv2_s | 0.8853 | 0.9052 | 0.80 | 0.85 | 0.87 | 0.88 | 0.99 |
+| efficientnet_lite0 | 0.8823 | 0.9112 | 0.79 | 0.83 | 0.86 | 0.87 | 1.00 |
+| repvgg_a2 | 0.8811 | **0.9228** | 0.75 | 0.82 | 0.85 | 0.89 | 0.99 |
+| repvgg_a1 | 0.8760 | 0.8952 | 0.76 | 0.81 | 0.86 | 0.87 | 1.00 |
+| mobilenetv3_large_100 | 0.8751 | 0.9045 | 0.74 | 0.83 | 0.88 | 0.85 | 0.99 |
+
+**Bootstrap significance analysis** (2,000 iterations, n=5,271):
+
+| Comparison | Point Δ | 95% CI of Δ | Verdict |
+|-----------|---------|------------|---------|
+| convnext_tiny vs tf_efficientnetv2_s | +0.0074 | [−0.0010, +0.0159] | Statistically tied (CI straddles 0) |
+| convnext_tiny vs efficientnet_lite0 | +0.0104 | [+0.0022, +0.0187] | Robust (CI > 0) |
+| convnext_tiny vs repvgg_a2 | +0.0116 | [+0.0027, +0.0202] | Robust (CI > 0) |
+
+**Decision:** `convnext_tiny.fb_in22k_ft_in1k` selected as the final backbone. It is statistically tied with `tf_efficientnetv2_s` on overall macro-F1, but secondary criteria resolve the tie cleanly: `convnext_tiny` trains and infers at 224×224 (vs 300×300), uses simpler ImageNet normalization (vs TF-pretrained 0.5/0.5), and offers a cleaner ONNX export path. `repvgg_a2`'s high val-F1 (0.9228) reflected epoch-to-epoch fluctuation rather than stable generalization — its test-set drop (0.9228 → 0.8811, −4.2 pp) is precisely the failure mode the held-out test gate was built to catch.
+
+**Notable observation:** `tf_efficientnetv2_s` achieves F1=0.80 on `Brain_Trans_ventricular` vs `convnext_tiny`'s 0.77, a meaningful advantage on the hardest class. This is documented as a known trade-off: overall macro-F1 gains from `convnext_tiny` outweigh the single-class disadvantage, but if `Brain_Trans_ventricular` precision were the primary clinical concern, `tf_efficientnetv2_s` would be the preferred choice.
+
+---
+
+### 4.2 Backbone Comparison, Cross-Device
+
+**Source:** This phase, Task 2 (`scripts/evaluate_cross_device.py`, `logs/eval/evaluate_cross_device.txt`).
+
+Cross-device evaluation was performed **only for the winning backbone** (`convnext_tiny`). A full 6-backbone cross-device sweep was never in scope — the project's deployment target (demo/portfolio, single-checkpoint, accuracy-first) does not require comparing all candidates on the generalization set. This is documented as a scope limitation in §5.
+
+> [!NOTE]
+> Running Task 2's script against the 5 remaining checkpoints would complete the cross-device picture and is a natural candidate for `docs/07_STRETCH_GOALS_AND_ROADMAP.md`. It is not a Phase 6 task.
+
+| Backbone | Cross-device Head Acc | Cross-device Abdomen Acc | Cross-device Femur Acc |
+|----------|--------------------|------------------------|----------------------|
+| convnext_tiny (only backbone evaluated) | 83.2% (combined HC18+UCL) | 90.0% (UCL only) | 80.7% (UCL only) |
+
+---
+
+### 4.3 Pretraining Initialisation (ImageNet vs. Domain-Specific SSL)
+
+**Source:** [`docs/EXPERIMENTS.md`](../EXPERIMENTS.md) — Pretraining-init ablation section.
+
+**Status: Skipped — documented, not a negative result.**
+
+The FUSC checkpoint (BioMedIA-MBZUAI/FUSC), a SimCLR-pretrained CNN on fetal ultrasound 2nd-trimester scans, was assessed for portability. The FUSC encoder is ResNet-based and cannot be transplanted into any of the six chosen backbone architectures (ConvNeXt, RepVGG, EfficientNet, MobileNet families). No weight-initialization advantage was therefore possible from FUSC. This is a missing-tool finding, not a result showing domain SSL is unhelpful — the experiment simply could not be run as designed. A proper domain-SSL ablation would require either a FUSC-equivalent pretrained on a ConvNeXt architecture, or training FUSC-style from scratch (a stretch goal per `07_STRETCH_GOALS_AND_ROADMAP.md`).
+
+---
+
+### 4.4 Temporal Smoothing On/Off
+
+**Source:** This phase Task 3 (`logs/eval/evaluate_realistic_video.txt`) + [`docs/phases/phase_05/PHASE5_SMOOTHING_TUNING.md`](phases/phase_05/PHASE5_SMOOTHING_TUNING.md).
+
+**Tuned parameters** (locked from Phase 5, not re-tuned here): `alpha=0.20`, `switch_threshold=0.70`, `min_dwell_frames=8` (≈185 ms at 43 fps), `hold_floor=null`.
+
+| Metric | Raw Argmax (no smoothing) | Tier-1 Smoothed | Improvement |
+|--------|--------------------------|----------------|-------------|
+| Total label-switches/min (all 46 clips) | 788.75 | **72.00** | **−90.9%** |
+| Spurious switches into stable clips | Non-zero | **0** | Eliminated |
+| Synthetic frame accuracy (16 clips) | 100.0% | **100.0%** | No accuracy cost |
+| Mean dwell time on displayed label | — | **2,430 ms** (~2.4 s) | — |
+
+**Key finding:** The Tier-1 smoother achieves a 90.9% switch-rate reduction while introducing zero spurious switches and zero synthetic-clip accuracy degradation. The one residual outlier (`202101141947512003470I1.avi`, 72 smoothed SPM) is the "stubborn clip" Phase 5 identified as the only clip with a genuinely periodic oscillation structure that partially bypasses the hysteresis gate. Tier-2 (learned temporal module) remains a documented stretch goal for this edge case.
+
+---
+
+### 4.5 Class-Weighted Cross-Entropy vs. Focal Loss
+
+**Source:** [`docs/EXPERIMENTS.md`](../EXPERIMENTS.md) — Focal loss ablation section.
+
+**Trigger:** `convnext_tiny`'s test confusion matrix showed concentrated error on `Brain_Trans_ventricular`: 25 of 27 off-diagonal errors landed on `Brain_Trans_thalamic`. This specific, concentrated pair-confusion triggered a focal loss ablation (γ=2.0).
+
+| Metric | Class-weighted CE | Focal Loss (γ=2.0) | Change |
+|--------|------------------|--------------------|--------|
+| Test Macro-F1 | **0.8927** | 0.8785 | −0.0142 |
+| Brain_Trans_ventricular F1 | **0.77** | 0.75 | −0.02 |
+| Brain_Trans_ventricular Precision | **0.83** | 0.74 | −0.09 |
+
+**Result: Clean negative.** Focal loss regressed performance on the very class it was meant to help. Class-weighted CE is retained as the final loss function. The `Brain_Trans_ventricular` weakness persists and is the honest persistent limitation of the trained model, not an artifact of loss function choice.
+
+---
+
+## 5. Limitations
+
+This section compiles all known limitations from Phases 2–6 into one canonical reference.
+
+### 5.1 Video-Transition Validation Gap
+
+No real video source in this project contains an annotated genuine fetal plane-to-plane transition. FETAL_PLANES_DB (the primary training/test dataset) is a static-image collection — no source video was released. The 5 IUGC candidate clips manually annotated in Phase 5 (Task 5) were found to have zero raw model-level transitions to time (the raw argmax never changes its dominant prediction across the clip's duration). As a consequence:
+
+- **Latency-to-stabilize** after a genuine plane change was never measured and cannot be reported.
+- The dwell-time metric (§3b, 2,430 ms mean) is the closest available proxy for responsiveness, but it measures steady-state holding behaviour, not transition-tracking speed.
+- The 90.9% switch reduction was measured entirely on *spurious* switches (noise within a single stable class), not on the desirable switches between different planes.
+
+This is the most significant methodological gap in the Phase 6 evaluation. A proper latency test would require a prospectively-collected real fetal ultrasound video with confirmed, timed standard-plane-to-standard-plane transitions — data that does not exist in any publicly available dataset at time of writing.
+
+### 5.2 Cross-Device Coverage: 3 of 8 Classes, No "Other" Examples
+
+The HC18/UCL cross-device set covers only three of the eight model output classes:
+
+| Class | Cross-device coverage |
+|-------|----------------------|
+| Brain_Trans_cerebellum / thalamic / ventricular | ✅ (collapsed as "Head") |
+| Fetal_abdomen | ✅ (UCL only, 130 images) |
+| Fetal_femur | ✅ (UCL only, 135 images) |
+| **Fetal_thorax** | ❌ No external dataset available |
+| **Maternal_cervix** | ❌ No external dataset available |
+| **Other** | ❌ HC18/UCL are landmark-biometry datasets; every image is a valid standard plane by construction — no non-standard/transitional examples exist |
+
+The cross-device evaluation therefore validates *plane-identity classification* for 3 of 7 planes, and does not validate the standard-vs-Other decision cross-device at all. For `Fetal_thorax` and `Maternal_cervix`, in-distribution test performance (F1=0.94 and 0.99 respectively) is the only available evidence of model quality.
+
+Additionally, the generalization gap for `Head` is primarily driven by HC18 (81.4%), which has 999 images from a single Netherlands site (Voluson E8/730). UCL's Head accuracy (95.0%) is much closer to in-distribution performance, suggesting site diversity within the training set — rather than device type — is the dominant factor in cross-device degradation.
+
+### 5.3 FP and MULTICENTRE Exclusion Rationale
+
+The publicly released UCL/HC18 multi-centre bundle (arXiv 2512.16710) ships four subfolders: `FP`, `HC18`, `UCL`, and a merged `MULTICENTRE`. The paper itself confirms that `FP` is sourced from Burgos-Artizzu et al. 2020 — the same paper FETAL_PLANES_DB is built from, with matching sites (Vall d'Hebron, Sant Joan de Déu), matching devices (Voluson E6/S8/S10, Aloka), and matching filename conventions. Using `FP` or `MULTICENTRE` as a "generalization" set would silently blend already-seen training data into what is supposed to be a held-out evaluation, producing an inflated and misleading generalization number.
+
+Only `HC18` (Netherlands, Voluson E8/730) and `UCL` (UCLH, single site) are used. `CrossDeviceDataset` enforces this via a hard assertion on `image_path`, not just a soft filter.
+
+### 5.4 No True Clinical Validation
+
+This project is a demo/portfolio system built on public research datasets. There is no clinical validation of any kind:
+
+- No real patient data beyond the public research datasets (FETAL_PLANES_DB, HC18, UCL), which were collected under their respective institutional ethics approvals and released for research use.
+- No regulatory scope (no FDA, CE-mark, or MHRA submission).
+- No prospective evaluation against sonographer assessment.
+- No measurement of clinical outcomes.
+
+The system's performance metrics should be interpreted as research-grade benchmarks on curated datasets, not as evidence of clinical readiness. The SonoNet paper (Baumgartner et al., TMI 2017) found a meaningful gap between curated-image accuracy (~0.80–0.86 F1) and live-annotation accuracy in real clinical scanning — our cross-device gap (§2) is consistent with this well-documented real-world degradation pattern.
+
+### 5.5 Cross-Device Backbone Comparison Only Covers Winning Checkpoint
+
+Only `convnext_tiny` was evaluated cross-device (Task 2). The 5 remaining backbone checkpoints (`tf_efficientnetv2_s`, `efficientnet_lite0`, `repvgg_a2`, `repvgg_a1`, `mobilenetv3_large_100`) were not evaluated on HC18+UCL. This means:
+
+- We cannot confirm whether `convnext_tiny`'s in-distribution lead over `tf_efficientnetv2_s` (+0.007 macro-F1, statistically tied) holds or reverses cross-device.
+- Given that `tf_efficientnetv2_s` achieves F1=0.80 on `Brain_Trans_ventricular` (vs 0.77 for `convnext_tiny`), it is plausible that `tf_efficientnetv2_s` generalizes better on Head cross-device — but this is speculative without measurement.
+
+**Candidate Phase 7 addition:** Re-run `scripts/evaluate_cross_device.py` against all 5 remaining checkpoints in `checkpoints/` to produce a complete backbone × cross-device comparison table.
+
+### 5.6 Synthetic Clip Accuracy Ceiling Effect
+
+The 100% synthetic clip accuracy (§3a) is an expected ceiling result, not a strong generalization claim. The synthetic clips are derived from FETAL_PLANES_DB frames (the same source as the training data) with mild ego-motion augmentation. A model that achieves 89.3% macro-F1 on genuinely held-out test images will trivially achieve 100% on jitter-augmented crops of those same images. The synthetic clips serve as a *smoothing validation tool* (confirming the smoother adds no accuracy cost on stable within-class content), not as an independent assessment of model robustness.
+
+---
+
+## 6. Deliverables Checklist
+
+Mirroring `06_EVALUATION_VALIDATION.md`'s final checklist, each item marked done or skipped-with-reason:
+
+| Item | Status | Notes |
+|------|--------|-------|
+| In-distribution test metrics (per-class + macro-F1, confusion matrix) | ✅ Done | §1; consolidated from Phase 4 results, no re-run |
+| Cross-device generalization metrics computed and reported (HC18 + UCL only) | ✅ Done | §2; `scripts/evaluate_cross_device.py` |
+| Gap explicitly called out vs. correctly-matched collapsed baseline | ✅ Done | §2 Generalization Gap table |
+| FP/MULTICENTRE exclusion documented with reasoning | ✅ Done | §5.3 and §2 scope limitations |
+| Realistic-video frame-level accuracy with/without smoothing | ✅ Done | §3a; synthetic clips only (IUGC has no compatible ground truth) |
+| Video stability metrics (switches/min, mean dwell time) | ✅ Done | §3b; Phase 5 reproduced exactly: 788.75 → 72.00/min |
+| Latency-to-stabilize | ✅ Documented limitation | §3b + §5.1; no fabricated number — honest limitation stated verbatim |
+| All planned ablations run/consolidated | ✅ Done | §4; backbone comparison, smoothing on/off, focal loss. Pretraining SSL skipped (tool not portable). Cross-device per-backbone named as Phase 7 candidate. |
+| `docs/EVAL_REPORT.md` written with all sections | ✅ Done | This document |
+| Mandatory limitations section included | ✅ Done | §5 (6 subsections) |
+| No checkpoint modified | ✅ Confirmed | `checkpoints/convnext_tiny/best.pt` frozen throughout Phase 6 |
+| No smoothing config modified | ✅ Confirmed | `configs/smoothing_tier1.yaml` unchanged |
+| No `src/realtime/` or `src/smoothing/` file modified | ✅ Confirmed | Only new eval scripts written under `scripts/` |
 
