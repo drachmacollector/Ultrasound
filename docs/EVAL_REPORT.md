@@ -48,7 +48,7 @@ Performance on the held-out FETAL_PLANES_DB test set (5,271 images from 896 pati
 
 > [!IMPORTANT]
 > 1. **No "Other" examples exist.** Every image in HC18/UCL is a valid standard plane by construction. This evaluation validates plane-*identity* classification cross-device, **not** the standard-vs-Other decision.
-> 2. **Only 3 of 7 classes covered.** HC18/UCL cover `Head`, `Fetal_abdomen`, and `Fetal_femur` only. `Fetal_thorax` and `Maternal_cervix` have **zero cross-device coverage** in any available external dataset — those classes are not validated here and must not be implied as cross-device validated.
+> 2. **Only 3 of 7 anatomical standard planes covered (3 of 8 classes in full taxonomy).** HC18/UCL cover `Head` (encompassing the 3 brain sub-planes), `Fetal_abdomen`, and `Fetal_femur` only. `Fetal_thorax` and `Maternal_cervix` have **zero cross-device coverage** in any available external dataset — those anatomical planes are not validated here and must not be implied as cross-device validated.
 > 3. **FP and MULTICENTRE subfolders excluded.** They overlap with FETAL_PLANES_DB training data. Only genuinely independent HC18 (Netherlands, Voluson E8/730) and UCL (UCLH) images are used. See `00_PROJECT_OVERVIEW.md §5a`.
 
 ### Collapsed-Label Scoring Rule
@@ -292,9 +292,9 @@ No real video source in this project contains an annotated genuine fetal plane-t
 
 This is the most significant methodological gap in the Phase 6 evaluation. A proper latency test would require a prospectively-collected real fetal ultrasound video with confirmed, timed standard-plane-to-standard-plane transitions — data that does not exist in any publicly available dataset at time of writing.
 
-### 5.2 Cross-Device Coverage: 3 of 8 Classes, No "Other" Examples
+### 5.2 Cross-Device Coverage: 3 of 8 Classes (3 of 7 Anatomical Standard Planes), No "Other" Examples
 
-The HC18/UCL cross-device set covers only three of the eight model output classes:
+The HC18/UCL cross-device set covers only three of the seven anatomical standard planes (or 3 of 8 classes in the full model output taxonomy, including "Other"):
 
 | Class | Cross-device coverage |
 |-------|----------------------|
@@ -305,9 +305,9 @@ The HC18/UCL cross-device set covers only three of the eight model output classe
 | **Maternal_cervix** | ❌ No external dataset available |
 | **Other** | ❌ HC18/UCL are landmark-biometry datasets; every image is a valid standard plane by construction — no non-standard/transitional examples exist |
 
-The cross-device evaluation therefore validates *plane-identity classification* for 3 of 7 planes, and does not validate the standard-vs-Other decision cross-device at all. For `Fetal_thorax` and `Maternal_cervix`, in-distribution test performance (F1=0.94 and 0.99 respectively) is the only available evidence of model quality.
+The cross-device evaluation therefore validates *plane-identity classification* for 3 of 7 anatomical standard planes (3 of 8 taxonomic classes), and does not validate the standard-vs-Other decision cross-device at all. For `Fetal_thorax` and `Maternal_cervix`, in-distribution test performance (F1=0.94 and 0.99 respectively) is the only available evidence of model quality.
 
-Additionally, the generalization gap for `Head` is primarily driven by HC18 (81.4%), which has 999 images from a single Netherlands site (Voluson E8/730). UCL's Head accuracy (95.0%) is much closer to in-distribution performance, suggesting site diversity within the training set — rather than device type — is the dominant factor in cross-device degradation.
+Additionally, the generalization gap for `Head` is primarily driven by HC18 (81.4%), which has 999 images from a single Netherlands site (Voluson E8/730). UCL's Head accuracy (95.0%) is much closer to in-distribution performance. While this disparity generates the plausible hypothesis that site/population diversity or protocol variations across centers might drive cross-device degradation more than device manufacturer alone, this remains an unproven hypothesis: several key confounding variables remain unisolated (e.g., HC18 uses ellipse-fit biometry landmark annotations whereas UCL and the training set use manual multi-class labeling, and device models differ across all three sources).
 
 ### 5.3 FP and MULTICENTRE Exclusion Rationale
 
