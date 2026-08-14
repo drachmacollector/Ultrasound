@@ -409,6 +409,7 @@ def run_app(args: argparse.Namespace) -> None:
         gradcam_every_n_frames=args.gradcam_every_n_frames,
         gradcam_wall_ms=1000.0,
         enable_gradcam=not args.no_gradcam,
+        tier2_config_path=args.tier2_config if args.enable_tier2 else None,
     )
 
     # --- Optional stats logger ------------------------------------------------
@@ -561,6 +562,24 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--log-stats", action="store_true",
         help="Periodically write performance stats to logs/realtime_validation_<ts>.txt.",
+    )
+    parser.add_argument(
+        "--enable-tier2", action="store_true",
+        dest="enable_tier2",
+        help=(
+            "Enable Tier-2a majority-vote filter on top of Tier-1 smoothing. "
+            "Off by default — existing Phase 5/6 behaviour is unchanged when omitted. "
+            "Requires --tier2-config to point to a valid smoothing_tier2a.yaml."
+        ),
+    )
+    parser.add_argument(
+        "--tier2-config",
+        default="configs/smoothing_tier2a.yaml",
+        dest="tier2_config",
+        help=(
+            "Path to smoothing_tier2a.yaml (window_frames, min_majority_frac). "
+            "Only used when --enable-tier2 is set."
+        ),
     )
     return parser
 

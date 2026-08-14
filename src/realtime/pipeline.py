@@ -51,6 +51,7 @@ from src.realtime.capture import FrameSource
 from src.realtime.model_loader import LoadedModel
 from src.realtime.queues import DropOldestQueue
 from src.smoothing.tier1 import Tier1Smoother
+from src.smoothing.tier2_mode_filter import Tier2ModeFilter
 
 log = logging.getLogger(__name__)
 
@@ -308,6 +309,11 @@ class InferenceThread(threading.Thread):
                                since the last run (default 200 ms).
         enable_gradcam:        Set False to disable GradCAM entirely (useful for
                                headless benchmarking).
+        tier2_config_path:     Path to configs/smoothing_tier2a.yaml, or None to
+                               disable Tier-2a (default).  When provided, the
+                               Tier2ModeFilter is instantiated and applied after
+                               Tier-1 on every frame.  Tier-1 is never bypassed
+                               — Tier-2a is strictly additive.
     """
 
     def __init__(
@@ -321,6 +327,7 @@ class InferenceThread(threading.Thread):
         gradcam_every_n_frames: int = 10,
         gradcam_wall_ms: float = 1000.0,
         enable_gradcam: bool = True,
+        tier2_config_path: str | Path | None = None,
     ) -> None:
         super().__init__(name="InferenceThread", daemon=True)
 
@@ -353,6 +360,25 @@ class InferenceThread(threading.Thread):
             cfg["alpha"], cfg["switch_threshold"],
             cfg["min_dwell_frames"], cfg.get("hold_floor"),
         )
+
+        # --- Optional Tier-2a mode filter -----------------------------------
+        # Loaded only when tier2_config_path is explicitly provided (opt-in).
+        # When None (default), this path is never executed and the pipeline
+        # behaviour is identical to pre-Tier-2a Phase 5/6.
+        if tier2_config_path is not None:
+            self._tier2: Tier2ModeFilter | None = Tier2ModeFilter.from_config(
+                tier2_config_path
+            )
+            log.info(
+                "InferenceThread: Tier2ModeFilter loaded from %s — "
+                "window=%d  majority_frac=%.2f",
+                tier2_config_path,
+                self._tier2.window_frames,
+                self._tier2.min_majority_frac,
+            )
+        else:
+            self._tier2 = None
+            log.info("InferenceThread: Tier-2a disabled (no tier2_config_path).")
 
         # --- Persistent GradCAM instance ------------------------------------
         # Created ONCE here; hooks remain registered until cleanup() is called.
@@ -471,6 +497,17 @@ class InferenceThread(threading.Thread):
             smoothing_ms = (time.monotonic() - t0) * 1000.0
 
             # ----------------------------------------------------------------
+            # Stage 3b — Tier-2a mode filter (optional, additive)
+            # Feeds Tier-1's `current_displayed_label` through a trailing-window
+            # majority-vote filter.  Only active when tier2_config_path was
+            # provided at construction.  Tier-1 state is never bypassed.
+            # ----------------------------------------------------------------
+            if self._tier2 is not None:
+                final_label: int = self._tier2.step(label)
+            else:
+                final_label = label
+
+            # ----------------------------------------------------------------
             # Stage 4 — Grad-CAM (persistent instance, throttled)
             #
             # Decision: run GradCAM when EITHER N processed frames have elapsed
@@ -538,8 +575,8 @@ class InferenceThread(threading.Thread):
                 "gradcam_ms":    gradcam_ms,   # None on non-GradCAM frames
             }
             result: dict[str, Any] = {
-                "label":          label,
-                "label_name":     IDX_TO_CLASS.get(label, f"class_{label}"),
+                "label":          final_label,
+                "label_name":     IDX_TO_CLASS.get(final_label, f"class_{final_label}"),
                 "confidence":     confidence,
                 "smoothed_probs": smoothed_probs,
                 "is_stable":      is_stable,
@@ -548,6 +585,7 @@ class InferenceThread(threading.Thread):
                 "timings":        timings,
                 "capture_ts":     cap_ts,
                 "inference_ts":   time.monotonic(),
+                "tier2_active":   self._tier2 is not None,
             }
             self._result_queue.put(result)
             self._stats.inf_queue_drops = self._result_queue.drops - drops_before

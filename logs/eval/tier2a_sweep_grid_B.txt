@@ -1,0 +1,255 @@
+========================================================================
+Tier-2a Parameter Sweep — Grid B
+Generated: 2026-08-15T03:10:36.745523
+========================================================================
+Tier-1 config (frozen): configs/smoothing_tier1.yaml
+  alpha=0.2  sw_thr=0.7  dwell=8  hold_floor=None
+Grid B window_frames: [5, 7, 9, 11, 13, 15, 19, 25]
+min_majority_frac values: [0.5, 0.6, 0.7]
+Total combos: 24
+Total clips:  46
+
+Tier-1 baseline (from Phase 5 sweep, for reference):
+  Total residual switches/min across 46 clips: 72.0
+  Stubborn clip (202101141947512003470I1.avi): 72.0 switches/min
+
+Pre-declared success criterion (evaluated AFTER sweep):
+  a) stubborn clip residual < 72.0 switches/min
+  b) spurious_new == 0 for all other clips
+  c) window_frames <= 9
+
+[  1/24] window= 5  majority_frac=0.5
+  Tier-1 total residual:  72.00 switches/min
+  Tier-2a total residual: 72.00 switches/min
+  Net delta:              +0.00 switches/min
+  Suppression vs Tier-1:  0.0%
+  Stubborn clip: Tier-1=72.00 → Tier-2a=72.00 (delta=+0.00)
+  Spurious clips:         0
+  Added lag (worst-case): 169 ms
+
+[  2/24] window= 5  majority_frac=0.6
+  Tier-1 total residual:  72.00 switches/min
+  Tier-2a total residual: 72.00 switches/min
+  Net delta:              +0.00 switches/min
+  Suppression vs Tier-1:  0.0%
+  Stubborn clip: Tier-1=72.00 → Tier-2a=72.00 (delta=+0.00)
+  Spurious clips:         0
+  Added lag (worst-case): 169 ms
+
+[  3/24] window= 5  majority_frac=0.7
+  Tier-1 total residual:  72.00 switches/min
+  Tier-2a total residual: 72.00 switches/min
+  Net delta:              +0.00 switches/min
+  Suppression vs Tier-1:  0.0%
+  Stubborn clip: Tier-1=72.00 → Tier-2a=72.00 (delta=+0.00)
+  Spurious clips:         0
+  Added lag (worst-case): 169 ms
+
+[  4/24] window= 7  majority_frac=0.5
+  Tier-1 total residual:  72.00 switches/min
+  Tier-2a total residual: 72.00 switches/min
+  Net delta:              +0.00 switches/min
+  Suppression vs Tier-1:  0.0%
+  Stubborn clip: Tier-1=72.00 → Tier-2a=72.00 (delta=+0.00)
+  Spurious clips:         0
+  Added lag (worst-case): 253 ms
+
+[  5/24] window= 7  majority_frac=0.6
+  Tier-1 total residual:  72.00 switches/min
+  Tier-2a total residual: 72.00 switches/min
+  Net delta:              +0.00 switches/min
+  Suppression vs Tier-1:  0.0%
+  Stubborn clip: Tier-1=72.00 → Tier-2a=72.00 (delta=+0.00)
+  Spurious clips:         0
+  Added lag (worst-case): 253 ms
+
+[  6/24] window= 7  majority_frac=0.7
+  Tier-1 total residual:  72.00 switches/min
+  Tier-2a total residual: 72.00 switches/min
+  Net delta:              +0.00 switches/min
+  Suppression vs Tier-1:  0.0%
+  Stubborn clip: Tier-1=72.00 → Tier-2a=72.00 (delta=+0.00)
+  Spurious clips:         0
+  Added lag (worst-case): 253 ms
+
+[  7/24] window= 9  majority_frac=0.5
+  Tier-1 total residual:  72.00 switches/min
+  Tier-2a total residual: 72.00 switches/min
+  Net delta:              +0.00 switches/min
+  Suppression vs Tier-1:  0.0%
+  Stubborn clip: Tier-1=72.00 → Tier-2a=72.00 (delta=+0.00)
+  Spurious clips:         0
+  Added lag (worst-case): 338 ms
+
+[  8/24] window= 9  majority_frac=0.6
+  Tier-1 total residual:  72.00 switches/min
+  Tier-2a total residual: 72.00 switches/min
+  Net delta:              +0.00 switches/min
+  Suppression vs Tier-1:  0.0%
+  Stubborn clip: Tier-1=72.00 → Tier-2a=72.00 (delta=+0.00)
+  Spurious clips:         0
+  Added lag (worst-case): 338 ms
+
+[  9/24] window= 9  majority_frac=0.7
+  Tier-1 total residual:  72.00 switches/min
+  Tier-2a total residual: 0.00 switches/min
+  Net delta:              -72.00 switches/min
+  Suppression vs Tier-1:  100.0%
+  Stubborn clip: Tier-1=72.00 → Tier-2a=0.00 (delta=-72.00)
+  Spurious clips:         0
+  Added lag (worst-case): 338 ms
+
+[ 10/24] window=11  majority_frac=0.5
+  Tier-1 total residual:  72.00 switches/min
+  Tier-2a total residual: 72.00 switches/min
+  Net delta:              +0.00 switches/min
+  Suppression vs Tier-1:  0.0%
+  Stubborn clip: Tier-1=72.00 → Tier-2a=72.00 (delta=+0.00)
+  Spurious clips:         0
+  Added lag (worst-case): 422 ms
+
+[ 11/24] window=11  majority_frac=0.6
+  Tier-1 total residual:  72.00 switches/min
+  Tier-2a total residual: 0.00 switches/min
+  Net delta:              -72.00 switches/min
+  Suppression vs Tier-1:  100.0%
+  Stubborn clip: Tier-1=72.00 → Tier-2a=0.00 (delta=-72.00)
+  Spurious clips:         0
+  Added lag (worst-case): 422 ms
+
+[ 12/24] window=11  majority_frac=0.7
+  Tier-1 total residual:  72.00 switches/min
+  Tier-2a total residual: 0.00 switches/min
+  Net delta:              -72.00 switches/min
+  Suppression vs Tier-1:  100.0%
+  Stubborn clip: Tier-1=72.00 → Tier-2a=0.00 (delta=-72.00)
+  Spurious clips:         0
+  Added lag (worst-case): 422 ms
+
+[ 13/24] window=13  majority_frac=0.5
+  Tier-1 total residual:  72.00 switches/min
+  Tier-2a total residual: 0.00 switches/min
+  Net delta:              -72.00 switches/min
+  Suppression vs Tier-1:  100.0%
+  Stubborn clip: Tier-1=72.00 → Tier-2a=0.00 (delta=-72.00)
+  Spurious clips:         0
+  Added lag (worst-case): 506 ms
+
+[ 14/24] window=13  majority_frac=0.6
+  Tier-1 total residual:  72.00 switches/min
+  Tier-2a total residual: 0.00 switches/min
+  Net delta:              -72.00 switches/min
+  Suppression vs Tier-1:  100.0%
+  Stubborn clip: Tier-1=72.00 → Tier-2a=0.00 (delta=-72.00)
+  Spurious clips:         0
+  Added lag (worst-case): 506 ms
+
+[ 15/24] window=13  majority_frac=0.7
+  Tier-1 total residual:  72.00 switches/min
+  Tier-2a total residual: 0.00 switches/min
+  Net delta:              -72.00 switches/min
+  Suppression vs Tier-1:  100.0%
+  Stubborn clip: Tier-1=72.00 → Tier-2a=0.00 (delta=-72.00)
+  Spurious clips:         0
+  Added lag (worst-case): 506 ms
+
+[ 16/24] window=15  majority_frac=0.5
+  Tier-1 total residual:  72.00 switches/min
+  Tier-2a total residual: 0.00 switches/min
+  Net delta:              -72.00 switches/min
+  Suppression vs Tier-1:  100.0%
+  Stubborn clip: Tier-1=72.00 → Tier-2a=0.00 (delta=-72.00)
+  Spurious clips:         0
+  Added lag (worst-case): 591 ms
+
+[ 17/24] window=15  majority_frac=0.6
+  Tier-1 total residual:  72.00 switches/min
+  Tier-2a total residual: 0.00 switches/min
+  Net delta:              -72.00 switches/min
+  Suppression vs Tier-1:  100.0%
+  Stubborn clip: Tier-1=72.00 → Tier-2a=0.00 (delta=-72.00)
+  Spurious clips:         0
+  Added lag (worst-case): 591 ms
+
+[ 18/24] window=15  majority_frac=0.7
+  Tier-1 total residual:  72.00 switches/min
+  Tier-2a total residual: 0.00 switches/min
+  Net delta:              -72.00 switches/min
+  Suppression vs Tier-1:  100.0%
+  Stubborn clip: Tier-1=72.00 → Tier-2a=0.00 (delta=-72.00)
+  Spurious clips:         0
+  Added lag (worst-case): 591 ms
+
+[ 19/24] window=19  majority_frac=0.5
+  Tier-1 total residual:  72.00 switches/min
+  Tier-2a total residual: 0.00 switches/min
+  Net delta:              -72.00 switches/min
+  Suppression vs Tier-1:  100.0%
+  Stubborn clip: Tier-1=72.00 → Tier-2a=0.00 (delta=-72.00)
+  Spurious clips:         0
+  Added lag (worst-case): 759 ms
+
+[ 20/24] window=19  majority_frac=0.6
+  Tier-1 total residual:  72.00 switches/min
+  Tier-2a total residual: 0.00 switches/min
+  Net delta:              -72.00 switches/min
+  Suppression vs Tier-1:  100.0%
+  Stubborn clip: Tier-1=72.00 → Tier-2a=0.00 (delta=-72.00)
+  Spurious clips:         0
+  Added lag (worst-case): 759 ms
+
+[ 21/24] window=19  majority_frac=0.7
+  Tier-1 total residual:  72.00 switches/min
+  Tier-2a total residual: 0.00 switches/min
+  Net delta:              -72.00 switches/min
+  Suppression vs Tier-1:  100.0%
+  Stubborn clip: Tier-1=72.00 → Tier-2a=0.00 (delta=-72.00)
+  Spurious clips:         0
+  Added lag (worst-case): 759 ms
+
+[ 22/24] window=25  majority_frac=0.5
+  Tier-1 total residual:  72.00 switches/min
+  Tier-2a total residual: 0.00 switches/min
+  Net delta:              -72.00 switches/min
+  Suppression vs Tier-1:  100.0%
+  Stubborn clip: Tier-1=72.00 → Tier-2a=0.00 (delta=-72.00)
+  Spurious clips:         0
+  Added lag (worst-case): 1013 ms
+
+[ 23/24] window=25  majority_frac=0.6
+  Tier-1 total residual:  72.00 switches/min
+  Tier-2a total residual: 0.00 switches/min
+  Net delta:              -72.00 switches/min
+  Suppression vs Tier-1:  100.0%
+  Stubborn clip: Tier-1=72.00 → Tier-2a=0.00 (delta=-72.00)
+  Spurious clips:         0
+  Added lag (worst-case): 1013 ms
+
+[ 24/24] window=25  majority_frac=0.7
+  Tier-1 total residual:  72.00 switches/min
+  Tier-2a total residual: 0.00 switches/min
+  Net delta:              -72.00 switches/min
+  Suppression vs Tier-1:  100.0%
+  Stubborn clip: Tier-1=72.00 → Tier-2a=0.00 (delta=-72.00)
+  Spurious clips:         0
+  Added lag (worst-case): 1013 ms
+
+========================================================================
+SWEEP COMPLETE — Grid B
+========================================================================
+
+Combos meeting ALL 3 criteria: 1 / 24
+Best combo: window=9  frac=0.7  stubborn=0.0  total=0.0  added_lag=338ms
+
+Top-10 combos by total residual (zero spurious only):
+  window    frac    t2_total   stubborn_t2   added_lag_ms   all_ok
+      13     0.5        0.00          0.00            506    False
+      15     0.5        0.00          0.00            591    False
+      13     0.6        0.00          0.00            506    False
+      13     0.7        0.00          0.00            506    False
+      11     0.6        0.00          0.00            422    False
+      11     0.7        0.00          0.00            422    False
+       9     0.7        0.00          0.00            338     True
+      15     0.6        0.00          0.00            591    False
+      25     0.7        0.00          0.00           1013    False
+      25     0.6        0.00          0.00           1013    False

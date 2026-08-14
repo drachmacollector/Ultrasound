@@ -1,0 +1,5 @@
+_comment: 'Selected by tune_tier2_mode_filter.py — global best across grids A+B. Stubborn
+  clip residual: 0.0 switches/min (Tier-1 baseline: 72.0). Added lag: 338ms worst-case
+  at 23.7fps.'
+min_majority_frac: 0.7
+window_frames: 9

@@ -1,0 +1,227 @@
+========================================================================
+Tier-2a Evaluation: Tier-1 vs. Tier-1+Tier-2a
+Generated: 2026-08-15T03:16:25.655873
+========================================================================
+
+Tier-1 config: configs/smoothing_tier1.yaml
+  alpha=0.2  sw_thr=0.7  dwell=8  hold_floor=None
+
+Tier-2a config: configs/smoothing_tier2a.yaml
+  window_frames=9  min_majority_frac=0.7
+
+Device: cuda
+Model: convnext_tiny.fb_in22k_ft_in1k
+
+Clips: 46
+
+  [ 1/46] Brain_Trans_cerebellum_clip01.mp4
+    Tier-1: 0.00/min  Tier-2a: 0.00/min  delta=+0.00  spurious=no
+
+  [ 2/46] Brain_Trans_cerebellum_clip02.mp4
+    Tier-1: 0.00/min  Tier-2a: 0.00/min  delta=+0.00  spurious=no
+
+  [ 3/46] Brain_Trans_thalamic_clip01.mp4
+    Tier-1: 0.00/min  Tier-2a: 0.00/min  delta=+0.00  spurious=no
+
+  [ 4/46] Brain_Trans_thalamic_clip02.mp4
+    Tier-1: 0.00/min  Tier-2a: 0.00/min  delta=+0.00  spurious=no
+
+  [ 5/46] Brain_Trans_ventricular_clip01.mp4
+    Tier-1: 0.00/min  Tier-2a: 0.00/min  delta=+0.00  spurious=no
+
+  [ 6/46] Brain_Trans_ventricular_clip02.mp4
+    Tier-1: 0.00/min  Tier-2a: 0.00/min  delta=+0.00  spurious=no
+
+  [ 7/46] Fetal_abdomen_clip01.mp4
+    Tier-1: 0.00/min  Tier-2a: 0.00/min  delta=+0.00  spurious=no
+
+  [ 8/46] Fetal_abdomen_clip02.mp4
+    Tier-1: 0.00/min  Tier-2a: 0.00/min  delta=+0.00  spurious=no
+
+  [ 9/46] Fetal_femur_clip01.mp4
+    Tier-1: 0.00/min  Tier-2a: 0.00/min  delta=+0.00  spurious=no
+
+  [10/46] Fetal_femur_clip02.mp4
+    Tier-1: 0.00/min  Tier-2a: 0.00/min  delta=+0.00  spurious=no
+
+  [11/46] Fetal_thorax_clip01.mp4
+    Tier-1: 0.00/min  Tier-2a: 0.00/min  delta=+0.00  spurious=no
+
+  [12/46] Fetal_thorax_clip02.mp4
+    Tier-1: 0.00/min  Tier-2a: 0.00/min  delta=+0.00  spurious=no
+
+  [13/46] Maternal_cervix_clip01.mp4
+    Tier-1: 0.00/min  Tier-2a: 0.00/min  delta=+0.00  spurious=no
+
+  [14/46] Maternal_cervix_clip02.mp4
+    Tier-1: 0.00/min  Tier-2a: 0.00/min  delta=+0.00  spurious=no
+
+  [15/46] Other_clip01.mp4
+    Tier-1: 0.00/min  Tier-2a: 0.00/min  delta=+0.00  spurious=no
+
+  [16/46] Other_clip02.mp4
+    Tier-1: 0.00/min  Tier-2a: 0.00/min  delta=+0.00  spurious=no
+
+  [17/46] 20190726T095643_0.avi
+    Tier-1: 0.00/min  Tier-2a: 0.00/min  delta=+0.00  spurious=no
+
+  [18/46] 20190830T115644__B_产科_tmp_0.avi
+    Tier-1: 0.00/min  Tier-2a: 0.00/min  delta=+0.00  spurious=no
+
+  [19/46] 20190906T105145__B_产科_0.avi
+    Tier-1: 0.00/min  Tier-2a: 0.00/min  delta=+0.00  spurious=no
+
+  [20/46] 20190906T105237__B_产科_tmp_0.avi
+    Tier-1: 0.00/min  Tier-2a: 0.00/min  delta=+0.00  spurious=no
+
+  [21/46] 20190909T155747__B_产科_0.avi
+    Tier-1: 0.00/min  Tier-2a: 0.00/min  delta=+0.00  spurious=no
+
+  [22/46] 20190909T155747__B_产科_1.avi
+    Tier-1: 0.00/min  Tier-2a: 0.00/min  delta=+0.00  spurious=no
+
+  [23/46] 20190909T155747I1__20190909T155747I1.avi
+    Tier-1: 0.00/min  Tier-2a: 0.00/min  delta=+0.00  spurious=no
+
+  [24/46] 20190909T155747I5__20190909T155747I5.avi
+    Tier-1: 0.00/min  Tier-2a: 0.00/min  delta=+0.00  spurious=no
+
+  [25/46] 20190909T155747I9__20190909T155747I9.avi
+    Tier-1: 0.00/min  Tier-2a: 0.00/min  delta=+0.00  spurious=no
+
+  [26/46] 20190909T161453__B_产科_0.avi
+    Tier-1: 0.00/min  Tier-2a: 0.00/min  delta=+0.00  spurious=no
+
+  [27/46] test_10_80.avi
+    Tier-1: 0.00/min  Tier-2a: 0.00/min  delta=+0.00  spurious=no
+
+  [28/46] test_11_14.avi
+    Tier-1: 0.00/min  Tier-2a: 0.00/min  delta=+0.00  spurious=no
+
+  [29/46] test_12_79.avi
+    Tier-1: 0.00/min  Tier-2a: 0.00/min  delta=+0.00  spurious=no
+
+  [30/46] test_13_70.avi
+    Tier-1: 0.00/min  Tier-2a: 0.00/min  delta=+0.00  spurious=no
+
+  [31/46] test_14_51.avi
+    Tier-1: 0.00/min  Tier-2a: 0.00/min  delta=+0.00  spurious=no
+
+  [32/46] test_15_67.avi
+    Tier-1: 0.00/min  Tier-2a: 0.00/min  delta=+0.00  spurious=no
+
+  [33/46] test_16_79.avi
+    Tier-1: 0.00/min  Tier-2a: 0.00/min  delta=+0.00  spurious=no
+
+  [34/46] test_17_45.avi
+    Tier-1: 0.00/min  Tier-2a: 0.00/min  delta=+0.00  spurious=no
+
+  [35/46] test_18_79.avi
+    Tier-1: 0.00/min  Tier-2a: 0.00/min  delta=+0.00  spurious=no
+
+  [36/46] test_19_24.avi
+    Tier-1: 0.00/min  Tier-2a: 0.00/min  delta=+0.00  spurious=no
+
+  [37/46] 202012132137152159400I1.avi
+    Tier-1: 0.00/min  Tier-2a: 0.00/min  delta=+0.00  spurious=no
+
+  [38/46] 202101071849301901010I3.avi
+    Tier-1: 0.00/min  Tier-2a: 0.00/min  delta=+0.00  spurious=no
+
+  [39/46] 202101071849301901010I4.avi
+    Tier-1: 0.00/min  Tier-2a: 0.00/min  delta=+0.00  spurious=no
+
+  [40/46] 202101141947512000310I1.avi
+    Tier-1: 0.00/min  Tier-2a: 0.00/min  delta=+0.00  spurious=no
+
+  [41/46] 202101141947512000310I2.avi
+    Tier-1: 0.00/min  Tier-2a: 0.00/min  delta=+0.00  spurious=no
+
+  [42/46] 202101141947512000310I3.avi
+    Tier-1: 0.00/min  Tier-2a: 0.00/min  delta=+0.00  spurious=no
+
+  [43/46] 202101141947512003470I1.avi
+    Tier-1: 72.00/min  Tier-2a: 0.00/min  delta=-72.00  spurious=no  ← STUBBORN CLIP
+
+  [44/46] 202101141947512003470I2.avi
+    Tier-1: 0.00/min  Tier-2a: 0.00/min  delta=+0.00  spurious=no
+
+  [45/46] 202101191945432007060I1.avi
+    Tier-1: 0.00/min  Tier-2a: 0.00/min  delta=+0.00  spurious=no
+
+  [46/46] 202101191945432007060I2.avi
+    Tier-1: 0.00/min  Tier-2a: 0.00/min  delta=+0.00  spurious=no
+
+========================================================================
+SUMMARY
+========================================================================
+
+Clips evaluated:            46
+Evaluation time:            61.7s
+
+Phase 5 raw-argmax baseline:  788.75 switches/min
+Tier-1-only total residual:   72.00 switches/min
+Tier-1+Tier-2a total residual:0.00 switches/min
+Net delta (Tier-2a effect):   -72.00 switches/min
+
+Stubborn clip (202101141947512003470I1.avi):
+  Tier-1: 72.00  Tier-2a: 0.00  delta=-72.00
+
+Spurious switches introduced: 0 clips
+  [PASS] Tier-2a introduced no spurious switches on any stable clip.
+
+Non-stubborn clips with any regression (t2 > t1): 0
+  [PASS] No regression on any non-stubborn clip.
+
+Per-clip results (sorted by Tier-2a residual, descending):
+Clip                                                T1/min  T2/min   delta  Spurious
+----------------------------------------------------------------------------------
+Brain_Trans_cerebellum_clip01.mp4                     0.00    0.00   +0.00          
+Brain_Trans_cerebellum_clip02.mp4                     0.00    0.00   +0.00          
+Brain_Trans_thalamic_clip01.mp4                       0.00    0.00   +0.00          
+Brain_Trans_thalamic_clip02.mp4                       0.00    0.00   +0.00          
+Brain_Trans_ventricular_clip01.mp4                    0.00    0.00   +0.00          
+Brain_Trans_ventricular_clip02.mp4                    0.00    0.00   +0.00          
+Fetal_abdomen_clip01.mp4                              0.00    0.00   +0.00          
+Fetal_abdomen_clip02.mp4                              0.00    0.00   +0.00          
+Fetal_femur_clip01.mp4                                0.00    0.00   +0.00          
+Fetal_femur_clip02.mp4                                0.00    0.00   +0.00          
+Fetal_thorax_clip01.mp4                               0.00    0.00   +0.00          
+Fetal_thorax_clip02.mp4                               0.00    0.00   +0.00          
+Maternal_cervix_clip01.mp4                            0.00    0.00   +0.00          
+Maternal_cervix_clip02.mp4                            0.00    0.00   +0.00          
+Other_clip01.mp4                                      0.00    0.00   +0.00          
+Other_clip02.mp4                                      0.00    0.00   +0.00          
+20190726T095643_0.avi                                 0.00    0.00   +0.00          
+20190830T115644__B_产科_tmp_0.avi                       0.00    0.00   +0.00          
+20190906T105145__B_产科_0.avi                           0.00    0.00   +0.00          
+20190906T105237__B_产科_tmp_0.avi                       0.00    0.00   +0.00          
+20190909T155747__B_产科_0.avi                           0.00    0.00   +0.00          
+20190909T155747__B_产科_1.avi                           0.00    0.00   +0.00          
+20190909T155747I1__20190909T155747I1.avi              0.00    0.00   +0.00          
+20190909T155747I5__20190909T155747I5.avi              0.00    0.00   +0.00          
+20190909T155747I9__20190909T155747I9.avi              0.00    0.00   +0.00          
+20190909T161453__B_产科_0.avi                           0.00    0.00   +0.00          
+test_10_80.avi                                        0.00    0.00   +0.00          
+test_11_14.avi                                        0.00    0.00   +0.00          
+test_12_79.avi                                        0.00    0.00   +0.00          
+test_13_70.avi                                        0.00    0.00   +0.00          
+test_14_51.avi                                        0.00    0.00   +0.00          
+test_15_67.avi                                        0.00    0.00   +0.00          
+test_16_79.avi                                        0.00    0.00   +0.00          
+test_17_45.avi                                        0.00    0.00   +0.00          
+test_18_79.avi                                        0.00    0.00   +0.00          
+test_19_24.avi                                        0.00    0.00   +0.00          
+202012132137152159400I1.avi                           0.00    0.00   +0.00          
+202101071849301901010I3.avi                           0.00    0.00   +0.00          
+202101071849301901010I4.avi                           0.00    0.00   +0.00          
+202101141947512000310I1.avi                           0.00    0.00   +0.00          
+202101141947512000310I2.avi                           0.00    0.00   +0.00          
+202101141947512000310I3.avi                           0.00    0.00   +0.00          
+202101141947512003470I1.avi                          72.00    0.00  -72.00          
+202101141947512003470I2.avi                           0.00    0.00   +0.00          
+202101191945432007060I1.avi                           0.00    0.00   +0.00          
+202101191945432007060I2.avi                           0.00    0.00   +0.00          
+
+Results CSV: data\processed\eval_tier2\tier2_results.csv
+Log: logs\eval\evaluate_tier2.txt
