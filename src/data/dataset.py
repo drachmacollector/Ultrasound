@@ -19,6 +19,7 @@ from typing import ClassVar
 import pandas as pd
 from torch.utils.data import Dataset
 
+import json
 from src.data.transforms import get_eval_transform, load_and_prep_grayscale_to_rgb
 
 # Single source of truth for label ordering — must match IDX_TO_CLASS in inference.py
@@ -45,6 +46,7 @@ class FocalPlanesDataset(Dataset):
         csv_path: Path to the split CSV file.
         transform: Callable albumentations pipeline. If None, uses get_eval_transform().
         label_col: Column name holding the canonical class label string.
+        bboxes_path: Path to bboxes.json to load bounding box annotations.
     """
 
     def __init__(
@@ -52,10 +54,16 @@ class FocalPlanesDataset(Dataset):
         csv_path: str,
         transform: Callable | None = None,
         label_col: str = "plane_label",
+        bboxes_path: str | None = None,
     ):
         self.df = pd.read_csv(csv_path)
-        self.transform = transform if transform is not None else get_eval_transform()
+        self.transform = transform if transform is not None else get_eval_transform(with_bboxes=(bboxes_path is not None))
         self.label_col = label_col
+        self.bboxes_dict = None
+        
+        if bboxes_path:
+            with open(bboxes_path, 'r', encoding='utf-8') as f:
+                self.bboxes_dict = json.load(f)
 
         # Validate that every label in the CSV is known
         unknown = set(self.df[label_col].unique()) - set(CANONICAL_CLASSES)
@@ -74,11 +82,37 @@ class FocalPlanesDataset(Dataset):
         label_str = row[self.label_col]
 
         img = load_and_prep_grayscale_to_rgb(image_path)  # HxWx3 uint8
-        augmented = self.transform(image=img)
-        tensor = augmented["image"]  # [3, H, W] float32, normalized
-
         label_idx = CLASS_TO_IDX[label_str]
-        return tensor, label_idx
+
+        if self.bboxes_dict is not None:
+            bboxes = []
+            class_labels = []
+            basename = Path(image_path).name
+            if basename in self.bboxes_dict:
+                item = self.bboxes_dict[basename]
+                bbox = item['bbox']
+                h, w = img.shape[:2]
+                xmin = max(0, min(bbox[0], w - 1))
+                ymin = max(0, min(bbox[1], h - 1))
+                xmax = max(0, min(bbox[2], w - 1))
+                ymax = max(0, min(bbox[3], h - 1))
+                
+                if xmax > xmin and ymax > ymin:
+                    bboxes.append([xmin, ymin, xmax, ymax])
+                    class_labels.append(item['class_id'])
+                    
+            augmented = self.transform(image=img, bboxes=bboxes, class_labels=class_labels)
+            tensor = augmented["image"]
+            
+            import torch
+            aug_bboxes = torch.tensor(augmented["bboxes"], dtype=torch.float32)
+            aug_labels = torch.tensor(augmented["class_labels"], dtype=torch.long)
+            
+            return tensor, label_idx, aug_bboxes, aug_labels
+        else:
+            augmented = self.transform(image=img)
+            tensor = augmented["image"]  # [3, H, W] float32, normalized
+            return tensor, label_idx
 
 
 class CrossDeviceDataset(Dataset):
@@ -132,3 +166,32 @@ class CrossDeviceDataset(Dataset):
         tensor = augmented["image"]
 
         return tensor, label_str, is_collapsed, source_subset
+
+
+def multitask_collate_fn(batch):
+    """
+    Custom collate_fn for heterogeneous batching with bounding boxes.
+    Expects batch elements to be (tensor, label_idx, bboxes, class_labels)
+    or just (tensor, label_idx).
+    """
+    import torch
+    images = []
+    labels = []
+    bboxes = []
+    class_labels = []
+    
+    has_bboxes = len(batch[0]) == 4
+    
+    for item in batch:
+        images.append(item[0])
+        labels.append(item[1])
+        if has_bboxes:
+            bboxes.append(item[2])
+            class_labels.append(item[3])
+        
+    images = torch.stack(images, dim=0)
+    labels = torch.tensor(labels, dtype=torch.long)
+    
+    if has_bboxes:
+        return images, labels, bboxes, class_labels
+    return images, labels

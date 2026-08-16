@@ -1,0 +1,32 @@
+# configs/convnext_tiny.yaml
+#
+# Added as a 6th backbone candidate during Phase 4 LR finder investigations.
+# Standard ImageNet parameters apply to this architecture variant.
+# VRAM note: 224x224 at batch_size=64 with AMP fits within 8 GB on RTX 4060.
+
+backbone: convnext_tiny.fb_in22k_ft_in1k
+num_classes: 8
+pretrained: true
+image_size: 224
+normalize_mean: [0.485, 0.456, 0.406]
+normalize_std: [0.229, 0.224, 0.225]
+
+train_csv: data/splits/train.csv
+val_csv: data/splits/val.csv
+class_weights_json: data/processed/class_weights.json
+
+batch_size: 8
+num_workers: 4
+epochs_smoke_test: 1
+epochs_max: 1
+early_stopping_patience: 8
+
+optimizer: adamw
+lr: 1e-4
+weight_decay: 0.01
+scheduler: cosine
+amp: true
+
+log_dir: logs/multitask
+checkpoint_dir: checkpoints/multitask
+seed: 42

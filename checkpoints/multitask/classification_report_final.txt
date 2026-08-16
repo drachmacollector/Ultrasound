@@ -1,0 +1,14 @@
+                         precision    recall  f1-score   support
+
+ Brain_Trans_cerebellum       0.94      0.83      0.88        53
+   Brain_Trans_thalamic       0.68      0.98      0.81       126
+Brain_Trans_ventricular       0.00      0.00      0.00        43
+          Fetal_abdomen       0.65      1.00      0.79        51
+            Fetal_femur       0.73      1.00      0.84        74
+           Fetal_thorax       0.88      0.97      0.93       152
+        Maternal_cervix       0.97      1.00      0.98       141
+                  Other       0.99      0.78      0.87       383
+
+               accuracy                           0.86      1023
+              macro avg       0.73      0.82      0.76      1023
+           weighted avg       0.85      0.86      0.84      1023

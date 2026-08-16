@@ -148,24 +148,26 @@ def _draw_watermark(canvas: np.ndarray, w: int, h: int) -> None:
     a screenshot.  We draw it twice (top and bottom) with a filled background
     strip so it cannot be cropped away by aspect-ratio changes.
     """
-    msg = "[WEBCAM DEMO — pipeline mechanics test only, not real ultrasound]"
-    font = cv2.FONT_HERSHEY_SIMPLEX
-    scale = 0.55
+    msg = "WEBCAM DEMO: PIPELINE MECHANICS TEST ONLY"
+    font = cv2.FONT_HERSHEY_DUPLEX
+    scale = 0.50
     thickness = 1
     (tw, th), baseline = cv2.getTextSize(msg, font, scale, thickness)
-    pad = 6
+    pad = 8
     strip_h = th + baseline + pad * 2
 
+    overlay = canvas.copy()
     for y_top in (0, h - strip_h):
-        # Dark strip background
-        cv2.rectangle(canvas, (0, y_top), (w, y_top + strip_h), (10, 10, 60), -1)
-        # Centred text
+        cv2.rectangle(overlay, (0, y_top), (w, y_top + strip_h), _CLR_PANEL, -1)
+    
+    cv2.addWeighted(overlay, 0.75, canvas, 0.25, 0, canvas)
+
+    for y_top in (0, h - strip_h):
         x = max(0, (w - tw) // 2)
         y = y_top + pad + th
-        cv2.putText(canvas, msg, (x, y), font, scale, _CLR_WATERMARK,
-                    thickness + 1, cv2.LINE_AA)  # bold outline
-        cv2.putText(canvas, msg, (x, y), font, scale, (220, 220, 255),
-                    thickness, cv2.LINE_AA)
+        _put_text_outlined(canvas, msg, (x, y), font, scale,
+                           (230, 230, 230), thickness,
+                           _CLR_BLACK, 2)
 
 
 def _draw_label_panel(

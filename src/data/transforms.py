@@ -29,51 +29,34 @@ def get_train_transform(
     img_size: int = IMG_SIZE,
     mean: tuple[float, ...] = IMAGENET_MEAN,
     std: tuple[float, ...] = IMAGENET_STD,
+    with_bboxes: bool = False,
 ) -> A.Compose:
-    """Full augmentation pipeline for training.
-
-    Args:
-        img_size: Square spatial dimension for resize.  Per-backbone native
-            resolution should be passed here (e.g. 300 for tf_efficientnetv2_s).
-        mean: Normalisation mean per channel.  Defaults to ImageNet values;
-            override to (0.5, 0.5, 0.5) for tf_efficientnetv2_s.in21k_ft_in1k.
-        std:  Normalisation std per channel.  Same override rules as mean.
-
-    Augmentation choices:
-    - HorizontalFlip: safe for all 8 classes (none are laterality-defined)
-    - Affine: mild rotation/scale/translate to simulate probe placement variability
-    - RandomBrightnessContrast: accounts for gain/TGC variability across machines
-    - MultiplicativeNoise: ultrasound speckle is multiplicative (Rayleigh distributed),
-      not additive -- using A.MultiplicativeNoise here is physically correct
-    """
+    """Full augmentation pipeline for training."""
+    bbox_params = A.BboxParams(format='pascal_voc', label_fields=['class_labels']) if with_bboxes else None
     return A.Compose([
         A.Resize(img_size, img_size),
-        A.HorizontalFlip(p=0.5),  # verified safe: none of our 8 classes are laterality-defined
+        A.HorizontalFlip(p=0.5),
         A.Affine(rotate=(-10, 10), scale=(0.9, 1.1), translate_percent=(-0.1, 0.1), p=0.7),
         A.RandomBrightnessContrast(brightness_limit=0.2, contrast_limit=0.2, p=0.5),
         A.MultiplicativeNoise(multiplier=(0.9, 1.1), per_channel=False, elementwise=True, p=0.3),
         A.Normalize(mean=mean, std=std),
         ToTensorV2(),
-    ])
+    ], bbox_params=bbox_params)
 
 
 def get_eval_transform(
     img_size: int = IMG_SIZE,
     mean: tuple[float, ...] = IMAGENET_MEAN,
     std: tuple[float, ...] = IMAGENET_STD,
+    with_bboxes: bool = False,
 ) -> A.Compose:
-    """Minimal pipeline for val/test/inference: resize + normalize only.
-
-    Args:
-        img_size: Square spatial dimension for resize.
-        mean: Normalisation mean per channel.  Defaults to ImageNet values.
-        std:  Normalisation std per channel.
-    """
+    """Minimal pipeline for val/test/inference: resize + normalize only."""
+    bbox_params = A.BboxParams(format='pascal_voc', label_fields=['class_labels']) if with_bboxes else None
     return A.Compose([
         A.Resize(img_size, img_size),
         A.Normalize(mean=mean, std=std),
         ToTensorV2(),
-    ])
+    ], bbox_params=bbox_params)
 
 
 def load_and_prep_grayscale_to_rgb(image_path: str) -> np.ndarray:
