@@ -497,15 +497,25 @@ class InferenceThread(threading.Thread):
             smoothing_ms = (time.monotonic() - t0) * 1000.0
 
             # ----------------------------------------------------------------
-            # Stage 3b — Tier-2a mode filter (optional, additive)
+            # Stage 3b -- Tier-2a mode filter (optional, additive)
             # Feeds Tier-1's `current_displayed_label` through a trailing-window
             # majority-vote filter.  Only active when tier2_config_path was
             # provided at construction.  Tier-1 state is never bypassed.
+            #
+            # step() returns (label, is_stable) so the pipeline can surface the
+            # Tier-2a stability badge instead of Tier-1's internal dwell counter.
+            # When Tier-1 oscillates internally but Tier-2a holds the display
+            # steady, Tier-1's is_stable would flicker (defeating the UX goal);
+            # Tier-2a's own frames_since_switch counter is the correct signal.
             # ----------------------------------------------------------------
             if self._tier2 is not None:
-                final_label: int = self._tier2.step(label)
+                final_label: int
+                tier2_is_stable: bool
+                final_label, tier2_is_stable = self._tier2.step(label)
+                display_is_stable = tier2_is_stable
             else:
                 final_label = label
+                display_is_stable = is_stable
 
             # ----------------------------------------------------------------
             # Stage 4 — Grad-CAM (persistent instance, throttled)
@@ -535,7 +545,7 @@ class InferenceThread(threading.Thread):
                 )
                 if should_run_gradcam:
                     t0 = time.monotonic()
-                    targets = [ClassifierOutputTarget(label)]
+                    targets = [ClassifierOutputTarget(final_label)]
                     # Grad-CAM forward+backward (hooks registered persistently)
                     grayscale_cam: np.ndarray = self._cam(
                         input_tensor=tensor, targets=targets  # type: ignore[arg-type]
@@ -579,7 +589,7 @@ class InferenceThread(threading.Thread):
                 "label_name":     IDX_TO_CLASS.get(final_label, f"class_{final_label}"),
                 "confidence":     confidence,
                 "smoothed_probs": smoothed_probs,
-                "is_stable":      is_stable,
+                "is_stable":      display_is_stable,   # Tier-2a's badge when active; Tier-1's otherwise
                 "overlay":        overlay,     # BGR uint8, or None before first run
                 "frame":          frame_bgr,   # original BGR frame from capture
                 "timings":        timings,

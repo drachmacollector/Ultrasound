@@ -229,6 +229,7 @@ def _draw_hud(
     canvas: np.ndarray,
     snap: dict[str, Any],
     timings: dict[str, float | None],
+    result_tier2_active: bool,
     w: int,
     h: int,
 ) -> None:
@@ -250,6 +251,9 @@ def _draw_hud(
                       else "  gradcam   --",             _CLR_GRAY),
         (f"  q-drops   {snap['cap_queue_drops']}",       _CLR_GRAY),
     ]
+    # Show Tier-2a status when the result dict reports it active
+    if result_tier2_active:
+        lines.append(("  tier2a    ON", _CLR_AMBER))
 
     pad = 8
     panel_w = 230
@@ -326,7 +330,8 @@ def build_display_frame(
     )
 
     if show_hud:
-        _draw_hud(canvas, stats.snapshot(), result["timings"], w, h)
+        _draw_hud(canvas, stats.snapshot(), result["timings"],
+                  result.get("tier2_active", False), w, h)
 
     if is_paused:
         _draw_paused_overlay(canvas, w, h)
@@ -377,6 +382,20 @@ def run_app(args: argparse.Namespace) -> None:
         source: int | str = int(args.source)
     except ValueError:
         source = args.source
+
+    # --- Pre-validate --tier2-config existence --------------------------------
+    # Do this before loading the model (expensive) so the user gets a clean
+    # error message rather than a raw traceback after a 5-second wait.
+    if args.enable_tier2:
+        tier2_cfg_path = Path(args.tier2_config)
+        if not tier2_cfg_path.exists():
+            log.error(
+                "--enable-tier2 was set but --tier2-config file not found: %s\n"
+                "Run scripts/tune_tier2_mode_filter.py first to generate it, or\n"
+                "pass --tier2-config <path> pointing to an existing YAML file.",
+                tier2_cfg_path,
+            )
+            sys.exit(1)
 
     log.info("Starting app — source=%r  checkpoint=%s  loop=%s  gradcam=%s  every_n=%d",
              source, args.checkpoint, args.loop,

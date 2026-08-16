@@ -64,7 +64,13 @@ The single top-to-bottom list. Everything here is detailed in files `00`–`07`;
 ### Phase 7 — Stretch Goals ([07_STRETCH_GOALS_AND_ROADMAP.md](07_STRETCH_GOALS_AND_ROADMAP.md)) — only after Phases 0-6 are fully done
 - [ ] Detection-informed multi-task head
 - [ ] ONNX/TensorRT export + quantization
-- [ ] Tier-2 temporal module (if not already triggered in Phase 5)
+- [x] Tier-2a majority-vote mode filter (`src/smoothing/tier2_mode_filter.py`)
+  - Sweep: dual grid A+B, 42 combos. Selected: `window=9, min_majority_frac=0.7` (338ms added lag).
+  - Result: 100% flicker elimination on all 46 eval clips (72→0 switches/min on stubborn clip, 0 spurious on all others).
+  - Decision: Tier-2b (learned GRU) NOT built — Tier-2a sufficient. See `docs/phases/phase_07/tier2_results.md`.
+  - Caveat (documented in results): validated on a single ~20-frame (~833ms) clip with ~1 switch. Win is real but not validated on sustained real-world oscillation.
+  - Pipeline integration: opt-in via `--enable-tier2` / `--tier2-config` flags (off by default).
+- [ ] Tier-2b learned temporal head (deferred — Tier-2a sufficient)
 - [ ] Web UI polish
 - [ ] Proper domain-specific self-supervised pretraining
 - [ ] Second clinical track (intrapartum monitoring), if desired

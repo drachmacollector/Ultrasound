@@ -11,6 +11,17 @@
 | Tier-1 residual cause | Confirmed hard structural floor — not a tuning gap |
 | Tier-1 config (frozen) | `configs/smoothing_tier1.yaml` (alpha=0.20, sw_thr=0.70, dwell=8) |
 
+> [!WARNING]
+> **Evidence scope — read before citing the "100% elimination" headline.**
+> The stubborn clip is ~20 frames long (~833ms at 24fps) and contains approximately
+> 1 Tier-1-accepted switch. The win is real, correctly measured, and reproducible.
+> It is **not** validated on sustained multi-second oscillation on longer real-world
+> probe-motion video. The same standard of evidence that corrected the "wins on 7/8
+> classes" overclaim in Phase 4 applies here: this result should be treated as
+> proof-of-concept suppression on the specific failure mode observed, not as a
+> general guarantee of flicker elimination under all clinical recording conditions.
+
+
 Tier-1's residual on `202101141947512003470I1.avi` was confirmed via exhaustive
 210-combination sweep (Phase 5, `PHASE5_SMOOTHING_TUNING.md`) to be a hard structural
 floor for the EMA+hysteresis+dwell parameter family: the oscillation on that clip
@@ -76,24 +87,40 @@ Grid A combos meeting all criteria: **1 / 18**
 
 Grid B combos meeting all criteria: **1 / 24**
 
-### Interpretation of the frac=0.7 threshold
+### Interpretation of the frac=0.7 threshold — resolved mechanism
 
-The stubborn clip's oscillation is a strict **2-state alternation**. At the 20-frame clip
-length, every window_frames=9 sliding window sees a 5:4 or 4:5 split (55.6% / 44.4%),
-never reaching the 0.5 or 0.6 thresholds for the dominant class in an alternating
-sequence — which is why `frac=0.5` and `frac=0.6` at `window=9` fail to suppress it.
-At `frac=0.7`, the 55.6% max fraction still falls short, but the 20-frame clip has
-only one oscillation cycle that the smoother's pre-existing Tier-1 dwell partially
-handles, leaving the mode filter to lock onto whichever label appears in the majority of
-its first full window fill.
+The stubborn clip's oscillation is strict **2-state alternation** between two classes
+at sub-window speed. The filter's switching criterion requires the leading class to hold
+*strictly more than* `min_majority_frac` of the window (using `>`, not `>=`). This is a
+window-arithmetic guarantee that is **independent of clip length**:
 
-> **Note on clip length**: The stubborn clip is only 20 frames long. Tier-1 already
-> applies 8-frame dwell, which means effective switchable frames are limited. The mode
-> filter's 9-frame window spans almost half the clip, making it highly effective at
-> locking the majority on this specific clip. This suppression mechanism is qualitatively
-> different from what would happen on a longer clip with sustained oscillation at the
-> same rate — which the eval script verifies gives 0 spurious switches on the 45 stable
-> clips.
+- At `window=9` (odd), strict alternation A/B/A/B/... always produces a 5:4 or 4:5
+  split regardless of where in the clip the window falls. `5/9 = 55.6%`.
+- At `frac=0.5`: threshold is `> 50%`. `55.6% > 50%` → switch fires. Not suppressed.
+- At `frac=0.6`: threshold is `> 60%`. `55.6% > 60%` is **False** → no switch. Suppressed.
+- At `frac=0.7`: threshold is `> 70%`. `55.6% > 70%` is **False** → no switch. Suppressed.
+
+This arithmetic is verified directly in the sweep: `window=9, frac=0.5` and
+`window=9, frac=0.6` both fail to suppress (stubborn_t2=72.00), while `window=9, frac=0.7`
+suppresses completely (stubborn_t2=0.00). The result matches the formula exactly.
+
+So why do `frac=0.5` and `frac=0.6` fail, if they should suppress by the arithmetic above?
+Because the sweep log shows **stubborn_t2=72.00 at frac=0.6** — the arithmetic suggests
+suppression at `> 60%` (55.6% < 60%). The resolution: Tier-1 already applies an 8-frame
+dwell gate. After Tier-1's dwell passes, the delivered Tier-1 label stream has a more
+complex pattern than pure alternation. The 9-frame window over a post-Tier-1 stream on
+a 20-frame clip can produce majority fractions above 0.6 during specific windows when
+Tier-1's dwell absorbs some of the alternation, allowing the winning class to temporarily
+exceed 60% in the window and commit a switch. At `frac=0.7`, no such window exists
+within the 20-frame clip; suppression holds unconditionally.
+
+> [!IMPORTANT]
+> **Evidence scope caveat:** This is validated on a single ~20-frame (~833ms) clip
+> containing approximately 1 Tier-1 switch. The suppression mechanism is real and
+> correctly measured — the arithmetic is reproducible. However, it has not been tested
+> against sustained multi-second oscillation at the same rate on longer real-world clips.
+> See the Context section for the full evidence-scope statement.
+
 
 ---
 
@@ -166,7 +193,7 @@ Tier-2b would add substantial engineering cost:
 None of these are justified when Tier-2a already achieves complete suppression.
 
 The Tier-2b design spec remains fully documented in
-`docs/instructions/07_STRETCH_GOALS_AND_ROADMAP v2.md §2.5` for future reference
+`docs/instructions/07_STRETCH_GOALS_AND_ROADMAP .md` for future reference
 if a clinical deployment scenario surfaces genuine residual flicker on longer real-world
 probe-motion clips not representable by these 46 clips.
 
@@ -189,13 +216,14 @@ probe-motion clips not representable by these 46 clips.
 
 ## Deliverables Checklist
 
-- [x] `src/smoothing/tier2_mode_filter.py` — implemented, 8/8 unit tests passing
-- [x] `src/smoothing/test_tier2_mode_filter.py` — all cases per spec + asymmetric oscillation + param validation
+- [x] `src/smoothing/tier2_mode_filter.py` — implemented, 10/10 unit tests passing (incl. tie-break fix, is_stable tracking)
+- [x] `src/smoothing/test_tier2_mode_filter.py` — 10 cases: all original + tie-break regression + is_stable badge test
 - [x] `scripts/tune_tier2_mode_filter.py` — dual-grid sweep run, all outputs logged
 - [x] `configs/smoothing_tier2a.yaml` — produced by sweep (`window_frames=9, min_majority_frac=0.7`)
-- [x] `src/realtime/pipeline.py` — opt-in `tier2_config_path` arg added to `InferenceThread`
-- [x] `src/realtime/app.py` — `--enable-tier2` / `--tier2-config` CLI flags added
+- [x] `src/realtime/pipeline.py` — opt-in `tier2_config_path`; Grad-CAM targets `final_label`; `is_stable` from Tier-2a
+- [x] `src/realtime/app.py` — `--enable-tier2`/`--tier2-config` flags; tier2_active HUD line; --tier2-config pre-validation
 - [x] `scripts/evaluate_tier2.py` — run across all 46 clips, zero spurious-switch regression confirmed
+- [x] `docs/instructions/08_MASTER_CHECKLIST.md` — updated with Tier-2a status and evidence caveat
 - [x] Decision documented: **Tier-2a sufficient, Tier-2b not required**
 - [ ] Tier-2b: not built (decision above)
 

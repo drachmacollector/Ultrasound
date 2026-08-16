@@ -15,10 +15,10 @@ criterion on every oscillation event (briefly crosses switch_threshold with genu
 confidence), so the dwell gate fires and the switch is accepted.
 
 Tier-2a's mechanism: keep a fixed-size trailing window of the last N Tier-1 labels.
-Adopt a new displayed label only when one class holds a strict majority fraction of
-that window.  Because the oscillating clip alternates at a rate *faster* than
-window_frames, neither alternating class can win a majority, and the filter holds the
-most recently settled label until one class dominates.
+Adopt a new displayed label only when one class holds STRICTLY MORE than
+min_majority_frac of that window.  Because the oscillating clip alternates at a rate
+*faster* than window_frames, neither alternating class can accumulate a strict majority,
+and the filter holds the most recently settled label until one class dominates.
 
 COMPOSITION
 -----------
@@ -34,8 +34,12 @@ INTERFACE
 ---------
 Matches Tier-1's per-frame step() pattern for symmetric composability:
 
-    tier1_label = smoother.step(raw_probs)[0]
-    tier2_label = mode_filter.step(tier1_label)
+    tier1_label, tier1_conf, tier1_probs, tier1_stable = smoother.step(raw_probs)
+    tier2_label, tier2_stable = mode_filter.step(tier1_label)
+
+Note the extended return signature: step() now returns a (label, is_stable) tuple
+mirroring Tier-1's pattern, so the pipeline can surface an accurate stability badge
+when Tier-2a is active rather than relying on Tier-1's internal dwell counter.
 
 Parameters loaded from configs/smoothing_tier2a.yaml (separate from
 smoothing_tier1.yaml — tiers' configs are never merged).
@@ -83,27 +87,37 @@ class Tier2ModeFilter:
         Larger values suppress more oscillation but increase latency to genuine
         transitions.  Tune empirically — see scripts/tune_tier2_mode_filter.py.
     min_majority_frac : float
-        Fraction of the window that the leading class must hold to become
-        (or remain) the displayed label.  E.g. 0.6 means ≥60% of window frames
-        must show the same class before a switch is committed.
-        Range [0.5, 1.0]. At exactly 0.5 a strict tie (50/50) does NOT trigger
-        a switch (the `top_label != _displayed_label` guard prevents it), making
-        0.5 a valid floor for the sweep grid.
+        The leading class must hold STRICTLY MORE than this fraction of the window
+        before a switch is committed.  The comparison is strict (`>`), so at
+        exactly 0.5 with an even window, a 50/50 tie never triggers a switch.
+        Range [0.5, 1.0].
+
+        Deployed value: 0.7 (window=9, odd — ties are mathematically impossible
+        regardless of the strict comparison, since 5/9 = 55.6% > 50%).
+    min_stable_frames : int
+        Number of consecutive frames without a Tier-2a display-label switch
+        required before is_stable is reported True.  Mirrors Tier-1's
+        min_dwell_frames concept so the pipeline can surface an accurate
+        stability badge when Tier-2a is active.  Defaults to 1 (stable as
+        soon as a new label is locked, matching simple UX expectation).
 
     State (internal, not constructor args)
     ---------------------------------------
-    _buffer           : deque of int (last window_frames Tier-1 labels)
-    _displayed_label  : int  (current Tier-2 output; -1 = uninitialised)
+    _buffer               : deque of int (last window_frames Tier-1 labels)
+    _displayed_label      : int  (current Tier-2 output; -1 = uninitialised)
+    _frames_since_switch  : int  (frames elapsed since last Tier-2 switch)
     """
 
     window_frames: int = 15
     min_majority_frac: float = 0.6
+    min_stable_frames: int = 1
 
     # Sentinel value used before the first frame is processed.
     _UNINIT: ClassVar[int] = -1
 
     _buffer: deque[int] = field(init=False, default_factory=deque)
     _displayed_label: int = field(init=False, default=_UNINIT)
+    _frames_since_switch: int = field(init=False, default=0)
 
     def __post_init__(self) -> None:
         if not (0.5 <= self.min_majority_frac <= 1.0):
@@ -111,7 +125,9 @@ class Tier2ModeFilter:
                 f"min_majority_frac must be in [0.5, 1.0], got {self.min_majority_frac}"
             )
         if self.window_frames < 1:
-            raise ValueError(f"window_frames must be ≥ 1, got {self.window_frames}")
+            raise ValueError(f"window_frames must be >= 1, got {self.window_frames}")
+        if self.min_stable_frames < 1:
+            raise ValueError(f"min_stable_frames must be >= 1, got {self.min_stable_frames}")
 
     # ---- Lifecycle -----------------------------------------------------------
 
@@ -119,25 +135,31 @@ class Tier2ModeFilter:
         """Return to cold-start state.  Call when switching video sources."""
         self._buffer.clear()
         self._displayed_label = self._UNINIT
+        self._frames_since_switch = 0
 
     # ---- Per-frame step ------------------------------------------------------
 
-    def step(self, tier1_label: int) -> int:
-        """Process one frame's Tier-1 displayed label and return the Tier-2 label.
+    def step(self, tier1_label: int) -> tuple[int, bool]:
+        """Process one frame's Tier-1 displayed label and return (tier2_label, is_stable).
 
         Args:
             tier1_label: The `current_displayed_label` output from Tier1Smoother.step().
 
         Returns:
-            The Tier-2 displayed label (may lag behind tier1_label by up to
-            window_frames frames when a genuine transition is in progress).
+            tier2_label : The Tier-2 displayed label (may lag behind tier1_label by up
+                          to window_frames frames when a genuine transition is in progress).
+            is_stable   : True once _frames_since_switch >= min_stable_frames, meaning
+                          the Tier-2 display has been steady for long enough.  Drives
+                          the STABLE/SETTLING HUD badge when Tier-2a is active.
         """
         # Cold-start: immediately adopt the first Tier-1 label so there is no
         # uninitialised -1 display on the very first frame.
         if self._displayed_label == self._UNINIT:
             self._displayed_label = tier1_label
             self._buffer.append(tier1_label)
-            return self._displayed_label
+            self._frames_since_switch = 1
+            is_stable = self._frames_since_switch >= self.min_stable_frames
+            return self._displayed_label, is_stable
 
         # Append to rolling window, drop oldest if over capacity.
         self._buffer.append(tier1_label)
@@ -149,27 +171,49 @@ class Tier2ModeFilter:
         top_label, top_count = counts.most_common(1)[0]
         window_size = len(self._buffer)
 
-        # Switch only if the leading class holds a strict majority fraction AND
-        # it differs from the currently displayed label.  This means:
+        # Switch only if the leading class holds STRICTLY MORE than min_majority_frac
+        # of the window AND it differs from the currently displayed label.
+        #
+        # Using strict > (not >=) is critical for correctness:
+        #   • At min_majority_frac=0.5 with an even window (e.g., window=8), a 4:4 tie
+        #     gives top_count/window_size = 0.5.  Using >= would incorrectly trigger
+        #     a switch.  Using > correctly prevents it (tie → no switch).
+        #   • The deployed config (window=9, odd) makes ties impossible regardless
+        #     (5/9 = 55.6%), but the strict comparison ensures general correctness.
+        #
+        # Mechanism on oscillating clips:
         #   • On stable clips: top_label == _displayed_label every frame → no-op.
-        #   • On oscillating clips: neither alternating class reaches the majority
-        #     threshold until one dominates; displayed label freezes until then.
-        #   • On genuine transitions: after (window_frames × min_majority_frac)
-        #     frames of the new class, a switch is committed.
+        #   • On oscillating clips (near-50/50 alternation): the top class fraction
+        #     stays at or just above 50%, well below min_majority_frac=0.7.  Switch
+        #     never fires; displayed label freezes.
+        #   • On genuine transitions: after enough frames of the new class accumulate
+        #     to exceed min_majority_frac, the switch is committed.
+        switched = False
         if (
             top_label != self._displayed_label
-            and (top_count / window_size) >= self.min_majority_frac
+            and (top_count / window_size) > self.min_majority_frac
         ):
             self._displayed_label = top_label
+            self._frames_since_switch = 0
+            switched = True
 
-        return self._displayed_label
+        if not switched:
+            self._frames_since_switch += 1
+
+        is_stable = self._frames_since_switch >= self.min_stable_frames
+        return self._displayed_label, is_stable
 
     # ---- Diagnostics ---------------------------------------------------------
 
     @property
     def window_fill(self) -> int:
-        """Number of frames currently in the buffer (≤ window_frames)."""
+        """Number of frames currently in the buffer (<= window_frames)."""
         return len(self._buffer)
+
+    @property
+    def frames_since_switch(self) -> int:
+        """Frames elapsed since the last Tier-2 display-label change."""
+        return self._frames_since_switch
 
     @property
     def current_vote_distribution(self) -> dict[int, float]:
@@ -188,14 +232,16 @@ class Tier2ModeFilter:
         Expected YAML keys:
             window_frames:      int
             min_majority_frac:  float
+            min_stable_frames:  int  (optional, default 1)
 
         Example configs/smoothing_tier2a.yaml:
             window_frames: 9
-            min_majority_frac: 0.6
+            min_majority_frac: 0.7
         """
         with open(config_path, encoding="utf-8") as fh:
             cfg = yaml.safe_load(fh)
         return cls(
             window_frames=int(cfg["window_frames"]),
             min_majority_frac=float(cfg["min_majority_frac"]),
+            min_stable_frames=int(cfg.get("min_stable_frames", 1)),
         )
