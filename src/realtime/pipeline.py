@@ -476,9 +476,21 @@ class InferenceThread(threading.Thread):
             # autocast to handle dtype promotion internally.
             # ----------------------------------------------------------------
             t0 = time.monotonic()
+            bboxes = None
+            bbox_labels = None
+            bbox_scores = None
+            
             with torch.no_grad():
                 with torch.amp.autocast("cuda", enabled=self._use_amp):
-                    logits: torch.Tensor = self._model(tensor)
+                    if hasattr(self._model, "retinanet"):
+                        # Multitask model returns (cls_logits, det_output)
+                        logits, det_outputs = self._model(tensor)
+                        if len(det_outputs) > 0:
+                            bboxes = det_outputs[0]["boxes"].cpu().numpy()
+                            bbox_labels = det_outputs[0]["labels"].cpu().numpy()
+                            bbox_scores = det_outputs[0]["scores"].cpu().numpy()
+                    else:
+                        logits = self._model(tensor)
             # Convert to float32 before softmax (safe even if logits is float16)
             probs_np: np.ndarray = (
                 torch.softmax(logits.float(), dim=1)[0].cpu().numpy()
@@ -596,6 +608,9 @@ class InferenceThread(threading.Thread):
                 "capture_ts":     cap_ts,
                 "inference_ts":   time.monotonic(),
                 "tier2_active":   self._tier2 is not None,
+                "bboxes":         bboxes,
+                "bbox_labels":    bbox_labels,
+                "bbox_scores":    bbox_scores,
             }
             self._result_queue.put(result)
             self._stats.inf_queue_drops = self._result_queue.drops - drops_before

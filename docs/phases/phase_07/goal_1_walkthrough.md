@@ -19,7 +19,16 @@ Here is a breakdown of what was accomplished:
 - The pipeline now correctly manages the `L_cls + L_det` combined loss. I implemented logic to gracefully handle empty targets (inserting dummy boxes) so RetinaNet is happy even when a batch contains only images without detection annotations.
 - Executed a successful local smoke test (1 epoch on the dataset). The model trained properly at `~43 img/s` and correctly reported macro F1 evaluation metrics `0.7618` right off the bat, confirming the architecture scales beautifully!
 
-### What's Next?
-Now that the multi-task model trains end-to-end, the next step (Phase 2 of Stretch Goal 1) will be to update the `inference.py` engine and `app.py` HUD to actually draw the predicted bounding boxes live over the ultrasound video feed. 
+## 4. Real-time Inference Engine & HUD (Phase 2)
+- Upgraded `src/realtime/model_loader.py` to seamlessly auto-detect the multitask checkpoint and instantiate the `MultiTaskConvNeXt` architecture dynamically.
+- Modified the `InferenceThread` inside `src/realtime/pipeline.py` to correctly unpack the dual outputs (classification logits and detection dictionary). The bounding boxes, labels, and detection confidence scores are then efficiently pushed into the `result_queue` without stalling the thread.
+- Updated the main render loop in `src/realtime/app.py` to draw the bounding boxes live! 
+- I implemented a highly-polished, clean rendering aesthetic for the bounding boxes using a premium, soft-pastel color palette:
+  - **Head**: Soft Pink/Purple
+  - **Abdomen**: Soft Green
+  - **Femur**: Soft Cyan/Blue
+- The bounding box names and confidence scores are beautifully rendered inside solid background pills to guarantee perfect legibility against the noisy ultrasound feed.
 
-Let me know when you are ready to proceed with integrating this into the real-time HUD!
+Here is the final result:
+
+![HUD Multi-Task Demo](C:/Users/Nakul/.gemini/antigravity-ide/brain/a7738325-ff1e-404c-a652-b4e815ecd260/phase7_multitask_hud_demo.png)

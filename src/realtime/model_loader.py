@@ -31,8 +31,17 @@ def load_inference_model(ckpt_path: str, device: torch.device | None = None) -> 
     mean = tuple(cfg.get("normalize_mean", [0.485, 0.456, 0.406]))
     std = tuple(cfg.get("normalize_std", [0.229, 0.224, 0.225]))
 
-    model = build_model(backbone_name, num_classes=8, pretrained=False)
-    model.load_state_dict(ckpt["model_state_dict"])
+    # Determine if this is a multitask model
+    is_multitask = any(k.startswith("retinanet.") for k in ckpt["model_state_dict"].keys())
+    
+    if is_multitask:
+        from src.models.multitask_model import MultiTaskConvNeXt
+        model = MultiTaskConvNeXt(num_cls_classes=8, num_det_classes=4)
+        model.load_state_dict(ckpt["model_state_dict"])
+    else:
+        model = build_model(backbone_name, num_classes=8, pretrained=False)
+        model.load_state_dict(ckpt["model_state_dict"])
+        
     model = model.to(device).eval()
 
     transform = get_eval_transform(img_size=img_size, mean=mean, std=std)

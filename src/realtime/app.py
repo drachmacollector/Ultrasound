@@ -227,6 +227,52 @@ def _draw_label_panel(
                        font, conf_scale, _CLR_CYAN, conf_thick)
 
 
+def _draw_bboxes(
+    canvas: np.ndarray,
+    bboxes: np.ndarray | None,
+    labels: np.ndarray | None,
+    scores: np.ndarray | None
+) -> None:
+    """Overlay detected anatomical structures as bounding boxes."""
+    if bboxes is None or len(bboxes) == 0:
+        return
+        
+    # Clean premium palette for structures
+    bbox_colors = {
+        1: (220, 130, 255), # Head (Soft Pink/Purple)
+        2: (130, 255, 130), # Abdomen (Soft Green)
+        3: (255, 200, 100), # Femur (Soft Cyan/Blue)
+    }
+    
+    bbox_names = {
+        1: "Head",
+        2: "Abdomen",
+        3: "Femur"
+    }
+
+    font = cv2.FONT_HERSHEY_DUPLEX
+    scale = 0.5
+    thick = 1
+    
+    for box, label, score in zip(bboxes, labels, scores):
+        if score < 0.4:
+            continue
+            
+        x1, y1, x2, y2 = map(int, box)
+        label_idx = int(label)
+        color = bbox_colors.get(label_idx, _CLR_CYAN)
+        name = bbox_names.get(label_idx, f"Obj-{label_idx}")
+        
+        cv2.rectangle(canvas, (x1, y1), (x2, y2), color, 2)
+        
+        text = f"{name} {score:.2f}"
+        (tw, th), _ = cv2.getTextSize(text, font, scale, thick)
+        
+        # Draw filled label background
+        cv2.rectangle(canvas, (x1, y1 - th - 8), (x1 + tw + 8, y1), color, -1)
+        # Draw black text on top of the coloured background
+        cv2.putText(canvas, text, (x1 + 4, y1 - 4), font, scale, _CLR_BLACK, thick, cv2.LINE_AA)
+
 def _draw_hud(
     canvas: np.ndarray,
     snap: dict[str, Any],
@@ -322,6 +368,13 @@ def build_display_frame(
 
     if is_webcam:
         _draw_watermark(canvas, w, h)
+
+    _draw_bboxes(
+        canvas,
+        result.get("bboxes"),
+        result.get("bbox_labels"),
+        result.get("bbox_scores")
+    )
 
     _draw_label_panel(
         canvas,
