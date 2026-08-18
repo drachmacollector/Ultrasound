@@ -120,16 +120,24 @@ def train_one_epoch(
     device: torch.device,
     epoch: int,
     use_amp: bool,
-) -> tuple[float, float]:
+    det_loss_weight: float = 1.0,
+) -> tuple[float, float, float, float, float]:
     """Run one training epoch.
 
     Returns:
-        (mean_loss, accuracy) over all batches.
+        (mean_loss, mean_cls_loss, mean_det_loss, accuracy, pos_target_rate) where pos_target_rate is the
+        fraction of batches that contained at least one real bounding box.
+        A value of 0.0 means the detection head received zero real supervision
+        (wiring bug), which triggers an assertion here so it fails loudly.
     """
     model.train()
     total_loss = 0.0
+    total_cls_loss = 0.0
+    total_det_loss = 0.0
     correct = 0
     total = 0
+    n_batches_total = 0
+    n_batches_with_boxes = 0
     t0 = time.perf_counter()
 
     for batch_idx, batch in enumerate(loader):
@@ -139,11 +147,12 @@ def train_one_epoch(
             images, labels = batch
             bboxes_list = None
             class_labels_list = None
-            
+
         images = images.to(device, non_blocking=True)
         labels = labels.to(device, non_blocking=True)
-        
+
         targets = None
+        batch_has_real_box = False
         if bboxes_list is not None and class_labels_list is not None:
             targets = []
             for bboxes, class_labels in zip(bboxes_list, class_labels_list):
@@ -152,23 +161,29 @@ def train_one_epoch(
                         "boxes": bboxes.to(device),
                         "labels": class_labels.to(device)
                     })
+                    batch_has_real_box = True
                 else:
                     # Dummy target to satisfy RetinaNet if empty
                     targets.append({
                         "boxes": torch.empty((0, 4), dtype=torch.float32, device=device),
                         "labels": torch.empty((0,), dtype=torch.int64, device=device)
                     })
-            
+
+        n_batches_total += 1
+        if batch_has_real_box:
+            n_batches_with_boxes += 1
+
         optimizer.zero_grad(set_to_none=True)
 
         with torch.amp.autocast('cuda', enabled=use_amp):
             cls_logits, det_losses = model(images, targets)
             cls_loss = criterion(cls_logits, labels)
-            
-            if targets is not None and isinstance(det_losses, dict):
+
+            if targets is not None and isinstance(det_losses, dict) and len(det_losses) > 0:
                 det_loss = sum(loss for loss in det_losses.values())
-                loss = cls_loss + det_loss
+                loss = cls_loss + det_loss_weight * det_loss
             else:
+                det_loss = torch.tensor(0.0, device=device)
                 loss = cls_loss
 
         scaled_loss = scaler.scale(loss)
@@ -178,6 +193,8 @@ def train_one_epoch(
         scaler.update()
 
         total_loss += loss.item() * images.size(0)
+        total_cls_loss += cls_loss.item() * images.size(0)
+        total_det_loss += det_loss.item() * images.size(0)
         preds = cls_logits.argmax(dim=1)
         correct += (preds == labels).sum().item()
         total += images.size(0)
@@ -185,12 +202,29 @@ def train_one_epoch(
     elapsed = time.perf_counter() - t0
     imgs_per_sec = total / elapsed
     mean_loss = total_loss / total
+    mean_cls_loss = total_cls_loss / total
+    mean_det_loss = total_det_loss / total
     accuracy = correct / total
+    pos_target_rate = n_batches_with_boxes / max(n_batches_total, 1)
+
     log.info(
-        "Epoch %d TRAIN | loss=%.4f acc=%.4f | %.0f img/s",
-        epoch, mean_loss, accuracy, imgs_per_sec,
+        "Epoch %d TRAIN | loss=%.4f (cls=%.4f det=%.4f) acc=%.4f | %.0f img/s | "
+        "det_pos_rate=%.3f (%d/%d batches had real boxes)",
+        epoch, mean_loss, mean_cls_loss, mean_det_loss, accuracy, imgs_per_sec,
+        pos_target_rate, n_batches_with_boxes, n_batches_total,
     )
-    return mean_loss, accuracy
+
+    # Fail loudly if the detection head received zero real supervision.
+    # This indicates a data-wiring bug (e.g. bboxes.json key mismatch).
+    assert n_batches_with_boxes > 0, (
+        f"Epoch {epoch}: ZERO batches had real bounding-box targets! "
+        "The detection head is receiving no supervision. "
+        "Check that bboxes.json keys match image_path values in the training CSV. "
+        "Run scripts/build_multitask_manifest.py to rebuild aligned manifests."
+    )
+
+    return mean_loss, mean_cls_loss, mean_det_loss, accuracy, pos_target_rate
+
 
 
 @torch.no_grad()
@@ -266,7 +300,7 @@ def train(cfg: dict) -> None:  # type: ignore[type-arg]
     backbone_name: str = cfg["backbone"]
     
     log.info("Building multitask model")
-    model = MultiTaskConvNeXt(num_cls_classes=NUM_CLASSES, num_det_classes=4)
+    model = MultiTaskConvNeXt(num_cls_classes=NUM_CLASSES, num_det_classes=3)
     model = model.to(device)
 
     # ---- Image size & transforms ----------------------------------------
@@ -361,17 +395,19 @@ def train(cfg: dict) -> None:  # type: ignore[type-arg]
     best_epoch: int = 0
 
     # ---- Training loop ---------------------------------------------------
+    det_loss_weight: float = cfg.get("det_loss_weight", 1.0)
+    
     log.info(
-        "Starting training: backbone=%s, epochs_max=%d, patience=%d, lr=%.2e, amp=%s",
-        backbone_name, epochs_max, patience, lr, use_amp,
+        "Starting training: backbone=%s, epochs_max=%d, patience=%d, lr=%.2e, amp=%s, det_loss_weight=%.1f",
+        backbone_name, epochs_max, patience, lr, use_amp, det_loss_weight
     )
 
     for epoch in range(1, epochs_max + 1):
         t_epoch_start = time.perf_counter()
 
         # --- Train ---
-        train_loss, train_acc = train_one_epoch(
-            model, train_loader, criterion, optimizer, scaler, device, epoch, use_amp
+        train_loss, train_cls_loss, train_det_loss, train_acc, train_pos_target_rate = train_one_epoch(
+            model, train_loader, criterion, optimizer, scaler, device, epoch, use_amp, det_loss_weight
         )
 
         # --- Validate ---
@@ -395,13 +431,16 @@ def train(cfg: dict) -> None:  # type: ignore[type-arg]
         epoch_time = time.perf_counter() - t_epoch_start
         imgs_per_sec = (len(train_dataset) + len(val_dataset)) / epoch_time
 
-        writer.add_scalar("Loss/train", train_loss, epoch)
+        writer.add_scalar("Loss/train_total", train_loss, epoch)
+        writer.add_scalar("Loss/train_cls", train_cls_loss, epoch)
+        writer.add_scalar("Loss/train_det", train_det_loss, epoch)
         writer.add_scalar("Loss/val", val_loss, epoch)
         writer.add_scalar("Accuracy/train", train_acc, epoch)
         writer.add_scalar("Accuracy/val", val_acc, epoch)
         writer.add_scalar("MacroF1/val", val_macro_f1, epoch)
         writer.add_scalar("LR", current_lr, epoch)
         writer.add_scalar("Throughput/imgs_per_sec", imgs_per_sec, epoch)
+        writer.add_scalar("Detection/pos_target_rate", train_pos_target_rate, epoch)
 
         for cls_name, cls_f1 in zip(CANONICAL_CLASSES, per_class_f1.tolist()):
             writer.add_scalar(f"PerClassF1/{cls_name}", cls_f1, epoch)

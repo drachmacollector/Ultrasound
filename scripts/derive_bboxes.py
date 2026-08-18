@@ -3,7 +3,7 @@ import pandas as pd
 from pathlib import Path
 import numpy as np
 
-def derive_bbox(row, class_name, margin_ratio=0.2):
+def derive_bbox(row, class_name, margin_ratio=0.2, img_width=None, img_height=None):
     xs = []
     ys = []
     
@@ -40,9 +40,18 @@ def derive_bbox(row, class_name, margin_ratio=0.2):
     if margin == 0:
         margin = 10
         
-    # We don't clip to image bounds here because we don't have image shapes in the CSV,
-    # we'll let the dataset / transform handle clipping.
-    return [x_min - margin, y_min - margin, x_max + margin, y_max + margin]
+    final_xmin = x_min - margin
+    final_ymin = y_min - margin
+    final_xmax = x_max + margin
+    final_ymax = y_max + margin
+    
+    if img_width is not None and img_height is not None:
+        final_xmin = max(0.0, min(final_xmin, img_width - 1.0))
+        final_ymin = max(0.0, min(final_ymin, img_height - 1.0))
+        final_xmax = max(0.0, min(final_xmax, img_width - 1.0))
+        final_ymax = max(0.0, min(final_ymax, img_height - 1.0))
+        
+    return [final_xmin, final_ymin, final_xmax, final_ymax]
 
 
 def main():

@@ -85,29 +85,37 @@ class FocalPlanesDataset(Dataset):
         label_idx = CLASS_TO_IDX[label_str]
 
         if self.bboxes_dict is not None:
-            bboxes = []
-            class_labels = []
-            basename = Path(image_path).name
-            if basename in self.bboxes_dict:
-                item = self.bboxes_dict[basename]
-                bbox = item['bbox']
-                h, w = img.shape[:2]
-                xmin = max(0, min(bbox[0], w - 1))
-                ymin = max(0, min(bbox[1], h - 1))
-                xmax = max(0, min(bbox[2], w - 1))
-                ymax = max(0, min(bbox[3], h - 1))
-                
-                if xmax > xmin and ymax > ymin:
-                    bboxes.append([xmin, ymin, xmax, ymax])
-                    class_labels.append(item['class_id'])
-                    
+            import torch
+            bboxes: list = []
+            class_labels: list = []
+
+            # Determine if this row is expected to have a bbox.
+            # The 'has_bbox' column is written by build_multitask_manifest.py;
+            # if the column is absent (legacy CSV), fall back to always trying.
+            row_has_bbox: bool = bool(row.get("has_bbox", True))
+
+            if row_has_bbox:
+                # Primary key: full posix path (set by build_multitask_manifest.py)
+                posix_path = Path(image_path).as_posix()
+                item = self.bboxes_dict.get(posix_path) or self.bboxes_dict.get(Path(image_path).name)
+
+                if item is not None:
+                    bbox = item["bbox"]
+                    h, w = img.shape[:2]
+                    xmin = max(0.0, min(float(bbox[0]), w - 1))
+                    ymin = max(0.0, min(float(bbox[1]), h - 1))
+                    xmax = max(0.0, min(float(bbox[2]), w - 1))
+                    ymax = max(0.0, min(float(bbox[3]), h - 1))
+
+                    if xmax > xmin and ymax > ymin:
+                        bboxes.append([xmin, ymin, xmax, ymax])
+                        class_labels.append(item["class_id"])
+
             augmented = self.transform(image=img, bboxes=bboxes, class_labels=class_labels)
             tensor = augmented["image"]
-            
-            import torch
             aug_bboxes = torch.tensor(augmented["bboxes"], dtype=torch.float32)
             aug_labels = torch.tensor(augmented["class_labels"], dtype=torch.long)
-            
+
             return tensor, label_idx, aug_bboxes, aug_labels
         else:
             augmented = self.transform(image=img)

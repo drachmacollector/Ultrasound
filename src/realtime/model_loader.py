@@ -36,7 +36,7 @@ def load_inference_model(ckpt_path: str, device: torch.device | None = None) -> 
     
     if is_multitask:
         from src.models.multitask_model import MultiTaskConvNeXt
-        model = MultiTaskConvNeXt(num_cls_classes=8, num_det_classes=4)
+        model = MultiTaskConvNeXt(num_cls_classes=8, num_det_classes=3, pretrained=False)
         model.load_state_dict(ckpt["model_state_dict"])
     else:
         model = build_model(backbone_name, num_classes=8, pretrained=False)

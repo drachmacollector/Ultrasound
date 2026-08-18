@@ -6,9 +6,9 @@ import timm
 from collections import OrderedDict
 
 class ConvNeXtBackbone(nn.Module):
-    def __init__(self):
+    def __init__(self, pretrained=True):
         super().__init__()
-        self.body = timm.create_model('convnext_tiny', pretrained=True, features_only=True, out_indices=[1, 2, 3])
+        self.body = timm.create_model('convnext_tiny.fb_in22k_ft_in1k', pretrained=pretrained, features_only=True, out_indices=[1, 2, 3])
         
     def forward(self, x):
         features = self.body(x)
@@ -18,26 +18,11 @@ class ConvNeXtBackbone(nn.Module):
         out['2'] = features[2]
         return out
 
-class DetBackbone(nn.Module):
-    def __init__(self, body, fpn, cls_head):
-        super().__init__()
-        self.body = body
-        self.fpn = fpn
-        self.cls_head = cls_head
-        self.out_channels = 256
-        self.cls_logits = None
-        
-    def forward(self, x):
-        features = self.body(x)
-        self.cls_logits = self.cls_head(features['2'])
-        fpn_features = self.fpn(features)
-        return fpn_features
-
 
 class MultiTaskConvNeXt(nn.Module):
-    def __init__(self, num_cls_classes=8, num_det_classes=4):
+    def __init__(self, num_cls_classes=8, num_det_classes=3, pretrained=True):
         super().__init__()
-        self.convnext = ConvNeXtBackbone()
+        self.convnext = ConvNeXtBackbone(pretrained=pretrained)
         
         self.cls_head = nn.Sequential(
             nn.AdaptiveAvgPool2d(1),
@@ -52,14 +37,17 @@ class MultiTaskConvNeXt(nn.Module):
             out_channels=256
         )
         
-        self.det_backbone = DetBackbone(self.convnext, self.fpn, self.cls_head)
-        
+        # Dummy backbone to satisfy RetinaNet's init
+        class DummyBackbone(nn.Module):
+            out_channels = 256
+            def forward(self, x): return x
+            
         anchor_sizes = ((32, 64, 128), (64, 128, 256), (128, 256, 512))
         aspect_ratios = ((0.5, 1.0, 2.0),) * 3
         anchor_generator = AnchorGenerator(sizes=anchor_sizes, aspect_ratios=aspect_ratios)
         
         self.retinanet = RetinaNet(
-            backbone=self.det_backbone,
+            backbone=DummyBackbone(),
             num_classes=num_det_classes,
             anchor_generator=anchor_generator,
             # We skip torchvision's normalization because our albumentations pipeline already does it
@@ -80,7 +68,30 @@ class MultiTaskConvNeXt(nn.Module):
         if isinstance(images, torch.Tensor):
             images = list(image for image in images)
             
-        det_output = self.retinanet(images, targets)
-        cls_logits = self.det_backbone.cls_logits
+        original_image_sizes = [(img.shape[-2], img.shape[-1]) for img in images]
         
+        # 1. Transform images and targets using RetinaNet's built-in transform
+        images_transformed, targets_transformed = self.retinanet.transform(images, targets)
+        
+        # 2. Run backbone once
+        features = self.convnext(images_transformed.tensors)
+        
+        # 3. Compute classification logits
+        cls_logits = self.cls_head(features['2'])
+        
+        # 4. Compute FPN features
+        fpn_features = self.fpn(features)
+        features_list = list(fpn_features.values())
+        
+        # 5. Run RetinaNet detection head
+        head_outputs = self.retinanet.head(features_list)
+        anchors = self.retinanet.anchor_generator(images_transformed, features_list)
+        
+        if self.training:
+            assert targets_transformed is not None
+            det_output = self.retinanet.compute_loss(targets_transformed, head_outputs, anchors)
+        else:
+            detections = self.retinanet.postprocess_detections(head_outputs, anchors, images_transformed.image_sizes)
+            det_output = self.retinanet.transform.postprocess(detections, images_transformed.image_sizes, original_image_sizes)
+            
         return cls_logits, det_output

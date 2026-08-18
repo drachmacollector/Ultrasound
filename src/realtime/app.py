@@ -234,20 +234,20 @@ def _draw_bboxes(
     scores: np.ndarray | None
 ) -> None:
     """Overlay detected anatomical structures as bounding boxes."""
-    if bboxes is None or len(bboxes) == 0:
+    if bboxes is None or labels is None or scores is None or len(bboxes) == 0:
         return
         
-    # Clean premium palette for structures
+    # 0-indexed palette matching derive_bboxes.py class_map (no reserved background)
     bbox_colors = {
-        1: (220, 130, 255), # Head (Soft Pink/Purple)
-        2: (130, 255, 130), # Abdomen (Soft Green)
-        3: (255, 200, 100), # Femur (Soft Cyan/Blue)
+        0: (220, 130, 255),  # Head     — Soft Pink/Purple
+        1: (130, 255, 130),  # Abdomen  — Soft Green
+        2: (255, 200, 100),  # Femur    — Soft Cyan/Blue
     }
-    
+
     bbox_names = {
-        1: "Head",
-        2: "Abdomen",
-        3: "Femur"
+        0: "Head",
+        1: "Abdomen",
+        2: "Femur",
     }
 
     font = cv2.FONT_HERSHEY_DUPLEX
