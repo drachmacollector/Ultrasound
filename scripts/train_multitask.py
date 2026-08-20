@@ -182,6 +182,8 @@ def train_one_epoch(
 
             if targets is not None and isinstance(det_losses, dict) and len(det_losses) > 0:
                 det_loss = sum(loss for loss in det_losses.values())
+                if not isinstance(det_loss, torch.Tensor):
+                    det_loss = torch.tensor(float(det_loss), device=device)
                 loss = cls_loss + det_loss_weight * det_loss
             else:
                 det_loss = torch.tensor(0.0, device=device)
@@ -195,9 +197,9 @@ def train_one_epoch(
 
         batch_size = images.size(0)
         total_samples += batch_size
-        total_loss += float(loss) * batch_size
-        total_cls_loss += float(cls_loss) * batch_size
-        total_det_loss += float(det_loss) * batch_size
+        total_loss     += (loss.detach().item() if isinstance(loss, torch.Tensor) else float(loss)) * batch_size
+        total_cls_loss += (cls_loss.detach().item() if isinstance(cls_loss, torch.Tensor) else float(cls_loss)) * batch_size
+        total_det_loss += (det_loss.detach().item() if isinstance(det_loss, torch.Tensor) else float(det_loss)) * batch_size
         preds = cls_logits.argmax(dim=1)
         
         valid_mask = labels != -100
