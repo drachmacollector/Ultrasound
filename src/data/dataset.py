@@ -66,10 +66,12 @@ class FocalPlanesDataset(Dataset):
                 self.bboxes_dict = json.load(f)
 
         # Validate that every label in the CSV is known
-        unknown = set(self.df[label_col].unique()) - set(CANONICAL_CLASSES)
+        unique_labels = set(str(x) for x in self.df[label_col].unique())
+        allowed_labels = set(CANONICAL_CLASSES) | {"-100"}
+        unknown = unique_labels - allowed_labels
         if unknown:
             raise ValueError(
-                f"CSV contains unknown labels not in CANONICAL_CLASSES: {unknown}\n"
+                f"CSV contains unknown labels not in CANONICAL_CLASSES or -100: {unknown}\n"
                 f"Expected: {CANONICAL_CLASSES}"
             )
 
@@ -79,10 +81,10 @@ class FocalPlanesDataset(Dataset):
     def __getitem__(self, index: int):
         row = self.df.iloc[index]
         image_path = row["image_path"]
-        label_str = row[self.label_col]
+        label_str = str(row[self.label_col])
 
         img = load_and_prep_grayscale_to_rgb(image_path)  # HxWx3 uint8
-        label_idx = CLASS_TO_IDX[label_str]
+        label_idx = -100 if label_str == "-100" else CLASS_TO_IDX[label_str]
 
         if self.bboxes_dict is not None:
             import torch

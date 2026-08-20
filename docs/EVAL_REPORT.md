@@ -38,6 +38,9 @@ Performance on the held-out FETAL_PLANES_DB test set (5,271 images from 896 pati
 
 ## 2. Cross-Device Generalization (HC18 + UCL)
 
+> [!WARNING]
+> **Multitask Checkpoint Invalidation:** The cross-device generalization metrics in this section are ONLY valid for the Phase 4/6 classification-only models (like `convnext_tiny/best.pt`). Because the Phase 7 `multitask` model line explicitly incorporates HC18 and UCL into its training set to acquire bounding-box supervision, HC18/UCL are **no longer held-out data** for the multitask model. The multitask checkpoint must *never* be scored against `cross_device_manifest.csv` (or the baseline `test.csv` if they overlap) as if it were comparable to Phase 6 numbers. Such a comparison is formally invalid.
+
 **Checkpoint:** `checkpoints/convnext_tiny/best.pt`  
 **Manifest:** `data/processed/cross_device_manifest.csv` (HC18 + UCL only — 1,423 images)  
 **Script:** `scripts/evaluate_cross_device.py`  

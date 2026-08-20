@@ -31,6 +31,13 @@ FUSC (BioMedIA-MBZUAI/FUSC) is a SimCLR-pretrained CNN on fetal ultrasound 2nd-t
 
 ---
 
+### 4.2 Backbone Comparison, Cross-Device
+
+**Source:** This phase, Task 2 (`scripts/evaluate_cross_device.py`, `logs/eval/evaluate_cross_device.txt`).
+
+> [!WARNING]
+> **Multitask Checkpoint Invalidation:** The Phase 7 multitask architecture incorporates HC18 and UCL into its training set to acquire bounding-box supervision. Therefore, HC18 and UCL are **no longer held-out data** for any `multitask` checkpoint. Multitask checkpoints must never be evaluated against `cross_device_manifest.csv` or compared to the numbers below.
+
 ## Backbone comparison table
 
 Evaluated on the true held-out `test.csv` (5,271 images). Val macro-F1 provided for transparency.

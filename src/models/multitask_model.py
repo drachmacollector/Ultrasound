@@ -91,7 +91,20 @@ class MultiTaskConvNeXt(nn.Module):
             assert targets_transformed is not None
             det_output = self.retinanet.compute_loss(targets_transformed, head_outputs, anchors)
         else:
-            detections = self.retinanet.postprocess_detections(head_outputs, anchors, images_transformed.image_sizes)
+            # recover level sizes to split outputs per level
+            num_anchors_per_level = [x.size(2) * x.size(3) for x in features_list]
+            HW = sum(num_anchors_per_level)
+            HWA = head_outputs["cls_logits"].size(1)
+            A = HWA // max(HW, 1)
+            num_anchors_per_level = [hw * A for hw in num_anchors_per_level]
+
+            # split outputs per level
+            split_head_outputs = {}
+            for k in head_outputs:
+                split_head_outputs[k] = list(head_outputs[k].split(num_anchors_per_level, dim=1))
+            split_anchors = [list(a.split(num_anchors_per_level)) for a in anchors]
+
+            detections = self.retinanet.postprocess_detections(split_head_outputs, split_anchors, images_transformed.image_sizes)
             det_output = self.retinanet.transform.postprocess(detections, images_transformed.image_sizes, original_image_sizes)
             
         return cls_logits, det_output

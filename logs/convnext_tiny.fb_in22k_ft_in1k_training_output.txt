@@ -18,3 +18,42 @@
 15:35:52 [INFO] Confusion matrix saved → checkpoints\multitask\confusion_matrix_final_epoch1.png
 15:35:52 [INFO] Classification report → checkpoints\multitask\classification_report_final.txt
 15:35:52 [INFO] TensorBoard logs → logs\multitask
+10:33:01 [INFO] Using device: cpu
+10:33:01 [INFO] Building multitask model
+10:33:02 [INFO] Loading pretrained weights from Hugging Face hub (timm/convnext_tiny.fb_in22k_ft_in1k)
+10:33:03 [INFO] HTTP Request: GET https://huggingface.co/api/agent-harnesses "HTTP/1.1 200 OK"
+10:33:03 [INFO] HTTP Request: HEAD https://huggingface.co/timm/convnext_tiny.fb_in22k_ft_in1k/resolve/main/model.safetensors "HTTP/1.1 302 Found"
+10:33:03 [INFO] [timm/convnext_tiny.fb_in22k_ft_in1k] Safe alternative available for 'pytorch_model.bin' (as 'model.safetensors'). Loading weights using safetensors.
+10:33:03 [INFO] Missing keys (head.fc.weight, head.fc.bias) discovered while loading pretrained weights. This is expected if model is being adapted.
+10:33:04 [INFO] Image size: 224x224
+10:33:04 [INFO] Loss: CrossEntropyLoss (class-weighted)
+10:33:04 [INFO] Starting training: backbone=convnext_tiny.fb_in22k_ft_in1k, epochs_max=1, patience=8, lr=1.00e-04, amp=False, det_loss_weight=1.0
+00:14:58 [INFO] Using device: cuda
+00:14:58 [INFO] Building multitask model
+00:14:59 [INFO] Loading pretrained weights from Hugging Face hub (timm/convnext_tiny.fb_in22k_ft_in1k)
+00:14:59 [INFO] HTTP Request: HEAD https://huggingface.co/timm/convnext_tiny.fb_in22k_ft_in1k/resolve/main/model.safetensors "HTTP/1.1 302 Found"
+00:14:59 [INFO] [timm/convnext_tiny.fb_in22k_ft_in1k] Safe alternative available for 'pytorch_model.bin' (as 'model.safetensors'). Loading weights using safetensors.
+00:15:00 [INFO] Missing keys (head.fc.weight, head.fc.bias) discovered while loading pretrained weights. This is expected if model is being adapted.
+00:15:00 [INFO] Image size: 224x224
+00:15:01 [INFO] Loss: CrossEntropyLoss (class-weighted)
+00:15:01 [INFO] Starting training: backbone=convnext_tiny.fb_in22k_ft_in1k, epochs_max=1, patience=8, lr=1.00e-04, amp=True, det_loss_weight=1.0
+00:19:43 [INFO] Epoch 1 TRAIN | loss=0.7746 (cls=0.5544 det=0.2202) acc=0.8039 | 26 img/s | det_pos_rate=0.746 (677/908 batches had real boxes)
+00:27:45 [INFO] Using device: cuda
+00:27:45 [INFO] Building multitask model
+00:27:46 [INFO] Loading pretrained weights from Hugging Face hub (timm/convnext_tiny.fb_in22k_ft_in1k)
+00:27:47 [INFO] HTTP Request: HEAD https://huggingface.co/timm/convnext_tiny.fb_in22k_ft_in1k/resolve/main/model.safetensors "HTTP/1.1 302 Found"
+00:27:47 [INFO] [timm/convnext_tiny.fb_in22k_ft_in1k] Safe alternative available for 'pytorch_model.bin' (as 'model.safetensors'). Loading weights using safetensors.
+00:27:47 [INFO] Missing keys (head.fc.weight, head.fc.bias) discovered while loading pretrained weights. This is expected if model is being adapted.
+00:27:47 [INFO] Image size: 224x224
+00:27:47 [INFO] Loss: CrossEntropyLoss (class-weighted)
+00:27:47 [INFO] Starting training: backbone=convnext_tiny.fb_in22k_ft_in1k, epochs_max=1, patience=8, lr=1.00e-04, amp=True, det_loss_weight=1.0
+00:32:24 [INFO] Epoch 1 TRAIN | loss=0.7785 (cls=0.5560 det=0.2225) acc=0.7922 | 26 img/s | det_pos_rate=0.746 (677/908 batches had real boxes)
+00:34:08 [INFO] Epoch 1 VAL   | loss=nan acc=0.8847 macro_f1=0.8421
+00:34:10 [INFO] ✓ New best checkpoint (val macro-F1=0.8421) → checkpoints\multitask\best.pt
+00:34:15 [INFO] Confusion matrix saved → checkpoints\multitask\confusion_matrix_best_epoch1.png
+00:34:15 [INFO] Training complete. Best val macro-F1=0.8421 at epoch 1.
+00:34:15 [INFO] Reloading best checkpoint (epoch 1, macro_f1=0.8421) for final report
+00:34:37 [INFO] Epoch 1 VAL   | loss=nan acc=0.8847 macro_f1=0.8421
+00:34:38 [INFO] Confusion matrix saved → checkpoints\multitask\confusion_matrix_final_epoch1.png
+00:34:38 [INFO] Classification report → checkpoints\multitask\classification_report_final.txt
+00:34:38 [INFO] TensorBoard logs → logs\multitask

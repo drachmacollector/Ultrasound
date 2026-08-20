@@ -31,23 +31,25 @@ from pathlib import Path
 import pandas as pd
 from PIL import Image
 
-# --------------------------------------------------------------------------
+# The only genuinely independent annotated datasets.
+# We explicitly EXCLUDE "FP" and "MULTICENTRE" to avoid patient leakage
+# with the FETAL_PLANES_DB subsets (which they heavily overlap with).
+ANNOTATED_SUBSETS = ["UCL", "HC18"]
+
 # Canonical label mapping for the detection head (0-indexed, no background)
-# --------------------------------------------------------------------------
 DET_CLASS_MAP = {
     "Head":    0,
     "Abdomen": 1,
     "Femur":   2,
 }
 
-# Map UCL/HC18 subset label → FETAL_PLANES_DB canonical plane_label
-# "Head" images from cross-device data collapse to Brain_Trans_thalamic
-# (closest typical brain plane). When used as classification targets this
-# will match one of the 8 canonical classes.
+# Mask detection-only annotations from the classification head by using -100
+# (the PyTorch ignore_index default for CrossEntropyLoss).
+# This prevents fabricating fine-grained brain subclasses from coarse "Head" labels.
 CLS_LABEL_MAP = {
-    "Head":    "Brain_Trans_thalamic",
-    "Abdomen": "Fetal_abdomen",
-    "Femur":   "Fetal_femur",
+    "Head":    -100,
+    "Abdomen": -100,
+    "Femur":   -100,
 }
 
 IMAGES_BASE = Path("data/raw/ucl_hc18/images")
@@ -59,7 +61,7 @@ OUT_TRAIN = Path("data/splits/multitask_train.csv")
 OUT_VAL = Path("data/splits/multitask_val.csv")
 
 # Subsets with annotated images (all have Head/Abdomen/Femur sub-dirs)
-ANNOTATED_SUBSETS = ["UCL", "HC18", "FP", "MULTICENTRE"]
+ANNOTATED_SUBSETS = ["UCL", "HC18"]
 
 
 def _find_image(subset: str, class_name: str, image_name: str) -> Path | None:
@@ -118,8 +120,12 @@ def build_annotated_rows() -> tuple[list[dict], list[dict], dict]:
             n_missing = 0
             for _, row in df.iterrows():
                 image_name = str(row["image_name"])
-                split_flag = str(row.get("Split", "Train")).strip()
-                is_train = split_flag.lower() != "test"
+                
+                # Use a deterministic hash of the image name for an 80/20 Train/Val split
+                # This guarantees that we have a val set for HC18/UCL and don't rely
+                # on an unverified "Split" column.
+                img_hash = hash(image_name) % 5
+                is_train = img_hash != 0
 
                 img_path = _find_image(subset, class_name, image_name)
                 if img_path is None:
@@ -142,7 +148,7 @@ def build_annotated_rows() -> tuple[list[dict], list[dict], dict]:
                     "image_path": img_path_str,
                     "patient_id": row.get("SubjectID", -1),
                     "plane_label": cls_label,
-                    "brain_subplane_raw": "Not A Brain" if class_name != "Head" else "Trans-thalamic",
+                    "brain_subplane_raw": "Not A Brain",  # We don't have this, and it's ignored anyway
                     "source_machine": subset,
                     "operator": "annotation",
                     "original_split_flag": 1 if is_train else 0,

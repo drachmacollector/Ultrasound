@@ -26,8 +26,8 @@ Here is a breakdown of what was accomplished:
 - I implemented a highly-polished, clean rendering aesthetic for the bounding boxes using a premium, soft-pastel color palette:
   - **Head**: Soft Pink/Purple
   - **Abdomen**: Soft Green
-  - **Femur**: Soft Cyan/Blue
-- The bounding box names and confidence scores are beautifully rendered inside solid background pills to guarantee perfect legibility against the noisy ultrasound feed.
+  - **
+  ounding box names and confidence scores are beautifully rendered inside solid background pills to guarantee perfect legibility against the noisy ultrasound feed.
 
 Here is the final result:
 

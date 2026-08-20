@@ -136,6 +136,7 @@ def train_one_epoch(
     total_det_loss = 0.0
     correct = 0
     total = 0
+    total_samples = 0
     n_batches_total = 0
     n_batches_with_boxes = 0
     t0 = time.perf_counter()
@@ -192,20 +193,28 @@ def train_one_epoch(
         scaler.step(optimizer)
         scaler.update()
 
-        total_loss += loss.item() * images.size(0)
-        total_cls_loss += cls_loss.item() * images.size(0)
-        total_det_loss += det_loss.item() * images.size(0)
+        batch_size = images.size(0)
+        total_samples += batch_size
+        total_loss += float(loss) * batch_size
+        total_cls_loss += float(cls_loss) * batch_size
+        total_det_loss += float(det_loss) * batch_size
         preds = cls_logits.argmax(dim=1)
-        correct += (preds == labels).sum().item()
-        total += images.size(0)
+        
+        valid_mask = labels != -100
+        if valid_mask.any():
+            correct += (preds[valid_mask] == labels[valid_mask]).sum().item()
+            total += valid_mask.sum().item()
 
-    elapsed = time.perf_counter() - t0
-    imgs_per_sec = total / elapsed
-    mean_loss = total_loss / total
-    mean_cls_loss = total_cls_loss / total
-    mean_det_loss = total_det_loss / total
-    accuracy = correct / total
-    pos_target_rate = n_batches_with_boxes / max(n_batches_total, 1)
+    if total_samples == 0:
+        mean_loss = mean_cls_loss = mean_det_loss = accuracy = pos_target_rate = imgs_per_sec = 0.0
+    else:
+        elapsed = time.perf_counter() - t0
+        imgs_per_sec = total_samples / elapsed if elapsed > 0 else 0.0
+        mean_loss = total_loss / total_samples
+        mean_cls_loss = total_cls_loss / total_samples
+        mean_det_loss = total_det_loss / total_samples
+        accuracy = correct / max(total, 1)
+        pos_target_rate = n_batches_with_boxes / n_batches_total
 
     log.info(
         "Epoch %d TRAIN | loss=%.4f (cls=%.4f det=%.4f) acc=%.4f | %.0f img/s | "
@@ -245,6 +254,7 @@ def validate(
     total_loss = 0.0
     correct = 0
     total = 0
+    total_samples = 0
     all_targets: list[int] = []
     all_preds: list[int] = []
 
@@ -257,19 +267,29 @@ def validate(
         images = images.to(device, non_blocking=True)
         labels = labels.to(device, non_blocking=True)
 
+        valid_mask = labels != -100
+        
         with torch.amp.autocast('cuda', enabled=use_amp):
             cls_logits, _ = model(images)
-            loss = criterion(cls_logits, labels)
+            if valid_mask.any():
+                loss = criterion(cls_logits, labels)
+            else:
+                loss = torch.tensor(0.0, device=device)
 
-        total_loss += loss.item() * images.size(0)
+        batch_size = images.size(0)
+        total_samples += batch_size
+        total_loss += loss.item() * batch_size
         preds = cls_logits.argmax(dim=1)
-        correct += (preds == labels).sum().item()
-        total += images.size(0)
-        all_targets.extend(labels.cpu().tolist())
-        all_preds.extend(preds.cpu().tolist())
+        
+        if valid_mask.any():
+            correct += (preds[valid_mask] == labels[valid_mask]).sum().item()
+            total += valid_mask.sum().item()
+            
+            all_targets.extend(labels[valid_mask].cpu().numpy().tolist())
+            all_preds.extend(preds[valid_mask].cpu().numpy().tolist())
 
-    mean_loss = total_loss / total
-    accuracy = correct / total
+    mean_loss = total_loss / total_samples if total_samples > 0 else 0.0
+    accuracy = correct / max(total, 1)
     macro_f1: float = f1_score(all_targets, all_preds, average="macro", zero_division=0)
 
     log.info(
