@@ -75,6 +75,20 @@ def score_row(true_label: str, pred_class_name: str) -> bool:
     return pred_class_name == true_label
 
 
+def _assert_not_multitask_contaminated(ckpt_path: str) -> None:
+    """Hard-fail if this checkpoint's training data included HC18/UCL,
+    since that invalidates cross-device generalization evaluation."""
+    ckpt = torch.load(ckpt_path, map_location="cpu", weights_only=False)
+    train_csv = ckpt.get("config", {}).get("train_csv", "")
+    is_multitask_trained = "multitask" in train_csv
+    if is_multitask_trained:
+        raise RuntimeError(
+            f"REFUSING to evaluate {ckpt_path} against cross_device_manifest.csv: "
+            f"its train_csv ({train_csv}) is the multitask manifest, which folds "
+            f"HC18/UCL into training data (see build_multitask_manifest.py). "
+            f"HC18/UCL are NOT held-out for this checkpoint. See EVAL_REPORT.md §2 warning."
+        )
+
 def run_cross_device_inference(
     ckpt_path: str,
     csv_path: str,
@@ -82,6 +96,7 @@ def run_cross_device_inference(
     num_workers: int = 4,
 ) -> list[dict]:
     """Run inference over cross_device_manifest.csv and return per-row result dicts."""
+    _assert_not_multitask_contaminated(ckpt_path)
     loaded = load_inference_model(ckpt_path)
     model = loaded.model
     device = loaded.device

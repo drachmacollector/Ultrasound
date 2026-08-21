@@ -92,9 +92,9 @@ class FocalPlanesDataset(Dataset):
             class_labels: list = []
 
             # Determine if this row is expected to have a bbox.
-            # The 'has_bbox' column is written by build_multitask_manifest.py;
+            # The 'has_valid_bbox' column is written by build_multitask_manifest.py;
             # if the column is absent (legacy CSV), fall back to always trying.
-            row_has_bbox: bool = bool(row.get("has_bbox", True))
+            row_has_bbox: bool = bool(row.get("has_valid_bbox", True))
 
             if row_has_bbox:
                 # Primary key: full posix path (set by build_multitask_manifest.py)

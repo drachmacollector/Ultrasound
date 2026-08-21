@@ -20,7 +20,7 @@ class ConvNeXtBackbone(nn.Module):
 
 
 class MultiTaskConvNeXt(nn.Module):
-    def __init__(self, num_cls_classes=8, num_det_classes=3, pretrained=True):
+    def __init__(self, num_cls_classes=8, num_det_classes=3, pretrained=True, img_size=224):
         super().__init__()
         self.convnext = ConvNeXtBackbone(pretrained=pretrained)
         
@@ -53,8 +53,8 @@ class MultiTaskConvNeXt(nn.Module):
             # We skip torchvision's normalization because our albumentations pipeline already does it
             image_mean=[0.0, 0.0, 0.0],
             image_std=[1.0, 1.0, 1.0],
-            min_size=224,
-            max_size=224
+            min_size=img_size,
+            max_size=img_size
         )
 
     def forward(self, images, targets=None):

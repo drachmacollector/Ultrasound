@@ -6,11 +6,11 @@ CI-style data integrity checker for the multitask manifests.
 Checks:
   1. No FP or MULTICENTRE images appear in either split.
   2. No patient appears in BOTH train and val (patient-level disjointness).
-  3. The annotated subset (HC18/UCL rows, identifiable via has_bbox==True)
+  3. The annotated subset (HC18/UCL rows, identifiable via is_annotated_subset==True)
      has a non-trivial fraction of known patient IDs — i.e. patient_id != -1.
      If this fraction is too low, the patient-disjointness check in step 2
      would be vacuously passing (it only checks patients it can see).
-     Threshold: >=95% of has_bbox rows must have a real patient ID.
+     Threshold: >=95% of is_annotated_subset rows must have a real patient ID.
 
 Usage:
     conda run -n fetalplane python -m scripts.verify_no_multitask_leakage
@@ -61,9 +61,9 @@ def main() -> None:
     # is worse than no assertion — it manufactures false confidence.
     # -------------------------------------------------------------------------
     for df, name in [(df_train, "Train"), (df_val, "Val")]:
-        if "has_bbox" not in df.columns:
+        if "is_annotated_subset" not in df.columns:
             continue
-        annotated = df[df["has_bbox"] == True]
+        annotated = df[df["is_annotated_subset"] == True]
         if len(annotated) == 0:
             continue
         coverage = (annotated["patient_id"] != -1).mean()
@@ -78,14 +78,14 @@ def main() -> None:
     # -------------------------------------------------------------------------
     # Check 3: No patient appears in both train and val (annotated subsets only)
     #
-    # We restrict to has_bbox==True rows (HC18/UCL annotated subset).
-    # FETAL_PLANES_DB rows (has_bbox=False) were correctly split in Phase 3
+    # We restrict to is_annotated_subset==True rows (HC18/UCL annotated subset).
+    # FETAL_PLANES_DB rows (is_annotated_subset=False) were correctly split in Phase 3
     # as a separate cohort — checking them here would produce false positives
     # when comparing integer FETAL_PLANES_DB patient IDs against each other,
     # since the same patient can validly appear in only one split.
     # -------------------------------------------------------------------------
-    annotated_train = df_train[df_train["has_bbox"] == True] if "has_bbox" in df_train.columns else df_train
-    annotated_val   = df_val[df_val["has_bbox"] == True]   if "has_bbox" in df_val.columns   else df_val
+    annotated_train = df_train[df_train["is_annotated_subset"] == True] if "is_annotated_subset" in df_train.columns else df_train
+    annotated_val   = df_val[df_val["is_annotated_subset"] == True]   if "is_annotated_subset" in df_val.columns   else df_val
 
     train_patients = set(
         annotated_train[annotated_train["patient_id"] != -1]["patient_id"].unique()
@@ -108,9 +108,9 @@ def main() -> None:
     # -------------------------------------------------------------------------
     print("\nAll checks passed. Multitask manifests are clean.")
     print(f"  Train: {len(df_train)} rows  "
-          f"({df_train['has_bbox'].sum() if 'has_bbox' in df_train.columns else 'N/A'} with bbox)")
+          f"({df_train['has_valid_bbox'].sum() if 'has_valid_bbox' in df_train.columns else 'N/A'} with bbox)")
     print(f"  Val:   {len(df_val)} rows  "
-          f"({df_val['has_bbox'].sum() if 'has_bbox' in df_val.columns else 'N/A'} with bbox)")
+          f"({df_val['has_valid_bbox'].sum() if 'has_valid_bbox' in df_val.columns else 'N/A'} with bbox)")
 
 
 if __name__ == "__main__":

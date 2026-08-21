@@ -6,9 +6,9 @@ Builds the combined train/val CSVs for multi-task training by unioning:
   2. UCL/HC18 annotated images (image_path + plane_label + has_bbox=True)
 
 The resulting CSVs share the same schema as the Phase-3 splits so that
-FocalPlanesDataset can load them unchanged. A new 'bbox_path' column (or
-absence thereof — indicated by has_bbox=True/False) signals whether a bbox
-entry exists in bboxes.json for that image.
+FocalPlanesDataset can load them unchanged. Two new columns are added:
+  - is_annotated_subset: True if row comes from HC18/UCL (detection supervision)
+  - has_valid_bbox: True if a bbox was actually derived and stored in bboxes.json
 
 Design:
   - The train/val split is done PER PATIENT (group-based), not per image,
@@ -228,7 +228,8 @@ def build_annotated_rows() -> tuple[list[dict], list[dict], dict]:
                     "source_machine": subset,
                     "operator": "annotation",
                     "original_split_flag": 1 if is_train else 0,
-                    "has_bbox": True,
+                    "is_annotated_subset": True,
+                    "has_valid_bbox": bbox is not None,
                 }
 
                 # Key bboxes.json by the image's POSIX path for exact match in dataset
@@ -278,8 +279,10 @@ def main() -> None:
     ]
     fp_train = pd.read_csv(PHASE3_TRAIN)[required_cols].copy()
     fp_val   = pd.read_csv(PHASE3_VAL)[required_cols].copy()
-    fp_train["has_bbox"] = False
-    fp_val["has_bbox"]   = False
+    fp_train["is_annotated_subset"] = False
+    fp_val["is_annotated_subset"]   = False
+    fp_train["has_valid_bbox"] = False
+    fp_val["has_valid_bbox"]   = False
 
     combined_train = pd.concat(
         [fp_train, pd.DataFrame(ann_train_rows)], ignore_index=True
@@ -292,12 +295,14 @@ def main() -> None:
     combined_train.to_csv(OUT_TRAIN, index=False)
     combined_val.to_csv(OUT_VAL, index=False)
 
-    n_train_box = combined_train["has_bbox"].sum()
-    n_val_box   = combined_val["has_bbox"].sum()
-    print(f"  Combined train: {len(combined_train)} rows  ({n_train_box} with bbox, "
-          f"{len(combined_train) - n_train_box} without)")
-    print(f"  Combined val:   {len(combined_val)} rows  ({n_val_box} with bbox, "
-          f"{len(combined_val) - n_val_box} without)")
+    n_train_annot = combined_train["is_annotated_subset"].sum()
+    n_train_valid = combined_train["has_valid_bbox"].sum()
+    n_val_annot   = combined_val["is_annotated_subset"].sum()
+    n_val_valid   = combined_val["has_valid_bbox"].sum()
+    print(f"  Combined train: {len(combined_train)} rows  ({n_train_annot} annotated subset, "
+          f"{n_train_valid} with valid bbox)")
+    print(f"  Combined val:   {len(combined_val)} rows  ({n_val_annot} annotated subset, "
+          f"{n_val_valid} with valid bbox)")
     print(f"\nWritten to:\n  {OUT_TRAIN}\n  {OUT_VAL}")
     print("\nDone.")
 

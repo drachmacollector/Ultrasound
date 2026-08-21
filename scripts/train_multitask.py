@@ -120,7 +120,8 @@ def train_one_epoch(
     device: torch.device,
     epoch: int,
     use_amp: bool,
-    det_loss_weight: float = 1.0,
+    det_loss_weight_final: float = 1.0,
+    det_loss_warmup_steps: int = 500,
 ) -> tuple[float, float, float, float, float]:
     """Run one training epoch.
 
@@ -176,6 +177,9 @@ def train_one_epoch(
 
         optimizer.zero_grad(set_to_none=True)
 
+        global_step = (epoch - 1) * len(loader) + batch_idx
+        det_loss_weight = det_loss_weight_final * min(1.0, global_step / det_loss_warmup_steps) if det_loss_warmup_steps > 0 else det_loss_weight_final
+
         with torch.amp.autocast('cuda', enabled=use_amp):
             cls_logits, det_losses = model(images, targets)
             cls_loss = criterion(cls_logits, labels)
@@ -192,7 +196,16 @@ def train_one_epoch(
         scaled_loss = scaler.scale(loss)
         assert isinstance(scaled_loss, torch.Tensor)
         scaled_loss.backward()
-        scaler.step(optimizer)
+        
+        scaler.unscale_(optimizer)
+        grad_norm = torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=5.0)
+        
+        if not torch.isfinite(grad_norm):
+            log.warning(f"Epoch {epoch} batch {batch_idx}: non-finite grad norm ({grad_norm}) — skipping optimizer step")
+            optimizer.zero_grad(set_to_none=True)
+        else:
+            scaler.step(optimizer)
+        
         scaler.update()
 
         batch_size = images.size(0)
@@ -321,13 +334,13 @@ def train(cfg: dict) -> None:  # type: ignore[type-arg]
     # ---- Backbone / model ------------------------------------------------
     backbone_name: str = cfg["backbone"]
     
-    log.info("Building multitask model")
-    model = MultiTaskConvNeXt(num_cls_classes=NUM_CLASSES, num_det_classes=3)
-    model = model.to(device)
-
     # ---- Image size & transforms ----------------------------------------
     img_size: int = cfg.get("image_size", 224)
     log.info("Image size: %dx%d", img_size, img_size)
+
+    log.info("Building multitask model")
+    model = MultiTaskConvNeXt(num_cls_classes=NUM_CLASSES, num_det_classes=3, img_size=img_size)
+    model = model.to(device)
 
     normalize_mean: tuple[float, ...] = tuple(cfg.get("normalize_mean", [0.485, 0.456, 0.406]))
     normalize_std: tuple[float, ...] = tuple(cfg.get("normalize_std", [0.229, 0.224, 0.225]))
@@ -378,7 +391,7 @@ def train(cfg: dict) -> None:  # type: ignore[type-arg]
         criterion: nn.Module = FocalLoss(weight=weight_tensor, gamma=focal_gamma)
         log.info("Loss: FocalLoss (gamma=%.1f, class-weighted)", focal_gamma)
     else:
-        criterion = nn.CrossEntropyLoss(weight=weight_tensor)
+        criterion = nn.CrossEntropyLoss(weight=weight_tensor, ignore_index=-100)
         log.info("Loss: CrossEntropyLoss (class-weighted)")
 
     # ---- Optimizer + scheduler -------------------------------------------
@@ -417,11 +430,12 @@ def train(cfg: dict) -> None:  # type: ignore[type-arg]
     best_epoch: int = 0
 
     # ---- Training loop ---------------------------------------------------
-    det_loss_weight: float = cfg.get("det_loss_weight", 1.0)
+    det_loss_weight_final: float = cfg.get("det_loss_weight", 1.0)
+    det_loss_warmup_steps: int = cfg.get("det_loss_warmup_steps", 500)
     
     log.info(
-        "Starting training: backbone=%s, epochs_max=%d, patience=%d, lr=%.2e, amp=%s, det_loss_weight=%.1f",
-        backbone_name, epochs_max, patience, lr, use_amp, det_loss_weight
+        "Starting training: backbone=%s, epochs_max=%d, patience=%d, lr=%.2e, amp=%s, det_loss_weight=%.1f (warmup=%d)",
+        backbone_name, epochs_max, patience, lr, use_amp, det_loss_weight_final, det_loss_warmup_steps
     )
 
     for epoch in range(1, epochs_max + 1):
@@ -429,7 +443,7 @@ def train(cfg: dict) -> None:  # type: ignore[type-arg]
 
         # --- Train ---
         train_loss, train_cls_loss, train_det_loss, train_acc, train_pos_target_rate = train_one_epoch(
-            model, train_loader, criterion, optimizer, scaler, device, epoch, use_amp, det_loss_weight
+            model, train_loader, criterion, optimizer, scaler, device, epoch, use_amp, det_loss_weight_final, det_loss_warmup_steps
         )
 
         # --- Validate ---
@@ -469,10 +483,17 @@ def train(cfg: dict) -> None:  # type: ignore[type-arg]
 
         # --- Best checkpoint ---
         if val_macro_f1 > best_macro_f1:
-            best_macro_f1 = val_macro_f1
+            # Ensure we do not save a corrupted checkpoint
+            import math
+            assert not (isinstance(val_loss, float) and math.isnan(val_loss)), (
+                f"Epoch {epoch}: refusing to save best.pt — val_loss is NaN despite "
+                f"val_macro_f1={val_macro_f1:.4f}. Investigate before trusting this checkpoint."
+            )
+            
             best_epoch = epoch
+            best_macro_f1 = val_macro_f1
             epochs_without_improvement = 0
-
+            
             best_ckpt_path = ckpt_dir / "best.pt"
             torch.save(
                 {
