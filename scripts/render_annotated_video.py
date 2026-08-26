@@ -241,7 +241,8 @@ def render_video(
             fps=fps_in,
             codec="libx264",
             quality=None,
-            ffmpeg_params=["-crf", "23", "-pix_fmt", "yuv420p"],
+            pixelformat="yuv420p",
+            ffmpeg_params=["-crf", "23"],
             macro_block_size=1,
         )
     else:

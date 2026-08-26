@@ -45,14 +45,29 @@ KNOWN LIMITATIONS (Demo 1)
 """
 from __future__ import annotations
 
+import asyncio
 import argparse
 import json
 import logging
 import os
 import sys
-import tempfile
 from pathlib import Path
 from typing import Any
+
+if sys.platform == "win32":
+    try:
+        # Prevent ProactorBasePipeTransport from throwing WinError 10054 on disconnect
+        from asyncio.proactor_events import _ProactorBasePipeTransport
+        if hasattr(_ProactorBasePipeTransport, "_call_connection_lost"):
+            _original_call_connection_lost = _ProactorBasePipeTransport._call_connection_lost
+            def _silence_winerror_10054(self, exc):
+                try:
+                    _original_call_connection_lost(self, exc)
+                except ConnectionResetError:
+                    pass
+            _ProactorBasePipeTransport._call_connection_lost = _silence_winerror_10054
+    except ImportError:
+        pass
 
 # ---------------------------------------------------------------------------
 # Project root on sys.path — allows importing from src/ and scripts/
@@ -159,8 +174,10 @@ def process_video(
     if not input_path.exists():
         return None, f"⚠️ Uploaded file not found: {input_path}", "{}"
 
-    # Write output to a temp file so Gradio can serve it
-    output_dir = Path(tempfile.gettempdir()) / "ultrasound_demo1"
+    # Write output to a project-local dir that Gradio can serve.
+    # tempfile.gettempdir() is outside Gradio's default allowed_paths on some
+    # platforms and causes "Method not implemented" / unservable file errors.
+    output_dir = _ROOT / "outputs" / "demo1"
     output_dir.mkdir(parents=True, exist_ok=True)
     output_path = output_dir / f"annotated_{input_path.stem}.mp4"
 
@@ -231,31 +248,31 @@ def process_video(
         display_log.append({"note": f"...{len(result['label_log']) - 200} more frames truncated"})
     label_log_json = json.dumps(display_log, indent=2)
 
-    return str(output_path), status_md, label_log_json
+    return str(output_path.resolve()), status_md, label_log_json
 
 
 # ---------------------------------------------------------------------------
 # Gradio UI definition
 # ---------------------------------------------------------------------------
 
-def build_ui() -> gr.Blocks:
+def build_ui() -> tuple[gr.Blocks, Any, str]:
     """Construct and return the Gradio Blocks interface."""
 
-    with gr.Blocks(
-        title="Fetal Plane Classifier — Demo 1",
-        theme=gr.themes.Soft(
-            primary_hue="blue",
-            secondary_hue="slate",
-            neutral_hue="slate",
-            font=[gr.themes.GoogleFont("Inter"), "sans-serif"],
-        ),
-        css="""
-            .gradio-container { max-width: 1100px; margin: auto; }
-            .output-video video { max-height: 500px; }
-            footer { display: none !important; }
-            .status-box { font-family: monospace; }
-        """,
-    ) as demo:
+    _theme = gr.themes.Soft(
+        primary_hue="blue",
+        secondary_hue="slate",
+        neutral_hue="slate",
+        font=[gr.themes.GoogleFont("Inter"), "sans-serif"],
+    )
+    
+    _css = """
+        .gradio-container { max-width: 1100px; margin: auto; }
+        .output-video video { max-height: 500px; }
+        footer { display: none !important; }
+        .status-box { font-family: monospace; }
+    """
+
+    with gr.Blocks(title="Fetal Plane Classifier — Demo 1") as demo:
 
         # ------------------------------------------------------------------
         # Header
@@ -292,7 +309,7 @@ Powered by `convnext_tiny.fb_in22k_ft_in1k` · Test macro-F1 **0.8927** · Tier-
                     )
                     gradcam_every_n = gr.Slider(
                         label="Grad-CAM every N frames",
-                        minimum=1, maximum=10, step=1, value=1,
+                        minimum=1, maximum=10, step=1, value=5,
                         info="1 = every frame (max detail). Higher = faster render.",
                     )
                     enable_tier2 = gr.Checkbox(
@@ -317,6 +334,7 @@ Powered by `convnext_tiny.fb_in22k_ft_in1k` · Test macro-F1 **0.8927** · Tier-
                 output_video = gr.Video(
                     label="Annotated clip",
                     autoplay=True,
+                    format="mp4",
                     elem_classes=["output-video"],
                     elem_id="output-video",
                 )
@@ -376,7 +394,7 @@ Powered by `convnext_tiny.fb_in22k_ft_in1k` · Test macro-F1 **0.8927** · Tier-
             show_progress="full",
         )
 
-    return demo
+    return demo, _theme, _css
 
 
 # ---------------------------------------------------------------------------
@@ -418,14 +436,22 @@ def main() -> None:
         )
         sys.exit(1)
 
-    demo = build_ui()
-    # theme and css passed here for Gradio 5/6 forward compatibility
-    # (Gradio 6 moved them from Blocks() constructor to launch())
+    demo, theme_obj, css_str = build_ui()
+    # allowed_paths lets Gradio serve files from the project outputs directory
+    _outputs_dir = str(_ROOT / "outputs")
+    
+    # When using --share, binding to 0.0.0.0 sometimes helps the FRP tunnel route properly
+    if args.share and args.host == "127.0.0.1":
+        args.host = "0.0.0.0"
+        
     demo.launch(
         server_name=args.host,
         server_port=args.port,
         share=args.share,
         inbrowser=not args.no_browser,
+        allowed_paths=[_outputs_dir],
+        theme=theme_obj,
+        css=css_str,
     )
 
 

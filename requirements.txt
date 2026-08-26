@@ -11,8 +11,6 @@ albumentations
 pillow
 pyyaml
 tensorboard
-onnx
-onnxruntime-gpu
 grad-cam
 types-seaborn
 python-dotenv

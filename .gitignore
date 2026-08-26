@@ -41,3 +41,7 @@ scratch_demo.py
 scratch_collate.py
 scratch_test_loss.py
 .agents/
+
+# Demo 1 output videos (generated on-the-fly by app_gradio.py)
+outputs/
+.gradio/
