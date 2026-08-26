@@ -1,8 +1,6 @@
 # Real-Time Sonography Assistant
 
-Here are two cover image options. (Choose your preferred one and delete the other!)
-**Clinical Monitor**
-![Realistic Ultrasound Sonography](docs/realistic_ultrasound.jpg)
+![Clinical Monitor](docs/realistic_ultrasound.jpg)
 
 ## Project Overview
 This project is an advanced assistive tool designed for sonographers to perform **real-time standard anatomical plane detection**. Given a live video stream (such as a webcam standing in for an ultrasound probe, or a pre-recorded video file), the system continuously classifies each moment of the scan into one of **7 standard anatomical planes**, or *"Other"* (non-standard/transitional). 

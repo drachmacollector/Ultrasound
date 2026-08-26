@@ -42,3 +42,4 @@ scratch_collate.py
 scratch_test_loss.py
 docs_tree.txt
 logs_tree.txt
+.agents/
