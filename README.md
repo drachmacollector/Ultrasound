@@ -1,14 +1,19 @@
 # Real-Time Sonography Assistant
 
-![Clinical Monitor](docs/realistic_ultrasound.jpg)
+**Clinical Monitor**
+![Realistic Ultrasound Sonography](docs/realistic_ultrasound.jpg)
 
 ## Project Overview
-This project is an advanced assistive tool designed for sonographers to perform **real-time standard anatomical plane detection**. Given a live video stream (such as a webcam standing in for an ultrasound probe, or a pre-recorded video file), the system continuously classifies each moment of the scan into one of **7 standard anatomical planes**, or *"Other"* (non-standard/transitional). 
+This project is an advanced assistive tool designed for sonographers to perform **real-time standard anatomical plane detection**. Given a live video stream (such as a webcam standing in for an ultrasound probe, or a pre-recorded video file), the system continuously classifies each moment of the scan into one of **7 standard anatomical planes**, or *"Other"* (non-standard/transitional). This gives immediate, accurate feedback during critical diagnostic procedures.
 
 ### Key Features
-- **Stable (Non-Flickering) On-Screen Label**: Temporal smoothing eliminates flickering.
-- **Confidence Score**: Real-time probability readouts.
-- **Visual Interpretability**: Throttled Grad-CAM style visual explanations highlighting the anatomical regions driving the classification.
+**Stable (Non-Flickering) On-Screen Label**  
+Our temporal smoothing algorithm acts like a shock absorber for predictions, eliminating visual noise and flickering to provide a crystal-clear, steady readout.
+
+**Visual Interpretability & Confidence**  
+Not only does the system provide a real-time probability score, but it also uses throttled Grad-CAM visual explanations. This highlights the exact anatomical regions driving the classification, giving you a transparent look into the AI's "brain".
+
+<br clear="all" />
 
 ---
 
@@ -35,19 +40,31 @@ The models in this project are trained and evaluated using the following public 
 ## Architecture
 The system is designed to run locally on consumer hardware (e.g., an RTX 4060 GPU) with extremely low perceived latency, rather than relying on a cloud backend. 
 
+### System Workflow
+
+```mermaid
+graph TD
+    A[Video Stream / Webcam] -->|Frame Capture| B(Preprocessing)
+    B -->|Resize & Normalize| C{CNN Backbone}
+    C -->|Feature Extraction| D[Classification Head]
+    D -->|Raw Probabilities| E(Temporal Smoothing Buffer)
+    C -->|Activation Maps| F[Grad-CAM Module]
+    E -->|Stable Prediction| G((UI Rendering))
+    F -->|Saliency Overlay| G
+    G --> H[Final Annotated Frame]
+    
+    style A fill:#2d3436,stroke:#74b9ff,stroke-width:2px,color:#fff
+    style C fill:#0984e3,stroke:#74b9ff,stroke-width:2px,color:#fff
+    style E fill:#00b894,stroke:#55efc4,stroke-width:2px,color:#fff
+    style G fill:#d63031,stroke:#ff7675,stroke-width:2px,color:#fff
+```
+
 ### Core Components
-- **Backbone**: A lightweight CNN (e.g., RepVGG, EfficientNet, MobileNetV3) for fast feature extraction.
+- **Backbone**: A lightweight CNN (e.g., RepVGG, EfficientNet, MobileNetV3) for blazing fast feature extraction.
 - **Classification Head**: A single 8-way softmax classifier processing features in a single forward pass.
 - **Interpretability**: A throttled Grad-CAM module that provides visual explanations without severely impacting real-time throughput.
-- **Temporal Stabilization**: A smoothing layer that uses confidence-weighted moving averages, hysteresis, and minimum dwell-times to stabilize the per-frame predictions and eliminate flickering.
-- **Serving**: A local Python real-time loop utilizing OpenCV for video capture, preprocessing, inference, and overlay rendering.
-
-### How It Works
-1. **Video Capture**: A local thread captures frames from a webcam or a video file using OpenCV.
-2. **Preprocessing**: Frames are resized, normalized, and converted into 3-channel tensors.
-3. **Inference**: The CNN backbone and classification head process the frame, producing raw class probabilities. Periodically, Grad-CAM maps are generated.
-4. **Temporal Smoothing**: Raw probabilities and class predictions are fed into a smoothing buffer to suppress spurious frame-level noise.
-5. **UI Rendering**: The final stable prediction, confidence score, and Grad-CAM overlay are drawn onto the video frame and displayed to the user.
+- **Temporal Stabilization**: A smoothing layer that uses confidence-weighted moving averages, hysteresis, and minimum dwell-times.
+- **Serving**: A local Python real-time loop utilizing OpenCV.
 
 ---
 
@@ -66,12 +83,11 @@ conda create -n ultrasound_env python=3.11 -y
 conda activate ultrasound_env
 pip install -r requirements.txt
 ```
-*(Ensure that you install the version of PyTorch that matches your system's CUDA version. Check `requirements.txt` for dependencies.)*
+*(Ensure that you install the version of PyTorch that matches your system's CUDA version.)*
 
 ### 3. Data Preparation
-- Download the **FETAL_PLANES_DB** dataset and the **UCL/HC18** datasets.
-- Place the raw datasets into `data/raw/`.
-- Run the provided data pipeline scripts to build manifests, verify data, and generate train/validation/test splits:
+- Download the datasets and place them into `data/raw/`.
+- Run the provided data pipeline scripts to build manifests, verify data, and generate splits:
   ```bash
   python scripts/build_manifest.py
   python scripts/patient_split.py
@@ -84,8 +100,6 @@ To train the model from scratch on the processed dataset:
 ```bash
 python src/train/train.py --config configs/convnext_tiny.yaml
 ```
-*(You can use any of the provided per-backbone configuration files in the `configs/` directory.)*
-> **Tip:** You can also run `python scripts/smoke_test.py` to verify the pipeline before starting full training.
 
 ### 5. Evaluation
 To evaluate the trained model on the held-out test set:
@@ -96,32 +110,15 @@ python scripts/evaluate_cross_device.py --checkpoint checkpoints/convnext_tiny/b
 ---
 
 ## Demo 1: Web UI
-**Upload a Video, Watch it Get Labeled**
 
 The web interface accepts an ultrasound video clip upload and returns a fully-annotated MP4 with per-frame plane labels, confidence scores, and Grad-CAM saliency overlays.
 
 ### Quick Start
-**Install the two additional Demo 1 dependencies:**
-```bash
-pip install "gradio>=4.0,<5.0" "imageio[ffmpeg]"
-```
-
 **Launch the Gradio app:**
 ```bash
+pip install "gradio>=4.0,<5.0" "imageio[ffmpeg]"
 python app_gradio.py
-# Opens http://127.0.0.1:7860 in your browser automatically
 ```
-
-For a public shareable link (useful for remote demos):
-```bash
-python app_gradio.py --share
-```
-
-### How It Works
-1. Upload any `.mp4` ultrasound clip via the browser interface.
-2. Configure options (Grad-CAM, Tier-2a smoothing, HUD).
-3. Click **▶ Process Video** — the render runs offline (not real-time).
-4. The annotated output video plays inline in the browser. A per-frame label log (JSON) is also available for download.
 
 ### What is shown / not shown
 
@@ -132,14 +129,13 @@ python app_gradio.py --share
 | STABLE / SETTLING badge | Enabled (Via Tier-1 + Tier-2a smoothing) |
 | Grad-CAM overlay | Enabled (Configurable cadence, default: every frame) |
 | Structure bounding boxes | **Not shown** (Detection model trained 1 epoch only) |
-| Live webcam streaming | Not in Demo 1 (Upload only) |
 
-> **Why no bounding boxes?** The multitask object detection model was trained for exactly 1 epoch as a wiring smoke-test (val macro-F1 0.8421, *below* the production classifier at 0.9183). Showing garbage boxes in a clinical context would be misleading. Boxes will appear in a future demo once the detection model is fully trained. This limitation is documented in `app_gradio.py` and `docs/demo1_walkthrough.md`.
+> **Why no bounding boxes?** The multitask object detection model was trained for exactly 1 epoch as a wiring smoke-test. Showing garbage boxes in a clinical context would be misleading. 
 
 ### Known Accuracy Limitations
 - **In-distribution test macro-F1: 0.8927** (patient-disjoint, held-out split).
-- **Cross-device accuracy drop:** 98.0% (in-distribution) → 83.2% on HC18/UCL unseen devices. Expect similar degradation on hospital machines differing from the FETAL_PLANES_DB training sources.
-- **`Brain_Trans_ventricular` is the weakest class** (F1 0.77) — well-documented in the literature as the hardest confusion case (vs. Trans-thalamic).
+- **Cross-device accuracy drop:** 98.0% (in-distribution) → 83.2% on HC18/UCL unseen devices. 
+- **`Brain_Trans_ventricular` is the weakest class** (F1 0.77) — well-documented in the literature as the hardest confusion case.
 
 ---
 
@@ -149,9 +145,6 @@ For local real-time inference with a GPU-equipped machine, the desktop app is av
 python -m src.realtime.app \
     --source data/processed/synthetic_clips/Brain_Trans_thalamic_clip01.mp4 \
     --loop
-
-# Webcam (replace 0 with your device index)
-python -m src.realtime.app --source 0
 ```
 
 **Controls during playback:**
@@ -160,4 +153,4 @@ python -m src.realtime.app --source 0
 - `h`: Toggle HUD
 - `space`: Pause
 
-*Validated at **23.6–23.7 fps** stable on RTX 4060 over a 120-second run with no thermal throttling (see `logs/realtime/`).*
+*Validated at **23.6–23.7 fps** stable on RTX 4060 over a 120-second run with no thermal throttling.*

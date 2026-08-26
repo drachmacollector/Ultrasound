@@ -1,0 +1,103 @@
+﻿Folder PATH listing for volume Storage
+Volume serial number is 00000249 64DE:9883
+D:\ULTRASOUND\LOGS
+|   .gitkeep
+|   convnext_tiny.fb_in22k_ft_in1k_training_output.txt
+|   
++---backbones
+|   +---convnext_tiny
+|   |   |   convnext_tiny_training_output.txt
+|   |   |   events.out.tfevents.1785258244.NX-ASUS.5560.0
+|   |   |   lr_finder.png
+|   |   |   output.txt
+|   |   |   
+|   |   \---smoke_test
+|   |           events.out.tfevents.1785214331.NX-ASUS.7172.5
+|   |           
+|   +---convnext_tiny_focal
+|   |       convnext_tiny_focal_training_output.txt
+|   |       events.out.tfevents.1785310525.NX-ASUS.24168.0
+|   |       
+|   +---efficientnet_lite0
+|   |   |   efficientnet_lite0_training_output.txt
+|   |   |   events.out.tfevents.1785249827.NX-ASUS.20020.0
+|   |   |   lr_finder.png
+|   |   |   output.txt
+|   |   |   
+|   |   \---smoke_test
+|   |           events.out.tfevents.1785213815.NX-ASUS.7172.3
+|   |           
+|   +---mobilenetv3_large_100
+|   |   |   events.out.tfevents.1785251508.NX-ASUS.23192.0
+|   |   |   lr_finder.png
+|   |   |   mobilenetv3_large_100_training_output.txt
+|   |   |   output.txt
+|   |   |   
+|   |   \---smoke_test
+|   |           events.out.tfevents.1785213610.NX-ASUS.7172.2
+|   |           
+|   +---repvgg_a1
+|   |   |   events.out.tfevents.1785252624.NX-ASUS.10552.0
+|   |   |   lr_finder.png
+|   |   |   output.txt
+|   |   |   repvgg_a1_training_output.txt
+|   |   |   
+|   |   \---smoke_test
+|   |           events.out.tfevents.1785213017.NX-ASUS.4432.0
+|   |           events.out.tfevents.1785213185.NX-ASUS.7172.0
+|   |           
+|   +---repvgg_a2
+|   |   |   events.out.tfevents.1785256831.NX-ASUS.21240.0
+|   |   |   lr_finder.png
+|   |   |   output.txt
+|   |   |   repvgg_a2_training_output.txt
+|   |   |   
+|   |   \---smoke_test
+|   |           events.out.tfevents.1785213399.NX-ASUS.7172.1
+|   |           
+|   \---tf_efficientnetv2_s
+|       |   events.out.tfevents.1785253334.NX-ASUS.12192.0
+|       |   lr_finder.png
+|       |   output.txt
+|       |   tf_efficientnetv2_s_training_output.txt
+|       |   
+|       \---smoke_test
+|               events.out.tfevents.1785214008.NX-ASUS.7172.4
+|               
++---eval
+|       evaluate_cross_device.txt
+|       evaluate_realistic_video.txt
+|       evaluate_tier2.txt
+|       tier2a_sweep_comparison.txt
+|       tier2a_sweep_grid_A.txt
+|       tier2a_sweep_grid_B.txt
+|       
++---multitask
+|       events.out.tfevents.1786874541.NX-ASUS.16248.0
+|       events.out.tfevents.1787115784.NX-ASUS.16648.0
+|       events.out.tfevents.1787165101.NX-ASUS.10696.0
+|       events.out.tfevents.1787165867.NX-ASUS.23340.0
+|       
++---realtime
+|       realtime_benchmark_20260810_102610.txt
+|       realtime_benchmark_20260811_004330.txt
+|       realtime_benchmark_20260811_010120.txt
+|       realtime_validation_20260811_204604.txt
+|       realtime_validation_run_20260811_023040.txt
+|       realtime_validation_run_20260811_024537.txt
+|       realtime_validation_run_20260811_233812.txt
+|       realtime_validation_stats_20260811_023040.csv
+|       realtime_validation_stats_20260811_024537.csv
+|       realtime_validation_stats_20260811_233812.csv
+|       
++---smoketest
+|       smoketest classification all.txt
+|       smoke_test_results.txt
+|       
++---training
+|       convnext_tiny.fb_in22k_ft_in1k_training_output.txt
+|       
+\---tuning
+        measure_baseline_flicker.txt
+        tune_tier1_smoothing_sweep.txt
+        

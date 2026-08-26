@@ -40,6 +40,4 @@ data/raw/fetal_planes_db/LICENSE_NOTE.txt
 scratch_demo.py
 scratch_collate.py
 scratch_test_loss.py
-docs_tree.txt
-logs_tree.txt
 .agents/

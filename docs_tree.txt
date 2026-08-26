@@ -1,0 +1,58 @@
+﻿Folder PATH listing for volume Storage
+Volume serial number is 00000222 64DE:9883
+D:\ULTRASOUND\DOCS
+|   EVAL_REPORT.md
+|   EXPERIMENTS.md
+|   realistic_ultrasound.jpg
+|   
++---instructions
+|       00_PROJECT_OVERVIEW.md
+|       01_ENVIRONMENT_SETUP.md
+|       02_DATASETS.md
+|       03_DATA_PIPELINE.md
+|       04_MODEL_TRAINING.md
+|       05_TEMPORAL_SMOOTHING_AND_REALTIME.md
+|       06_EVALUATION_VALIDATION.md
+|       07_STRETCH_GOALS_AND_ROADMAP.md
+|       08_MASTER_CHECKLIST.md
+|       
+\---phases
+    +---demo1
+    |       demo1_walkthrough.md
+    |       
+    +---phase_03
+    |       LR_FINDER_INVESTIGATION_SUMMARY.md
+    |       phase 3 walkthrough.md
+    |       PHASE_3_KICKOFF_PROMPT.md
+    |       
+    +---phase_04
+    |       bootstrap_significance_output.txt
+    |       evaluate_test_output.txt
+    |       phase 4 walkthrough.md
+    |       PHASE_4_KICKOFF_PROMPT.md
+    |       test_classification_metrics_all.txt
+    |       validation_classification_metrics_all.txt
+    |       
+    +---phase_05
+    |   |   phase 5 walkthrough.md
+    |   |   PHASE5_SMOOTHING_TUNING.md
+    |   |   PHASE_5_KICKOFF_PROMPT.md
+    |   |   task8_implementation.md
+    |   |   
+    |   \---phase5_screenshots
+    |           validation_file_final.png
+    |           validation_file_t010s.png
+    |           validation_file_t030s.png
+    |           validation_file_t060s.png
+    |           validation_nogradcam_final.png
+    |           validation_webcam_demo.png
+    |           
+    +---phase_06
+    |       PHASE_6_KICKOFF_PROMPT.md
+    |       
+    \---phase_07
+            goal_1_walkthrough.md
+            hud_clean_demo.png
+            phase7_multitask_hud_demo.png
+            tier2_results.md
+            
