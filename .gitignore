@@ -35,3 +35,10 @@ data/raw/fetal_planes_db/LICENSE_NOTE.txt
 !data/processed/eval_realistic_video/**/*
 !docs/phase5_screenshots/**/*.png
 !docs/phases/phase_05/phase5_screenshots/*.png
+
+# Scratch and tree files
+scratch_demo.py
+scratch_collate.py
+scratch_test_loss.py
+docs_tree.txt
+logs_tree.txt
