@@ -16,3 +16,6 @@ onnxruntime-gpu
 grad-cam
 types-seaborn
 python-dotenv
+# Demo 1 — web UI and H.264 video writer
+gradio>=5.0
+imageio[ffmpeg]

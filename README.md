@@ -79,13 +79,85 @@ python src/train/train.py --config configs/convnext_tiny.yaml
 ### 5. Evaluation
 To evaluate the trained model on the held-out test set:
 ```bash
-python scripts/evaluate_test.py --weights checkpoints/convnext_tiny/best.pt
+python scripts/evaluate_cross_device.py --checkpoint checkpoints/convnext_tiny/best.pt
 ```
 
-### 6. Real-Time Inference (WIP)
-*(Note: Real-time inference scripts are currently being built in Phase 5 and are not yet fully implemented.)*
-Run the real-time application using your trained model checkpoint:
+---
+
+## Demo 1: Web UI — Upload a Video, Watch it Get Labeled
+
+The web interface accepts an ultrasound video clip upload and returns a fully-annotated
+MP4 with per-frame plane labels, confidence scores, and Grad-CAM saliency overlays.
+
+### Quick Start
+
+**Install the two additional Demo 1 dependencies:**
 ```bash
-python src/realtime/app.py --weights checkpoints/convnext_tiny/best.pt --source 0
+pip install "gradio>=4.0,<5.0" "imageio[ffmpeg]"
 ```
-*(Use `--source 0` for your primary webcam, or provide a path to an `.mp4` video file.)*
+
+**Launch the Gradio app:**
+```bash
+python app_gradio.py
+# Opens http://127.0.0.1:7860 in your browser automatically
+```
+
+For a public shareable link (useful for remote demos):
+```bash
+python app_gradio.py --share
+```
+
+### How it works
+
+1. Upload any `.mp4` ultrasound clip via the browser interface.
+2. Configure options (Grad-CAM, Tier-2a smoothing, HUD).
+3. Click **▶ Process Video** — the render runs offline (not real-time).
+4. The annotated output video plays inline in the browser. A per-frame label log
+   (JSON) is also available for download.
+
+### What is shown / not shown
+
+| Feature | Demo 1 Status |
+|---|---|
+| Plane label (7 classes + Other) | ✅ Every frame |
+| Confidence score | ✅ Every frame |
+| STABLE / SETTLING badge | ✅ Via Tier-1 + Tier-2a smoothing |
+| Grad-CAM overlay | ✅ Configurable cadence (default: every frame) |
+| Structure bounding boxes | ❌ **Not shown** — detection model trained 1 epoch only |
+| Live webcam streaming | ❌ Not in Demo 1 — upload only |
+
+> **Why no bounding boxes?** The multitask object detection model was trained for
+> exactly 1 epoch as a wiring smoke-test (val macro-F1 0.8421, *below* the
+> production classifier at 0.9183). Showing garbage boxes in a clinical context
+> would be misleading. Boxes will appear in a future demo once the detection model
+> is fully trained. This limitation is documented in `app_gradio.py` and
+> `docs/demo1_walkthrough.md`.
+
+### Known accuracy limitations
+
+- **In-distribution test macro-F1: 0.8927** (patient-disjoint, held-out split).
+- **Cross-device accuracy drop:** 98.0% (in-distribution) → 83.2% on HC18/UCL
+  unseen devices. Expect similar degradation on hospital machines differing from
+  the FETAL_PLANES_DB training sources.
+- **`Brain_Trans_ventricular` is the weakest class** (F1 0.77) — well-documented
+  in the literature as the hardest confusion case (vs. Trans-thalamic).
+
+---
+
+### 6. Real-Time Local Inference (Desktop App)
+
+For local real-time inference with a GPU-equipped machine, the desktop app is available:
+```bash
+python -m src.realtime.app \
+    --source data/processed/synthetic_clips/Brain_Trans_thalamic_clip01.mp4 \
+    --loop
+
+# Webcam (replace 0 with your device index)
+python -m src.realtime.app --source 0
+```
+
+Keys while running: `q`/`ESC` quit · `g` toggle Grad-CAM · `h` toggle HUD · `space` pause
+
+Validated at **23.6–23.7 fps** stable on RTX 4060 over a 120-second run
+with no thermal throttling (see `logs/realtime/`).
+
