@@ -454,7 +454,7 @@ def run_app(args: argparse.Namespace) -> None:
 
     log.info("Starting app — source=%r  checkpoint=%s  loop=%s  gradcam=%s  every_n=%d",
              source, args.checkpoint, args.loop,
-             not args.no_gradcam, args.gradcam_every_n_frames)
+             args.debug, args.gradcam_every_n_frames)
 
     # --- Load model -----------------------------------------------------------
     log.info("Loading model from %s …", args.checkpoint)
@@ -482,7 +482,7 @@ def run_app(args: argparse.Namespace) -> None:
         stats=stats,
         gradcam_every_n_frames=args.gradcam_every_n_frames,
         gradcam_wall_ms=1000.0,
-        enable_gradcam=not args.no_gradcam,
+        enable_gradcam=args.debug,
         tier2_config_path=args.tier2_config if args.enable_tier2 else None,
     )
 
@@ -517,7 +517,7 @@ def run_app(args: argparse.Namespace) -> None:
 
     # --- Render state ---------------------------------------------------------
     last_result: dict[str, Any] | None = None
-    show_gradcam = not args.no_gradcam
+    show_gradcam = args.debug
     show_hud     = True
     is_paused    = False
 
@@ -626,8 +626,18 @@ def build_parser() -> argparse.ArgumentParser:
         ),
     )
     parser.add_argument(
-        "--no-gradcam", action="store_true",
-        help="Disable Grad-CAM entirely for maximum throughput.",
+        "--debug", action="store_true",
+        help=(
+            "Enable Grad-CAM overlay. Grad-CAM is OFF by default (clinical mode — "
+            "a sonographer has no use for saliency maps at runtime). "
+            "Use --debug for model explanation, development, or demonstration runs."
+        ),
+    )
+    # --no-gradcam kept as a deprecated no-op alias so existing scripts don't hard-break.
+    # It has no effect — Grad-CAM is already off by default without --debug.
+    parser.add_argument(
+        "--no-gradcam", action="store_true", dest="no_gradcam",
+        help=argparse.SUPPRESS,   # hidden; deprecated in favour of --debug semantics
     )
     parser.add_argument(
         "--loop", action="store_true",

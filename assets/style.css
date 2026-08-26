@@ -1,0 +1,73 @@
+/*
+ * assets/style.css
+ *
+ * Streamlit custom styling for the Fetal Plane Classifier Demo.
+ *
+ * LOADING MECHANISM
+ * -----------------
+ * Loaded by app_streamlit.py via _load_css() at startup:
+ *
+ *   def _load_css(path: Path) -> None:
+ *       st.markdown(f"<style>{path.read_text()}</style>", unsafe_allow_html=True)
+ *
+ * TARGETING CONVENTION
+ * --------------------
+ * All custom selectors use the prefix `.fpc-` (Fetal Plane Classifier) so
+ * they are namespaced away from Streamlit's own classes.  Streamlit's
+ * generated class names (e.g. `.css-1d391kg`) change between versions, so
+ * prefer targeting via `data-testid` attributes or our own elem_id /
+ * className props when possible.
+ *
+ * SECTIONS
+ * --------
+ *   1. Global / typography
+ *   2. Sidebar
+ *   3. Upload panel     (.fpc-upload-col)
+ *   4. Output panel     (.fpc-output-col)
+ *   5. Status / metrics (.fpc-status-block)
+ *   6. Label log        (.fpc-label-log)
+ *   7. Example clips    (.fpc-examples)
+ *   8. Animations / transitions
+ *
+ * NOTE: This file is intentionally empty for Demo 1.
+ * Premium styling will be added in a later pass (see docs/phases/demo1/demo1_walkthrough.md §10).
+ */
+
+/* ============================================================
+   1. Global / typography
+   ============================================================ */
+
+
+/* ============================================================
+   2. Sidebar
+   ============================================================ */
+
+
+/* ============================================================
+   3. Upload panel
+   ============================================================ */
+
+
+/* ============================================================
+   4. Output panel
+   ============================================================ */
+
+
+/* ============================================================
+   5. Status / metrics block
+   ============================================================ */
+
+
+/* ============================================================
+   6. Per-frame label log
+   ============================================================ */
+
+
+/* ============================================================
+   7. Example clips
+   ============================================================ */
+
+
+/* ============================================================
+   8. Animations / transitions
+   ============================================================ */

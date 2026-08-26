@@ -111,30 +111,38 @@ python scripts/evaluate_cross_device.py --checkpoint checkpoints/convnext_tiny/b
 
 ## Demo 1: Web UI
 
-The web interface accepts an ultrasound video clip upload and returns a fully-annotated MP4 with per-frame plane labels, confidence scores, and Grad-CAM saliency overlays.
+The web interface accepts an ultrasound video clip upload and returns a fully-annotated MP4 with per-frame plane labels, confidence scores, and optional Grad-CAM saliency overlays.
 
-### Quick Start
-**Launch the Gradio app:**
+**Grad-CAM is OFF by default** — a sonographer has no use for saliency maps at runtime. Enable it in the sidebar (Streamlit) or options panel (Gradio) for model explanation or research use.
+
+### Quick Start — Streamlit (primary interface)
 ```bash
-pip install "gradio>=4.0,<5.0" "imageio[ffmpeg]"
-python app_gradio.py
+conda run -n fetalplane streamlit run app_streamlit.py
+# → http://localhost:8501
+```
+
+### Quick Start — Gradio (backup interface)
+```bash
+conda run -n fetalplane python app_gradio.py
+# → http://127.0.0.1:7860
+conda run -n fetalplane python app_gradio.py --share  # public tunnel
 ```
 
 ### What is shown / not shown
 
 | Feature | Demo 1 Status |
 |---|---|
-| Plane label (7 classes + Other) | Enabled (Every frame) |
-| Confidence score | Enabled (Every frame) |
-| STABLE / SETTLING badge | Enabled (Via Tier-1 + Tier-2a smoothing) |
-| Grad-CAM overlay | Enabled (Configurable cadence, default: every frame) |
-| Structure bounding boxes | **Not shown** (Detection model trained 1 epoch only) |
+| Plane label (7 classes + Other) | ✅ Every frame |
+| Confidence score | ✅ Every frame |
+| STABLE / SETTLING badge | ✅ Tier-1 + Tier-2a smoothing |
+| Grad-CAM overlay | ✅ Available (OFF by default; enable in sidebar) |
+| Structure bounding boxes | ❌ Not shown (detection model trained 1 epoch only) |
 
-> **Why no bounding boxes?** The multitask object detection model was trained for exactly 1 epoch as a wiring smoke-test. Showing garbage boxes in a clinical context would be misleading. 
+> **Why no bounding boxes?** The multitask object detection model was trained for exactly 1 epoch as a wiring smoke-test. Showing garbage boxes in a clinical context would be misleading.
 
 ### Known Accuracy Limitations
 - **In-distribution test macro-F1: 0.8927** (patient-disjoint, held-out split).
-- **Cross-device accuracy drop:** 98.0% (in-distribution) → 83.2% on HC18/UCL unseen devices. 
+- **Cross-device accuracy drop:** 98.0% (in-distribution) → 83.2% on HC18/UCL unseen devices.
 - **`Brain_Trans_ventricular` is the weakest class** (F1 0.77) — well-documented in the literature as the hardest confusion case.
 
 ---
@@ -142,15 +150,22 @@ python app_gradio.py
 ## 6. Real-Time Local Inference (Desktop App)
 For local real-time inference with a GPU-equipped machine, the desktop app is available:
 ```bash
-python -m src.realtime.app \
+conda run -n fetalplane python -m src.realtime.app \
     --source data/processed/synthetic_clips/Brain_Trans_thalamic_clip01.mp4 \
     --loop
+
+# Add --debug to enable Grad-CAM overlay (off by default = clinical mode)
+conda run -n fetalplane python -m src.realtime.app \
+    --source data/processed/synthetic_clips/Brain_Trans_thalamic_clip01.mp4 \
+    --loop --debug
 ```
 
 **Controls during playback:**
 - `q` / `ESC`: Quit
-- `g`: Toggle Grad-CAM
+- `g`: Toggle Grad-CAM overlay
 - `h`: Toggle HUD
 - `space`: Pause
+
+> **Grad-CAM is OFF by default** (clinical mode). Use `--debug` to enable it for model explanation or development runs. The `--no-gradcam` flag is a deprecated no-op (kept for backwards compatibility).
 
 *Validated at **23.6–23.7 fps** stable on RTX 4060 over a 120-second run with no thermal throttling.*

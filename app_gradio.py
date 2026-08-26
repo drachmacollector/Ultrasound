@@ -304,8 +304,8 @@ Powered by `convnext_tiny.fb_in22k_ft_in1k` · Test macro-F1 **0.8927** · Tier-
                 with gr.Accordion("⚙️ Processing Options", open=False):
                     enable_gradcam = gr.Checkbox(
                         label="Grad-CAM overlay",
-                        value=True,
-                        info="Highlights regions driving each prediction. Increases render time.",
+                        value=False,
+                        info="Highlights regions driving each prediction. Increases render time significantly.",
                     )
                     gradcam_every_n = gr.Slider(
                         label="Grad-CAM every N frames",
