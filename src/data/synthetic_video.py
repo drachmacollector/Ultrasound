@@ -92,7 +92,12 @@ def _warp(img: np.ndarray, M: np.ndarray, w: int, h: int) -> np.ndarray:
     return cv2.warpAffine(img, M, (w, h), borderMode=cv2.BORDER_REPLICATE)
 
 
-def generate_ego_motion_clip(image: np.ndarray, n_frames: int = 120, seed: int | None = None) -> list:
+def generate_ego_motion_clip(
+    image: np.ndarray,
+    n_frames: int = 120,
+    seed: int | None = None,
+    wobble_scale: float = 1.0,
+) -> list:
     """
     Generate a synthetic clip mimicking probe hand tremor/wobble.
 
@@ -103,6 +108,12 @@ def generate_ego_motion_clip(image: np.ndarray, n_frames: int = 120, seed: int |
         image:    HxWx3 uint8 RGB frame.
         n_frames: Number of frames to generate.
         seed:     Optional random seed for reproducibility.
+        wobble_scale: Multiplier on pan/zoom/rotation walk bounds and speckle/blur
+            intensity. 1.0 = original calibrated defaults. Added for
+            scripts/generate_multiplane_clips.py, which varies this per clip to
+            produce a mix of calm and handheld-shaky footage. Backward compatible:
+            every existing call site omits this arg and gets identical behavior
+            to before this change.
 
     Returns:
         List of n_frames HxWx3 uint8 RGB frames.
@@ -129,10 +140,10 @@ def generate_ego_motion_clip(image: np.ndarray, n_frames: int = 120, seed: int |
     # ------------------------------------------------------------------
     # Motion walks (bounded, momentum-based — see module docstring)
     # ------------------------------------------------------------------
-    pan_x_walk  = _SmoothRandomWalk(-0.03 * w, 0.03 * w, start=0.0, rng=rng)
-    pan_y_walk  = _SmoothRandomWalk(-0.03 * h, 0.03 * h, start=0.0, rng=rng)
-    zoom_walk   = _SmoothRandomWalk(-0.02, 0.02, start=0.0, rng=rng)
-    rot_walk    = _SmoothRandomWalk(-2.0, 2.0, start=0.0, rng=rng)
+    pan_x_walk  = _SmoothRandomWalk(-0.03 * w * wobble_scale, 0.03 * w * wobble_scale, start=0.0, rng=rng)
+    pan_y_walk  = _SmoothRandomWalk(-0.03 * h * wobble_scale, 0.03 * h * wobble_scale, start=0.0, rng=rng)
+    zoom_walk   = _SmoothRandomWalk(-0.02 * wobble_scale, 0.02 * wobble_scale, start=0.0, rng=rng)
+    rot_walk    = _SmoothRandomWalk(-2.0 * wobble_scale, 2.0 * wobble_scale, start=0.0, rng=rng)
 
     # ------------------------------------------------------------------
     # Parallax scaling factors
@@ -173,12 +184,12 @@ def generate_ego_motion_clip(image: np.ndarray, n_frames: int = 120, seed: int |
         # Ultrasound-appropriate speckle (multiplicative noise)
         # Applied to the composite so noise rides on the already-warped image
         # ------------------------------------------------------------------
-        speckle_sigma = 0.04
+        speckle_sigma = 0.04 * (0.5 + 0.5 * wobble_scale)
         noise = rng.normal(1.0, speckle_sigma, composite_f32.shape).astype(np.float32)
         speckled = np.clip(composite_f32 * noise, 0.0, 255.0).astype(np.uint8)
 
-        # Occasional mild blur (simulates slight focus jitter)
-        if rng.random() < 0.2:
+        # Occasional mild blur (simulates slight focus jitter) — more frequent on shakier clips
+        if rng.random() < min(0.6, 0.2 * wobble_scale):
             k = int(rng.choice([3, 5]))
             speckled = cv2.GaussianBlur(speckled, (k, k), 0)
 

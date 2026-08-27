@@ -33,6 +33,11 @@
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
 }
 
+/* Hide native Streamlit header */
+header[data-testid="stHeader"] {
+    display: none !important;
+}
+
 h1, h2, h3, .stHeadingContainer h1, .stHeadingContainer h2, .stHeadingContainer h3 {
     font-family: var(--font-editorial) !important;
     color: var(--ink-black) !important;
@@ -50,6 +55,12 @@ h4, h5, h6, .stHeadingContainer h4, .stHeadingContainer h5, .stHeadingContainer 
 /* Force border-radius to 0 globally */
 * {
     border-radius: 0px !important;
+}
+
+/* Accessibility focus states */
+:focus-visible {
+    outline: 2px solid var(--accent-red) !important;
+    outline-offset: 2px !important;
 }
 
 /* Main content width and grid feeling */
@@ -75,9 +86,10 @@ hr, .stDivider hr {
 
 .fpc-masthead h1 {
     font-size: 3.5rem !important;
+    font-weight: 400 !important;
     line-height: 1.1;
     margin-bottom: 0.5rem;
-    text-transform: uppercase;
+    text-transform: none; /* Sentence case, no caps */
 }
 
 .fpc-metadata-ticker {
@@ -102,6 +114,20 @@ hr, .stDivider hr {
 
 [data-testid="stSidebar"] hr {
     border-top: var(--border-thin) !important;
+}
+
+/* Sidebar text legibility */
+[data-testid="stSidebar"] * {
+    color: var(--ink-black) !important;
+}
+
+[data-testid="stSidebar"] .stCheckbox label p,
+[data-testid="stSidebar"] .stSlider label p,
+[data-testid="stSidebar"] h1, 
+[data-testid="stSidebar"] h2, 
+[data-testid="stSidebar"] h3 {
+    color: var(--ink-black) !important;
+    opacity: 1 !important;
 }
 
 /* Widget labels in sidebar */
@@ -219,13 +245,14 @@ hr, .stDivider hr {
 }
 
 /* Success/Info boxes */
-[data-testid="stMarkdownContainer"] .stAlert {
-    border: var(--border-strong) !important;
-    background-color: transparent !important;
+[data-testid="stAlert"] {
+    background-color: var(--bg-paper) !important;
+    border: var(--border-thin) !important;
+    border-left: 6px solid var(--ink-black) !important;
     color: var(--ink-black) !important;
 }
-[data-testid="stMarkdownContainer"] .stAlert[data-baseweb="notification"] {
-    border-left: 6px solid var(--ink-black) !important;
+[data-testid="stAlert"] svg { 
+    display: none; 
 }
 
 /* ============================================================
@@ -275,6 +302,33 @@ hr, .stDivider hr {
     padding-bottom: 0.25rem;
     margin-top: 0.5rem;
     margin-bottom: 1.5rem;
+}
+
+/* Process steps strip */
+.fpc-step-strip {
+    border-top: var(--border-strong);
+    border-bottom: var(--border-strong);
+    padding: 1rem 0;
+    margin: 2rem 0;
+}
+.fpc-step {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    border-left: var(--border-thin);
+    padding-left: 1rem;
+    height: 100%;
+}
+.fpc-step:first-child {
+    border-left: none;
+    padding-left: 0;
+}
+.fpc-step strong {
+    font-family: var(--font-ui);
+    font-size: 1rem;
+    color: var(--ink-black);
+    display: block;
+    margin-bottom: 0.25rem;
 }
 
 /* ============================================================

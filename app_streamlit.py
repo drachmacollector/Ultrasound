@@ -122,16 +122,34 @@ def _render_header() -> None:
         """
         <div class="fpc-masthead">
             <h1>FetScan</h1>
+            <p style="font-size: 1.1rem; margin-bottom: 0.25rem;">
+                An AI assistant that watches a fetal ultrasound scan in real time and tells the sonographer which standard anatomical plane is on screen — and how confident it is.
+            </p>
             <div class="fpc-metadata-ticker">REAL-TIME SONOGRAPHIC PLANE ANALYSIS · 8-CLASS DEEP LEARNING SYSTEM</div>
         </div>
         """,
         unsafe_allow_html=True,
     )
-    st.caption(
-        "Upload a session scan → receive an AI-annotated output "
-        "with diagnostic labels, confidence telemetry, and optional Grad-CAM visual explanations.  \n"
-        "Powered by `convnext_tiny.fb_in22k_ft_in1k` · Inference Accuracy (Macro-F1) **0.8927** · "
-        "EMA + Tier-2A Temporal Smoothing enabled."
+    
+    st.markdown(
+        """
+        During a fetal anatomy scan, a sonographer must correctly identify and capture ~7 standard reference planes (brain, abdomen, femur, thorax, cervix) to complete a valid exam. Missed or mislabeled planes are a leading source of scan-quality variability between operators. FetScan classifies the current frame in real time and holds a stable label even as the probe moves, so the operator gets continuous feedback on what plane they're looking at.
+        """
+    )
+    
+    # 4-Step Process Strip
+    st.markdown(
+        """
+        <div class="fpc-step-strip">
+            <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: stretch; gap: 1rem;">
+                <div class="fpc-step"><strong>01 / UPLOAD</strong><br/>clip in MP4/AVI</div>
+                <div class="fpc-step"><strong>02 / INFERENCE</strong><br/>per-frame classification</div>
+                <div class="fpc-step"><strong>03 / SMOOTHING</strong><br/>EMA + majority vote</div>
+                <div class="fpc-step"><strong>04 / OUTPUT</strong><br/>labeled, stable video</div>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
     )
 
 def _render_clinical_background() -> None:
@@ -146,23 +164,25 @@ def _render_clinical_background() -> None:
             ### Precision AI for Diagnostic Obstetrics
             FetScan provides sonographers and maternal-fetal medicine specialists with a highly robust, real-time "second pair of eyes" during routine fetal anatomy scans. 
             
-            By applying deep learning directly to the ultrasound video stream, the system instantly identifies standard diagnostic planes (e.g., Trans-cerebellar, Fetal Thorax), assisting in standardizing acquisitions and reducing inter-operator variability.
+            By applying deep learning directly to the ultrasound video stream, the system instantly identifies standard diagnostic planes, assisting in standardizing acquisitions and reducing inter-operator variability.
             """
         )
         st.image(str(_ROOT / "assets" / "clinical_sonography_setup.jpg"))
-        st.markdown('<div class="fpc-figure-caption">FIG 01. CLINICAL DIAGNOSTIC WORKSTATION INTEGRATION</div>', unsafe_allow_html=True)
+        st.markdown('<div class="fpc-figure-caption">FIG 01 — CLINICAL DIAGNOSTIC WORKSTATION INTEGRATION</div>', unsafe_allow_html=True)
 
     with col2:
         st.markdown(
             """
             ### Temporal Stability & Interpretability
-            Unlike standard frame-by-frame classifiers that flicker uselessly in a clinical setting, FetScan employs a dual-tier temporal smoothing algorithm (EMA + Majority Vote). This acts as a shock absorber, locking onto a diagnosis only when confident and holding it stable.
+            Unlike standard frame-by-frame classifiers that flicker uselessly in a clinical setting, FetScan acts as a shock absorber: locking onto a diagnosis only when confident and holding it stable via dual-tier temporal smoothing.
             
-            Furthermore, the system leverages a throttled Grad-CAM diagnostic overlay, providing a clear visual explanation of *why* a particular anatomical structure was identified, ensuring complete AI transparency.
+            - **Tier 1:** Exponential Moving Average (EMA) prevents rapid frame-to-frame confidence swings.
+            - **Tier 2a:** A sliding 9-frame majority-vote window enforces clinical dwell time before registering a plane transition.
+            - **Interpretability:** A throttled Grad-CAM diagnostic overlay provides a clear visual explanation of *why* a particular anatomical structure was identified.
             """
         )
-        st.image(str(_ROOT / "assets" / "ai_plane_detection_diagram.jpg"))
-        st.markdown('<div class="fpc-figure-caption">FIG 02. FETAL ULTRASOUND ANALYTICS: AI DIAGNOSTIC MAPPING</div>', unsafe_allow_html=True)
+        st.image(str(_ROOT / "assets" / "pipeline_architecture_diagram.jpg"))
+        st.markdown('<div class="fpc-figure-caption">FIG 02 — FETSCAN AI PIPELINE ARCHITECTURE</div>', unsafe_allow_html=True)
 
     st.markdown('</div>', unsafe_allow_html=True)
 
@@ -178,9 +198,9 @@ def _render_sidebar() -> dict[str, Any]:
         show_hud        : bool
     """
     with st.sidebar:
-        st.header("⚙️ Options")
-
-        st.subheader("Grad-CAM")
+        st.markdown("### CONTROL PANEL")
+        
+        st.markdown("<div style='font-family: var(--font-mono); font-size: 0.8rem; border-top: 1px solid var(--ink-black); margin-top: 1rem; padding-top: 0.5rem;'>[ 01 ] GRAD-CAM</div>", unsafe_allow_html=True)
         enable_gradcam = st.checkbox(
             "Enable Grad-CAM overlay",
             value=False,
@@ -197,7 +217,7 @@ def _render_sidebar() -> dict[str, Any]:
             help="Higher N = faster render. Cached overlay reused on skipped frames.",
         )
 
-        st.subheader("Smoothing")
+        st.markdown("<div style='font-family: var(--font-mono); font-size: 0.8rem; border-top: 1px solid var(--ink-black); margin-top: 1rem; padding-top: 0.5rem;'>[ 02 ] SMOOTHING</div>", unsafe_allow_html=True)
         enable_tier2 = st.checkbox(
             "Tier-2a smoothing",
             value=True,
@@ -207,7 +227,7 @@ def _render_sidebar() -> dict[str, Any]:
             ),
         )
 
-        st.subheader("Display")
+        st.markdown("<div style='font-family: var(--font-mono); font-size: 0.8rem; border-top: 1px solid var(--ink-black); margin-top: 1rem; padding-top: 0.5rem;'>[ 03 ] DISPLAY</div>", unsafe_allow_html=True)
         show_hud = st.checkbox(
             "Performance HUD",
             value=True,
@@ -217,7 +237,7 @@ def _render_sidebar() -> dict[str, Any]:
         st.divider()
 
         # Model information panel
-        with st.expander("ℹ️ Model Information", expanded=False):
+        with st.expander("[ MODEL INFO ]", expanded=False):
             st.markdown(
                 """
 | Property | Value |
@@ -229,7 +249,7 @@ def _render_sidebar() -> dict[str, Any]:
 | Smoothing | Tier-1: EMA α=0.2 + hysteresis + dwell=8 |
 | Tier-2a | Majority-vote window=9, threshold=70% |
 
-**⚠️ Known Limitations**
+**Known Limitations**
 - No structure bounding boxes (detection model trained 1 epoch only).
 - In-distribution accuracy: 98.0%. On unseen devices (HC18/UCL): 83.2%.
 - Transition latency not formally benchmarked.
@@ -237,7 +257,7 @@ def _render_sidebar() -> dict[str, Any]:
 """
             )
 
-        with st.expander("📚 Classes", expanded=False):
+        with st.expander("[ CLASSES ]", expanded=False):
             for c in _CLASSES:
                 st.markdown(f"- {c}")
 
@@ -256,7 +276,7 @@ def _render_upload_col(col: Any) -> "UploadedFile | None":
     """
     with col:
         st.markdown('<div class="fpc-intake-panel">', unsafe_allow_html=True)
-        st.subheader("📥 Intake Panel")
+        st.markdown('<div class="fpc-analysis-header">INPUT / 01</div>', unsafe_allow_html=True)
         uploaded = st.file_uploader(
             "Choose a video clip",
             type=["mp4", "avi", "mov", "mkv"],
@@ -322,13 +342,22 @@ def _render_output_col(col: Any, result: dict[str, Any] | None, opts: dict[str, 
     """Render the annotated output column from a completed render result."""
     with col:
         st.markdown('<div class="fpc-analysis-panel">', unsafe_allow_html=True)
-        st.markdown('<div class="fpc-analysis-header">Analysis Output</div>', unsafe_allow_html=True)
+        st.markdown('<div class="fpc-analysis-header">OUTPUT / 02</div>', unsafe_allow_html=True)
+        
         if result is None:
-            st.info("Upload a diagnostic scan and click **▶ Process Video** to begin analysis.")
+            # We are waiting for input, display a placeholder
+            st.markdown(
+                """
+                <div style="border: 1px dashed var(--text-secondary); padding: 3rem; text-align: center; color: var(--text-secondary); font-family: var(--font-mono); font-size: 0.9rem;">
+                    AWAITING INPUT
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
             st.markdown('</div>', unsafe_allow_html=True)
             return
 
-        out_path = Path(result["output_path"])
+        out_path = Path(result.get("output_path", ""))
         if out_path.exists():
             st.video(str(out_path))
         else:
@@ -337,11 +366,11 @@ def _render_output_col(col: Any, result: dict[str, Any] | None, opts: dict[str, 
             return
 
         # Status summary
-        st.markdown("### ✅ Processing Complete")
+        st.markdown("### Processing Complete")
         st.markdown(_build_status_markdown(result, opts))
 
         # Per-frame label log
-        with st.expander("📊 Per-frame Label Log (first 200 frames)", expanded=False):
+        with st.expander("[ PER-FRAME LABEL LOG ]", expanded=False):
             display_log = result["label_log"][:200]
             if len(result["label_log"]) > 200:
                 display_log = display_log + [
@@ -368,7 +397,7 @@ def _render_examples() -> "str | None":
         return None
 
     st.divider()
-    st.subheader("🎬 Example Clips")
+    st.markdown("### Example Clips")
     st.caption(
         "Synthetic clips generated from single frames via depth-layered parallax compositing. "
         "For pipeline demonstration only — not real fetal ultrasound recordings."
@@ -376,11 +405,12 @@ def _render_examples() -> "str | None":
 
     cols = st.columns(len(clips))
     selected: str | None = None
-    for col, clip in zip(cols, clips):
+    for i, (col, clip) in enumerate(zip(cols, clips)):
         with col:
             st.video(str(clip))
-            st.caption(clip.stem.replace("_", " "))
-            if st.button(f"Use this clip", key=f"ex_{clip.stem}"):
+            caption = f"FIG. {i+1:02d} — {clip.stem.replace('_', ' ').upper()}"
+            st.markdown(f'<div class="fpc-figure-caption">{caption}</div>', unsafe_allow_html=True)
+            if st.button(f"USE THIS CLIP", key=f"ex_{clip.stem}", use_container_width=True):
                 selected = str(clip)
     return selected
 
@@ -404,9 +434,8 @@ def main() -> None:
     # ---- Sidebar options -----------------------------------------------------
     opts = _render_sidebar()
 
-    # ---- Header & Clinical Background ----------------------------------------
+    # ---- Header ----------------------------------------
     _render_header()
-    _render_clinical_background()
 
     # ---- Session state initialisation ----------------------------------------
     # Persists across widget interactions so the output panel doesn't disappear
@@ -414,7 +443,7 @@ def main() -> None:
     if "last_result" not in st.session_state:
         st.session_state["last_result"] = None
 
-    # ---- Main layout: two columns --------------------------------------------
+    # ---- Main layout: functional UI First ------------------------------------
     col_left, col_right = st.columns(2, gap="large")
 
     uploaded = _render_upload_col(col_left)
@@ -430,11 +459,16 @@ def main() -> None:
     # ---- Process button ------------------------------------------------------
     with col_left:
         process_btn = st.button(
-            "▶ Process Video",
+            "PROCESS VIDEO",
             type="primary",
             disabled=(uploaded is None and "example_path" not in st.session_state),
             use_container_width=True,
         )
+
+    # ---- Output placeholder for loading states -------------------------------
+    # This prevents the empty box bug where `with col_right` was drawing another panel.
+    status_placeholder = None
+    progress_bar = None
 
     # ---- Run render on button click ------------------------------------------
     if process_btn:
@@ -452,7 +486,7 @@ def main() -> None:
 
         with col_right:
             st.markdown('<div class="fpc-analysis-panel">', unsafe_allow_html=True)
-            st.markdown('<div class="fpc-analysis-header">Analysis Output</div>', unsafe_allow_html=True)
+            st.markdown('<div class="fpc-analysis-header">OUTPUT / 02</div>', unsafe_allow_html=True)
             status_placeholder = st.empty()
             progress_bar = st.progress(0, text="Loading model…")
 
@@ -476,9 +510,11 @@ def main() -> None:
                     progress_cb=_progress_cb,
                 )
                 progress_bar.progress(1.0, text="Done!")
-                status_placeholder.success("✅ Processing complete.")
+                status_placeholder.success("Processing complete.")
                 st.session_state["last_result"] = result
                 st.session_state["last_opts"] = opts.copy()
+                st.markdown('</div>', unsafe_allow_html=True)
+                st.rerun() # Rerun to render the actual output via _render_output_col
 
             except Exception as exc:
                 log.exception("render_video failed")
@@ -492,9 +528,14 @@ def main() -> None:
             st.markdown('</div>', unsafe_allow_html=True)
 
     # ---- Output panel (persistent across interactions) -----------------------
-    last_result = st.session_state.get("last_result")
-    last_opts   = st.session_state.get("last_opts", opts)
-    _render_output_col(col_right, last_result, last_opts)
+    # Only render if we aren't currently processing a click
+    if not process_btn:
+        last_result = st.session_state.get("last_result")
+        last_opts   = st.session_state.get("last_opts", opts)
+        _render_output_col(col_right, last_result, last_opts)
+
+    # ---- Clinical Background (moved below functional UI) ---------------------
+    _render_clinical_background()
 
     # ---- Footer --------------------------------------------------------------
     st.divider()
