@@ -1,7 +1,7 @@
 """
 app_streamlit.py
 
-Demo 1 — Fetal Plane Classifier: Upload-a-Video, Watch-it-Get-Labeled.
+FetScan — Real-Time Sonographic Plane Analysis.
 Primary web interface (Streamlit). See app_gradio.py for the Gradio backup.
 
 ARCHITECTURE
@@ -59,9 +59,12 @@ import logging
 import sys
 import time
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import streamlit as st
+
+if TYPE_CHECKING:
+    from streamlit.runtime.uploaded_file_manager import UploadedFile
 
 # ---------------------------------------------------------------------------
 # Project root on sys.path — allows importing from src/ and scripts/
@@ -100,18 +103,13 @@ _CLASSES = [
 # ---------------------------------------------------------------------------
 
 def _load_css(path: Path) -> None:
-    """Inject custom CSS from assets/style.css.
-
-    Safe no-op if the file is missing or empty.  Adding premium styling later
-    only requires editing assets/style.css — no changes to this file needed.
-    """
+    """Inject custom CSS from assets/style.css."""
     if path.exists() and path.stat().st_size > 0:
-        css = path.read_text(encoding="utf-8")
-        # Strip comment-only lines before injecting to keep the page source clean
-        css_lines = [l for l in css.splitlines() if not l.strip().startswith("/*")]
-        css_content = "\n".join(css_lines).strip()
-        if css_content:
-            st.markdown(f"<style>{css_content}</style>", unsafe_allow_html=True)
+        css_content = path.read_text(encoding="utf-8")
+        if hasattr(st, "html"):
+            st.html(f"<style>\n{css_content}\n</style>")
+        else:
+            st.markdown(f"<style>\n{css_content}\n</style>", unsafe_allow_html=True)
 
 
 # ---------------------------------------------------------------------------
@@ -119,14 +117,55 @@ def _load_css(path: Path) -> None:
 # ---------------------------------------------------------------------------
 
 def _render_header() -> None:
-    """Page title and subtitle."""
-    st.title("🩺 Fetal Plane Classifier — Demo 1")
-    st.caption(
-        "Upload an ultrasound video → receive an AI-annotated version "
-        "with plane labels, confidence scores, and optional Grad-CAM explanations.  \n"
-        "Powered by `convnext_tiny.fb_in22k_ft_in1k` · Test macro-F1 **0.8927** · "
-        "Tier-1 + Tier-2a temporal smoothing"
+    """Page title and subtitle in editorial style."""
+    st.markdown(
+        """
+        <div class="fpc-masthead">
+            <h1>FetScan</h1>
+            <div class="fpc-metadata-ticker">REAL-TIME SONOGRAPHIC PLANE ANALYSIS · 8-CLASS DEEP LEARNING SYSTEM</div>
+        </div>
+        """,
+        unsafe_allow_html=True,
     )
+    st.caption(
+        "Upload a session scan → receive an AI-annotated output "
+        "with diagnostic labels, confidence telemetry, and optional Grad-CAM visual explanations.  \n"
+        "Powered by `convnext_tiny.fb_in22k_ft_in1k` · Inference Accuracy (Macro-F1) **0.8927** · "
+        "EMA + Tier-2A Temporal Smoothing enabled."
+    )
+
+def _render_clinical_background() -> None:
+    """Renders the professional project background and clinical context."""
+    st.markdown('<div class="fpc-clinical-section">', unsafe_allow_html=True)
+    
+    col1, col2 = st.columns([1, 1.2], gap="large")
+    
+    with col1:
+        st.markdown(
+            """
+            ### Precision AI for Diagnostic Obstetrics
+            FetScan provides sonographers and maternal-fetal medicine specialists with a highly robust, real-time "second pair of eyes" during routine fetal anatomy scans. 
+            
+            By applying deep learning directly to the ultrasound video stream, the system instantly identifies standard diagnostic planes (e.g., Trans-cerebellar, Fetal Thorax), assisting in standardizing acquisitions and reducing inter-operator variability.
+            """
+        )
+        st.image(str(_ROOT / "assets" / "clinical_sonography_setup.jpg"))
+        st.markdown('<div class="fpc-figure-caption">FIG 01. CLINICAL DIAGNOSTIC WORKSTATION INTEGRATION</div>', unsafe_allow_html=True)
+
+    with col2:
+        st.markdown(
+            """
+            ### Temporal Stability & Interpretability
+            Unlike standard frame-by-frame classifiers that flicker uselessly in a clinical setting, FetScan employs a dual-tier temporal smoothing algorithm (EMA + Majority Vote). This acts as a shock absorber, locking onto a diagnosis only when confident and holding it stable.
+            
+            Furthermore, the system leverages a throttled Grad-CAM diagnostic overlay, providing a clear visual explanation of *why* a particular anatomical structure was identified, ensuring complete AI transparency.
+            """
+        )
+        st.image(str(_ROOT / "assets" / "ai_plane_detection_diagram.jpg"))
+        st.markdown('<div class="fpc-figure-caption">FIG 02. FETAL ULTRASOUND ANALYTICS: AI DIAGNOSTIC MAPPING</div>', unsafe_allow_html=True)
+
+    st.markdown('</div>', unsafe_allow_html=True)
+
 
 
 def _render_sidebar() -> dict[str, Any]:
@@ -210,13 +249,14 @@ def _render_sidebar() -> dict[str, Any]:
     }
 
 
-def _render_upload_col(col: Any) -> "st.runtime.uploaded_file_manager.UploadedFile | None":
+def _render_upload_col(col: Any) -> "UploadedFile | None":
     """Render the upload / input column.
 
     Returns the UploadedFile object, or None if nothing uploaded.
     """
     with col:
-        st.subheader("📥 Upload Video")
+        st.markdown('<div class="fpc-intake-panel">', unsafe_allow_html=True)
+        st.subheader("📥 Intake Panel")
         uploaded = st.file_uploader(
             "Choose a video clip",
             type=["mp4", "avi", "mov", "mkv"],
@@ -226,6 +266,7 @@ def _render_upload_col(col: Any) -> "st.runtime.uploaded_file_manager.UploadedFi
             # Preview the raw upload so the user can confirm it's the right clip
             st.video(uploaded)
             st.caption(f"📎 `{uploaded.name}` — {uploaded.size / 1024:.0f} KB")
+        st.markdown('</div>', unsafe_allow_html=True)
     return uploaded
 
 
@@ -280,9 +321,11 @@ def _build_status_markdown(result: dict[str, Any], opts: dict[str, Any]) -> str:
 def _render_output_col(col: Any, result: dict[str, Any] | None, opts: dict[str, Any]) -> None:
     """Render the annotated output column from a completed render result."""
     with col:
-        st.subheader("📤 Annotated Output")
+        st.markdown('<div class="fpc-analysis-panel">', unsafe_allow_html=True)
+        st.markdown('<div class="fpc-analysis-header">Analysis Output</div>', unsafe_allow_html=True)
         if result is None:
-            st.info("Upload a clip and click **▶ Process Video** to begin.")
+            st.info("Upload a diagnostic scan and click **▶ Process Video** to begin analysis.")
+            st.markdown('</div>', unsafe_allow_html=True)
             return
 
         out_path = Path(result["output_path"])
@@ -290,6 +333,7 @@ def _render_output_col(col: Any, result: dict[str, Any] | None, opts: dict[str, 
             st.video(str(out_path))
         else:
             st.error(f"Output file not found: {out_path}")
+            st.markdown('</div>', unsafe_allow_html=True)
             return
 
         # Status summary
@@ -304,6 +348,8 @@ def _render_output_col(col: Any, result: dict[str, Any] | None, opts: dict[str, 
                     {"note": f"…{len(result['label_log']) - 200} more frames truncated"}
                 ]
             st.json(display_log)
+        
+        st.markdown('</div>', unsafe_allow_html=True)
 
 
 def _render_examples() -> "str | None":
@@ -346,7 +392,7 @@ def _render_examples() -> "str | None":
 def main() -> None:
     # ---- Page config (must be first Streamlit call) --------------------------
     st.set_page_config(
-        page_title="Fetal Plane Classifier — Demo 1",
+        page_title="FetScan — Plane Analysis",
         page_icon="🩺",
         layout="wide",
         initial_sidebar_state="expanded",
@@ -358,8 +404,9 @@ def main() -> None:
     # ---- Sidebar options -----------------------------------------------------
     opts = _render_sidebar()
 
-    # ---- Header --------------------------------------------------------------
+    # ---- Header & Clinical Background ----------------------------------------
     _render_header()
+    _render_clinical_background()
 
     # ---- Session state initialisation ----------------------------------------
     # Persists across widget interactions so the output panel doesn't disappear
@@ -404,7 +451,8 @@ def main() -> None:
         output_path = _UPLOAD_DIR / f"annotated_{stem}.mp4"
 
         with col_right:
-            st.subheader("📤 Annotated Output")
+            st.markdown('<div class="fpc-analysis-panel">', unsafe_allow_html=True)
+            st.markdown('<div class="fpc-analysis-header">Analysis Output</div>', unsafe_allow_html=True)
             status_placeholder = st.empty()
             progress_bar = st.progress(0, text="Loading model…")
 
@@ -438,7 +486,10 @@ def main() -> None:
                 status_placeholder.error(f"❌ Processing failed: {exc}")
                 with st.expander("Error details"):
                     st.exception(exc)
+                st.markdown('</div>', unsafe_allow_html=True)
                 st.stop()
+            
+            st.markdown('</div>', unsafe_allow_html=True)
 
     # ---- Output panel (persistent across interactions) -----------------------
     last_result = st.session_state.get("last_result")
@@ -448,7 +499,7 @@ def main() -> None:
     # ---- Footer --------------------------------------------------------------
     st.divider()
     st.caption(
-        "Demo 1 · For research / demonstration only · Not validated for clinical use.  \n"
+        "**FetScan** · For research / demonstration only · Not validated for clinical use.  \n"
         "Trained on FETAL\\_PLANES\\_DB (Burgos-Artizzu et al., 2020) + UCL/HC18 cross-device set."
     )
 

@@ -1,10 +1,10 @@
-# Real-Time Sonography Assistant
+# FetScan — Real-Time Sonography Assistant
 
 **Clinical Monitor**
 ![Realistic Ultrasound Sonography](docs/realistic_ultrasound.jpg)
 
 ## Project Overview
-This project is an advanced assistive tool designed for sonographers to perform **real-time standard anatomical plane detection**. Given a live video stream (such as a webcam standing in for an ultrasound probe, or a pre-recorded video file), the system continuously classifies each moment of the scan into one of **7 standard anatomical planes**, or *"Other"* (non-standard/transitional). This gives immediate, accurate feedback during critical diagnostic procedures.
+**FetScan** is an advanced assistive diagnostic tool designed for sonographers and maternal-fetal medicine specialists to perform **real-time standard anatomical plane detection**. Given a live video stream (such as a webcam standing in for an ultrasound probe, or a pre-recorded video file), the system continuously classifies each moment of the scan into one of **7 standard anatomical planes**, or *"Other"* (non-standard/transitional). This gives immediate, accurate feedback during critical diagnostic procedures.
 
 ### Key Features
 **Stable (Non-Flickering) On-Screen Label**  
@@ -109,7 +109,7 @@ python scripts/evaluate_cross_device.py --checkpoint checkpoints/convnext_tiny/b
 
 ---
 
-## Demo 1: Web UI
+## Demo 1: FetScan Web UI
 
 The web interface accepts an ultrasound video clip upload and returns a fully-annotated MP4 with per-frame plane labels, confidence scores, and optional Grad-CAM saliency overlays.
 

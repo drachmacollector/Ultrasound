@@ -1,73 +1,289 @@
-/*
- * assets/style.css
- *
- * Streamlit custom styling for the Fetal Plane Classifier Demo.
- *
- * LOADING MECHANISM
- * -----------------
- * Loaded by app_streamlit.py via _load_css() at startup:
- *
- *   def _load_css(path: Path) -> None:
- *       st.markdown(f"<style>{path.read_text()}</style>", unsafe_allow_html=True)
- *
- * TARGETING CONVENTION
- * --------------------
- * All custom selectors use the prefix `.fpc-` (Fetal Plane Classifier) so
- * they are namespaced away from Streamlit's own classes.  Streamlit's
- * generated class names (e.g. `.css-1d391kg`) change between versions, so
- * prefer targeting via `data-testid` attributes or our own elem_id /
- * className props when possible.
- *
- * SECTIONS
- * --------
- *   1. Global / typography
- *   2. Sidebar
- *   3. Upload panel     (.fpc-upload-col)
- *   4. Output panel     (.fpc-output-col)
- *   5. Status / metrics (.fpc-status-block)
- *   6. Label log        (.fpc-label-log)
- *   7. Example clips    (.fpc-examples)
- *   8. Animations / transitions
- *
- * NOTE: This file is intentionally empty for Demo 1.
- * Premium styling will be added in a later pass (see docs/phases/demo1/demo1_walkthrough.md §10).
+/* 
+ * FetScan Custom CSS 
+ * Editorial Newsprint Design System
  */
+/* ============================================================
+   0. Imports & Variables
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Raleway:wght@400;500;600;700&display=swap');
+
+:root {
+    --bg-paper: #F7F7F3;
+    --ink-black: #111111;
+    --muted-surface: #E5E5E0;
+    --text-secondary: #555555;
+    --accent-red: #B3261E;
+    
+    --font-ui: 'Raleway', sans-serif;
+    --font-editorial: 'Playfair Display', serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    
+    --border-strong: 2px solid var(--ink-black);
+    --border-thin: 1px solid var(--ink-black);
+}
 
 /* ============================================================
    1. Global / typography
    ============================================================ */
+.stApp {
+    background-color: var(--bg-paper);
+    color: var(--ink-black);
+    font-family: var(--font-ui);
+    /* Subtle paper texture */
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+}
 
+h1, h2, h3, .stHeadingContainer h1, .stHeadingContainer h2, .stHeadingContainer h3 {
+    font-family: var(--font-editorial) !important;
+    color: var(--ink-black) !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.02em;
+}
+
+h4, h5, h6, .stHeadingContainer h4, .stHeadingContainer h5, .stHeadingContainer h6 {
+    font-family: var(--font-ui) !important;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 700 !important;
+}
+
+/* Force border-radius to 0 globally */
+* {
+    border-radius: 0px !important;
+}
+
+/* Main content width and grid feeling */
+.block-container {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    max-width: 1400px;
+}
+
+/* Dividers */
+hr, .stDivider hr {
+    border-top: var(--border-strong) !important;
+    border-bottom: none !important;
+    margin: 2rem 0;
+}
+
+/* Editorial Masthead specific */
+.fpc-masthead {
+    border-bottom: 4px solid var(--ink-black);
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+}
+
+.fpc-masthead h1 {
+    font-size: 3.5rem !important;
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+}
+
+.fpc-metadata-ticker {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    border-top: var(--border-thin);
+    border-bottom: var(--border-thin);
+    padding: 0.25rem 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 2rem;
+}
 
 /* ============================================================
    2. Sidebar
    ============================================================ */
+[data-testid="stSidebar"] {
+    background-color: var(--muted-surface) !important;
+    border-right: var(--border-strong);
+}
 
+[data-testid="stSidebar"] hr {
+    border-top: var(--border-thin) !important;
+}
+
+/* Widget labels in sidebar */
+[data-testid="stSidebar"] .stCheckbox label,
+[data-testid="stSidebar"] .stSlider label {
+    font-family: var(--font-ui);
+    font-weight: 600;
+}
+
+/* Sliders */
+/* .stSlider div[data-baseweb="slider"] { */
+    /* Minimalist slider */
+/* } */
+
+/* Expanders in sidebar */
+[data-testid="stSidebar"] [data-testid="stExpander"] {
+    border: var(--border-thin);
+    background-color: transparent;
+}
+[data-testid="stSidebar"] [data-testid="stExpander"] p {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+}
 
 /* ============================================================
    3. Upload panel
    ============================================================ */
+.fpc-intake-panel {
+    border: var(--border-strong);
+    padding: 1.5rem;
+    background-color: var(--bg-paper);
+    position: relative;
+    /* Hard offset shadow */
+    box-shadow: 6px 6px 0px var(--ink-black);
+    margin-bottom: 2rem;
+}
 
+/* File Uploader override */
+[data-testid="stFileUploadDropzone"] {
+    border: 2px dashed var(--ink-black) !important;
+    background-color: transparent !important;
+}
+[data-testid="stFileUploadDropzone"]:hover {
+    background-color: var(--muted-surface) !important;
+    border: var(--border-strong) !important;
+}
+
+/* Buttons */
+.stButton > button {
+    background-color: var(--ink-black) !important;
+    color: var(--bg-paper) !important;
+    border: var(--border-strong) !important;
+    font-family: var(--font-ui);
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 0.75rem 1.5rem;
+    transition: all 0.2s ease;
+}
+
+.stButton > button:hover {
+    background-color: var(--bg-paper) !important;
+    color: var(--ink-black) !important;
+    box-shadow: 4px 4px 0px var(--accent-red);
+}
+
+.stButton > button:disabled {
+    background-color: var(--muted-surface) !important;
+    color: var(--text-secondary) !important;
+    border-color: var(--text-secondary) !important;
+    box-shadow: none;
+}
 
 /* ============================================================
    4. Output panel
    ============================================================ */
+.fpc-analysis-panel {
+    border: var(--border-strong);
+    border-top: 8px solid var(--ink-black);
+    padding: 1.5rem;
+    background-color: var(--bg-paper);
+}
+
+.fpc-analysis-header {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    font-weight: 700;
+    border-bottom: var(--border-thin);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+}
 
 
 /* ============================================================
    5. Status / metrics block
    ============================================================ */
+/* Tables for metrics */
+[data-testid="stTable"] table, [data-testid="stDataFrame"] table, .stMarkdown table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+}
 
+.stMarkdown th {
+    border-bottom: 2px solid var(--ink-black) !important;
+    border-top: 2px solid var(--ink-black) !important;
+    color: var(--ink-black) !important;
+    text-transform: uppercase;
+}
+
+.stMarkdown td {
+    border-bottom: var(--border-thin) !important;
+    color: var(--ink-black) !important;
+}
+
+/* Success/Info boxes */
+[data-testid="stMarkdownContainer"] .stAlert {
+    border: var(--border-strong) !important;
+    background-color: transparent !important;
+    color: var(--ink-black) !important;
+}
+[data-testid="stMarkdownContainer"] .stAlert[data-baseweb="notification"] {
+    border-left: 6px solid var(--ink-black) !important;
+}
 
 /* ============================================================
    6. Per-frame label log
    ============================================================ */
+[data-testid="stExpander"] {
+    border: var(--border-strong);
+    border-left: 6px solid var(--ink-black);
+}
 
+[data-testid="stExpander"] summary {
+    font-family: var(--font-ui);
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+[data-testid="stJson"] {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    background-color: var(--muted-surface);
+    padding: 1rem;
+    border: var(--border-thin);
+}
 
 /* ============================================================
-   7. Example clips
+   7. Example clips & Clinical Background
    ============================================================ */
+.fpc-clinical-section {
+    border-top: var(--border-strong);
+    border-bottom: var(--border-strong);
+    padding: 2rem 0;
+    margin: 2rem 0;
+}
 
+.fpc-clinical-section p {
+    font-family: var(--font-editorial);
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.fpc-figure-caption {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    border-bottom: var(--border-thin);
+    padding-bottom: 0.25rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1.5rem;
+}
 
 /* ============================================================
    8. Animations / transitions
    ============================================================ */
+.stVideo, img {
+    transition: filter 0.2s ease;
+    border: var(--border-thin);
+}
+.stVideo:hover {
+    filter: contrast(1.05);
+}

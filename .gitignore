@@ -45,3 +45,4 @@ scratch_test_loss.py
 # Demo 1 output videos (generated on-the-fly by app_gradio.py)
 outputs/
 .gradio/
+assets/Newsprint_design_prompt.md
