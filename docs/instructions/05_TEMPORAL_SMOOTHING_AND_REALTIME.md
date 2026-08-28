@@ -72,7 +72,7 @@ Recommend a simple multi-threaded (not necessarily multi-process — GIL content
 
 - **Capture thread**: reads frames as fast as the source provides them, pushes to a small bounded queue (size ~2-3) with drop-oldest policy — we never want inference falling behind and processing a backlog of stale frames; always process the most recent frame available.
 - **Inference thread**: preprocess → forward pass → softmax → tier-1 smoothing → push (label, confidence, smoothed_probs, optionally Grad-CAM overlay) to a result queue.
-- **Grad-CAM throttling**: only run the Grad-CAM backward pass every K frames (e.g., every 5th-10th processed frame, or on a fixed wall-clock cadence like every 200ms) — never on every frame, since it roughly doubles compute per the original repo's own pipeline. Reuse the last computed CAM overlay on skipped frames (it changes slowly relative to raw classification anyway, since the anatomy is on-screen continuously).
+- **Grad-CAM Worker thread**: To prevent the ~180 ms Grad-CAM computation from blocking the inference pipeline, Grad-CAM runs in a dedicated background worker thread pulling from a single-slot bounded queue. A thread-local forward hook patch isolates the concurrent inference forward passes from polluting the shared model state. The last computed CAM overlay is stored in thread-safe shared state and reused on skipped frames (it changes slowly relative to raw classification).
 - **Main/render thread**: pulls latest available result, overlays label + confidence + optional CAM heatmap + a simple stability indicator (e.g., a small icon/text showing "stable" vs. "settling") onto the frame, displays via `cv2.imshow` (fine for a local demo) or a lightweight web UI (see B4).
 
 ### B3. Latency/throughput instrumentation

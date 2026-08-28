@@ -1,7 +1,6 @@
-# FetScan — Real-Time Sonography Assistant
+# FetScan — A Real-Time Sonography Assistant
 
-**Clinical Monitor**
-![Realistic Ultrasound Sonography](docs/realistic_ultrasound.jpg)
+<img src="docs/realistic_ultrasound.jpg" alt="Realistic Ultrasound Sonography" width="80%">
 
 ## Project Overview
 **FetScan** is an advanced assistive diagnostic tool designed for sonographers and maternal-fetal medicine specialists to perform **real-time standard anatomical plane detection**. Given a live video stream (such as a webcam standing in for an ultrasound probe, or a pre-recorded video file), the system continuously classifies each moment of the scan into one of **7 standard anatomical planes**, or *"Other"* (non-standard/transitional). This gives immediate, accurate feedback during critical diagnostic procedures.
@@ -150,14 +149,17 @@ conda run -n fetalplane python app_gradio.py --share  # public tunnel
 ## 6. Real-Time Local Inference (Desktop App)
 For local real-time inference with a GPU-equipped machine, the desktop app is available:
 ```bash
-conda run -n fetalplane python -m src.realtime.app \
-    --source data/processed/synthetic_clips/Brain_Trans_thalamic_clip01.mp4 \
+conda run -n fetalplane python -m src.realtime.app --source data/processed/synthetic_clips/multiplane_scan_01.mp4 --loop
+ 
+or
+
+conda run -n fetalplane python -m src.realtime.app `
+    --source data/processed/synthetic_clips/multiplane_scan_01.mp4 `
     --loop
 
+
 # Add --debug to enable Grad-CAM overlay (off by default = clinical mode)
-conda run -n fetalplane python -m src.realtime.app \
-    --source data/processed/synthetic_clips/Brain_Trans_thalamic_clip01.mp4 \
-    --loop --debug
+conda run -n fetalplane python -m src.realtime.app --source data/processed/synthetic_clips/multiplane_scan_01.mp4 --loop --debug
 ```
 
 **Controls during playback:**

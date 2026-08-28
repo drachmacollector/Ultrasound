@@ -38,9 +38,8 @@ DESIGN DECISIONS
 
 USAGE
 -----
-  # CLI — headless render
-  python scripts/render_annotated_video.py \\
-      --input  data/processed/synthetic_clips/Brain_Trans_thalamic_clip01.mp4 \\
+  # CLI — headless    conda run -n fetalplane python scripts/render_annotated_video.py \
+      --input  data/processed/synthetic_clips/multiplane_scan_01.mp4 \\
       --output /tmp/annotated.mp4 \\
       --checkpoint checkpoints/convnext_tiny/best.pt \\
       --gradcam-every-n 1

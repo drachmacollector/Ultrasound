@@ -85,8 +85,11 @@ def save_hud_screenshot(video_path: str, ckpt_path: str, out_path: str):
     print(f"Screenshot saved to {out_path}")
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--source", type=str, default="data/processed/synthetic_clips/multiplane_scan_01.mp4", help="Path to video file")
+    args = parser.parse_args()
     save_hud_screenshot(
-        "data/processed/synthetic_clips/Brain_Trans_thalamic_clip01.mp4",
+        args.source,
         "checkpoints/multitask/best.pt",
         "docs/phases/phase_07/phase7_multitask_hud_demo.png"
     )

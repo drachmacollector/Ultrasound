@@ -275,7 +275,7 @@ def _render_upload_col(col: Any) -> "UploadedFile | None":
     Returns the UploadedFile object, or None if nothing uploaded.
     """
     with col:
-        st.markdown('<div class="fpc-intake-panel">', unsafe_allow_html=True)
+        # st.markdown('<div class="fpc-intake-panel">', unsafe_allow_html=True)
         st.markdown('<div class="fpc-analysis-header">INPUT / 01</div>', unsafe_allow_html=True)
         uploaded = st.file_uploader(
             "Choose a video clip",
@@ -341,7 +341,7 @@ def _build_status_markdown(result: dict[str, Any], opts: dict[str, Any]) -> str:
 def _render_output_col(col: Any, result: dict[str, Any] | None, opts: dict[str, Any]) -> None:
     """Render the annotated output column from a completed render result."""
     with col:
-        st.markdown('<div class="fpc-analysis-panel">', unsafe_allow_html=True)
+        # st.markdown('<div class="fpc-analysis-panel">', unsafe_allow_html=True)
         st.markdown('<div class="fpc-analysis-header">OUTPUT / 02</div>', unsafe_allow_html=True)
         
         if result is None:
@@ -496,7 +496,7 @@ def main() -> None:
                     progress_bar.progress(pct, text=f"Annotating frame {done}/{total}")
 
             try:
-                status_placeholder.info("⏳ Processing — this may take up to 2 minutes for a 5s clip with Grad-CAM enabled…")
+                status_placeholder.info("⏳ Processing — this may take up to 2 minutes for a 20s clip with Grad-CAM enabled…")
                 result = render_video(
                     input_path=str(input_path),
                     output_path=str(output_path),

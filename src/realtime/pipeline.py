@@ -270,6 +270,87 @@ class CaptureThread(threading.Thread):
 
 
 # ---------------------------------------------------------------------------
+# Grad-CAM worker
+# ---------------------------------------------------------------------------
+
+class GradCamWorker(threading.Thread):
+    """Computes Grad-CAM overlays asynchronously so the inference thread
+    is never blocked by the ~180 ms forward+backward pass.
+    """
+
+    def __init__(
+        self,
+        cam: GradCAM,
+        queue: DropOldestQueue[dict[str, Any]],
+        shared_state: dict[str, Any],
+        stop_event: threading.Event,
+        stats: PipelineStats,
+    ) -> None:
+        super().__init__(name="GradCamWorker", daemon=True)
+        self._cam = cam
+        self._queue = queue
+        self._shared_state = shared_state
+        self._stop_event = stop_event
+        self._stats = stats
+
+    def run(self) -> None:
+        log.info("GradCamWorker: starting.")
+        
+        # Monkey-patch pytorch_grad_cam hook to be thread-local.
+        # This guarantees InferenceThread's concurrent forward passes
+        # do not pollute the activations array and cause model-state races,
+        # without requiring a Mutex lock that blocks inference.
+        worker_id = threading.get_ident()
+        old_save_act = self._cam.activations_and_grads.save_activation
+
+        def _thread_local_save_activation(*args, **kwargs):
+            if threading.get_ident() == worker_id:
+                old_save_act(*args, **kwargs)
+
+        self._cam.activations_and_grads.save_activation = _thread_local_save_activation
+
+        while not self._stop_event.is_set():
+            req = self._queue.get_nowait_or_none()
+            if req is None:
+                time.sleep(0.005)
+                continue
+
+            t0 = time.monotonic()
+            tensor = req["tensor"]
+            final_label = req["final_label"]
+            frame_bgr = req["frame_bgr"]
+
+            targets = [ClassifierOutputTarget(final_label)]
+            try:
+                grayscale_cam: np.ndarray = self._cam(
+                    input_tensor=tensor, targets=targets  # type: ignore[arg-type]
+                )[0]
+            except Exception as exc:
+                log.warning("GradCamWorker: CAM computation failed: %s", exc)
+                continue
+
+            h_orig, w_orig = frame_bgr.shape[:2]
+            cam_resized = cv2.resize(grayscale_cam, (w_orig, h_orig))
+
+            rgb_float = (
+                cv2.cvtColor(frame_bgr, cv2.COLOR_BGR2RGB).astype(np.float32)
+                / 255.0
+            )
+            overlay_rgb: np.ndarray = show_cam_on_image(
+                rgb_float, cam_resized, use_rgb=True
+            )
+            overlay = cv2.cvtColor(overlay_rgb, cv2.COLOR_RGB2BGR)
+
+            gradcam_ms = (time.monotonic() - t0) * 1000.0
+            self._stats.record_gradcam(gradcam_ms)
+
+            # Immutable replacement ensures thread safety
+            self._shared_state["overlay"] = overlay
+
+        log.info("GradCamWorker: exiting.")
+
+
+# ---------------------------------------------------------------------------
 # Inference thread
 # ---------------------------------------------------------------------------
 
@@ -304,7 +385,7 @@ class InferenceThread(threading.Thread):
         smoothing_config_path: Path to configs/smoothing_tier1.yaml.
         stop_event:            Shared stop signal.
         stats:                 Shared PipelineStats instance.
-        gradcam_every_n_frames: Run GradCAM every N processed frames (default 10).
+        gradcam_every_n_frames: Run GradCAM every N processed frames (default 5).
         gradcam_wall_ms:       Also run GradCAM if this many ms have elapsed
                                since the last run (default 200 ms).
         enable_gradcam:        Set False to disable GradCAM entirely (useful for
@@ -384,20 +465,27 @@ class InferenceThread(threading.Thread):
         # Created ONCE here; hooks remain registered until cleanup() is called.
         # This avoids the hook-registration overhead that run_gradcam() incurs
         # on every throttled call (~5-15 ms per call for hook setup/teardown).
+        self._shared_cam_state: dict[str, Any] = {"overlay": None}
         if enable_gradcam:
             target_layer = get_target_layer(self._model, self._backbone_name)
             self._cam: GradCAM | None = GradCAM(
                 model=self._model,
                 target_layers=[target_layer],
             )
+            self._cam_queue: DropOldestQueue[dict[str, Any]] = DropOldestQueue(maxsize=1)
+            self._cam_worker: GradCamWorker | None = GradCamWorker(
+                self._cam, self._cam_queue, self._shared_cam_state, self._stop_event, self._stats
+            )
+            self._cam_worker.start()
             log.info(
-                "InferenceThread: persistent GradCAM initialised for %s "
+                "InferenceThread: async GradCAM initialised for %s "
                 "(target layer type: %s, throttle: every %d frames or %.0f ms).",
                 self._backbone_name, type(target_layer).__name__,
                 self._gradcam_every_n, self._gradcam_wall_ms,
             )
         else:
             self._cam = None
+            self._cam_worker = None
             log.info("InferenceThread: GradCAM disabled.")
 
         # State for throttling and overlay reuse
@@ -425,6 +513,10 @@ class InferenceThread(threading.Thread):
 
         Safe to call after join().  Idempotent.
         """
+        if self._cam_worker is not None:
+            self._cam_worker.join(timeout=5.0)
+            self._cam_worker = None
+
         if self._cam is not None:
             try:
                 self._cam.activations_and_grads.release()
@@ -530,23 +622,15 @@ class InferenceThread(threading.Thread):
                 display_is_stable = is_stable
 
             # ----------------------------------------------------------------
-            # Stage 4 — Grad-CAM (persistent instance, throttled)
+            # Stage 4 — Grad-CAM (async background worker)
             #
             # Decision: run GradCAM when EITHER N processed frames have elapsed
             # since the last run OR 200 ms of wall-clock time has elapsed.
             # The OR condition ensures fresh overlays even when inference is
             # slow, without waiting for the N-frame count.
-            #
-            # IMPORTANT: the GradCAM call is NOT wrapped in torch.no_grad() —
-            # GradCAM needs gradient computation internally (it uses
-            # torch.enable_grad() itself).  It IS separated from the autocast
-            # block above to avoid float16 precision issues in the backward pass.
-            #
-            # The overlay is produced at the ORIGINAL frame resolution (not
-            # 224×224) so the render loop can blend it without upscaling.
             # ----------------------------------------------------------------
             gradcam_ms: float | None = None
-            overlay: np.ndarray | None = self._last_overlay  # reuse by default
+            overlay: np.ndarray | None = self._shared_cam_state.get("overlay")
 
             if self._cam is not None:
                 now_wall = time.monotonic()
@@ -556,36 +640,12 @@ class InferenceThread(threading.Thread):
                     or (wall_elapsed_ms >= self._gradcam_wall_ms)
                 )
                 if should_run_gradcam:
-                    t0 = time.monotonic()
-                    targets = [ClassifierOutputTarget(final_label)]
-                    # Grad-CAM forward+backward (hooks registered persistently)
-                    grayscale_cam: np.ndarray = self._cam(
-                        input_tensor=tensor, targets=targets  # type: ignore[arg-type]
-                    )[0]  # shape: [H_in, W_in], typically [224, 224]
-
-                    # Resize heatmap to original frame dimensions
-                    h_orig, w_orig = frame_bgr.shape[:2]
-                    cam_resized = cv2.resize(grayscale_cam, (w_orig, h_orig))
-
-                    # show_cam_on_image needs RGB float32 [0, 1] at the same
-                    # spatial size as cam_resized.  We derive it from frame_bgr
-                    # rather than from the preprocessed tensor (which is
-                    # normalised/cropped) so the overlay aligns with what the
-                    # render loop actually displays.
-                    rgb_float = (
-                        cv2.cvtColor(frame_bgr, cv2.COLOR_BGR2RGB).astype(np.float32)
-                        / 255.0
-                    )
-                    overlay_rgb: np.ndarray = show_cam_on_image(
-                        rgb_float, cam_resized, use_rgb=True
-                    )  # HxWx3 uint8, RGB
-                    # Store as BGR so the render loop can use it directly
-                    overlay = cv2.cvtColor(overlay_rgb, cv2.COLOR_RGB2BGR)
-
-                    gradcam_ms = (time.monotonic() - t0) * 1000.0
-                    self._last_overlay = overlay
+                    self._cam_queue.put({
+                        "tensor": tensor.clone(),
+                        "final_label": final_label,
+                        "frame_bgr": frame_bgr.copy(),
+                    })
                     self._last_gradcam_wall_t = now_wall
-                    self._stats.record_gradcam(gradcam_ms)
 
             # ----------------------------------------------------------------
             # Stage 5 — Push result dict to render queue

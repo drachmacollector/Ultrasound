@@ -35,9 +35,9 @@ RUNS
 
 USAGE
 -----
-  conda run -n fetalplane python scripts/validate_pipeline_headless.py \\
-      --source data/processed/synthetic_clips/Brain_Trans_thalamic_clip01.mp4 \\
-      --checkpoint checkpoints/convnext_tiny/best.pt \\
+  conda run -n fetalplane python scripts/validate_pipeline_headless.py \
+      --source data/processed/synthetic_clips/multiplane_scan_01.mp4 \
+      --checkpoint checkpoints/convnext_tiny/best.pt \
       --output-dir docs/phases/phase_05/phase5_screenshots
 
 FPS INTERPRETATION KEY
@@ -446,8 +446,8 @@ def build_parser() -> argparse.ArgumentParser:
         description="Task 10 headless pipeline validation.",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
-    p.add_argument("--source",
-                   default="data/processed/synthetic_clips/Brain_Trans_thalamic_clip01.mp4")
+    p.add_argument("--source", type=str,
+                   default="data/processed/synthetic_clips/multiplane_scan_01.mp4")
     p.add_argument("--checkpoint", default="checkpoints/convnext_tiny/best.pt")
     p.add_argument("--smoothing-config", default="configs/smoothing_tier1.yaml",
                    dest="smoothing_config")

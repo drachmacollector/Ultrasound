@@ -30,7 +30,7 @@ Keybindings:
 
 Usage:
     conda run -n fetalplane python -m src.realtime.app \\
-        --source data/processed/synthetic_clips/Brain_Trans_thalamic_clip01.mp4 \\
+        --source data/processed/synthetic_clips/multiplane_scan_01.mp4 \\
         --loop
     conda run -n fetalplane python -m src.realtime.app --source 0   # webcam
 """

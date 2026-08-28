@@ -157,7 +157,7 @@ result = render_video(
 **CLI:**
 ```bash
 python scripts/render_annotated_video.py \
-    --input  data/processed/synthetic_clips/Brain_Trans_thalamic_clip01.mp4 \
+    --input  data/processed/synthetic_clips/multiplane_scan_01.mp4 \
     --output outputs/test_annotated.mp4 \
     --checkpoint checkpoints/convnext_tiny/best.pt \
     --gradcam-every-n 1 \
@@ -512,7 +512,7 @@ for p in sorted(pathlib.Path('data/processed/synthetic_clips').glob('*.mp4')):
 
 # 3. Render a synthetic clip (no Grad-CAM for speed)
 conda run -n fetalplane python scripts/render_annotated_video.py \
-    --input  data/processed/synthetic_clips/Brain_Trans_thalamic_clip01.mp4 \
+    --input  data/processed/synthetic_clips/multiplane_scan_01.mp4 \
     --output outputs/test_annotated.mp4 \
     --no-gradcam
 
