@@ -7,6 +7,7 @@ using the synthetic multi-plane clips and their annotations.
 Latency is measured from the annotated "settle" frame to the first frame where the 
 smoothing pipeline outputs the correct target label with `is_stable=True`.
 """
+import csv
 import glob
 import json
 import logging
@@ -26,12 +27,15 @@ from src.smoothing.tier1 import Tier1Smoother
 from src.smoothing.tier2_mode_filter import Tier2ModeFilter
 from src.realtime.model_loader import load_inference_model
 from src.data.transforms import prep_frame_grayscale_to_rgb
+from src.data.dataset import CLASS_TO_IDX
 
 # --- Config Paths ---
 CKPT_PATH = Path("checkpoints/convnext_tiny/best.pt")
 TIER1_CFG_PATH = Path("configs/smoothing_tier1.yaml")
 TIER2_CFG_PATH = Path("configs/smoothing_tier2a.yaml")
 CLIPS_DIR = Path("data/processed/synthetic_clips")
+LOG_PATH = Path("logs/eval/evaluate_transition_latency.txt")
+CSV_PATH = Path("logs/eval/transition_latency_details.csv")
 
 def run_inference(video_path: str, model: torch.nn.Module, transform, device: torch.device):
     cap = cv2.VideoCapture(video_path)
@@ -54,7 +58,17 @@ def run_inference(video_path: str, model: torch.nn.Module, transform, device: to
 
 
 def main():
-    logging.basicConfig(level=logging.INFO, format="%(message)s")
+    LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
+    CSV_PATH.parent.mkdir(parents=True, exist_ok=True)
+    
+    logging.basicConfig(
+        level=logging.INFO, 
+        format="%(message)s",
+        handlers=[
+            logging.FileHandler(LOG_PATH, encoding="utf-8", mode="w"),
+            logging.StreamHandler(sys.stdout)
+        ]
+    )
     log = logging.getLogger(__name__)
     
     log.info("=" * 60)
@@ -81,6 +95,7 @@ def main():
         return
 
     all_latencies_ms = []
+    transition_details = []
     
     for clip_path in clip_paths:
         clip_name = os.path.basename(clip_path)
@@ -94,11 +109,11 @@ def main():
         with open(json_path, "r", encoding="utf-8") as f:
             annotations = json.load(f)
             
-        settle_frames = [a["frame"] for a in annotations if a["event"] == "settle"]
-        if not settle_frames:
+        settle_events = [a for a in annotations if a["event"] == "settle"]
+        if not settle_events:
             continue
             
-        log.info(f"Processing {clip_name} ({len(settle_frames)} transitions)...")
+        log.info(f"Processing {clip_name} ({len(settle_events)} transitions)...")
         all_probs, fps = run_inference(clip_path, model, transform, device)
         
         if not all_probs:
@@ -107,12 +122,13 @@ def main():
         ms_per_frame = 1000.0 / fps
 
         # Process each transition event
-        for settle_f in settle_frames:
+        for event in settle_events:
+            settle_f = event["frame"]
             if settle_f >= len(all_probs):
                 continue
                 
-            # Target is the dominant class the network correctly sees at the settle frame
-            target_label = int(np.argmax(all_probs[settle_f]))
+            # Deriving target_label directly from the ground-truth annotation event
+            target_label = CLASS_TO_IDX[event["label"]]
             
             # Re-initialize smoothers
             tier1 = Tier1Smoother(
@@ -143,13 +159,28 @@ def main():
                     latency_ms = offset * ms_per_frame
                     all_latencies_ms.append(latency_ms)
                     found_stable = True
+                    transition_details.append({
+                        "clip": clip_name,
+                        "settle_frame": settle_f,
+                        "target_class": event["label"],
+                        "latency_ms": latency_ms,
+                        "stabilized": True
+                    })
                     break
                     
             if not found_stable:
                 # Penalise with remaining duration if it never stabilises
                 remaining = len(all_probs) - settle_f
-                all_latencies_ms.append(remaining * ms_per_frame)
-                log.warning(f"  Transition at frame {settle_f} never stabilized!")
+                latency_ms = remaining * ms_per_frame
+                all_latencies_ms.append(latency_ms)
+                log.warning(f"  Transition at frame {settle_f} never stabilized on {event['label']}!")
+                transition_details.append({
+                    "clip": clip_name,
+                    "settle_frame": settle_f,
+                    "target_class": event["label"],
+                    "latency_ms": latency_ms,
+                    "stabilized": False
+                })
 
     # Summary Stats
     if all_latencies_ms:
@@ -168,6 +199,13 @@ def main():
         log.info(f"99th Percentile (P99)    : {p99:.1f} ms")
         log.info(f"Max Latency              : {max_lat:.1f} ms")
         log.info("=" * 60)
+        
+        # Write CSV
+        with open(CSV_PATH, "w", encoding="utf-8", newline="") as f:
+            writer = csv.DictWriter(f, fieldnames=["clip", "settle_frame", "target_class", "latency_ms", "stabilized"])
+            writer.writeheader()
+            writer.writerows(transition_details)
+        log.info(f"Detailed results saved to {CSV_PATH}")
     else:
         log.info("No transitions measured.")
 

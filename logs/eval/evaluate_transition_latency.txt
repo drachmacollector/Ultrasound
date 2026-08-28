@@ -1,0 +1,27 @@
+============================================================
+Transition Latency Evaluation (Phase 6)
+============================================================
+Loaded Tier 1 config: {'alpha': 0.2, 'hold_floor': None, 'min_dwell_frames': 8, 'switch_threshold': 0.7}
+Loaded Tier 2 config: {'_comment': 'Selected by tune_tier2_mode_filter.py — global best across grids A+B. Stubborn clip residual: 0.0 switches/min (Tier-1 baseline: 72.0). Added lag: 338ms worst-case at 23.7fps.', 'min_majority_frac': 0.7, 'window_frames': 9}
+
+Processing multiplane_scan_01.mp4 (5 transitions)...
+Processing multiplane_scan_02.mp4 (5 transitions)...
+Processing multiplane_scan_03.mp4 (4 transitions)...
+Processing multiplane_scan_04.mp4 (4 transitions)...
+Processing multiplane_scan_05.mp4 (6 transitions)...
+  Transition at frame 388 never stabilized on Brain_Trans_ventricular!
+  Transition at frame 479 never stabilized on Fetal_femur!
+Processing multiplane_scan_06.mp4 (6 transitions)...
+Processing multiplane_scan_07.mp4 (4 transitions)...
+Processing multiplane_scan_08.mp4 (5 transitions)...
+
+============================================================
+Transition Latency Results (N=39 real transitions)
+============================================================
+Mean Latency-to-Stable : 489.3 ms
+Median (P50)             : 500.0 ms
+90th Percentile (P90)    : 525.0 ms
+99th Percentile (P99)    : 2725.0 ms
+Max Latency              : 3833.3 ms
+============================================================
+Detailed results saved to logs\eval\transition_latency_details.csv

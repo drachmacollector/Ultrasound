@@ -57,7 +57,7 @@ The single top-to-bottom list. Everything here is detailed in files `00`–`07`;
 - [ ] `[A]` In-distribution test metrics (per-class + macro-F1, confusion matrix)
 - [ ] `[A]` Cross-device generalization metrics, gap explicitly reported
 - [ ] `[A]` Realistic-video frame-level accuracy, with/without smoothing
-- [ ] `[A]` Video stability metrics (switches/min, latency-to-stabilize, dwell time)
+- [x] `[A]` Video stability metrics (switches/min, latency-to-stabilize (mean 489.3 ms), dwell time)
 - [ ] `[A]` Run all planned ablations
 - [ ] `[M+A]` Write final [EVAL_REPORT.md](../EVAL_REPORT.md) including honest limitations section
 

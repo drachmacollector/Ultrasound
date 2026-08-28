@@ -49,7 +49,7 @@ from src.smoothing.tier1 import Tier1Smoother
 # ---------------------------------------------------------------------------
 CKPT_PATH          = "checkpoints/convnext_tiny/best.pt"
 SMOOTHING_CFG      = "configs/smoothing_tier1.yaml"
-SYNTHETIC_DIR      = "data/processed/synthetic_clips"
+SYNTHETIC_DIR      = "data/processed/synthetic_clips/single_planes"
 IUGC_VIDEO_DIR     = "data/raw/iugc_video/DatasetV3"
 LOG_PATH           = Path("logs/eval/evaluate_realistic_video.txt")
 CSV_PATH           = Path("data/processed/eval_realistic_video/realistic_video_results.csv")
