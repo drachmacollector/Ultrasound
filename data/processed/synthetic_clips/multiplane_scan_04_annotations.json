@@ -1,0 +1,42 @@
+[
+  {
+    "frame": 0,
+    "event": "settle",
+    "label": "Fetal_thorax"
+  },
+  {
+    "frame": 58,
+    "event": "leave",
+    "label": "Fetal_thorax"
+  },
+  {
+    "frame": 85,
+    "event": "settle",
+    "label": "Fetal_femur"
+  },
+  {
+    "frame": 203,
+    "event": "leave",
+    "label": "Fetal_femur"
+  },
+  {
+    "frame": 239,
+    "event": "settle",
+    "label": "Maternal_cervix"
+  },
+  {
+    "frame": 334,
+    "event": "leave",
+    "label": "Maternal_cervix"
+  },
+  {
+    "frame": 368,
+    "event": "settle",
+    "label": "Brain_Trans_ventricular"
+  },
+  {
+    "frame": 461,
+    "event": "leave",
+    "label": "Brain_Trans_ventricular"
+  }
+]

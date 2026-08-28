@@ -1,0 +1,52 @@
+[
+  {
+    "frame": 0,
+    "event": "settle",
+    "label": "Maternal_cervix"
+  },
+  {
+    "frame": 89,
+    "event": "leave",
+    "label": "Maternal_cervix"
+  },
+  {
+    "frame": 122,
+    "event": "settle",
+    "label": "Fetal_femur"
+  },
+  {
+    "frame": 174,
+    "event": "leave",
+    "label": "Fetal_femur"
+  },
+  {
+    "frame": 201,
+    "event": "settle",
+    "label": "Fetal_abdomen"
+  },
+  {
+    "frame": 277,
+    "event": "leave",
+    "label": "Fetal_abdomen"
+  },
+  {
+    "frame": 303,
+    "event": "settle",
+    "label": "Maternal_cervix"
+  },
+  {
+    "frame": 394,
+    "event": "leave",
+    "label": "Maternal_cervix"
+  },
+  {
+    "frame": 421,
+    "event": "settle",
+    "label": "Brain_Trans_thalamic"
+  },
+  {
+    "frame": 479,
+    "event": "leave",
+    "label": "Brain_Trans_thalamic"
+  }
+]

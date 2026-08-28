@@ -1,0 +1,52 @@
+[
+  {
+    "frame": 0,
+    "event": "settle",
+    "label": "Brain_Trans_cerebellum"
+  },
+  {
+    "frame": 85,
+    "event": "leave",
+    "label": "Brain_Trans_cerebellum"
+  },
+  {
+    "frame": 107,
+    "event": "settle",
+    "label": "Brain_Trans_ventricular"
+  },
+  {
+    "frame": 199,
+    "event": "leave",
+    "label": "Brain_Trans_ventricular"
+  },
+  {
+    "frame": 220,
+    "event": "settle",
+    "label": "Maternal_cervix"
+  },
+  {
+    "frame": 270,
+    "event": "leave",
+    "label": "Maternal_cervix"
+  },
+  {
+    "frame": 289,
+    "event": "settle",
+    "label": "Fetal_abdomen"
+  },
+  {
+    "frame": 398,
+    "event": "leave",
+    "label": "Fetal_abdomen"
+  },
+  {
+    "frame": 421,
+    "event": "settle",
+    "label": "Fetal_abdomen"
+  },
+  {
+    "frame": 479,
+    "event": "leave",
+    "label": "Fetal_abdomen"
+  }
+]
