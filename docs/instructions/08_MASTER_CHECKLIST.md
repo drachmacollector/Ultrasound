@@ -20,7 +20,8 @@ The single top-to-bottom list. Everything here is detailed in files `00`–`07`;
 - [ ] `[M]` Download FETAL_PLANES_DB, verify CSV schema, spot-check labels
 - [ ] `[M]` Download UCL/HC18 multi-centre dataset (manual browser download — site blocks bots), read its train/test docs, understand overlap risk with FETAL_PLANES_DB
 - [ ] `[M]` Download IUGC/Zenodo intrapartum video (optional but recommended for smoothing tuning)
-- [ ] `[M]` Record license notes for all three sources
+- [ ] `[M]` Download NatalIA PBF-US1 dataset, verify `resume.csv` schema
+- [ ] `[M]` Record license notes for all sources
 - [ ] `[M]` Confirm final `data/raw/` folder structure matches the checklist in file 02
 
 ### Phase 3 — Data Pipeline ([03_DATA_PIPELINE.md](03_DATA_PIPELINE.md))

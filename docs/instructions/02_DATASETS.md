@@ -65,7 +65,16 @@ This bundle is **not** a clean external test set as originally assumed. The pape
 
 Not a download — built in Phase 3 ([03_DATA_PIPELINE.md](03_DATA_PIPELINE.md)) from FETAL_PLANES_DB frames via small affine/elastic perturbations. Documented here only so the folder convention is clear: outputs land in `data/processed/synthetic_clips/`, never in `data/raw/`.
 
-## 5. `[MANUAL]` Final folder-state checklist before Phase 3
+## 5. NatalIA PBF-US1 (Non-expert Free-hand Sweeps test set)
+
+**What it is:** 19,407 ultrasound frames collected from 90 videos of a 23-week gestational age fetal ultrasound phantom (US-7a SPACE FAN). Recorded through free-hand sweeps by 45 non-experts using a Clarius C3 HD3 POCUS device. This dataset serves as a robustness benchmark to test whether models can generalize to low-resource, non-expert environments with point-of-care devices. Citation: González et al., Zenodo (2024), 10.5281/zenodo.14193949.
+
+**`[MANUAL]` Steps:**
+1. This dataset has been added to `data/raw/NatalIA PBFUS1/`.
+2. Inspect the `resume.csv` file, which maps each frame (`file_name`) to its parent exam (`studie`), and lists its `class` and `value` (0-5). 
+3. **Usage:** This dataset should be used strictly as a generalization or OOD (Out-Of-Distribution) evaluation test set, simulating exams conducted by untrained personnel.
+
+## 6. `[MANUAL]` Final folder-state checklist before Phase 3
 
 ```
 data/raw/
@@ -83,6 +92,10 @@ data/raw/
 │   └── annotations/ (same subfolder layout)
 └── iugc_video/
     └── DatasetV3/...
+└── NatalIA PBFUS1/
+    ├── resume.csv
+    ├── README.md
+    └── ...
 ```
 
 - [ ] FETAL_PLANES_DB downloaded, CSV schema confirmed and documented in the readme`
@@ -91,3 +104,4 @@ data/raw/
 - [ ] **Explicitly confirmed and documented that only `HC18/` and `UCL/` will be used for evaluation — `FP/` and `MULTICENTRE/` are excluded due to FETAL_PLANES_DB overlap (see §2 warning)**
 - [ ] IUGC video downloaded (or explicitly deferred — Tier-1 smoothing can initially be tuned on synthetic data only if you want to skip this download for now, see [05_TEMPORAL_SMOOTHING_AND_REALTIME.md](05_TEMPORAL_SMOOTHING_AND_REALTIME.md) §2 for the fallback plan)
 - [ ] License notes recorded for all sources (IUGC confirmed CC BY 4.0 via the Zenodo `17655183` release; check the multi-centre bundle's own `LICENSE` file and FETAL_PLANES_DB's accompanying paper for theirs)
+- [ ] NatalIA PBFUS1 dataset documented and `resume.csv` confirmed.

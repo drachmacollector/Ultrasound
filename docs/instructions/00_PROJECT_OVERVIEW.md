@@ -52,6 +52,7 @@ We explicitly evaluated and rejected:
 | **FETAL_PLANES_DB** (Burgos-Artizzu et al., 2020) | Primary train/val/test | All 7 planes + Other | No (static frames) |
 | **UCL/HC18 cross-device generalization set** — **`HC18` + `UCL` subsets only, `FP` and merged `MULTICENTRE` folders excluded** (see §5a below) | Held-out cross-device generalization test | Head, Abdomen, Femur only (3/7) | No |
 | **IUGC / Zenodo intrapartum video** (Zenodo `17655183`, CC BY 4.0) | Temporal-smoothing methodology sandbox ONLY — never trains the plane classifier | N/A (different task) | Yes (real) |
+| **NatalIA PBF-US1** (González et al., 2024) | Held-out non-expert generalization test | 5 planes + Other | Yes (Frames from free-hand sweeps) |
 | Synthetic ego-motion clips | Jitter-robustness validation for primary task | Derived from FETAL_PLANES_DB frames | Synthetic |
 
 ### 5a. `[CORRECTION — confirmed against source data]` The downloaded "multi-centre" bundle is not a clean external test set
