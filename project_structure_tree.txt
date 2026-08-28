@@ -48,47 +48,107 @@ Ultrasound/
 │   │       ├── confusion_matrix_best_epoch4.png
 │   │       ├── confusion_matrix_best_epoch5.png
 │   │       └── confusion_matrix_final_epoch5.png
-│   ├── convnext_tiny_focal
-│   │   ├── best.pt
-│   │   ├── classification_report_TEST.txt
-│   │   ├── classification_report_final.txt
-│   │   ├── config.yaml
-│   │   ├── confusion_matrix_TEST.png
-│   │   ├── confusion_matrix_best_epoch1.png
-│   │   ├── confusion_matrix_best_epoch11.png
-│   │   ├── confusion_matrix_best_epoch13.png
-│   │   ├── confusion_matrix_best_epoch2.png
-│   │   ├── confusion_matrix_best_epoch3.png
-│   │   ├── confusion_matrix_best_epoch5.png
-│   │   ├── confusion_matrix_best_epoch9.png
-│   │   └── confusion_matrix_final_epoch13.png
+│   └── convnext_tiny_focal
+│       ├── best.pt
+│       ├── classification_report_TEST.txt
+│       ├── classification_report_final.txt
+│       ├── config.yaml
+│       ├── confusion_matrix_TEST.png
+│       ├── confusion_matrix_best_epoch1.png
+│       ├── confusion_matrix_best_epoch11.png
+│       ├── confusion_matrix_best_epoch13.png
+│       ├── confusion_matrix_best_epoch2.png
+│       ├── confusion_matrix_best_epoch3.png
+│       ├── confusion_matrix_best_epoch5.png
+│       ├── confusion_matrix_best_epoch9.png
+│       └── confusion_matrix_final_epoch13.png
 ├── configs
 │   ├── convnext_tiny.yaml
 │   ├── convnext_tiny_focal.yaml
-│   ├── efficientnet_lite0.yaml
-│   ├── mobilenetv3_large_100.yaml
-│   ├── multitask.yaml
-│   ├── repvgg_a1.yaml
-│   ├── repvgg_a2.yaml
 │   ├── smoothing_tier1.yaml
-│   ├── smoothing_tier2a.yaml
-│   └── tf_efficientnetv2_s.yaml
+│   └── smoothing_tier2a.yaml
 ├── data
 │   ├── processed
+│   │   ├── .gitkeep
+│   │   ├── bboxes.json
+│   │   ├── class_weights.json
+│   │   ├── cross_device_manifest.csv
 │   │   ├── eval_cross_device
+│   │   │   ├── cross_device_confusion.png
+│   │   │   └── cross_device_results.csv
 │   │   ├── eval_realistic_video
+│   │   │   └── realistic_video_results.csv
 │   │   ├── eval_tier2
+│   │   │   └── tier2_results.csv
+│   │   ├── manifest.csv
 │   │   ├── manual_review
+│   │   │   ├── 20190726T095643_0.avi_contact_sheet.png
+│   │   │   ├── 20190830T115644__B_äº§ç§‘_tmp_0.avi_contact_sheet.png
+│   │   │   ├── 20190906T105145__B_äº§ç§‘_0.avi_contact_sheet.png
+│   │   │   ├── 20190906T105237__B_äº§ç§‘_tmp_0.avi_contact_sheet.png
+│   │   │   ├── 20190909T155747I1__20190909T155747I1.avi_contact_sheet.png
+│   │   │   ├── test_10_80.avi_contact_sheet.png
+│   │   │   ├── test_11_14.avi_contact_sheet.png
+│   │   │   ├── test_12_79.avi_contact_sheet.png
+│   │   │   ├── test_13_70.avi_contact_sheet.png
+│   │   │   └── transition_annotations_template.json
 │   │   ├── sanity_checks
+│   │   │   ├── 01_class_distribution_splits.png
+│   │   │   ├── 02_cross_device_distribution.png
+│   │   │   ├── 03_sample_grid_fetal_planes.png
+│   │   │   ├── 04_sample_grid_cross_device.png
+│   │   │   ├── 05_patient_count_heatmap.png
+│   │   │   ├── 05_patient_image_counts_per_split.csv
+│   │   │   └── 06_resolution_histogram.png
 │   │   ├── synthetic_clips
+│   │   │   ├── multiplane_scan_01.mp4
+│   │   │   ├── multiplane_scan_01_annotations.json
+│   │   │   ├── multiplane_scan_02.mp4
+│   │   │   ├── multiplane_scan_02_annotations.json
+│   │   │   ├── multiplane_scan_03.mp4
+│   │   │   ├── multiplane_scan_03_annotations.json
+│   │   │   ├── multiplane_scan_04.mp4
+│   │   │   ├── multiplane_scan_04_annotations.json
+│   │   │   ├── multiplane_scan_05.mp4
+│   │   │   ├── multiplane_scan_05_annotations.json
+│   │   │   ├── multiplane_scan_06.mp4
+│   │   │   ├── multiplane_scan_06_annotations.json
+│   │   │   ├── multiplane_scan_07.mp4
+│   │   │   ├── multiplane_scan_07_annotations.json
+│   │   │   ├── multiplane_scan_08.mp4
+│   │   │   ├── multiplane_scan_08_annotations.json
 │   │   │   └── single_planes
+│   │   │       ├── Brain_Trans_cerebellum_clip01.mp4
+│   │   │       ├── Brain_Trans_cerebellum_clip02.mp4
+│   │   │       ├── Brain_Trans_thalamic_clip01.mp4
+│   │   │       ├── Brain_Trans_thalamic_clip02.mp4
+│   │   │       ├── Brain_Trans_ventricular_clip01.mp4
+│   │   │       ├── Brain_Trans_ventricular_clip02.mp4
+│   │   │       ├── Fetal_abdomen_clip01.mp4
+│   │   │       ├── Fetal_abdomen_clip02.mp4
+│   │   │       ├── Fetal_femur_clip01.mp4
+│   │   │       ├── Fetal_femur_clip02.mp4
+│   │   │       ├── Fetal_thorax_clip01.mp4
+│   │   │       ├── Fetal_thorax_clip02.mp4
+│   │   │       ├── Maternal_cervix_clip01.mp4
+│   │   │       ├── Maternal_cervix_clip02.mp4
+│   │   │       ├── Other_clip01.mp4
+│   │   │       └── Other_clip02.mp4
 │   │   ├── tier1_tuning
+│   │   │   ├── baseline_flicker_chart.png
+│   │   │   ├── baseline_flicker_report.csv
+│   │   │   └── sweep_results.csv
 │   │   └── tier2a_tuning
+│   │       ├── sweep_results_combined.csv
+│   │       ├── sweep_results_grid_A.csv
+│   │       └── sweep_results_grid_B.csv
 │   ├── raw
 │   │   ├── fetal_planes_db
-│   │   │   └── Images
+│   │   │   ├── Images
+│   │   │   └── README.md
 │   │   ├── iugc_video
 │   │   │   └── DatasetV3
+│   │   │       ├── README.md
 │   │   │       ├── test
 │   │   │       │   ├── cls
 │   │   │       │   ├── seg
@@ -102,6 +162,11 @@ Ultrasound/
 │   │   │           ├── seg
 │   │   │           └── videos
 │   │   └── ucl_hc18
+│   │       ├── README-FP.md
+│   │       ├── README-HC18.md
+│   │       ├── README-MULTI-CENTRE.md
+│   │       ├── README-UCL.md
+│   │       ├── README-general.md
 │   │       ├── __MACOSX
 │   │       ├── annotations
 │   │       │   ├── FP
@@ -125,6 +190,11 @@ Ultrasound/
 │   │               ├── Femur
 │   │               └── Head
 │   └── splits
+│       ├── multitask_train.csv
+│       ├── multitask_val.csv
+│       ├── test.csv
+│       ├── train.csv
+│       └── val.csv
 ├── docs
 │   ├── EVAL_REPORT.md
 │   ├── EXPERIMENTS.md
@@ -182,9 +252,9 @@ Ultrasound/
 │   │   │   ├── output.txt
 │   │   │   └── smoke_test
 │   │   │       └── events.out.tfevents.1785214331.NX-ASUS.7172.5
-│   │   ├── convnext_tiny_focal
-│   │   │   ├── convnext_tiny_focal_training_output.txt
-│   │   │   └── events.out.tfevents.1785310525.NX-ASUS.24168.0
+│   │   └── convnext_tiny_focal
+│   │       ├── convnext_tiny_focal_training_output.txt
+│   │       └── events.out.tfevents.1785310525.NX-ASUS.24168.0
 │   ├── convnext_tiny.fb_in22k_ft_in1k_training_output.txt
 │   ├── eval
 │   │   ├── evaluate_cross_device.txt
