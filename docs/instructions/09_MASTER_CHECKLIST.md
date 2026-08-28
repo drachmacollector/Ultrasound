@@ -1,4 +1,4 @@
-# 08 — Master Chronological Checklist
+# 09 — Master Chronological Checklist
 
 The single top-to-bottom list. Everything here is detailed in files `00`–`07`; this file exists so you (or a new chat/agent) can track progress at a glance without re-reading everything. Tags: `[M]` = you do this manually, `[A]` = the coding agent does this, `[M+A]` = you make a decision, agent implements it.
 

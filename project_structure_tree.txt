@@ -207,7 +207,7 @@ Ultrasound/
 │   │   ├── 05_TEMPORAL_SMOOTHING_AND_REALTIME.md
 │   │   ├── 06_EVALUATION_VALIDATION.md
 │   │   ├── 07_STRETCH_GOALS_AND_ROADMAP.md
-│   │   └── 08_MASTER_CHECKLIST.md
+│   │   └── 09_MASTER_CHECKLIST.md
 │   ├── phases
 │   │   ├── demo1
 │   │   │   └── demo1_walkthrough.md

@@ -1,7 +1,7 @@
 # PHASE_6_KICKOFF_PROMPT.md — Evaluation & Validation
 
 Read, in this order, before writing any code: `docs/instructions/00_PROJECT_OVERVIEW.md`,
-`docs/instructions/06_EVALUATION_VALIDATION.md`, `docs/instructions/08_MASTER_CHECKLIST.md`,
+`docs/instructions/06_EVALUATION_VALIDATION.md`, `docs/instructions/09_MASTER_CHECKLIST.md`,
 `docs/EXPERIMENTS.md` (Phase 4 backbone decision), `docs/phases/phase_05/PHASE5_SMOOTHING_TUNING.md`
 and `docs/phases/phase_05/phase 5 walkthrough.md` (Phase 5 results), and this file in full.
 This file is more prescriptive than `06_EVALUATION_VALIDATION.md` on purpose — where the two

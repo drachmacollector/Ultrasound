@@ -1,6 +1,6 @@
 # Phase 3 Kickoff — Data Pipeline Build
 
-Follow this instruction & implementation plan & read the following attached files for reference [00_PROJECT_OVERVIEW.md](../instructions/00_PROJECT_OVERVIEW.md), [02_DATASETS.md](../instructions/02_DATASETS.md), [03_DATA_PIPELINE.md](../instructions/03_DATA_PIPELINE.md), and [08_MASTER_CHECKLIST.md](../instructions/08_MASTER_CHECKLIST.md)
+Follow this instruction & implementation plan & read the following attached files for reference [00_PROJECT_OVERVIEW.md](../instructions/00_PROJECT_OVERVIEW.md), [02_DATASETS.md](../instructions/02_DATASETS.md), [03_DATA_PIPELINE.md](../instructions/03_DATA_PIPELINE.md), and [09_MASTER_CHECKLIST.md](../instructions/09_MASTER_CHECKLIST.md)
 
 ---
 

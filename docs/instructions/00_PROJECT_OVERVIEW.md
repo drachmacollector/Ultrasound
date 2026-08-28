@@ -67,7 +67,7 @@ The paper itself states this dataset **"combines three sources: the Fetal Plane 
 
 **Known consequence of this decision:** because `HC18`/`UCL` are pure landmark-biometry datasets, every image in them is by construction a valid standard plane — there are no "Other"/non-standard examples. This cross-device set can therefore only validate *"given a standard image, is the plane label right,"* not Stage 1's standard-vs-other decision cross-device. Documented as an explicit limitation in [06_EVALUATION_VALIDATION.md](06_EVALUATION_VALIDATION.md).
 
-## 6. Chronological phase list (see [08_MASTER_CHECKLIST.md](08_MASTER_CHECKLIST.md) for the full checklist)
+## 6. Chronological phase list (see [09_MASTER_CHECKLIST.md](09_MASTER_CHECKLIST.md) for the full checklist)
 
 1. Environment setup ([01_ENVIRONMENT_SETUP.md](01_ENVIRONMENT_SETUP.md))
 2. Dataset acquisition — **heavy `[MANUAL]` content** ([02_DATASETS.md](02_DATASETS.md))

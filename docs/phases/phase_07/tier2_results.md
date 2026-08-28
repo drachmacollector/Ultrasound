@@ -223,7 +223,7 @@ probe-motion clips not representable by these 46 clips.
 - [x] `src/realtime/pipeline.py` — opt-in `tier2_config_path`; Grad-CAM targets `final_label`; `is_stable` from Tier-2a
 - [x] `src/realtime/app.py` — `--enable-tier2`/`--tier2-config` flags; tier2_active HUD line; --tier2-config pre-validation
 - [x] `scripts/evaluate_tier2.py` — run across all 46 clips, zero spurious-switch regression confirmed
-- [x] `docs/instructions/08_MASTER_CHECKLIST.md` — updated with Tier-2a status and evidence caveat
+- [x] `docs/instructions/09_MASTER_CHECKLIST.md` — updated with Tier-2a status and evidence caveat
 - [x] Decision documented: **Tier-2a sufficient, Tier-2b not required**
 - [ ] Tier-2b: not built (decision above)
 
