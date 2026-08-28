@@ -1,0 +1,293 @@
+Ultrasound/
+├── .env
+├── .gitignore
+├── README.md
+├── app_gradio.py
+├── app_streamlit.py
+├── assets
+│   ├── Newsprint_design_prompt.md
+│   ├── ai_plane_detection_diagram.jpg
+│   ├── clinical_sonography_setup.jpg
+│   ├── fetscan_uiux_fix_brief.md
+│   ├── pipeline_architecture_diagram.jpg
+│   └── style.css
+├── checkpoints
+│   ├── .gitkeep
+│   ├── convnext_tiny
+│   │   ├── best.pt
+│   │   ├── classification_report_TEST.txt
+│   │   ├── classification_report_final.txt
+│   │   ├── config.yaml
+│   │   ├── confusion_matrix_TEST.png
+│   │   ├── confusion_matrix_best_epoch1.png
+│   │   ├── confusion_matrix_best_epoch11.png
+│   │   ├── confusion_matrix_best_epoch13.png
+│   │   ├── confusion_matrix_best_epoch2.png
+│   │   ├── confusion_matrix_best_epoch20.png
+│   │   ├── confusion_matrix_best_epoch3.png
+│   │   ├── confusion_matrix_best_epoch5.png
+│   │   ├── confusion_matrix_final_epoch20.png
+│   │   ├── gradcam_spotcheck
+│   │   │   ├── Brain_Trans_cerebellum__Patient01227_Plane3_2_of_4__CORRECT.png
+│   │   │   ├── Brain_Trans_cerebellum__Patient01557_Plane3_2_of_4__CORRECT.png
+│   │   │   ├── Brain_Trans_thalamic__Patient01347_Plane3_4_of_4__CORRECT.png
+│   │   │   ├── Brain_Trans_thalamic__Patient01366_Plane3_3_of_4__WRONG_pred_Other.png
+│   │   │   ├── Brain_Trans_ventricular__Patient01422_Plane3_2_of_2__CORRECT.png
+│   │   │   ├── Brain_Trans_ventricular__Patient01508_Plane3_2_of_2__WRONG_pred_Brain_Trans_thalamic.png
+│   │   │   ├── Fetal_femur__Patient01323_Plane5_2_of_2__CORRECT.png
+│   │   │   ├── Fetal_femur__Patient01538_Plane5_1_of_1__CORRECT.png
+│   │   │   ├── Maternal_cervix__Patient01509_Plane4_2_of_2__CORRECT.png
+│   │   │   └── Maternal_cervix__Patient01669_Plane4_1_of_2__CORRECT.png
+│   │   ├── gradcam_spotcheck_output.txt
+│   │   └── smoke_test
+│   │       ├── best.pt
+│   │       ├── classification_report_final.txt
+│   │       ├── confusion_matrix_best_epoch1.png
+│   │       ├── confusion_matrix_best_epoch2.png
+│   │       ├── confusion_matrix_best_epoch3.png
+│   │       ├── confusion_matrix_best_epoch4.png
+│   │       ├── confusion_matrix_best_epoch5.png
+│   │       └── confusion_matrix_final_epoch5.png
+│   ├── convnext_tiny_focal
+│   │   ├── best.pt
+│   │   ├── classification_report_TEST.txt
+│   │   ├── classification_report_final.txt
+│   │   ├── config.yaml
+│   │   ├── confusion_matrix_TEST.png
+│   │   ├── confusion_matrix_best_epoch1.png
+│   │   ├── confusion_matrix_best_epoch11.png
+│   │   ├── confusion_matrix_best_epoch13.png
+│   │   ├── confusion_matrix_best_epoch2.png
+│   │   ├── confusion_matrix_best_epoch3.png
+│   │   ├── confusion_matrix_best_epoch5.png
+│   │   ├── confusion_matrix_best_epoch9.png
+│   │   └── confusion_matrix_final_epoch13.png
+├── configs
+│   ├── convnext_tiny.yaml
+│   ├── convnext_tiny_focal.yaml
+│   ├── efficientnet_lite0.yaml
+│   ├── mobilenetv3_large_100.yaml
+│   ├── multitask.yaml
+│   ├── repvgg_a1.yaml
+│   ├── repvgg_a2.yaml
+│   ├── smoothing_tier1.yaml
+│   ├── smoothing_tier2a.yaml
+│   └── tf_efficientnetv2_s.yaml
+├── data
+│   ├── processed
+│   │   ├── eval_cross_device
+│   │   ├── eval_realistic_video
+│   │   ├── eval_tier2
+│   │   ├── manual_review
+│   │   ├── sanity_checks
+│   │   ├── synthetic_clips
+│   │   │   └── single_planes
+│   │   ├── tier1_tuning
+│   │   └── tier2a_tuning
+│   ├── raw
+│   │   ├── fetal_planes_db
+│   │   │   └── Images
+│   │   ├── iugc_video
+│   │   │   └── DatasetV3
+│   │   │       ├── test
+│   │   │       │   ├── cls
+│   │   │       │   ├── seg
+│   │   │       │   └── videos
+│   │   │       ├── train
+│   │   │       │   ├── cls
+│   │   │       │   ├── seg
+│   │   │       │   └── videos
+│   │   │       └── val
+│   │   │           ├── cls
+│   │   │           ├── seg
+│   │   │           └── videos
+│   │   └── ucl_hc18
+│   │       ├── __MACOSX
+│   │       ├── annotations
+│   │       │   ├── FP
+│   │       │   ├── HC18
+│   │       │   ├── MULTICENTRE
+│   │       │   └── UCL
+│   │       │       └── px_to_mm
+│   │       └── images
+│   │           ├── FP
+│   │           │   ├── Abdomen
+│   │           │   ├── Femur
+│   │           │   └── Head
+│   │           ├── HC18
+│   │           │   └── Head
+│   │           ├── MULTICENTRE
+│   │           │   ├── Abdomen
+│   │           │   ├── Femur
+│   │           │   └── Head
+│   │           └── UCL
+│   │               ├── Abdomen
+│   │               ├── Femur
+│   │               └── Head
+│   └── splits
+├── docs
+│   ├── EVAL_REPORT.md
+│   ├── EXPERIMENTS.md
+│   ├── instructions
+│   │   ├── 00_PROJECT_OVERVIEW.md
+│   │   ├── 01_ENVIRONMENT_SETUP.md
+│   │   ├── 02_DATASETS.md
+│   │   ├── 03_DATA_PIPELINE.md
+│   │   ├── 04_MODEL_TRAINING.md
+│   │   ├── 05_TEMPORAL_SMOOTHING_AND_REALTIME.md
+│   │   ├── 06_EVALUATION_VALIDATION.md
+│   │   ├── 07_STRETCH_GOALS_AND_ROADMAP.md
+│   │   └── 08_MASTER_CHECKLIST.md
+│   ├── phases
+│   │   ├── demo1
+│   │   │   └── demo1_walkthrough.md
+│   │   ├── phase_03
+│   │   │   ├── LR_FINDER_INVESTIGATION_SUMMARY.md
+│   │   │   ├── PHASE_3_KICKOFF_PROMPT.md
+│   │   │   └── phase 3 walkthrough.md
+│   │   ├── phase_04
+│   │   │   ├── PHASE_4_KICKOFF_PROMPT.md
+│   │   │   ├── bootstrap_significance_output.txt
+│   │   │   ├── evaluate_test_output.txt
+│   │   │   ├── phase 4 walkthrough.md
+│   │   │   ├── test_classification_metrics_all.txt
+│   │   │   └── validation_classification_metrics_all.txt
+│   │   ├── phase_05
+│   │   │   ├── PHASE5_SMOOTHING_TUNING.md
+│   │   │   ├── PHASE_5_KICKOFF_PROMPT.md
+│   │   │   ├── phase 5 walkthrough.md
+│   │   │   ├── phase5_screenshots
+│   │   │   │   ├── validation_file_final.png
+│   │   │   │   ├── validation_file_t010s.png
+│   │   │   │   ├── validation_file_t030s.png
+│   │   │   │   ├── validation_file_t060s.png
+│   │   │   │   ├── validation_nogradcam_final.png
+│   │   │   │   └── validation_webcam_demo.png
+│   │   │   └── task8_implementation.md
+│   │   ├── phase_06
+│   │   │   └── PHASE_6_KICKOFF_PROMPT.md
+│   │   └── phase_07
+│   │       ├── goal_1_walkthrough.md
+│   │       ├── hud_clean_demo.png
+│   │       ├── phase7_multitask_hud_demo.png
+│   │       └── tier2_results.md
+│   └── realistic_ultrasound.jpg
+├── logs
+│   ├── .gitkeep
+│   ├── backbones
+│   │   ├── convnext_tiny
+│   │   │   ├── convnext_tiny_training_output.txt
+│   │   │   ├── events.out.tfevents.1785258244.NX-ASUS.5560.0
+│   │   │   ├── lr_finder.png
+│   │   │   ├── output.txt
+│   │   │   └── smoke_test
+│   │   │       └── events.out.tfevents.1785214331.NX-ASUS.7172.5
+│   │   ├── convnext_tiny_focal
+│   │   │   ├── convnext_tiny_focal_training_output.txt
+│   │   │   └── events.out.tfevents.1785310525.NX-ASUS.24168.0
+│   ├── convnext_tiny.fb_in22k_ft_in1k_training_output.txt
+│   ├── eval
+│   │   ├── evaluate_cross_device.txt
+│   │   ├── evaluate_realistic_video.txt
+│   │   ├── evaluate_tier2.txt
+│   │   ├── tier2a_sweep_comparison.txt
+│   │   ├── tier2a_sweep_grid_A.txt
+│   │   └── tier2a_sweep_grid_B.txt
+│   ├── multitask
+│   │   ├── events.out.tfevents.1786874541.NX-ASUS.16248.0
+│   │   ├── events.out.tfevents.1787115784.NX-ASUS.16648.0
+│   │   ├── events.out.tfevents.1787165101.NX-ASUS.10696.0
+│   │   └── events.out.tfevents.1787165867.NX-ASUS.23340.0
+│   ├── realtime
+│   │   ├── realtime_benchmark_20260810_102610.txt
+│   │   ├── realtime_benchmark_20260811_004330.txt
+│   │   ├── realtime_benchmark_20260811_010120.txt
+│   │   ├── realtime_validation_20260811_204604.txt
+│   │   ├── realtime_validation_run_20260811_023040.txt
+│   │   ├── realtime_validation_run_20260811_024537.txt
+│   │   ├── realtime_validation_run_20260811_233812.txt
+│   │   ├── realtime_validation_stats_20260811_023040.csv
+│   │   ├── realtime_validation_stats_20260811_024537.csv
+│   │   └── realtime_validation_stats_20260811_233812.csv
+│   ├── smoketest
+│   │   ├── smoke_test_results.txt
+│   │   └── smoketest classification all.txt
+│   ├── training
+│   │   └── convnext_tiny.fb_in22k_ft_in1k_training_output.txt
+│   └── tuning
+│       ├── measure_baseline_flicker.txt
+│       └── tune_tier1_smoothing_sweep.txt
+├── outputs
+│   ├── demo1
+│   │   ├── annotated_Brain_Trans_cerebellum_clip01.mp4
+│   │   ├── annotated_Brain_Trans_cerebellum_clip02.mp4
+│   │   ├── annotated_Fetal_femur_clip02.mp4
+│   │   ├── annotated_multiplane_scan_01.mp4
+│   │   ├── annotated_upload_test_8_80.mp4
+│   │   └── upload_test_8_80.avi
+│   └── test_annotated.mp4
+├── project_structure_tree.txt
+├── pyrightconfig.json
+├── requirements-lock.txt
+├── requirements.txt
+├── scripts
+│   ├── benchmark_pipeline.py
+│   ├── build_cross_device_manifest.py
+│   ├── build_manifest.py
+│   ├── build_multitask_manifest.py
+│   ├── derive_bboxes.py
+│   ├── evaluate_cross_device.py
+│   ├── evaluate_realistic_video.py
+│   ├── evaluate_tier2.py
+│   ├── evaluate_transition_latency.py
+│   ├── generate_multiplane_clips.py
+│   ├── generate_sample_clips.py
+│   ├── lr_finder.py
+│   ├── patient_split.py
+│   ├── render_annotated_video.py
+│   ├── run_sanity_checks.py
+│   ├── save_hud_screenshot.py
+│   ├── smoke_test.py
+│   ├── tests
+│   │   ├── test_backbone.py
+│   │   ├── test_tier1.py
+│   │   ├── test_tier2_mode_filter.py
+│   │   └── test_transforms_parity.py
+│   ├── train_multitask.py
+│   ├── tune_tier1_smoothing.py
+│   ├── tune_tier2_mode_filter.py
+│   ├── validate_pipeline_headless.py
+│   └── verify_no_multitask_leakage.py
+└── src
+    ├── data
+    │   ├── __init__.py
+    │   ├── class_weights.py
+    │   ├── dataset.py
+    │   ├── synthetic_video.py
+    │   └── transforms.py
+    ├── eval
+    │   ├── __init__.py
+    │   ├── evaluate_test.py
+    │   └── metrics_utils.py
+    ├── models
+    │   ├── __init__.py
+    │   ├── backbone.py
+    │   ├── gradcam.py
+    │   └── multitask_model.py
+    ├── realtime
+    │   ├── app.py
+    │   ├── capture.py
+    │   ├── model_loader.py
+    │   ├── pipeline.py
+    │   └── queues.py
+    ├── smoothing
+    │   ├── .gitkeep
+    │   ├── __init__.py
+    │   ├── tier1.py
+    │   └── tier2_mode_filter.py
+    ├── train
+    │   ├── __init__.py
+    │   ├── losses.py
+    │   └── train.py
+    └── utils
+        └── .gitkeep
