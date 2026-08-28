@@ -22,7 +22,7 @@ class LoadedModel:
     normalize_std: tuple
     transform: A.Compose
 
-def load_inference_model(ckpt_path: str, device: torch.device | None = None) -> LoadedModel:
+def load_inference_model(ckpt_path: str | Path, device: torch.device | None = None) -> LoadedModel:
     device = device or torch.device("cuda" if torch.cuda.is_available() else "cpu")
     ckpt = torch.load(ckpt_path, map_location=device, weights_only=False)
     cfg = ckpt["config"]

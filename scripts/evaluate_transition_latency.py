@@ -1,0 +1,175 @@
+"""
+scripts/evaluate_transition_latency.py
+
+Evaluates the transition latency of the full smoothing pipeline (Tier 1 + Tier 2a) 
+using the synthetic multi-plane clips and their annotations.
+
+Latency is measured from the annotated "settle" frame to the first frame where the 
+smoothing pipeline outputs the correct target label with `is_stable=True`.
+"""
+import glob
+import json
+import logging
+import os
+import sys
+from pathlib import Path
+
+import cv2
+import numpy as np
+import torch
+import yaml
+
+# Allow imports from project root
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+from src.smoothing.tier1 import Tier1Smoother
+from src.smoothing.tier2_mode_filter import Tier2ModeFilter
+from src.realtime.model_loader import load_inference_model
+from src.data.transforms import prep_frame_grayscale_to_rgb
+
+# --- Config Paths ---
+CKPT_PATH = Path("checkpoints/convnext_tiny/best.pt")
+TIER1_CFG_PATH = Path("configs/smoothing_tier1.yaml")
+TIER2_CFG_PATH = Path("configs/smoothing_tier2a.yaml")
+CLIPS_DIR = Path("data/processed/synthetic_clips")
+
+def run_inference(video_path: str, model: torch.nn.Module, transform, device: torch.device):
+    cap = cv2.VideoCapture(video_path)
+    if not cap.isOpened():
+        return [], 24.0
+    fps = cap.get(cv2.CAP_PROP_FPS) or 24.0
+    all_probs = []
+    while True:
+        ret, frame = cap.read()
+        if not ret:
+            break
+        img_rgb = prep_frame_grayscale_to_rgb(frame)
+        tensor = transform(image=img_rgb)["image"].unsqueeze(0).to(device)
+        with torch.no_grad(), torch.amp.autocast("cuda"):
+            logits = model(tensor)
+            probs = torch.softmax(logits.float(), dim=1)[0].cpu().numpy()
+        all_probs.append(probs)
+    cap.release()
+    return all_probs, fps
+
+
+def main():
+    logging.basicConfig(level=logging.INFO, format="%(message)s")
+    log = logging.getLogger(__name__)
+    
+    log.info("=" * 60)
+    log.info("Transition Latency Evaluation (Phase 6)")
+    log.info("=" * 60)
+
+    # 1. Load configurations
+    with open(TIER1_CFG_PATH, "r", encoding="utf-8") as f:
+        t1_cfg = yaml.safe_load(f)
+    log.info(f"Loaded Tier 1 config: {t1_cfg}")
+
+    with open(TIER2_CFG_PATH, "r", encoding="utf-8") as f:
+        t2_cfg = yaml.safe_load(f)
+    log.info(f"Loaded Tier 2 config: {t2_cfg}\n")
+
+    # 2. Load model
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    loaded = load_inference_model(CKPT_PATH, device=device)
+    model, transform = loaded.model, loaded.transform
+
+    clip_paths = sorted(glob.glob(str(CLIPS_DIR / "multiplane_scan_*.mp4")))
+    if not clip_paths:
+        log.error(f"No multiplane clips found in {CLIPS_DIR}")
+        return
+
+    all_latencies_ms = []
+    
+    for clip_path in clip_paths:
+        clip_name = os.path.basename(clip_path)
+        json_name = clip_name.replace(".mp4", "_annotations.json")
+        json_path = CLIPS_DIR / json_name
+        
+        if not json_path.exists():
+            log.warning(f"Missing annotations for {clip_name}, skipping.")
+            continue
+            
+        with open(json_path, "r", encoding="utf-8") as f:
+            annotations = json.load(f)
+            
+        settle_frames = [a["frame"] for a in annotations if a["event"] == "settle"]
+        if not settle_frames:
+            continue
+            
+        log.info(f"Processing {clip_name} ({len(settle_frames)} transitions)...")
+        all_probs, fps = run_inference(clip_path, model, transform, device)
+        
+        if not all_probs:
+            continue
+            
+        ms_per_frame = 1000.0 / fps
+
+        # Process each transition event
+        for settle_f in settle_frames:
+            if settle_f >= len(all_probs):
+                continue
+                
+            # Target is the dominant class the network correctly sees at the settle frame
+            target_label = int(np.argmax(all_probs[settle_f]))
+            
+            # Re-initialize smoothers
+            tier1 = Tier1Smoother(
+                num_classes=8,
+                alpha=t1_cfg["alpha"],
+                switch_threshold=t1_cfg["switch_threshold"],
+                min_dwell_frames=t1_cfg["min_dwell_frames"],
+                hold_floor=t1_cfg.get("hold_floor")
+            )
+            tier2 = Tier2ModeFilter(
+                window_frames=t2_cfg["window_frames"],
+                min_majority_frac=t2_cfg["min_majority_frac"],
+                min_stable_frames=t2_cfg.get("min_stable_frames", 1)
+            )
+            
+            # Fast-forward smoothing state up to the frame BEFORE the settle event
+            for fi in range(settle_f):
+                t1_label, _, _, _ = tier1.step(all_probs[fi])
+                tier2.step(t1_label)
+                
+            # Now measure how long it takes from the settle frame to stabilize on the correct label
+            found_stable = False
+            for offset, fi in enumerate(range(settle_f, len(all_probs))):
+                t1_label, _, _, _ = tier1.step(all_probs[fi])
+                t2_label, is_stable = tier2.step(t1_label)
+                
+                if t2_label == target_label and is_stable:
+                    latency_ms = offset * ms_per_frame
+                    all_latencies_ms.append(latency_ms)
+                    found_stable = True
+                    break
+                    
+            if not found_stable:
+                # Penalise with remaining duration if it never stabilises
+                remaining = len(all_probs) - settle_f
+                all_latencies_ms.append(remaining * ms_per_frame)
+                log.warning(f"  Transition at frame {settle_f} never stabilized!")
+
+    # Summary Stats
+    if all_latencies_ms:
+        mean_lat = np.mean(all_latencies_ms)
+        p50 = np.median(all_latencies_ms)
+        p90 = np.percentile(all_latencies_ms, 90)
+        p99 = np.percentile(all_latencies_ms, 99)
+        max_lat = np.max(all_latencies_ms)
+        
+        log.info("\n" + "=" * 60)
+        log.info(f"Transition Latency Results (N={len(all_latencies_ms)} real transitions)")
+        log.info("=" * 60)
+        log.info(f"Mean Latency-to-Stable : {mean_lat:.1f} ms")
+        log.info(f"Median (P50)             : {p50:.1f} ms")
+        log.info(f"90th Percentile (P90)    : {p90:.1f} ms")
+        log.info(f"99th Percentile (P99)    : {p99:.1f} ms")
+        log.info(f"Max Latency              : {max_lat:.1f} ms")
+        log.info("=" * 60)
+    else:
+        log.info("No transitions measured.")
+
+if __name__ == "__main__":
+    main()
