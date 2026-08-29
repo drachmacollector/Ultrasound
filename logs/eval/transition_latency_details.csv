@@ -1,40 +1,15 @@
 clip,settle_frame,target_class,latency_ms,stabilized
-multiplane_scan_01.mp4,0,Fetal_thorax,0.0,True
-multiplane_scan_01.mp4,73,Maternal_cervix,500.0,True
-multiplane_scan_01.mp4,183,Maternal_cervix,500.0,True
-multiplane_scan_01.mp4,263,Fetal_thorax,500.0,True
-multiplane_scan_01.mp4,374,Brain_Trans_ventricular,500.0,True
-multiplane_scan_02.mp4,0,Brain_Trans_cerebellum,0.0,True
-multiplane_scan_02.mp4,107,Brain_Trans_ventricular,500.0,True
-multiplane_scan_02.mp4,220,Maternal_cervix,500.0,True
-multiplane_scan_02.mp4,289,Fetal_abdomen,500.0,True
-multiplane_scan_02.mp4,421,Fetal_abdomen,500.0,True
-multiplane_scan_03.mp4,0,Fetal_abdomen,0.0,True
-multiplane_scan_03.mp4,127,Maternal_cervix,500.0,True
-multiplane_scan_03.mp4,245,Fetal_femur,500.0,True
-multiplane_scan_03.mp4,383,Fetal_thorax,500.0,True
-multiplane_scan_04.mp4,0,Fetal_thorax,0.0,True
-multiplane_scan_04.mp4,85,Fetal_femur,666.6666666666666,True
-multiplane_scan_04.mp4,239,Maternal_cervix,500.0,True
-multiplane_scan_04.mp4,368,Brain_Trans_ventricular,500.0,True
-multiplane_scan_05.mp4,0,Brain_Trans_ventricular,0.0,True
-multiplane_scan_05.mp4,93,Fetal_femur,500.0,True
-multiplane_scan_05.mp4,198,Brain_Trans_ventricular,500.0,True
-multiplane_scan_05.mp4,321,Maternal_cervix,500.0,True
-multiplane_scan_05.mp4,388,Brain_Trans_ventricular,3833.333333333333,False
-multiplane_scan_05.mp4,479,Fetal_femur,41.666666666666664,False
-multiplane_scan_06.mp4,0,Fetal_femur,0.0,True
-multiplane_scan_06.mp4,77,Fetal_abdomen,500.0,True
-multiplane_scan_06.mp4,148,Brain_Trans_thalamic,500.0,True
-multiplane_scan_06.mp4,259,Fetal_femur,500.0,True
-multiplane_scan_06.mp4,371,Maternal_cervix,500.0,True
-multiplane_scan_06.mp4,447,Fetal_thorax,500.0,True
-multiplane_scan_07.mp4,0,Maternal_cervix,0.0,True
-multiplane_scan_07.mp4,106,Brain_Trans_ventricular,916.6666666666666,True
-multiplane_scan_07.mp4,238,Brain_Trans_cerebellum,500.0,True
-multiplane_scan_07.mp4,362,Brain_Trans_ventricular,500.0,True
-multiplane_scan_08.mp4,0,Maternal_cervix,0.0,True
-multiplane_scan_08.mp4,122,Fetal_femur,500.0,True
-multiplane_scan_08.mp4,201,Fetal_abdomen,500.0,True
-multiplane_scan_08.mp4,303,Maternal_cervix,500.0,True
-multiplane_scan_08.mp4,421,Brain_Trans_thalamic,625.0,True
+Obstetrics Exam - 02-May-2024_1231_PM,94,Fetal_abdomen,6458.333333333333,False
+Obstetrics Exam - 02-May-2024_1231_PM,152,Head,4041.6666666666665,False
+Obstetrics Exam - 02-May-2024_1231_PM,192,Fetal_abdomen,2375.0,False
+Obstetrics Exam - 02-May-2024_1231_PM,221,Head,1166.6666666666665,False
+Obstetrics Exam - 02-May-2024_817_AM,130,Head,2166.6666666666665,False
+Obstetrics Exam - 02-May-2024_854_AM,129,Head,5375.0,False
+Obstetrics Exam - 02-May-2024_910_AM,220,Head,708.3333333333333,False
+Obstetrics Exam - 03-May-2024_1201_PM,79,Head,2458.333333333333,False
+Obstetrics Exam - 03-May-2024_1216_PM,48,Fetal_abdomen,4125.0,False
+Obstetrics Exam - 03-May-2024_1216_PM,89,Head,2416.6666666666665,False
+Obstetrics Exam - 03-May-2024_1246_PM,211,Head,2666.6666666666665,False
+Obstetrics Exam - 03-May-2024_242_PM,203,Head,1333.3333333333333,False
+Obstetrics Exam - 03-May-2024_300_PM,150,Head,1916.6666666666665,False
+Obstetrics Exam - 03-May-2024_913_AM,159,Head,1291.6666666666665,False

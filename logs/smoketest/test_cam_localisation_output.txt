@@ -1,0 +1,20 @@
+15:05:32 [INFO] ============================================================
+15:05:32 [INFO] cam_localisation unit tests  (src/models/cam_localisation.py)
+15:05:32 [INFO] ============================================================
+15:05:32 [DEBUG] cam_to_bbox: box=(15,20,50,45)  area=875 px  method=otsu
+15:05:32 [INFO] test_single_blob PASSED — box=(15, 20, 50, 45)
+15:05:32 [DEBUG] cam_to_bbox: box=(5,5,25,25)  area=400 px  method=otsu
+15:05:32 [INFO] test_two_blobs_larger_only PASSED — box=(5, 5, 25, 25)  area=400
+15:05:32 [DEBUG] cam_to_bbox: CAM is flat (range=0.00e+00) — returning None.
+15:05:32 [INFO] test_flat_cam_returns_none PASSED
+15:05:32 [DEBUG] cam_to_bbox: CAM is flat (range=0.00e+00) — returning None.
+15:05:32 [INFO] test_zero_cam_returns_none PASSED
+15:05:32 [DEBUG] cam_to_bbox: box=(16,16,49,49)  area=1089 px  method=percentile
+15:05:32 [INFO] test_percentile_method PASSED — box=(16, 16, 49, 49)  centre=(32.5,32.5)
+15:05:32 [DEBUG] cam_to_bbox: box area 4 < min threshold 82 px (2.0% of frame) — returning None.
+15:05:32 [INFO] test_min_area_filter PASSED
+15:05:32 [DEBUG] cam_to_bbox: box=(0,0,10,10)  area=100 px  method=otsu
+15:05:32 [INFO] test_box_clipped_to_frame PASSED — box=(0, 0, 10, 10)
+15:05:32 [INFO] ------------------------------------------------------------
+15:05:32 [INFO] Results: 7 passed, 0 failed
+15:05:32 [INFO] Full log → logs\smoketest\test_cam_localisation_output.txt

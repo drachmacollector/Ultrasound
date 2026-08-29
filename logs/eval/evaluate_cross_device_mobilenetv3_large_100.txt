@@ -1,0 +1,69 @@
+CROSS-DEVICE GENERALIZATION EVALUATION
+Checkpoint : checkpoints/convnext_tiny/best.pt
+Manifest   : data/processed/cross_device_manifest.csv (HC18 + UCL only)
+
+SCOPE LIMITATIONS (explicit, per Phase 6 spec):
+  1. Every image in HC18/UCL is a valid standard plane by construction.
+     This evaluation validates plane-IDENTITY classification cross-device,
+     NOT the standard-vs-Other decision.
+  2. HC18 and UCL cover Head, Fetal_abdomen, Fetal_femur ONLY.
+     No 'Fetal_thorax' or 'Maternal_cervix' cross-device validation was
+     possible — no suitable external dataset covers those two classes.
+  3. FP and MULTICENTRE subfolders are EXCLUDED (overlap with FETAL_PLANES_DB
+     training data). See 00_PROJECT_OVERVIEW.md §5a.
+
+COLLAPSED-LABEL SCORING RULE:
+  Head row → CORRECT if argmax ∈ {Brain_Trans_cerebellum,
+             Brain_Trans_thalamic, Brain_Trans_ventricular}
+  Fetal_abdomen / Fetal_femur → exact-match
+
+======================================================================
+1. OVERALL ACCURACY (HC18 + UCL combined, collapsed labels)
+======================================================================
+  1171 / 1423 correct  →  0.8229  (82.3%)
+
+======================================================================
+2. PER-SUBSET ACCURACY (HC18 vs UCL reported SEPARATELY — never blended)
+======================================================================
+
+  [HC18]
+    Head                   796 /  999  →  0.7968  (79.7%)
+    SUBSET TOTAL           796 /  999  →  0.7968  (79.7%)
+
+  [UCL]
+    Fetal_abdomen          100 /  130  →  0.7692  (76.9%)
+    Fetal_femur            119 /  135  →  0.8815  (88.1%)
+    Head                   156 /  159  →  0.9811  (98.1%)
+    SUBSET TOTAL           375 /  424  →  0.8844  (88.4%)
+
+======================================================================
+3. GENERALIZATION GAP vs IN-DISTRIBUTION BASELINE
+======================================================================
+  (In-distribution baseline uses collapsed scoring on test.csv,
+   matching the cross-device collapsed-label task exactly.)
+
+  Label                   InDist Acc  CrossDev Acc         Gap
+  ------------------------------------------------------------
+  Head                        0.9879        0.8221     -0.1658
+  Fetal_abdomen               0.8827        0.7692     -0.1135
+  Fetal_femur                 0.9599        0.8815     -0.0784
+
+======================================================================
+4. HEAD MISCLASSIFICATION BREAKDOWN
+======================================================================
+  When a Head image is wrong, which class does the model predict?
+  (Brain→Brain sub-plane confusions are NOT misclassifications under the
+   collapsed scoring rule — they all count as CORRECT.)
+
+    Other                            171  <-- DOMAIN-SHIFT RED FLAG
+    Fetal_thorax                      14  <-- DOMAIN-SHIFT RED FLAG
+    Fetal_femur                       10  <-- DOMAIN-SHIFT RED FLAG
+    Maternal_cervix                    7  <-- DOMAIN-SHIFT RED FLAG
+    Fetal_abdomen                      4  <-- DOMAIN-SHIFT RED FLAG
+
+======================================================================
+5. GATE CHECK
+======================================================================
+  Combined Head accuracy: 0.8221 (82.2%)
+  Gate threshold: >= 50%
+  Gate result: PASS ✓

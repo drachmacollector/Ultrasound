@@ -1,0 +1,3 @@
+--- Step A: Transition Investigation ---
+Found 14 genuine standard-plane to different-standard-plane transitions in continuous sequences.
+Decision Gate: Sufficient transitions found. (Task 2.2 Step C should proceed if verified visually).

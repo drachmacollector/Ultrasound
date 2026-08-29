@@ -534,8 +534,9 @@ conda run -n fetalplane python app_gradio.py --no-browser
    - [ ] Grad-CAM overlay visible (heatmap on ultrasound image)
    - [ ] HUD overlay visible (inference timings)
    - [ ] JSON label log populated in the accordion
-   - [ ] No bounding boxes shown (correct — classifier checkpoint)
-5. Toggle Grad-CAM OFF, re-run — verify faster render, plain frame overlay.
+   - [ ] No ground-truth bounding boxes shown (correct — classifier checkpoint)
+   - [ ] "Approx. region (saliency-derived)" dashed box visible when Grad-CAM is on (Task 3.3)
+5. Toggle Grad-CAM OFF, re-run — verify faster render, plain frame overlay, and bbox vanishes.
 6. Toggle Tier-2a OFF, re-run — verify output still produced (no crash).
 
 ---

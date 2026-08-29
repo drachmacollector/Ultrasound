@@ -1,5 +1,14 @@
-﻿Found 90 subdirectories matching pattern.
+--- NatalIA Structural Verification ---
+Found 90 'Obstetrics Exam - *' directories.
 resume.csv has 19407 rows.
-Missing files check: 0 files missing.
-Value counts: {5: 19061, 3: 134, 1: 63, 2: 61, 4: 46, 0: 42}
-metadata.csv found with 90 rows. Columns: ['Study Name', 'protocol', 'position', 'Age', 'Gender', 'Level of Education', 'Ultrasound Experience', 'Years of Experience', 'Race/Ethnicity', 'Visual Impairment', 'specify', 'dominant hand']
+Class counts:
+  Class 0: 42
+  Class 1: 63
+  Class 2: 61
+  Class 3: 134
+  Class 4: 46
+  Class 5: 19061
+metadata.csv found. Columns: ['Study Name', 'protocol', 'position', 'Age', 'Gender', 'Level of Education', 'Ultrasound Experience', 'Years of Experience', 'Race/Ethnicity', 'Visual Impairment', 'specify', 'dominant hand']
+Checking file existence for all 19,407 rows...
+SUCCESS: All 19,407 files exist.
+Verification complete. All assertions passed.

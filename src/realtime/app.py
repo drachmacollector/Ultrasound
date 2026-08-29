@@ -273,6 +273,105 @@ def _draw_bboxes(
         # Draw black text on top of the coloured background
         cv2.putText(canvas, text, (x1 + 4, y1 - 4), font, scale, _CLR_BLACK, thick, cv2.LINE_AA)
 
+
+# ---------------------------------------------------------------------------
+# CAM-derived bounding box (weakly-supervised, saliency-based)
+# ---------------------------------------------------------------------------
+
+# Dashed box colour: orange (BGR).  Chosen to be visually distinct from the
+# solid-green/amber stability badge and the pink/green/blue supervised bboxes.
+_CLR_CAM_BBOX = (0, 140, 255)   # BGR orange
+
+def _draw_dashed_rect(
+    img: np.ndarray,
+    x1: int, y1: int, x2: int, y2: int,
+    color: tuple[int, int, int],
+    thickness: int = 2,
+    dash_len: int = 12,
+    gap_len: int = 8,
+) -> None:
+    """Draw a dashed rectangle by alternating drawn and skipped segments.
+
+    OpenCV has no native dashed-line primitive.  This helper iterates along
+    each of the four edges and calls cv2.line() on the 'drawn' segments only.
+    """
+    def _dashed_edge(pts: list[tuple[int, int]]) -> None:
+        """Draw a dashed line through an ordered list of integer (x, y) points."""
+        total = len(pts)
+        i = 0
+        drawing = True
+        seg_remaining = dash_len
+        while i < total - 1:
+            step = min(seg_remaining, total - 1 - i)
+            j = i + step
+            if drawing:
+                cv2.line(img, pts[i], pts[j], color, thickness, cv2.LINE_AA)
+            i = j
+            seg_remaining -= step
+            if seg_remaining <= 0:
+                drawing = not drawing
+                seg_remaining = dash_len if drawing else gap_len
+
+    # Top edge (left → right)
+    _dashed_edge([(x, y1) for x in range(x1, x2 + 1)])
+    # Bottom edge (left → right)
+    _dashed_edge([(x, y2) for x in range(x1, x2 + 1)])
+    # Left edge (top → bottom)
+    _dashed_edge([(x1, y) for y in range(y1, y2 + 1)])
+    # Right edge (top → bottom)
+    _dashed_edge([(x2, y) for y in range(y1, y2 + 1)])
+
+
+def _draw_cam_bbox(
+    canvas: np.ndarray,
+    bbox: tuple[int, int, int, int],
+    w: int,
+    h: int,
+) -> None:
+    """Overlay a dashed approximate-region box derived from the Grad-CAM heatmap.
+
+    CRITICAL FRAMING (Task 3.2 honesty requirement):
+    This box is a *weakly-supervised* saliency-derived approximation — NOT a
+    precisely localised anatomical measurement.  It is deliberately rendered as
+    a dashed line with the explicit label "approx. region (saliency-derived)" to
+    distinguish it from fully-supervised detection boxes.
+
+    Args:
+        canvas: BGR uint8 frame to draw on (modified in-place).
+        bbox:   (x1, y1, x2, y2) pixel coordinates from cam_to_bbox().
+        w, h:   Frame dimensions (for label clipping).
+    """
+    x1, y1, x2, y2 = bbox
+
+    # --- Dashed rectangle (orange) ----------------------------------------
+    _draw_dashed_rect(canvas, x1, y1, x2, y2, _CLR_CAM_BBOX, thickness=2)
+
+    # --- Label strip (semi-transparent, below top-left of box) -------------
+    label_text = "approx. region (saliency-derived)"
+    font = cv2.FONT_HERSHEY_SIMPLEX
+    scale = 0.45
+    thick = 1
+    (tw, th), baseline = cv2.getTextSize(label_text, font, scale, thick)
+    pad = 4
+    # Position label below the top-left corner, but keep within frame bounds
+    lx = x1
+    ly = max(y1 + th + pad, th + pad)   # never clip above top edge
+    strip_y0 = ly - th - pad
+    strip_y1 = ly + baseline
+    strip_x1 = min(lx + tw + pad * 2, w - 1)
+
+    # Semi-transparent dark background strip behind label
+    overlay = canvas.copy()
+    cv2.rectangle(overlay, (lx, strip_y0), (strip_x1, strip_y1), (20, 20, 20), -1)
+    cv2.addWeighted(overlay, 0.65, canvas, 0.35, 0, canvas)
+
+    # Label text (orange to match the dashed box)
+    cv2.putText(canvas, label_text, (lx + pad, ly),
+                font, scale, _CLR_BLACK, thick + 2, cv2.LINE_AA)
+    cv2.putText(canvas, label_text, (lx + pad, ly),
+                font, scale, _CLR_CAM_BBOX, thick, cv2.LINE_AA)
+
+
 def _draw_hud(
     canvas: np.ndarray,
     snap: dict[str, Any],
@@ -356,8 +455,23 @@ def build_display_frame(
     is_paused: bool,
     is_webcam: bool,
     stats: PipelineStats,
+    show_cam_bbox: bool = True,
 ) -> np.ndarray:
-    """Compose the fully annotated frame for imshow."""
+    """Compose the fully annotated frame for imshow.
+
+    Args:
+        result:        Result dict from InferenceThread or render_annotated_video.
+        show_gradcam:  If True, display the Grad-CAM overlay as the base frame.
+        show_hud:      If True, overlay the performance HUD.
+        is_paused:     If True, apply a dim paused overlay.
+        is_webcam:     If True, burn the webcam caveat watermark.
+        stats:         PipelineStats instance for HUD values.
+        show_cam_bbox: If True AND show_gradcam=True AND result["cam_bbox"] is
+                       not None, draw the dashed approximate-region box derived
+                       from the Grad-CAM heatmap (Task 3.2).  Default True.
+                       The box is only drawn when the CAM overlay is also shown
+                       — they derive from the same computation.
+    """
     # Base: either the Grad-CAM overlay or the raw frame
     if show_gradcam and result.get("overlay") is not None:
         canvas: np.ndarray = result["overlay"].copy()   # BGR uint8
@@ -375,6 +489,16 @@ def build_display_frame(
         result.get("bbox_labels"),
         result.get("bbox_scores")
     )
+
+    # --- CAM-derived approximate-region box (saliency-based, Task 3.2) -------
+    # Only drawn when:
+    #   1. show_cam_bbox=True (user toggle)
+    #   2. show_gradcam=True  (overlay is visible — bbox derives from same CAM)
+    #   3. result["cam_bbox"] is not None (CAM was computed and had a hot region)
+    if show_cam_bbox and show_gradcam:
+        cam_bbox = result.get("cam_bbox")
+        if cam_bbox is not None:
+            _draw_cam_bbox(canvas, cam_bbox, w, h)
 
     _draw_label_panel(
         canvas,
@@ -520,11 +644,12 @@ def run_app(args: argparse.Namespace) -> None:
     show_gradcam = args.debug
     show_hud     = True
     is_paused    = False
+    show_cam_bbox = True  # approx. region box (Task 3.2) — toggleable with 'b'
 
     # Placeholder frame while pipeline warms up
     placeholder = _loading_frame(disp_w, disp_h)
 
-    log.info("Render loop started.  Keys: q/ESC=quit  g=Grad-CAM  h=HUD  space=pause")
+    log.info("Render loop started.  Keys: q/ESC=quit  g=Grad-CAM  h=HUD  b=approx-bbox  space=pause")
 
     try:
         while True:
@@ -539,6 +664,7 @@ def run_app(args: argparse.Namespace) -> None:
                 display = build_display_frame(
                     last_result, show_gradcam, show_hud,
                     is_paused, fs.is_webcam, stats,
+                    show_cam_bbox=show_cam_bbox,
                 )
             else:
                 display = placeholder
@@ -553,6 +679,9 @@ def run_app(args: argparse.Namespace) -> None:
             elif key == ord('g'):
                 show_gradcam = not show_gradcam
                 log.info("Grad-CAM overlay: %s", "ON" if show_gradcam else "OFF")
+            elif key == ord('b'):
+                show_cam_bbox = not show_cam_bbox
+                log.info("Approx-region box: %s", "ON" if show_cam_bbox else "OFF")
             elif key == ord('h'):
                 show_hud = not show_hud
                 log.info("HUD: %s", "ON" if show_hud else "OFF")

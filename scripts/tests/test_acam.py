@@ -162,6 +162,7 @@ def test_fusion_conv_init() -> None:
     assert abs(actual_w - expected_w) < 1e-6, (
         f"fusion_conv weight mean {actual_w:.6f} != expected {expected_w:.6f}"
     )
+    assert acam.fusion_conv.bias is not None, "fusion_conv bias should be enabled"
     assert acam.fusion_conv.bias.data.abs().max().item() < 1e-8, (
         "fusion_conv bias not zero-initialised"
     )

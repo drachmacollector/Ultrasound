@@ -77,6 +77,7 @@ if str(_ROOT) not in sys.path:
 from src.data.dataset import IDX_TO_CLASS, NUM_CLASSES
 from src.data.transforms import prep_frame_grayscale_to_rgb
 from src.models.gradcam import get_target_layer
+from src.models.cam_localisation import cam_to_bbox
 from src.realtime.app import build_display_frame
 from src.realtime.model_loader import load_inference_model
 from src.realtime.pipeline import PipelineStats
@@ -117,6 +118,7 @@ def render_video(
     enable_gradcam: bool = True,
     gradcam_every_n: int = 1,
     show_hud: bool = True,
+    enable_cam_bbox: bool = True,
     progress_cb: Callable[[int, int], None] | None = None,
 ) -> dict[str, Any]:
     """Render an annotated copy of *input_path* and save it to *output_path*.
@@ -134,6 +136,13 @@ def render_video(
         gradcam_every_n: Frequency of Grad-CAM computation (1 = every frame).
                          Higher values trade quality for speed.
         show_hud:        If True, overlay the performance HUD on each frame.
+        enable_cam_bbox: If True (default), draw the dashed approx-region box
+                         derived from the Grad-CAM heatmap on frames where a
+                         CAM was computed (Task 3.2, Phase 8 Stage 3).  Box is
+                         labelled "approx. region (saliency-derived)" and drawn
+                         with a dashed orange line to distinguish it from
+                         fully-supervised detection output.  Requires
+                         enable_gradcam=True; silently no-ops if gradcam is off.
         progress_cb:     Optional callback (frames_done: int, total_frames: int).
                          Called after each frame. Used by Gradio gr.Progress.
 
@@ -329,6 +338,11 @@ def render_video(
                 gradcam_ms = (time.monotonic() - t0) * 1000.0
                 stats.record_gradcam(gradcam_ms)
 
+            # ---- CAM bbox (approx. region, Task 3.2) -----------------------
+            # cam_resized is float32 in [0,1] at frame resolution — exactly
+            # what cam_to_bbox() expects.  Returns None on diffuse CAMs.
+            cam_bbox = cam_to_bbox(cam_resized) if (cam is not None and cam_resized is not None and enable_cam_bbox) else None
+
             # ---- Update stats ----------------------------------------------
             stats.record_inference_frame(preprocess_ms, forward_ms, smoothing_ms)
             stats.record_capture_frame()
@@ -352,6 +366,7 @@ def render_video(
                 "bboxes":         bboxes,
                 "bbox_labels":    bbox_labels,
                 "bbox_scores":    bbox_scores,
+                "cam_bbox":       cam_bbox,  # (x1,y1,x2,y2) or None (Task 3.2)
             }
 
             canvas = build_display_frame(
@@ -361,6 +376,7 @@ def render_video(
                 is_paused=False,
                 is_webcam=False,  # never burn the webcam watermark on uploaded clips
                 stats=stats,
+                show_cam_bbox=enable_cam_bbox,
             )
 
             # ---- Write frame -----------------------------------------------

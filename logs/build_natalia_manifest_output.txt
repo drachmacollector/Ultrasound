@@ -1,0 +1,7 @@
+--- Building NatalIA Manifest ---
+Loaded 19407 rows from data\raw\natalia_pbfus1\resume.csv
+Excluded 195 rows (Heart and Spine).
+Included 19212 rows.
+Saved manifest to data\processed\natalia_manifest.csv
+Saved excluded rows to data\processed\natalia_excluded_no_taxonomy_match.csv
+Manifest build complete and verified.

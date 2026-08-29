@@ -47,6 +47,7 @@ from pytorch_grad_cam.utils.model_targets import ClassifierOutputTarget
 from src.data.dataset import IDX_TO_CLASS, NUM_CLASSES
 from src.data.transforms import prep_frame_grayscale_to_rgb
 from src.models.gradcam import get_target_layer
+from src.models.cam_localisation import cam_to_bbox
 from src.realtime.capture import FrameSource
 from src.realtime.model_loader import LoadedModel
 from src.realtime.queues import DropOldestQueue
@@ -344,8 +345,15 @@ class GradCamWorker(threading.Thread):
             gradcam_ms = (time.monotonic() - t0) * 1000.0
             self._stats.record_gradcam(gradcam_ms)
 
+            # Extract CAM-derived approximate bounding box (Task 3.2).
+            # cam_resized is already in [0,1] float32 at frame resolution.
+            # cam_to_bbox() returns None when the CAM is diffuse — that is
+            # a valid, expected outcome handled gracefully by build_display_frame().
+            cam_bbox = cam_to_bbox(cam_resized)
+
             # Immutable replacement ensures thread safety
             self._shared_state["overlay"] = overlay
+            self._shared_state["cam_bbox"] = cam_bbox
 
         log.info("GradCamWorker: exiting.")
 
@@ -671,6 +679,7 @@ class InferenceThread(threading.Thread):
                 "bboxes":         bboxes,
                 "bbox_labels":    bbox_labels,
                 "bbox_scores":    bbox_scores,
+                "cam_bbox":       self._shared_cam_state.get("cam_bbox"),  # (x1,y1,x2,y2) or None
             }
             self._result_queue.put(result)
             self._stats.inf_queue_drops = self._result_queue.drops - drops_before

@@ -1,9 +1,13 @@
 """
 scripts/evaluate_cross_device.py
 
-Evaluates checkpoints/convnext_tiny/best.pt on data/processed/cross_device_manifest.csv
+Evaluates any backbone checkpoint on data/processed/cross_device_manifest.csv
 (HC18 + UCL only — FP/MULTICENTRE are excluded upstream by build_cross_device_manifest.py
 and CrossDeviceDataset's own guardrail assert).
+
+Phase 8, Stage 4 (Task 4.1): extended to support multi-backbone runs via --ckpt.
+Output filenames are derived from the checkpoint directory stem so successive runs
+never overwrite each other (e.g. repvgg_a2 → logs/eval/evaluate_cross_device_repvgg_a2.txt).
 
 Scoring rule for the collapsed "Head" label:
   A "Head" row is scored CORRECT if the model's argmax is ANY of:
@@ -17,10 +21,10 @@ standard-vs-Other decision. State this explicitly in the report.
 No "Fetal_thorax" / "Maternal_cervix" coverage exists in ANY available external dataset --
 state this explicitly too, do not imply those two classes were cross-device validated.
 
-Outputs:
-  logs/eval/evaluate_cross_device.txt       -- full summary tables (mandatory)
-  data/processed/eval_cross_device/cross_device_results.csv  -- per-image results
-  data/processed/eval_cross_device/cross_device_confusion.png -- misclass bar chart
+Outputs (backbone-suffixed — never overwrites another backbone's artifacts):
+  logs/eval/evaluate_cross_device_{backbone}.txt
+  data/processed/eval_cross_device/{backbone}_cross_device_results.csv
+  data/processed/eval_cross_device/{backbone}_cross_device_confusion.png
 """
 from __future__ import annotations
 
@@ -412,14 +416,21 @@ def format_summary(
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Task 2: Cross-device generalization evaluation (HC18 + UCL)."
+        description="Phase 8 Stage 4: Cross-device generalization evaluation (HC18 + UCL). "
+                    "Supports any backbone checkpoint via --ckpt. Output filenames are "
+                    "suffixed with the checkpoint directory stem so runs never overwrite each other."
     )
-    parser.add_argument("--ckpt", default=CKPT_PATH, help="Checkpoint path")
+    parser.add_argument("--ckpt", default=CKPT_PATH, help="Checkpoint path (e.g. checkpoints/repvgg_a2/best.pt)")
     parser.add_argument("--manifest", default=CROSS_DEVICE_CSV)
     parser.add_argument("--test-csv", default=TEST_CSV)
     parser.add_argument("--batch-size", type=int, default=32)
     parser.add_argument("--num-workers", type=int, default=4)
     args = parser.parse_args()
+
+    # Derive per-backbone output names from the checkpoint directory stem.
+    # e.g. checkpoints/repvgg_a2/best.pt → backbone_stem = "repvgg_a2"
+    # This ensures per-backbone logs, CSVs, and PNGs never collide.
+    backbone_stem: str = Path(args.ckpt).parent.name
 
     logging.basicConfig(
         level=logging.INFO,
@@ -441,7 +452,7 @@ def main() -> None:
     log.info("Inference complete — %d images evaluated.", len(results))
 
     # ------------------------------------------------------------------ #
-    # 2. Save per-image CSV
+    # 2. Save per-image CSV  (backbone-suffixed filename)
     # ------------------------------------------------------------------ #
     results_df = pd.DataFrame(results)
     # Reorder columns to match spec: image_path, source_subset, true_label, pred_class_name, correct
@@ -451,7 +462,7 @@ def main() -> None:
         f"Manifest row count ({len(manifest_df)}) != inference result count ({len(results_df)})"
     )
     results_df.insert(0, "image_path", manifest_df["image_path"].to_numpy())
-    csv_out = OUT_DIR / "cross_device_results.csv"
+    csv_out = OUT_DIR / f"{backbone_stem}_cross_device_results.csv"
     results_df.to_csv(csv_out, index=False, encoding="utf-8")
     log.info("Per-image CSV saved → %s", csv_out)
 
@@ -493,16 +504,16 @@ def main() -> None:
     )
 
     # ------------------------------------------------------------------ #
-    # 5. Save bar chart
+    # 5. Save bar chart  (backbone-suffixed filename)
     # ------------------------------------------------------------------ #
-    chart_path = OUT_DIR / "cross_device_confusion.png"
+    chart_path = OUT_DIR / f"{backbone_stem}_cross_device_confusion.png"
     save_head_misclass_bar(results, chart_path)
 
     # ------------------------------------------------------------------ #
-    # 6. Write summary log
+    # 6. Write summary log  (backbone-suffixed filename)
     # ------------------------------------------------------------------ #
     summary = format_summary(metrics, indist_baselines)
-    log_path = LOG_DIR / "evaluate_cross_device.txt"
+    log_path = LOG_DIR / f"evaluate_cross_device_{backbone_stem}.txt"
     with open(log_path, "w", encoding="utf-8") as f:
         f.write(summary)
     log.info("Summary log saved → %s", log_path)

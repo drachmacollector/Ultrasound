@@ -152,17 +152,20 @@ def process_video(
     gradcam_every_n: int,
     enable_tier2: bool,
     show_hud: bool,
+    enable_cam_bbox: bool,
     progress: gr.Progress = gr.Progress(),
 ) -> tuple[str | None, str, str]:
     """Run the annotated-video render pipeline.
 
     Args:
-        input_video:    Path to uploaded video (Gradio writes it to a temp file).
-        enable_gradcam: Whether to compute Grad-CAM overlays.
-        gradcam_every_n: Run Grad-CAM every N frames.
-        enable_tier2:   Whether to apply Tier-2a majority-vote filter.
-        show_hud:       Whether to render the performance HUD.
-        progress:       Gradio progress tracker.
+        input_video:      Path to uploaded video (Gradio writes it to a temp file).
+        enable_gradcam:   Whether to compute Grad-CAM overlays.
+        gradcam_every_n:  Run Grad-CAM every N frames.
+        enable_tier2:     Whether to apply Tier-2a majority-vote filter.
+        show_hud:         Whether to render the performance HUD.
+        enable_cam_bbox:  Whether to draw the dashed approx-region box derived
+                          from Grad-CAM (Task 3.2, Phase 8 Stage 3).
+        progress:         Gradio progress tracker.
 
     Returns:
         Tuple of (output_video_path, status_markdown, label_log_json).
@@ -201,6 +204,7 @@ def process_video(
             enable_gradcam=enable_gradcam,
             gradcam_every_n=gradcam_every_n,
             show_hud=show_hud,
+            enable_cam_bbox=enable_cam_bbox,
             progress_cb=_progress_cb,
         )
         progress(1.0, desc="Done!")
@@ -322,6 +326,16 @@ Powered by `convnext_tiny.fb_in22k_ft_in1k` · Test macro-F1 **0.8927** · Tier-
                         value=True,
                         info="Overlay inference timing stats on each frame.",
                     )
+                    enable_cam_bbox = gr.Checkbox(
+                        label="Approx. region box (saliency-derived)",
+                        value=True,
+                        info=(
+                            "Dashed orange box around the most salient region from Grad-CAM. "
+                            "Labelled 'approx. region (saliency-derived)' to be explicit this is "
+                            "weakly-supervised approximate localisation — not a precise anatomical boundary. "
+                            "Only visible when Grad-CAM overlay is enabled."
+                        ),
+                    )
 
                 process_btn = gr.Button(
                     "▶ Process Video",
@@ -367,6 +381,15 @@ Powered by `convnext_tiny.fb_in22k_ft_in1k` · Test macro-F1 **0.8927** · Tier-
                 label="🎬 Example clips (synthetic — for pipeline demonstration only)",
             )
 
+        natalia_dir = _ROOT / "data" / "processed" / "natalia_showcase_clips"
+        natalia_files = sorted(natalia_dir.glob("*.mp4"))[:3] if natalia_dir.exists() else []
+        if natalia_files:
+            gr.Examples(
+                examples=[[str(f)] for f in natalia_files],
+                inputs=[input_video],
+                label="🚨 Example clips (Phantom footage, untrained volunteer operator — NatalIA PBF-US1 dataset)",
+            )
+
         # ------------------------------------------------------------------
         # Footer note
         # ------------------------------------------------------------------
@@ -389,6 +412,7 @@ Powered by `convnext_tiny.fb_in22k_ft_in1k` · Test macro-F1 **0.8927** · Tier-
                 gradcam_every_n,
                 enable_tier2,
                 show_hud,
+                enable_cam_bbox,
             ],
             outputs=[output_video, status_md, label_log_json],
             show_progress="full",

@@ -86,6 +86,7 @@ _DEFAULT_TIER2_CONFIG = str(_ROOT / "configs" / "smoothing_tier2a.yaml")
 _ASSETS_CSS           = _ROOT / "assets" / "style.css"
 _UPLOAD_DIR           = _ROOT / "outputs" / "demo1"
 _SAMPLE_CLIPS_DIR     = _ROOT / "data" / "processed" / "synthetic_clips"
+_NATALIA_CLIPS_DIR    = _ROOT / "data" / "processed" / "natalia_showcase_clips"
 
 _CLASSES = [
     "Brain — Trans-cerebellum",
@@ -196,6 +197,7 @@ def _render_sidebar() -> dict[str, Any]:
         gradcam_every_n : int
         enable_tier2    : bool
         show_hud        : bool
+        enable_cam_bbox : bool  (Phase 8 Stage 3 — approx. region box)
     """
     with st.sidebar:
         st.markdown("### CONTROL PANEL")
@@ -234,6 +236,19 @@ def _render_sidebar() -> dict[str, Any]:
             help="Overlay per-frame inference timings on the annotated video.",
         )
 
+        st.markdown("<div style='font-family: var(--font-mono); font-size: 0.8rem; border-top: 1px solid var(--ink-black); margin-top: 1rem; padding-top: 0.5rem;'>[ 04 ] LOCALISATION</div>", unsafe_allow_html=True)
+        enable_cam_bbox = st.checkbox(
+            "Approx. region box (saliency-derived)",
+            value=True,
+            disabled=not enable_gradcam,
+            help=(
+                "Draws a dashed orange bounding box around the most salient region "
+                "identified by Grad-CAM, labelled 'approx. region (saliency-derived)'. "
+                "This is a weakly-supervised approximate localisation — NOT a "
+                "precisely measured anatomical boundary. Requires Grad-CAM enabled."
+            ),
+        )
+
         st.divider()
 
         # Model information panel
@@ -266,6 +281,7 @@ def _render_sidebar() -> dict[str, Any]:
         "gradcam_every_n": gradcam_every_n,
         "enable_tier2":    enable_tier2,
         "show_hud":        show_hud,
+        "enable_cam_bbox": enable_cam_bbox,
     }
 
 
@@ -389,29 +405,37 @@ def _render_examples() -> "str | None":
     use buttons alongside each preview — one click sets the example path in
     session state, which the main loop picks up on the next rerun.
     """
-    if not _SAMPLE_CLIPS_DIR.exists():
-        return None
-
-    clips = sorted(_SAMPLE_CLIPS_DIR.glob("*.mp4"))[:3]
-    if not clips:
+    synth_clips = sorted(_SAMPLE_CLIPS_DIR.glob("*.mp4"))[:3] if _SAMPLE_CLIPS_DIR.exists() else []
+    phantom_clips = sorted(_NATALIA_CLIPS_DIR.glob("*.mp4"))[:3] if _NATALIA_CLIPS_DIR.exists() else []
+    
+    all_clips = synth_clips + phantom_clips
+    if not all_clips:
         return None
 
     st.divider()
     st.markdown("### Example Clips")
-    st.caption(
-        "Synthetic clips generated from single frames via depth-layered parallax compositing. "
-        "For pipeline demonstration only — not real fetal ultrasound recordings."
-    )
 
-    cols = st.columns(len(clips))
+    cols = st.columns(len(all_clips))
     selected: str | None = None
-    for i, (col, clip) in enumerate(zip(cols, clips)):
+    
+    for i, (col, clip) in enumerate(zip(cols, all_clips)):
         with col:
             st.video(str(clip))
             caption = f"FIG. {i+1:02d} — {clip.stem.replace('_', ' ').upper()}"
             st.markdown(f'<div class="fpc-figure-caption">{caption}</div>', unsafe_allow_html=True)
+            
+            # Mandatory Honesty Caption for NatalIA Phantom Clips
+            if clip in phantom_clips:
+                st.caption("🚨 **Phantom footage, untrained volunteer operator (NatalIA PBF-US1 dataset)**")
+            else:
+                st.caption(
+                    "Synthetic clips generated from single frames via depth-layered parallax compositing. "
+                    "For pipeline demonstration only — not real fetal ultrasound recordings."
+                )
+
             if st.button(f"USE THIS CLIP", key=f"ex_{clip.stem}", use_container_width=True):
                 selected = str(clip)
+                
     return selected
 
 
@@ -507,6 +531,7 @@ def main() -> None:
                     enable_gradcam=opts["enable_gradcam"],
                     gradcam_every_n=opts["gradcam_every_n"],
                     show_hud=opts["show_hud"],
+                    enable_cam_bbox=opts["enable_cam_bbox"],
                     progress_cb=_progress_cb,
                 )
                 progress_bar.progress(1.0, text="Done!")
