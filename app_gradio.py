@@ -381,14 +381,6 @@ Powered by `convnext_tiny.fb_in22k_ft_in1k` · Test macro-F1 **0.8927** · Tier-
                 label="🎬 Example clips (synthetic — for pipeline demonstration only)",
             )
 
-        natalia_dir = _ROOT / "data" / "processed" / "natalia_showcase_clips"
-        natalia_files = sorted(natalia_dir.glob("*.mp4"))[:3] if natalia_dir.exists() else []
-        if natalia_files:
-            gr.Examples(
-                examples=[[str(f)] for f in natalia_files],
-                inputs=[input_video],
-                label="🚨 Example clips (Phantom footage, untrained volunteer operator — NatalIA PBF-US1 dataset)",
-            )
 
         # ------------------------------------------------------------------
         # Footer note

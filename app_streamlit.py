@@ -86,8 +86,6 @@ _DEFAULT_TIER2_CONFIG = str(_ROOT / "configs" / "smoothing_tier2a.yaml")
 _ASSETS_CSS           = _ROOT / "assets" / "style.css"
 _UPLOAD_DIR           = _ROOT / "outputs" / "demo1"
 _SAMPLE_CLIPS_DIR     = _ROOT / "data" / "processed" / "synthetic_clips"
-_NATALIA_CLIPS_DIR    = _ROOT / "data" / "processed" / "natalia_showcase_clips"
-
 _CLASSES = [
     "Brain — Trans-cerebellum",
     "Brain — Trans-thalamic",
@@ -405,10 +403,8 @@ def _render_examples() -> "str | None":
     use buttons alongside each preview — one click sets the example path in
     session state, which the main loop picks up on the next rerun.
     """
-    synth_clips = sorted(_SAMPLE_CLIPS_DIR.glob("*.mp4"))[:3] if _SAMPLE_CLIPS_DIR.exists() else []
-    phantom_clips = sorted(_NATALIA_CLIPS_DIR.glob("*.mp4"))[:3] if _NATALIA_CLIPS_DIR.exists() else []
+    all_clips = sorted(_SAMPLE_CLIPS_DIR.glob("*.mp4"))[:3] if _SAMPLE_CLIPS_DIR.exists() else []
     
-    all_clips = synth_clips + phantom_clips
     if not all_clips:
         return None
 
@@ -424,14 +420,10 @@ def _render_examples() -> "str | None":
             caption = f"FIG. {i+1:02d} — {clip.stem.replace('_', ' ').upper()}"
             st.markdown(f'<div class="fpc-figure-caption">{caption}</div>', unsafe_allow_html=True)
             
-            # Mandatory Honesty Caption for NatalIA Phantom Clips
-            if clip in phantom_clips:
-                st.caption("🚨 **Phantom footage, untrained volunteer operator (NatalIA PBF-US1 dataset)**")
-            else:
-                st.caption(
-                    "Synthetic clips generated from single frames via depth-layered parallax compositing. "
-                    "For pipeline demonstration only — not real fetal ultrasound recordings."
-                )
+            st.caption(
+                "Synthetic clips generated from single frames via depth-layered parallax compositing. "
+                "For pipeline demonstration only — not real fetal ultrasound recordings."
+            )
 
             if st.button(f"USE THIS CLIP", key=f"ex_{clip.stem}", use_container_width=True):
                 selected = str(clip)
