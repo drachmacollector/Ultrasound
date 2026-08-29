@@ -35,7 +35,8 @@ We implemented weakly-supervised approximate bounding box extraction from Grad-C
 - **Integration:** The `GradCamWorker` in [`src/realtime/pipeline.py`](file:///d:/Ultrasound/src/realtime/pipeline.py) now yields a `cam_bbox` alongside the `grayscale_cam`.
 - **Rendering:** `build_display_frame()` in [`src/realtime/app.py`](file:///d:/Ultrasound/src/realtime/app.py) was updated to render the box.
   - **Honesty Framing:** The box is drawn as a **dashed orange rectangle** and explicitly labeled `"approx. region (saliency-derived)"` to visually distinguish it from a proper ground-truth object detector box. It is only shown when the Grad-CAM overlay is active.
-- **Web UI:** Both [`app_streamlit.py`](file:///d:/Ultrasound/app_streamlit.py) and [`app_gradio.py`](file:///d:/Ultrasound/app_gradio.py) received a new sidebar/accordion toggle: `"Approx. region box (saliency-derived)"`.
+- **Web UI:** [`app_streamlit.py`](file:///d:/Ultrasound/app_streamlit.py) received a new sidebar toggle: `"Approx. region box (saliency-derived)"`.
+
 
 ### Manual Spot-Check
 The 20-image manual spot-check template is ready for your completion at:

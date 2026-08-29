@@ -9,8 +9,8 @@
 ## 1. What This Document Covers
 
 This walkthrough documents the complete architecture, design decisions, implementation
-details, bug history, and known limitations of **Demo 1**: a Streamlit web application
-(with a Gradio backup) that accepts an uploaded fetal ultrasound video clip and returns a fully-annotated MP4
+details, bug history, and known limitations of **Demo 1**: the FetScan Streamlit web application
+that accepts an uploaded fetal ultrasound video clip and returns a fully-annotated MP4
 with per-frame plane labels, confidence scores, and Grad-CAM saliency overlays.
 
 It is intended as a **permanent reference** for anyone picking up this codebase, and
@@ -31,7 +31,7 @@ Before Demo 1 was built, the following components were complete and validated:
 | Threaded real-time pipeline | ✅ Done | 23.6–23.7 fps stable on RTX 4060, 120s no-throttle run |
 | Headless validation script | ✅ Done | `scripts/validate_pipeline_headless.py` |
 | Desktop app (`cv2.imshow`) | ✅ Done | `src/realtime/app.py` |
-| **Web UI (Demo 1)** | ✅ **This document** | `app_gradio.py` + `scripts/render_annotated_video.py` |
+| **Web UI (Demo 1)** | ✅ **This document** | `app_streamlit.py` + `scripts/render_annotated_video.py` |
 | Multitask detection model | 🟡 Smoke-test only | 1 epoch, val F1 0.8421 — NOT used in Demo 1 |
 | ONNX / quantization | ❌ Stretch goal | Not started |
 
@@ -43,7 +43,7 @@ Before Demo 1 was built, the following components were complete and validated:
 Browser upload
      │
      ▼
-app_streamlit.py (Streamlit primary) / app_gradio.py (backup)
+app_streamlit.py
      │  Video in → process_video() → Video out
      │  Output written to outputs/demo1/
      │
@@ -78,7 +78,8 @@ scripts/render_annotated_video.py :: render_video()
              → imageio H.264 writer
      │
      ▼
-outputs/demo1/annotated_<name>.mp4   (project-local, in Gradio's allowed_paths)
+outputs/demo1/annotated_<name>.mp4   (project-local output directory)
+
      │
      ▼
 Browser inline playback (H.264/yuv420p — Chrome + Safari compatible)
@@ -118,11 +119,11 @@ hooks alive. `render_annotated_video.py` follows the same pattern.
 **Config always read from checkpoint**
 The checkpoint stores the full training config under `ckpt["config"]`. Backbone name,
 image size, normalization mean/std are all read from there via `load_inference_model()`.
-Nothing is hardcoded in the render script or the Gradio app.
+Nothing is hardcoded in the render script or the Streamlit app.
 
 **Output files in `outputs/demo1/`, not `tempfile.gettempdir()`**
-See §8.2 (Gradio video serving bug) for why the temp directory caused "Video not
-playable / Method not implemented" errors and how it was fixed.
+Streamlit writes the annotated output to `outputs/demo1/` (a project-local, deterministic path)
+and the `st.video()` call serves it back to the browser directly by path.
 
 ---
 
@@ -144,7 +145,7 @@ result = render_video(
     enable_gradcam=True,
     gradcam_every_n=1,
     show_hud=True,
-    progress_cb=lambda done, total: ...,  # optional — used by Gradio gr.Progress
+    progress_cb=lambda done, total: ...,  # optional — used by st.progress()
 )
 # result["output_path"]  : str — absolute path to written MP4
 # result["total_frames"] : int
@@ -170,9 +171,11 @@ python scripts/render_annotated_video.py \
 
 Disabling Grad-CAM (`--no-gradcam`) roughly halves render time.
 
-### `app_streamlit.py` & `app_gradio.py`
+### `app_streamlit.py`
 
-The web applications. `app_streamlit.py` is the primary interface for clinical demos, while `app_gradio.py` serves as a backup. Both are thin wrappers around `render_video()`.
+The primary web interface for clinical demos. A thin wrapper around `render_video()` with a
+clean Streamlit layout and session-state-isolated rendering (widget interactions do not re-trigger
+a full render).
 
 **Key UI elements:**
 - Video upload component
@@ -182,27 +185,20 @@ The web applications. `app_streamlit.py` is the primary interface for clinical d
 - HUD toggle
 - Per-frame JSON label log
 - Model info accordion (backbone, F1, known limitations)
-- Auto-discovered example clips from `data/processed/synthetic_clips/*.mp4` (and `natalia_showcase_clips/*.mp4`)
+- Auto-discovered example clips from `data/processed/synthetic_clips/*.mp4`
 
-**Launch Streamlit (Primary):**
+**Launch:**
 ```bash
 conda run -n fetalplane streamlit run app_streamlit.py
-```
-
-**Launch Gradio (Backup):**
-```bash
-python app_gradio.py               # http://127.0.0.1:7860
-python app_gradio.py --share       # public Gradio tunnel
-python app_gradio.py --port 8080   # custom port
-python app_gradio.py --no-browser  # headless (CI smoke test)
+# → http://localhost:8501
 ```
 
 ### Modified files
 
 | File | Change |
 |---|---|
-| `requirements.txt` | Added `gradio>=5.0` and `imageio[ffmpeg]` |
-| `README.md` | Replaced stale WIP real-time section with Demo 1 quick-start |
+| `requirements.txt` | Added `streamlit>=1.35` and `imageio[ffmpeg]` |
+| `README.md` | Updated with Demo 1 quick-start, non-goals, and results summary |
 | `.gitignore` | Added `outputs/` (generated annotated videos, not tracked) |
 
 ---
@@ -265,23 +261,21 @@ All numbers from `EVAL_REPORT.md` and `EXPERIMENTS.md`.
 
 ## 7. Known Limitations and Deferred Work
 
-### 7.1 No Bounding Boxes in Demo 1 ⚠️
+### 7.1 Weakly-Supervised Bounding Boxes (Saliency-Derived)
 
-**Documented explicitly in `app_gradio.py` (module docstring), `scripts/render_annotated_video.py`, and this file.**
-
-The multitask object detection model (`checkpoints/multitask/`) was trained for exactly
+**Status:** The multitask object detection model (`checkpoints/multitask/`) was trained for exactly
 **1 epoch** as a wiring smoke test. Its val macro-F1 is **0.8421** — *below* the
 production classifier's 0.9183. The detection head produces garbage bounding boxes.
 
-`build_display_frame()` in `src/realtime/app.py` calls `_draw_bboxes()`, which
-**safely no-ops** when `result["bboxes"] is None`. Since `load_inference_model()` loads
-the classifier-only checkpoint (no `retinanet.*` keys in state dict), `bboxes` is always
-`None` — no guard code is needed in the render loop.
+Instead, Demo 1 shows an **approximate, saliency-derived bounding box** from the Grad-CAM
+activation map (weakly-supervised). `build_display_frame()` in `src/realtime/app.py` calls
+`_draw_bboxes()`, which safely no-ops when `result["bboxes"] is None`. The saliency box is
+computed separately from the CAM heatmap when Grad-CAM is enabled.
 
-**Path to enabling boxes in a future demo:**
+**Path to true supervised bounding boxes in a future demo:**
 1. Train the multitask model for the full configured epochs (`configs/multitask.yaml`)
 2. Verify val macro-F1 exceeds the production classifier (0.9183 threshold)
-3. Load the multitask checkpoint in `app_gradio.py` (change `_DEFAULT_CHECKPOINT`)
+3. Load the multitask checkpoint in `app_streamlit.py` (change `_DEFAULT_CHECKPOINT`)
 4. Boxes will appear automatically — `_draw_bboxes()` and the render pipeline are
    already fully wired.
 
@@ -322,7 +316,7 @@ permanently recorded.
 
 **Symptom:** The example clips in `data/processed/synthetic_clips/` were only
 **16 frames long** (0.67 seconds at 24 fps). The clips served as examples in the
-Gradio UI and for pipeline smoke testing, but a 0.67-second clip is too short to
+Streamlit UI and for pipeline smoke testing, but a 0.67-second clip is too short to
 demonstrate temporal smoothing behaviour meaningfully.
 
 **Root cause:** `N_FRAMES = 16` had been set during early Phase 3 development
@@ -348,21 +342,15 @@ conda run -n fetalplane python scripts/generate_sample_clips.py
 
 ---
 
-### 8.2 "Video not playable / Method not implemented" Error in Gradio
+### 8.2 "Video not playable" in Browser (Streamlit)
 
 **Symptom:** After uploading a video and waiting for processing to complete, the
-browser displayed **"Video not playable"** and the server console showed
-**"Method not implemented"**.
+browser displayed **"Video not playable"**.
 
-**Root cause:** `process_video()` was writing the annotated output MP4 to
+**Root cause:** `process_video()` was originally writing the annotated output MP4 to
 `tempfile.gettempdir()` (e.g. `C:\Users\Nakul\AppData\Local\Temp\ultrasound_demo1\`).
-
-On Windows, Gradio 5's file-serving layer uses `allowed_paths` to decide which
-directories it will serve files from. The system temp directory is **not** in
-`allowed_paths` by default. When Gradio tried to stream the file back to the browser
-it issued an internal redirect to a static file handler that raised
-`NotImplementedError: Method not implemented` — which manifested as "Video not
-playable" in the browser.
+Streamlit serves files back to the browser via a local file path. Temp directory paths
+were not consistently accessible or routable through the Streamlit dev server on Windows.
 
 **Fix:** Two changes:
 
@@ -372,18 +360,11 @@ playable" in the browser.
    ```
    This is a project-local, deterministic path that does not change between runs.
 
-2. `demo.launch()` now passes `allowed_paths=[str(_ROOT / "outputs")]`:
-   ```python
-   demo.launch(..., allowed_paths=[_outputs_dir])
-   ```
-   Gradio then explicitly permits serving any file under `outputs/`, resolving
-   the "Method not implemented" error completely.
+2. `st.video()` receives the absolute path to the written file directly, avoiding
+   any file-serving indirection.
 
 3. `outputs/` was added to `.gitignore` so generated annotated videos are not
    accidentally committed.
-
-4. The output `gr.Video` component now specifies `format="mp4"` explicitly so
-   Gradio knows the container format without guessing from the file extension.
 
 ---
 
@@ -473,7 +454,8 @@ These clips are used for:
 2. **Pipeline smoke testing** — verifying that the full inference+render pipeline
    can process a video end-to-end without errors.
 3. **Demo UI examples** — giving users something to upload when first opening the
-   Gradio app.
+   Streamlit app.
+
 
 For purposes 1–3, physically-accurate ultrasound simulation is unnecessary. The
 parallax approach is visually convincing enough to not be immediately distracting,
@@ -527,7 +509,7 @@ conda run -n fetalplane streamlit run app_streamlit.py --server.headless=true
 
 ### Manual browser verification
 
-1. Open `http://127.0.0.1:7860` in Chrome.
+1. Open `http://localhost:8501` in Chrome.
 2. Upload one of the synthetic clips from `data/processed/synthetic_clips/`.
 3. Leave all options at defaults and click **▶ Process Video**.
 4. Verify:
@@ -550,7 +532,7 @@ conda run -n fetalplane streamlit run app_streamlit.py --server.headless=true
 | Item | Blocking issue | Path forward |
 |---|---|---|
 | Bounding boxes | Detection model needs full training | Train `configs/multitask.yaml` to convergence; set `_DEFAULT_CHECKPOINT` |
-| Live webcam streaming | WebSocket + streaming needed | Gradio `gr.Video(sources=["webcam"])` + ONNX model for 30 fps target |
+| Live webcam streaming | WebSocket + streaming needed | Streamlit + ONNX model for 30 fps target |
 | ONNX export | Not started | `src/models/backbone.py` → `torch.onnx.export()` → quantize |
 | Transition latency benchmark | No annotated transition clips | Source 3–5 real clips with deliberate plane changes; measure catch-up lag |
 | Cross-device fine-tuning | Accuracy gap ~15% on HC18/UCL | Domain-adaptation or test-time augmentation study |
@@ -558,4 +540,4 @@ conda run -n fetalplane streamlit run app_streamlit.py --server.headless=true
 
 ---
 
-*End of Demo 1 Walkthrough. Last updated 2026-08-26.*
+*End of Demo 1 Walkthrough. Last updated 2026-08-30.*

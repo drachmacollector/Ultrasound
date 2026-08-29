@@ -1,7 +1,7 @@
 """
 scripts/render_annotated_video.py
 
-Offline annotated-video renderer — the engine that powers the Gradio web UI.
+Offline annotated-video renderer — the engine that powers the Streamlit web UI.
 
 PURPOSE
 -------
@@ -18,7 +18,7 @@ DESIGN DECISIONS
 ----------------
 - **Single-threaded**: Unlike the live pipeline (CaptureThread + InferenceThread),
   offline processing has no hard latency budget, so the simpler sequential loop
-  is preferred. Progress is reported via an optional callback for Gradio.
+  is preferred. Progress is reported via an optional callback for st.progress().
 - **No bboxes**: The classifier-only checkpoint (convnext_tiny/best.pt) is the
   intended input. The multitask model was trained for 1 epoch only (val macro-F1
   0.8421, below the production classifier's 0.9183) and is NOT suitable for
@@ -44,7 +44,8 @@ USAGE
       --checkpoint checkpoints/convnext_tiny/best.pt \\
       --gradcam-every-n 1
 
-  # As a library — called by app_gradio.py
+  # As a library — called by app_streamlit.py
+
   from scripts.render_annotated_video import render_video
   result = render_video(
       input_path="clip.mp4",
@@ -144,7 +145,7 @@ def render_video(
                          fully-supervised detection output.  Requires
                          enable_gradcam=True; silently no-ops if gradcam is off.
         progress_cb:     Optional callback (frames_done: int, total_frames: int).
-                         Called after each frame. Used by Gradio gr.Progress.
+                         Called after each frame. Used by st.progress().
 
     Returns:
         A dict with keys:
@@ -263,6 +264,7 @@ def render_video(
     stats        = PipelineStats()
     label_log: list[dict[str, Any]] = []
     last_overlay: np.ndarray | None = None
+    last_cam_resized: np.ndarray | None = None
     frame_idx   = 0
     use_amp      = (lm.device.type == "cuda")
 
@@ -317,6 +319,7 @@ def render_video(
             # ---- Grad-CAM (persistent, every N frames) ---------------------
             gradcam_ms: float | None = None
             overlay: np.ndarray | None = last_overlay
+            cam_resized: np.ndarray | None = last_cam_resized
 
             if cam is not None and (frame_idx % gradcam_every_n == 0):
                 t0 = time.monotonic()
@@ -335,6 +338,7 @@ def render_video(
                 )
                 overlay = cv2.cvtColor(overlay_rgb, cv2.COLOR_RGB2BGR)
                 last_overlay = overlay
+                last_cam_resized = cam_resized
                 gradcam_ms = (time.monotonic() - t0) * 1000.0
                 stats.record_gradcam(gradcam_ms)
 
@@ -431,7 +435,7 @@ def render_video(
     )
 
     # ------------------------------------------------------------------
-    # 7. Build model_info dict for the Gradio UI / sidecar JSON
+    # 7. Build model_info dict for the Streamlit UI / sidecar JSON
     # ------------------------------------------------------------------
     model_info: dict[str, Any] = {
         "backbone":           lm.backbone_name,

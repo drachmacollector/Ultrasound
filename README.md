@@ -112,19 +112,12 @@ python scripts/evaluate_cross_device.py --checkpoint checkpoints/convnext_tiny/b
 
 The web interface accepts an ultrasound video clip upload and returns a fully-annotated MP4 with per-frame plane labels, confidence scores, and optional Grad-CAM saliency overlays.
 
-**Grad-CAM is OFF by default** — a sonographer has no use for saliency maps at runtime. Enable it in the sidebar (Streamlit) or options panel (Gradio) for model explanation or research use.
+**Grad-CAM is OFF by default** — a sonographer has no use for saliency maps at runtime. Enable it in the sidebar for model explanation or research use.
 
-### Quick Start — Streamlit (primary interface)
+### Quick Start
 ```bash
 conda run -n fetalplane streamlit run app_streamlit.py
 # → http://localhost:8501
-```
-
-### Quick Start — Gradio (backup interface)
-```bash
-conda run -n fetalplane python app_gradio.py
-# → http://127.0.0.1:7860
-conda run -n fetalplane python app_gradio.py --share  # public tunnel
 ```
 
 ### What is shown / not shown
@@ -142,7 +135,7 @@ conda run -n fetalplane python app_gradio.py --share  # public tunnel
 ### Results at a Glance
 - **In-distribution test macro-F1: 0.8927** (patient-disjoint, held-out split).
 - **Cross-device accuracy drop:** 98.0% (in-distribution) → 83.6% on HC18/UCL unseen devices.
-- **NatalIA non-expert-operator generalization (Standard vs Other):** 97.2% Recall on standard planes, 99.4% Precision on "Other".
+- **NatalIA non-expert-operator (Standard vs Other):** Model correctly defaults to "Other" for out-of-distribution phantom frames — 99.3% "Other" Precision (safe fallback behaviour on unseen anatomy).
 - **Video stabilization latency:** 489.3 ms average latency to stabilize on spurious within-class flicker.
 
 For full evaluation metrics, cross-device confusion matrices, and known limitations, please see the [Evaluation Report (docs/EVAL_REPORT.md)](file:///d:/Ultrasound/docs/EVAL_REPORT.md).

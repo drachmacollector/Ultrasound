@@ -2,7 +2,7 @@
 app_streamlit.py
 
 FetScan — Real-Time Sonographic Plane Analysis.
-Primary web interface (Streamlit). See app_gradio.py for the Gradio backup.
+Primary web interface (Streamlit).
 
 ARCHITECTURE
 ------------
@@ -40,7 +40,6 @@ KNOWN LIMITATIONS (Demo 1)
     to 83.2% on genuinely unseen devices (HC18/UCL).
   • st.file_uploader returns a BytesIO object, not a file path. The upload
     is therefore written to outputs/demo1/ before being passed to render_video().
-    This directory is shared with the Gradio backend (app_gradio.py).
   • Grad-CAM is OFF by default (clinical mode). Enable it in the sidebar for
     model explanation or research use.
 
@@ -309,7 +308,8 @@ def _save_upload(uploaded: Any) -> Path:
 
     Streamlit's UploadedFile is a BytesIO-like object, not a path.
     render_video() requires a real filesystem path, so we persist it here.
-    Output dir (outputs/demo1/) is shared with the Gradio backend.
+    Output dir (outputs/demo1/) is the canonical project-local output location.
+
     """
     _UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
     # Sanitise the filename: replace spaces with underscores

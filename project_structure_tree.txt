@@ -1,32 +1,10 @@
-Ultrasound/
-├── .env
-├── .gitignore
-├── README.md
-├── app_gradio.py
-├── app_streamlit.py
+d:/Ultrasound/
 ├── assets
-│   ├── Newsprint_design_prompt.md
-│   ├── ai_plane_detection_diagram.jpg
-│   ├── clinical_sonography_setup.jpg
 │   ├── fetscan_uiux_fix_brief.md
-│   ├── pipeline_architecture_diagram.jpg
+│   ├── Newsprint_design_prompt.md
 │   └── style.css
 ├── checkpoints
-│   ├── .gitkeep
 │   ├── convnext_tiny
-│   │   ├── best.pt
-│   │   ├── classification_report_TEST.txt
-│   │   ├── classification_report_final.txt
-│   │   ├── config.yaml
-│   │   ├── confusion_matrix_TEST.png
-│   │   ├── confusion_matrix_best_epoch1.png
-│   │   ├── confusion_matrix_best_epoch11.png
-│   │   ├── confusion_matrix_best_epoch13.png
-│   │   ├── confusion_matrix_best_epoch2.png
-│   │   ├── confusion_matrix_best_epoch20.png
-│   │   ├── confusion_matrix_best_epoch3.png
-│   │   ├── confusion_matrix_best_epoch5.png
-│   │   ├── confusion_matrix_final_epoch20.png
 │   │   ├── gradcam_spotcheck
 │   │   │   ├── Brain_Trans_cerebellum__Patient01227_Plane3_2_of_4__CORRECT.png
 │   │   │   ├── Brain_Trans_cerebellum__Patient01557_Plane3_2_of_4__CORRECT.png
@@ -38,49 +16,89 @@ Ultrasound/
 │   │   │   ├── Fetal_femur__Patient01538_Plane5_1_of_1__CORRECT.png
 │   │   │   ├── Maternal_cervix__Patient01509_Plane4_2_of_2__CORRECT.png
 │   │   │   └── Maternal_cervix__Patient01669_Plane4_1_of_2__CORRECT.png
-│   │   ├── gradcam_spotcheck_output.txt
-│   │   └── smoke_test
-│   │       ├── best.pt
-│   │       ├── classification_report_final.txt
-│   │       ├── confusion_matrix_best_epoch1.png
-│   │       ├── confusion_matrix_best_epoch2.png
-│   │       ├── confusion_matrix_best_epoch3.png
-│   │       ├── confusion_matrix_best_epoch4.png
-│   │       ├── confusion_matrix_best_epoch5.png
-│   │       └── confusion_matrix_final_epoch5.png
-│   └── convnext_tiny_focal
-│       ├── best.pt
-│       ├── classification_report_TEST.txt
-│       ├── classification_report_final.txt
-│       ├── config.yaml
-│       ├── confusion_matrix_TEST.png
-│       ├── confusion_matrix_best_epoch1.png
-│       ├── confusion_matrix_best_epoch11.png
-│       ├── confusion_matrix_best_epoch13.png
-│       ├── confusion_matrix_best_epoch2.png
-│       ├── confusion_matrix_best_epoch3.png
-│       ├── confusion_matrix_best_epoch5.png
-│       ├── confusion_matrix_best_epoch9.png
-│       └── confusion_matrix_final_epoch13.png
+│   │   ├── smoke_test
+│   │   │   ├── best.pt
+│   │   │   ├── classification_report_final.txt
+│   │   │   ├── confusion_matrix_best_epoch1.png
+│   │   │   ├── confusion_matrix_best_epoch2.png
+│   │   │   ├── confusion_matrix_best_epoch3.png
+│   │   │   ├── confusion_matrix_best_epoch4.png
+│   │   │   ├── confusion_matrix_best_epoch5.png
+│   │   │   └── confusion_matrix_final_epoch5.png
+│   │   ├── best.pt
+│   │   ├── classification_report_final.txt
+│   │   ├── classification_report_TEST.txt
+│   │   ├── config.yaml
+│   │   ├── confusion_matrix_best_epoch1.png
+│   │   ├── confusion_matrix_best_epoch11.png
+│   │   ├── confusion_matrix_best_epoch13.png
+│   │   ├── confusion_matrix_best_epoch2.png
+│   │   ├── confusion_matrix_best_epoch20.png
+│   │   ├── confusion_matrix_best_epoch3.png
+│   │   ├── confusion_matrix_best_epoch5.png
+│   │   ├── confusion_matrix_final_epoch20.png
+│   │   ├── confusion_matrix_TEST.png
+│   │   └── gradcam_spotcheck_output.txt
+│   ├── convnext_tiny_acam
+│   │   ├── best.pt
+│   │   ├── classification_report_final.txt
+│   │   ├── classification_report_TEST.txt
+│   │   ├── config.yaml
+│   │   ├── confusion_matrix_best_epoch1.png
+│   │   ├── confusion_matrix_best_epoch11.png
+│   │   ├── confusion_matrix_best_epoch16.png
+│   │   ├── confusion_matrix_best_epoch2.png
+│   │   ├── confusion_matrix_best_epoch4.png
+│   │   ├── confusion_matrix_best_epoch5.png
+│   │   ├── confusion_matrix_best_epoch6.png
+│   │   ├── confusion_matrix_best_epoch9.png
+│   │   ├── confusion_matrix_final_epoch16.png
+│   │   └── confusion_matrix_TEST.png
+│   ├── convnext_tiny_focal
+│   │   ├── best.pt
+│   │   ├── classification_report_final.txt
+│   │   ├── classification_report_TEST.txt
+│   │   ├── config.yaml
+│   │   ├── confusion_matrix_best_epoch1.png
+│   │   ├── confusion_matrix_best_epoch11.png
+│   │   ├── confusion_matrix_best_epoch13.png
+│   │   ├── confusion_matrix_best_epoch2.png
+│   │   ├── confusion_matrix_best_epoch3.png
+│   │   ├── confusion_matrix_best_epoch5.png
+│   │   ├── confusion_matrix_best_epoch9.png
+│   │   ├── confusion_matrix_final_epoch13.png
+│   │   └── confusion_matrix_TEST.png
+│   ├── multitask
+│   │   ├── best.pt
+│   │   ├── classification_report_final.txt
+│   │   ├── config.yaml
+│   │   ├── confusion_matrix_best_epoch1.png
+│   │   └── confusion_matrix_final_epoch1.png
+│   └── .gitkeep
 ├── configs
 │   ├── convnext_tiny.yaml
+│   ├── convnext_tiny_acam.yaml
 │   ├── convnext_tiny_focal.yaml
+│   ├── multitask.yaml
 │   ├── smoothing_tier1.yaml
 │   └── smoothing_tier2a.yaml
 ├── data
 │   ├── processed
-│   │   ├── .gitkeep
-│   │   ├── bboxes.json
-│   │   ├── class_weights.json
-│   │   ├── cross_device_manifest.csv
 │   │   ├── eval_cross_device
 │   │   │   ├── cross_device_confusion.png
-│   │   │   └── cross_device_results.csv
+│   │   │   ├── cross_device_results.csv
+│   │   │   ├── efficientnet_lite0_cross_device_results.csv
+│   │   │   ├── mobilenetv3_large_100_cross_device_results.csv
+│   │   │   ├── repvgg_a1_cross_device_results.csv
+│   │   │   ├── repvgg_a2_cross_device_results.csv
+│   │   │   └── tf_efficientnetv2_s_cross_device_results.csv
+│   │   ├── eval_natalia
+│   │   │   ├── natalia_confusion.png
+│   │   │   └── natalia_results.csv
 │   │   ├── eval_realistic_video
 │   │   │   └── realistic_video_results.csv
 │   │   ├── eval_tier2
 │   │   │   └── tier2_results.csv
-│   │   ├── manifest.csv
 │   │   ├── manual_review
 │   │   │   ├── 20190726T095643_0.avi_contact_sheet.png
 │   │   │   ├── 20190830T115644__B_äº§ç§‘_tmp_0.avi_contact_sheet.png
@@ -92,6 +110,8 @@ Ultrasound/
 │   │   │   ├── test_12_79.avi_contact_sheet.png
 │   │   │   ├── test_13_70.avi_contact_sheet.png
 │   │   │   └── transition_annotations_template.json
+│   │   ├── natalia_showcase_clips
+│   │   │   └── demo_phantom_1.mp4
 │   │   ├── sanity_checks
 │   │   │   ├── 01_class_distribution_splits.png
 │   │   │   ├── 02_cross_device_distribution.png
@@ -101,6 +121,23 @@ Ultrasound/
 │   │   │   ├── 05_patient_image_counts_per_split.csv
 │   │   │   └── 06_resolution_histogram.png
 │   │   ├── synthetic_clips
+│   │   │   ├── single_planes
+│   │   │   │   ├── Brain_Trans_cerebellum_clip01.mp4
+│   │   │   │   ├── Brain_Trans_cerebellum_clip02.mp4
+│   │   │   │   ├── Brain_Trans_thalamic_clip01.mp4
+│   │   │   │   ├── Brain_Trans_thalamic_clip02.mp4
+│   │   │   │   ├── Brain_Trans_ventricular_clip01.mp4
+│   │   │   │   ├── Brain_Trans_ventricular_clip02.mp4
+│   │   │   │   ├── Fetal_abdomen_clip01.mp4
+│   │   │   │   ├── Fetal_abdomen_clip02.mp4
+│   │   │   │   ├── Fetal_femur_clip01.mp4
+│   │   │   │   ├── Fetal_femur_clip02.mp4
+│   │   │   │   ├── Fetal_thorax_clip01.mp4
+│   │   │   │   ├── Fetal_thorax_clip02.mp4
+│   │   │   │   ├── Maternal_cervix_clip01.mp4
+│   │   │   │   ├── Maternal_cervix_clip02.mp4
+│   │   │   │   ├── Other_clip01.mp4
+│   │   │   │   └── Other_clip02.mp4
 │   │   │   ├── multiplane_scan_01.mp4
 │   │   │   ├── multiplane_scan_01_annotations.json
 │   │   │   ├── multiplane_scan_02.mp4
@@ -116,79 +153,122 @@ Ultrasound/
 │   │   │   ├── multiplane_scan_07.mp4
 │   │   │   ├── multiplane_scan_07_annotations.json
 │   │   │   ├── multiplane_scan_08.mp4
-│   │   │   ├── multiplane_scan_08_annotations.json
-│   │   │   └── single_planes
-│   │   │       ├── Brain_Trans_cerebellum_clip01.mp4
-│   │   │       ├── Brain_Trans_cerebellum_clip02.mp4
-│   │   │       ├── Brain_Trans_thalamic_clip01.mp4
-│   │   │       ├── Brain_Trans_thalamic_clip02.mp4
-│   │   │       ├── Brain_Trans_ventricular_clip01.mp4
-│   │   │       ├── Brain_Trans_ventricular_clip02.mp4
-│   │   │       ├── Fetal_abdomen_clip01.mp4
-│   │   │       ├── Fetal_abdomen_clip02.mp4
-│   │   │       ├── Fetal_femur_clip01.mp4
-│   │   │       ├── Fetal_femur_clip02.mp4
-│   │   │       ├── Fetal_thorax_clip01.mp4
-│   │   │       ├── Fetal_thorax_clip02.mp4
-│   │   │       ├── Maternal_cervix_clip01.mp4
-│   │   │       ├── Maternal_cervix_clip02.mp4
-│   │   │       ├── Other_clip01.mp4
-│   │   │       └── Other_clip02.mp4
+│   │   │   └── multiplane_scan_08_annotations.json
 │   │   ├── tier1_tuning
 │   │   │   ├── baseline_flicker_chart.png
 │   │   │   ├── baseline_flicker_report.csv
 │   │   │   └── sweep_results.csv
-│   │   └── tier2a_tuning
-│   │       ├── sweep_results_combined.csv
-│   │       ├── sweep_results_grid_A.csv
-│   │       └── sweep_results_grid_B.csv
+│   │   ├── tier2a_tuning
+│   │   │   ├── sweep_results_combined.csv
+│   │   │   ├── sweep_results_grid_A.csv
+│   │   │   └── sweep_results_grid_B.csv
+│   │   ├── .gitkeep
+│   │   ├── bboxes.json
+│   │   ├── class_weights.json
+│   │   ├── cross_device_manifest.csv
+│   │   ├── manifest.csv
+│   │   ├── natalia_excluded_no_taxonomy_match.csv
+│   │   └── natalia_manifest.csv
 │   ├── raw
 │   │   ├── fetal_planes_db
 │   │   │   ├── Images
+│   │   │   ├── FETAL_PLANES_DB_data.csv
 │   │   │   └── README.md
 │   │   ├── iugc_video
 │   │   │   └── DatasetV3
-│   │   │       ├── README.md
 │   │   │       ├── test
 │   │   │       │   ├── cls
+│   │   │       │   │   └── cls_label.csv
 │   │   │       │   ├── seg
-│   │   │       │   └── videos
+│   │   │       │   │   └── seg_info.csv
+│   │   │       │   ├── videos
+│   │   │       │   └── test_info.csv
 │   │   │       ├── train
 │   │   │       │   ├── cls
+│   │   │       │   │   └── class_label.csv
 │   │   │       │   ├── seg
-│   │   │       │   └── videos
-│   │   │       └── val
-│   │   │           ├── cls
-│   │   │           ├── seg
-│   │   │           └── videos
+│   │   │       │   │   └── seg_info.csv
+│   │   │       │   ├── videos
+│   │   │       │   └── train_info.csv
+│   │   │       ├── val
+│   │   │       │   ├── cls
+│   │   │       │   │   └── cls_label.csv
+│   │   │       │   ├── seg
+│   │   │       │   │   └── seg_info.csv
+│   │   │       │   ├── videos
+│   │   │       │   └── val_info.csv
+│   │   │       └── README.md
+│   │   ├── natalia_pbfus1
+│   │   │   ├── metadata.csv
+│   │   │   ├── README_original.md
+│   │   │   └── resume.csv
 │   │   └── ucl_hc18
-│   │       ├── README-FP.md
-│   │       ├── README-HC18.md
-│   │       ├── README-MULTI-CENTRE.md
-│   │       ├── README-UCL.md
-│   │       ├── README-general.md
 │   │       ├── __MACOSX
 │   │       ├── annotations
 │   │       │   ├── FP
+│   │       │   │   ├── Abdomen.csv
+│   │       │   │   ├── Abdomen_Test.csv
+│   │       │   │   ├── Abdomen_Train.csv
+│   │       │   │   ├── Femur.csv
+│   │       │   │   ├── Femur_Test.csv
+│   │       │   │   ├── Femur_Train.csv
+│   │       │   │   ├── Head.csv
+│   │       │   │   ├── Head_Test.csv
+│   │       │   │   └── Head_Train.csv
 │   │       │   ├── HC18
+│   │       │   │   ├── Head.csv
+│   │       │   │   ├── Head_Test.csv
+│   │       │   │   └── Head_Train.csv
 │   │       │   ├── MULTICENTRE
+│   │       │   │   ├── Abdomen.csv
+│   │       │   │   ├── Abdomen_Test.csv
+│   │       │   │   ├── Abdomen_Train.csv
+│   │       │   │   ├── Femur.csv
+│   │       │   │   ├── Femur_Test.csv
+│   │       │   │   ├── Femur_Train.csv
+│   │       │   │   ├── Head.csv
+│   │       │   │   ├── Head_Test.csv
+│   │       │   │   └── Head_Train.csv
 │   │       │   └── UCL
-│   │       │       └── px_to_mm
-│   │       └── images
-│   │           ├── FP
-│   │           │   ├── Abdomen
-│   │           │   ├── Femur
-│   │           │   └── Head
-│   │           ├── HC18
-│   │           │   └── Head
-│   │           ├── MULTICENTRE
-│   │           │   ├── Abdomen
-│   │           │   ├── Femur
-│   │           │   └── Head
-│   │           └── UCL
-│   │               ├── Abdomen
-│   │               ├── Femur
-│   │               └── Head
+│   │       │       ├── px_to_mm
+│   │       │       │   ├── Abdomen.csv
+│   │       │       │   ├── Abdomen_Test.csv
+│   │       │       │   ├── Abdomen_Train.csv
+│   │       │       │   ├── Femur.csv
+│   │       │       │   ├── Femur_Test.csv
+│   │       │       │   ├── Femur_Train.csv
+│   │       │       │   ├── Head.csv
+│   │       │       │   ├── Head_Test.csv
+│   │       │       │   └── Head_Train.csv
+│   │       │       ├── Abdomen.csv
+│   │       │       ├── Abdomen_Test.csv
+│   │       │       ├── Abdomen_Train.csv
+│   │       │       ├── Femur.csv
+│   │       │       ├── Femur_Test.csv
+│   │       │       ├── Femur_Train.csv
+│   │       │       ├── Head.csv
+│   │       │       ├── Head_Test.csv
+│   │       │       └── Head_Train.csv
+│   │       ├── images
+│   │       │   ├── FP
+│   │       │   │   ├── Abdomen
+│   │       │   │   ├── Femur
+│   │       │   │   └── Head
+│   │       │   ├── HC18
+│   │       │   │   └── Head
+│   │       │   ├── MULTICENTRE
+│   │       │   │   ├── Abdomen
+│   │       │   │   ├── Femur
+│   │       │   │   └── Head
+│   │       │   └── UCL
+│   │       │       ├── Abdomen
+│   │       │       ├── Femur
+│   │       │       └── Head
+│   │       ├── README-FP.md
+│   │       ├── README-general.md
+│   │       ├── README-HC18.md
+│   │       ├── README-MULTI-CENTRE.md
+│   │       └── README-UCL.md
 │   └── splits
 │       ├── multitask_train.csv
 │       ├── multitask_val.csv
@@ -196,8 +276,6 @@ Ultrasound/
 │       ├── train.csv
 │       └── val.csv
 ├── docs
-│   ├── EVAL_REPORT.md
-│   ├── EXPERIMENTS.md
 │   ├── instructions
 │   │   ├── 00_PROJECT_OVERVIEW.md
 │   │   ├── 01_ENVIRONMENT_SETUP.md
@@ -207,25 +285,23 @@ Ultrasound/
 │   │   ├── 05_TEMPORAL_SMOOTHING_AND_REALTIME.md
 │   │   ├── 06_EVALUATION_VALIDATION.md
 │   │   ├── 07_STRETCH_GOALS_AND_ROADMAP.md
+│   │   ├── 08_FINAL_EVALUATION_AND_POLISH.md
 │   │   └── 09_MASTER_CHECKLIST.md
 │   ├── phases
 │   │   ├── demo1
 │   │   │   └── demo1_walkthrough.md
 │   │   ├── phase_03
 │   │   │   ├── LR_FINDER_INVESTIGATION_SUMMARY.md
-│   │   │   ├── PHASE_3_KICKOFF_PROMPT.md
-│   │   │   └── phase 3 walkthrough.md
+│   │   │   ├── phase 3 walkthrough.md
+│   │   │   └── PHASE_3_KICKOFF_PROMPT.md
 │   │   ├── phase_04
-│   │   │   ├── PHASE_4_KICKOFF_PROMPT.md
 │   │   │   ├── bootstrap_significance_output.txt
 │   │   │   ├── evaluate_test_output.txt
 │   │   │   ├── phase 4 walkthrough.md
+│   │   │   ├── PHASE_4_KICKOFF_PROMPT.md
 │   │   │   ├── test_classification_metrics_all.txt
 │   │   │   └── validation_classification_metrics_all.txt
 │   │   ├── phase_05
-│   │   │   ├── PHASE5_SMOOTHING_TUNING.md
-│   │   │   ├── PHASE_5_KICKOFF_PROMPT.md
-│   │   │   ├── phase 5 walkthrough.md
 │   │   │   ├── phase5_screenshots
 │   │   │   │   ├── validation_file_final.png
 │   │   │   │   ├── validation_file_t010s.png
@@ -233,36 +309,54 @@ Ultrasound/
 │   │   │   │   ├── validation_file_t060s.png
 │   │   │   │   ├── validation_nogradcam_final.png
 │   │   │   │   └── validation_webcam_demo.png
+│   │   │   ├── phase 5 walkthrough.md
+│   │   │   ├── PHASE5_SMOOTHING_TUNING.md
+│   │   │   ├── PHASE_5_KICKOFF_PROMPT.md
 │   │   │   └── task8_implementation.md
 │   │   ├── phase_06
 │   │   │   └── PHASE_6_KICKOFF_PROMPT.md
-│   │   └── phase_07
-│   │       ├── goal_1_walkthrough.md
-│   │       ├── hud_clean_demo.png
-│   │       ├── phase7_multitask_hud_demo.png
-│   │       └── tier2_results.md
+│   │   ├── phase_07
+│   │   │   ├── goal_1_walkthrough.md
+│   │   │   ├── hud_clean_demo.png
+│   │   │   ├── phase7_multitask_hud_demo.png
+│   │   │   └── tier2_results.md
+│   │   └── phase_08
+│   │       ├── 2509.00808_ACAM.md
+│   │       └── phase_8_walkthrough.md
+│   ├── CAM_LOCALISATION_SPOTCHECK.md
+│   ├── CROSS_DEVICE_BACKBONE_COMPARISON.md
+│   ├── EVAL_REPORT.md
+│   ├── EXPERIMENTS.md
+│   ├── literature_survey_and_gap_analysis.md
+│   ├── NATALIA_INTEGRATION.md
 │   └── realistic_ultrasound.jpg
 ├── logs
-│   ├── .gitkeep
 │   ├── backbones
 │   │   ├── convnext_tiny
+│   │   │   ├── smoke_test
+│   │   │   │   └── events.out.tfevents.1785214331.NX-ASUS.7172.5
 │   │   │   ├── convnext_tiny_training_output.txt
 │   │   │   ├── events.out.tfevents.1785258244.NX-ASUS.5560.0
 │   │   │   ├── lr_finder.png
-│   │   │   ├── output.txt
-│   │   │   └── smoke_test
-│   │   │       └── events.out.tfevents.1785214331.NX-ASUS.7172.5
-│   │   └── convnext_tiny_focal
-│   │       ├── convnext_tiny_focal_training_output.txt
-│   │       └── events.out.tfevents.1785310525.NX-ASUS.24168.0
-│   ├── convnext_tiny.fb_in22k_ft_in1k_training_output.txt
+│   │   │   └── output.txt
+│   │   ├── convnext_tiny_focal
+│   │   │   ├── convnext_tiny_focal_training_output.txt
+│   │   │   └── events.out.tfevents.1785310525.NX-ASUS.24168.0
+│   ├── convnext_tiny_acam
+│   │   ├── events.out.tfevents.1787935993.NX-ASUS.18504.0
+│   │   └── events.out.tfevents.1787936651.NX-ASUS.10176.0
 │   ├── eval
+│   │   ├── bootstrap_significance_acam.txt
 │   │   ├── evaluate_cross_device.txt
+│   │   ├── evaluate_cross_device_mobilenetv3.txt
+│   │   ├── evaluate_natalia.txt
 │   │   ├── evaluate_realistic_video.txt
 │   │   ├── evaluate_tier2.txt
+│   │   ├── evaluate_transition_latency.txt
 │   │   ├── tier2a_sweep_comparison.txt
 │   │   ├── tier2a_sweep_grid_A.txt
-│   │   └── tier2a_sweep_grid_B.txt
+│   │   ├── tier2a_sweep_grid_B.txt
+│   │   └── transition_latency_details.csv
 │   ├── multitask
 │   │   ├── events.out.tfevents.1786874541.NX-ASUS.16248.0
 │   │   ├── events.out.tfevents.1787115784.NX-ASUS.16648.0
@@ -280,36 +374,76 @@ Ultrasound/
 │   │   ├── realtime_validation_stats_20260811_024537.csv
 │   │   └── realtime_validation_stats_20260811_233812.csv
 │   ├── smoketest
+│   │   ├── acam_smoke_test_output.txt
 │   │   ├── smoke_test_results.txt
-│   │   └── smoketest classification all.txt
+│   │   ├── smoketest classification all.txt
+│   │   ├── test_acam_output.txt
+│   │   └── test_cam_localisation_output.txt
 │   ├── training
 │   │   └── convnext_tiny.fb_in22k_ft_in1k_training_output.txt
-│   └── tuning
-│       ├── measure_baseline_flicker.txt
-│       └── tune_tier1_smoothing_sweep.txt
+│   ├── tuning
+│   │   ├── measure_baseline_flicker.txt
+│   │   └── tune_tier1_smoothing_sweep.txt
+│   ├── .gitkeep
+│   ├── build_natalia_manifest_output.txt
+│   ├── convnext_tiny.fb_in22k_ft_in1k_training_output.txt
+│   ├── convnext_tiny_acam_training_output.txt
+│   ├── natalia_structural_verification.txt
+│   └── natalia_transition_investigation.txt
 ├── outputs
+│   ├── cam_spotcheck
+│   │   ├── 01_Brain_Trans_cerebellum_Patient01698_Plane3_4_of_4.png
+│   │   ├── 02_Brain_Trans_cerebellum_Patient01427_Plane3_1_of_4.png
+│   │   ├── 03_Brain_Trans_cerebellum_Patient01421_Plane3_2_of_2.png
+│   │   ├── 04_Brain_Trans_thalamic_Patient01488_Plane3_1_of_3.png
+│   │   ├── 05_Brain_Trans_thalamic_Patient01419_Plane3_4_of_4.png
+│   │   ├── 06_Brain_Trans_thalamic_Patient01779_Plane3_3_of_4.png
+│   │   ├── 07_Brain_Trans_ventricular_Patient01559_Plane3_2_of_2.png
+│   │   ├── 08_Brain_Trans_ventricular_Patient01663_Plane3_4_of_5.png
+│   │   ├── 09_Brain_Trans_ventricular_Patient01453_Plane3_4_of_4.png
+│   │   ├── 10_Fetal_abdomen_Patient01613_Plane2_1_of_1.png
+│   │   ├── 11_Fetal_abdomen_Patient01291_Plane2_1_of_1.png
+│   │   ├── 12_Fetal_femur_Patient01582_Plane5_1_of_3.png
+│   │   ├── 13_Fetal_femur_Patient01693_Plane5_1_of_1.png
+│   │   ├── 14_Fetal_thorax_Patient01775_Plane6_4_of_5.png
+│   │   ├── 15_Fetal_thorax_Patient01647_Plane6_3_of_4.png
+│   │   ├── 16_Maternal_cervix_Patient01734_Plane4_3_of_3.png
+│   │   ├── 17_Maternal_cervix_Patient01671_Plane4_2_of_2.png
+│   │   ├── 18_Other_Patient01677_Plane1_3_of_9.png
+│   │   ├── 19_Other_Patient01395_Plane1_8_of_8.png
+│   │   ├── 20_Other_Patient01307_Plane1_14_of_25.png
 │   ├── demo1
 │   │   ├── annotated_Brain_Trans_cerebellum_clip01.mp4
 │   │   ├── annotated_Brain_Trans_cerebellum_clip02.mp4
+│   │   ├── annotated_demo_phantom_1.mp4
 │   │   ├── annotated_Fetal_femur_clip02.mp4
 │   │   ├── annotated_multiplane_scan_01.mp4
 │   │   ├── annotated_upload_test_8_80.mp4
 │   │   └── upload_test_8_80.avi
 │   └── test_annotated.mp4
-├── project_structure_tree.txt
-├── pyrightconfig.json
-├── requirements-lock.txt
-├── requirements.txt
 ├── scripts
+│   ├── tests
+│   │   ├── test_acam.py
+│   │   ├── test_backbone.py
+│   │   ├── test_cam_localisation.py
+│   │   ├── test_tier1.py
+│   │   ├── test_tier2_mode_filter.py
+│   │   └── test_transforms_parity.py
 │   ├── benchmark_pipeline.py
 │   ├── build_cross_device_manifest.py
 │   ├── build_manifest.py
 │   ├── build_multitask_manifest.py
+│   ├── build_natalia_manifest.py
+│   ├── build_natalia_showcase_clip.py
+│   ├── check_natalia_transitions.py
 │   ├── derive_bboxes.py
 │   ├── evaluate_cross_device.py
+│   ├── evaluate_natalia.py
 │   ├── evaluate_realistic_video.py
+│   ├── evaluate_test_acam.py
 │   ├── evaluate_tier2.py
 │   ├── evaluate_transition_latency.py
+│   ├── generate_cam_spotcheck.py
 │   ├── generate_multiplane_clips.py
 │   ├── generate_sample_clips.py
 │   ├── lr_finder.py
@@ -318,46 +452,53 @@ Ultrasound/
 │   ├── run_sanity_checks.py
 │   ├── save_hud_screenshot.py
 │   ├── smoke_test.py
-│   ├── tests
-│   │   ├── test_backbone.py
-│   │   ├── test_tier1.py
-│   │   ├── test_tier2_mode_filter.py
-│   │   └── test_transforms_parity.py
 │   ├── train_multitask.py
 │   ├── tune_tier1_smoothing.py
 │   ├── tune_tier2_mode_filter.py
 │   ├── validate_pipeline_headless.py
+│   ├── verify_natalia_structural.py
 │   └── verify_no_multitask_leakage.py
-└── src
-    ├── data
-    │   ├── __init__.py
-    │   ├── class_weights.py
-    │   ├── dataset.py
-    │   ├── synthetic_video.py
-    │   └── transforms.py
-    ├── eval
-    │   ├── __init__.py
-    │   ├── evaluate_test.py
-    │   └── metrics_utils.py
-    ├── models
-    │   ├── __init__.py
-    │   ├── backbone.py
-    │   ├── gradcam.py
-    │   └── multitask_model.py
-    ├── realtime
-    │   ├── app.py
-    │   ├── capture.py
-    │   ├── model_loader.py
-    │   ├── pipeline.py
-    │   └── queues.py
-    ├── smoothing
-    │   ├── .gitkeep
-    │   ├── __init__.py
-    │   ├── tier1.py
-    │   └── tier2_mode_filter.py
-    ├── train
-    │   ├── __init__.py
-    │   ├── losses.py
-    │   └── train.py
-    └── utils
-        └── .gitkeep
+├── src
+│   ├── data
+│   │   ├── __init__.py
+│   │   ├── class_weights.py
+│   │   ├── dataset.py
+│   │   ├── synthetic_video.py
+│   │   └── transforms.py
+│   ├── eval
+│   │   ├── __init__.py
+│   │   ├── evaluate_test.py
+│   │   └── metrics_utils.py
+│   ├── models
+│   │   ├── __init__.py
+│   │   ├── acam.py
+│   │   ├── backbone.py
+│   │   ├── cam_localisation.py
+│   │   ├── gradcam.py
+│   │   └── multitask_model.py
+│   ├── realtime
+│   │   ├── app.py
+│   │   ├── capture.py
+│   │   ├── model_loader.py
+│   │   ├── pipeline.py
+│   │   └── queues.py
+│   ├── smoothing
+│   │   ├── .gitkeep
+│   │   ├── __init__.py
+│   │   ├── tier1.py
+│   │   └── tier2_mode_filter.py
+│   ├── train
+│   │   ├── __init__.py
+│   │   ├── losses.py
+│   │   └── train.py
+│   └── utils
+│       └── .gitkeep
+├── .env
+├── .gitignore
+├── app_streamlit.py
+├── generate_tree.py
+├── project_structure_tree.txt
+├── pyrightconfig.json
+├── README.md
+├── requirements-lock.txt
+└── requirements.txt
