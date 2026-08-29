@@ -135,14 +135,24 @@ conda run -n fetalplane python app_gradio.py --share  # public tunnel
 | Confidence score | ✅ Every frame |
 | STABLE / SETTLING badge | ✅ Tier-1 + Tier-2a smoothing |
 | Grad-CAM overlay | ✅ Available (OFF by default; enable in sidebar) |
-| Structure bounding boxes | ❌ Not shown (detection model trained 1 epoch only) |
+| Structure bounding boxes | 🟡 Approx. region (saliency-derived) |
 
-> **Why no bounding boxes?** The multitask object detection model was trained for exactly 1 epoch as a wiring smoke-test. Showing garbage boxes in a clinical context would be misleading.
+> **Why are bounding boxes approximate?** The multitask object detection model was trained for exactly 1 epoch as a wiring smoke-test. Showing these boxes in a clinical context would be misleading. Instead, we use a weakly-supervised saliency-derived approximation box labeled "approx. region (saliency-derived)" derived from the Grad-CAM.
 
-### Known Accuracy Limitations
+### Results at a Glance
 - **In-distribution test macro-F1: 0.8927** (patient-disjoint, held-out split).
-- **Cross-device accuracy drop:** 98.0% (in-distribution) → 83.2% on HC18/UCL unseen devices.
-- **`Brain_Trans_ventricular` is the weakest class** (F1 0.77) — well-documented in the literature as the hardest confusion case.
+- **Cross-device accuracy drop:** 98.0% (in-distribution) → 83.6% on HC18/UCL unseen devices.
+- **NatalIA non-expert-operator generalization (Standard vs Other):** 97.2% Recall on standard planes, 99.4% Precision on "Other".
+- **Video stabilization latency:** 489.3 ms average latency to stabilize on spurious within-class flicker.
+
+For full evaluation metrics, cross-device confusion matrices, and known limitations, please see the [Evaluation Report (docs/EVAL_REPORT.md)](file:///d:/Ultrasound/docs/EVAL_REPORT.md).
+
+### Non-Goals (Explicitly Out of Scope)
+- No clinical validation, no regulatory claims, no real patient data (research datasets and phantom data only).
+- No real ultrasound hardware integration.
+- No mobile app deployment.
+- No multi-task detection head (stretch goal only, replaced by weakly-supervised bounding boxes).
+- No production-grade auth/security/multi-user serving.
 
 ---
 

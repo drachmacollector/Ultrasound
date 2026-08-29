@@ -9,8 +9,8 @@
 ## 1. What This Document Covers
 
 This walkthrough documents the complete architecture, design decisions, implementation
-details, bug history, and known limitations of **Demo 1**: a Gradio web application
-that accepts an uploaded fetal ultrasound video clip and returns a fully-annotated MP4
+details, bug history, and known limitations of **Demo 1**: a Streamlit web application
+(with a Gradio backup) that accepts an uploaded fetal ultrasound video clip and returns a fully-annotated MP4
 with per-frame plane labels, confidence scores, and Grad-CAM saliency overlays.
 
 It is intended as a **permanent reference** for anyone picking up this codebase, and
@@ -43,9 +43,9 @@ Before Demo 1 was built, the following components were complete and validated:
 Browser upload
      │
      ▼
-app_gradio.py (Gradio Blocks)
-     │  gr.Video in → process_video() → gr.Video out
-     │  Output written to outputs/demo1/ (Gradio allowed_paths)
+app_streamlit.py (Streamlit primary) / app_gradio.py (backup)
+     │  Video in → process_video() → Video out
+     │  Output written to outputs/demo1/
      │
      ▼
 scripts/render_annotated_video.py :: render_video()
@@ -170,21 +170,26 @@ python scripts/render_annotated_video.py \
 
 Disabling Grad-CAM (`--no-gradcam`) roughly halves render time.
 
-### `app_gradio.py`
+### `app_streamlit.py` & `app_gradio.py`
 
-The Gradio Blocks web application. Thin wrapper around `render_video()`.
+The web applications. `app_streamlit.py` is the primary interface for clinical demos, while `app_gradio.py` serves as a backup. Both are thin wrappers around `render_video()`.
 
 **Key UI elements:**
-- `gr.Video(sources=["upload"])` — input
-- `gr.Video(autoplay=True, format="mp4")` — annotated output, plays inline
+- Video upload component
+- Video player (autoplay) for annotated output
 - Grad-CAM toggle + every-N slider
 - Tier-2a checkbox (default ON)
 - HUD toggle
-- Per-frame JSON label log (first 200 frames shown, rest truncated)
+- Per-frame JSON label log
 - Model info accordion (backbone, F1, known limitations)
-- Auto-discovered example clips from `data/processed/synthetic_clips/*.mp4`
+- Auto-discovered example clips from `data/processed/synthetic_clips/*.mp4` (and `natalia_showcase_clips/*.mp4`)
 
-**Launch:**
+**Launch Streamlit (Primary):**
+```bash
+conda run -n fetalplane streamlit run app_streamlit.py
+```
+
+**Launch Gradio (Backup):**
 ```bash
 python app_gradio.py               # http://127.0.0.1:7860
 python app_gradio.py --share       # public Gradio tunnel
@@ -516,9 +521,8 @@ conda run -n fetalplane python scripts/render_annotated_video.py \
     --output outputs/test_annotated.mp4 \
     --no-gradcam
 
-# 4. Gradio launch smoke test
-#    Ctrl+C after seeing "Running on local URL: http://127.0.0.1:7860"
-conda run -n fetalplane python app_gradio.py --no-browser
+# 4. Streamlit launch smoke test
+conda run -n fetalplane streamlit run app_streamlit.py --server.headless=true
 ```
 
 ### Manual browser verification

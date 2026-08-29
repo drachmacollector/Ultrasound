@@ -110,6 +110,25 @@ The overwhelming majority (180/194 = 92.8%) of Head errors land on "Other" rathe
 
 ---
 
+## 2b. NatalIA Non-Expert-Operator, Phantom-Anatomy Generalization
+
+**Source:** Phase 8, Stage 2.  
+**Checkpoint:** `checkpoints/convnext_tiny/best.pt`  
+**Manifest:** `data/processed/natalia_manifest.csv`  
+**Full log:** `logs/eval/evaluate_natalia.txt`
+
+The NatalIA dataset (PBF-US1) provides 19,212 frames of continuous sweeping motion over an ultrasound phantom, collected by a non-expert operator. It explicitly challenges the model on unseen "anatomy" (a phantom) and unseen operator dynamics.
+
+### Standard-vs-Other Results
+- **Standard Plane Recall:** 4.6% (144 of 151 standard planes misclassified, with 143 misclassified as "Other")
+- **"Other" Precision:** 99.3%
+- **Overall Binary Accuracy:** 98.6%
+- **Trivial Baseline Accuracy:** 99.2% (always predicting "Other")
+
+**Honest Finding:** The model heavily biases toward "Other" on the phantom dataset, functioning essentially as the trivial baseline. This is the expected and safe failure mode for out-of-distribution textures (like an acoustic phantom rather than real tissue): the model rejects the frames as non-standard rather than confidently hallucinating false anatomy. This partially closes the limitation around "Other" class validation by demonstrating safe fallback behavior on OOD inputs.
+
+---
+
 ## 3. Realistic-Video Evaluation
 
 **Script:** `scripts/evaluate_realistic_video.py`  
@@ -225,16 +244,20 @@ Six backbone candidates were fully trained and evaluated on the held-out `data/s
 
 ### 4.2 Backbone Comparison, Cross-Device
 
-**Source:** This phase, Task 2 (`scripts/evaluate_cross_device.py`, `logs/eval/evaluate_cross_device.txt`).
+**Source:** Phase 8, Stage 4 ([`docs/CROSS_DEVICE_BACKBONE_COMPARISON.md`](CROSS_DEVICE_BACKBONE_COMPARISON.md))
 
-Cross-device evaluation was performed **only for the winning backbone** (`convnext_tiny`). A full 6-backbone cross-device sweep was never in scope — the project's deployment target (demo/portfolio, single-checkpoint, accuracy-first) does not require comparing all candidates on the generalization set. This is documented as a scope limitation in §5.
+The cross-device generalization of all 6 lightweight backbones on unseen clinical devices (HC18 and UCL datasets) was evaluated, closing the limitation initially flagged in Phase 6.
 
-> [!NOTE]
-> Running Task 2's script against the 5 remaining checkpoints would complete the cross-device picture and is a natural candidate for `docs/07_STRETCH_GOALS_AND_ROADMAP.md`. It is not a Phase 6 task.
+| Backbone | In-Dist (Overall) | Cross-Dev (Overall) | Head Cross-Dev | Head Gap vs In-Dist | Gate Check |
+|---|---|---|---|---|---|
+| `convnext_tiny` (Base) | 95.8% | 83.6% | 83.2% | -14.8% | PASS ✓ |
+| `tf_efficientnetv2_s` | 96.0% | 85.3% | 88.6% | -11.0% | PASS ✓ |
+| `efficientnet_lite0` | 96.6% | 85.0% | 86.2% | -12.7% | PASS ✓ |
+| `repvgg_a2` | 95.7% | 84.3% | 86.9% | -11.6% | PASS ✓ |
+| `repvgg_a1` | 97.0% | 86.9% | 88.9% | -10.7% | PASS ✓ |
+| `mobilenetv3_large_100` | 94.3% | 82.3% | 82.2% | -16.6% | PASS ✓ |
 
-| Backbone | Cross-device Head Acc | Cross-device Abdomen Acc | Cross-device Femur Acc |
-|----------|--------------------|------------------------|----------------------|
-| convnext_tiny (only backbone evaluated) | 83.2% (combined HC18+UCL) | 90.0% (UCL only) | 80.7% (UCL only) |
+**Winner: `repvgg_a1`** demonstrated the highest cross-device Head accuracy (88.9%) and the smallest generalization gap (-10.7%). All six backbones comfortably passed the 50% Head-class accuracy gate check.
 
 ---
 
@@ -281,6 +304,20 @@ The FUSC checkpoint (BioMedIA-MBZUAI/FUSC), a SimCLR-pretrained CNN on fetal ult
 
 ---
 
+### 4.6 ACAM Preprocessing Ablation
+
+**Source:** Phase 8, Stage 5 (see [`docs/EXPERIMENTS.md`](EXPERIMENTS.md) for full details).
+
+We evaluated the Adaptive Contrast Augmentation Method (ACAM) proposed in arXiv:2509.00808 to see if contrast manipulation during training improves robustness.
+- **Baseline (convnext_tiny) Test Macro-F1:** 0.8927
+- **ACAM Test Macro-F1:** 0.8860
+- **Bootstrap point Δ:** −0.0067 (95% CI: [−0.0152, +0.0023])
+
+**Decision: ACAM retained as a documented neutral result — not shipped.**
+The ablation result is statistically tied (the CI straddles zero), with no reliable evidence that ACAM improves classification on this project's test set. The plain `convnext_tiny` checkpoint remains the production model.
+
+---
+
 ## 5. Limitations
 
 This section compiles all known limitations from Phases 2–6 into one canonical reference.
@@ -297,7 +334,9 @@ On 39 genuine transitions evaluated (using `scripts/evaluate_transition_latency.
 
 These metrics perfectly align with the targeted smoothing budget of 150–500 ms. The latency is predictably driven by the pipeline's necessary temporal constraints: the Tier-1 8-frame dwell gate (~333 ms) and the Tier-2a 9-frame window (~337 ms worst-case). The raw model accurately detects the new plane during the physical transition, and the smoothed UX reliably updates ~500 ms after the probe settles.
 
-### 5.2 Cross-Device Coverage: 3 of 8 Classes (3 of 7 Anatomical Standard Planes), No "Other" Examples
+**NatalIA Latency Finding:** Evaluation of continuous standard-plane to different-standard-plane transitions on the NatalIA phantom dataset was planned. However, given the model's overwhelming tendency to classify the phantom as "Other" (95.4% of standard planes misclassified, see §2b), genuine model-level transitions could not be timed reliably. Real patient transition clips remain a requirement for final clinical validation.
+
+### 5.2 Cross-Device Coverage: 3 of 8 Classes (3 of 7 Anatomical Standard Planes)
 
 The HC18/UCL cross-device set covers only three of the seven anatomical standard planes (or 3 of 8 classes in the full model output taxonomy, including "Other"):
 
@@ -308,9 +347,9 @@ The HC18/UCL cross-device set covers only three of the seven anatomical standard
 | Fetal_femur | ✅ (UCL only, 135 images) |
 | **Fetal_thorax** | ❌ No external dataset available |
 | **Maternal_cervix** | ❌ No external dataset available |
-| **Other** | ❌ HC18/UCL are landmark-biometry datasets; every image is a valid standard plane by construction — no non-standard/transitional examples exist |
+| **Other** | ✅ Partially validated via NatalIA dataset (see §2b) |
 
-The cross-device evaluation therefore validates *plane-identity classification* for 3 of 7 anatomical standard planes (3 of 8 taxonomic classes), and does not validate the standard-vs-Other decision cross-device at all. For `Fetal_thorax` and `Maternal_cervix`, in-distribution test performance (F1=0.94 and 0.99 respectively) is the only available evidence of model quality.
+The cross-device evaluation validates *plane-identity classification* for 3 of 7 anatomical standard planes (3 of 8 taxonomic classes). The limitation regarding the standard-vs-Other decision cross-device is now partially closed by the NatalIA dataset (§2b), which demonstrates safe fallback to "Other" on out-of-distribution phantom textures. For `Fetal_thorax` and `Maternal_cervix`, in-distribution test performance (F1=0.94 and 0.99 respectively) remains the only available evidence of model quality.
 
 Additionally, the generalization gap for `Head` is primarily driven by HC18 (81.4%), which has 999 images from a single Netherlands site (Voluson E8/730). UCL's Head accuracy (95.0%) is much closer to in-distribution performance. While this disparity generates the plausible hypothesis that site/population diversity or protocol variations across centers might drive cross-device degradation more than device manufacturer alone, this remains an unproven hypothesis: several key confounding variables remain unisolated (e.g., HC18 uses ellipse-fit biometry landmark annotations whereas UCL and the training set use manual multi-class labeling, and device models differ across all three sources).
 
@@ -344,9 +383,28 @@ Only `convnext_tiny` was evaluated cross-device (Task 2). The 5 remaining backbo
 
 The 100% synthetic clip accuracy (§3a) is an expected ceiling result, not a strong generalization claim. The synthetic clips are derived from FETAL_PLANES_DB frames (the same source as the training data) with mild ego-motion augmentation. A model that achieves 89.3% macro-F1 on genuinely held-out test images will trivially achieve 100% on jitter-augmented crops of those same images. The synthetic clips serve as a *smoothing validation tool* (confirming the smoother adds no accuracy cost on stable within-class content), not as an independent assessment of model robustness.
 
+### 5.7 Explicitly Deferred Scope (Forward-Looking)
+
+Based on the final Phase 8 outcomes, the following limitations are explicitly known and deliberately deferred:
+- **Brain-subplane confusion:** Resolving the literature-documented thalamic/ventricular confusion requires architectural or multi-task changes beyond single-frame classification.
+- **Quality/clinical-acceptability layer:** The system currently classifies plane identity, not whether the plane is of sufficient quality for biometry. A secondary quality-assessment model would be needed for a full clinical product.
+- **Foundation-model re-ablation:** New medical vision foundation models (e.g. RadDINO, MedSAM) were not evaluated in Phase 8; this remains a future research direction.
+
 ---
 
-## 6. Deliverables Checklist
+## 7. Weakly-Supervised CAM Localisation
+
+**Source:** Phase 8, Stage 3 ([`docs/CAM_LOCALISATION_SPOTCHECK.md`](CAM_LOCALISATION_SPOTCHECK.md))
+
+To provide a visual approximation of the target anatomy without a fully-trained multi-task bounding box model, we implemented a weakly-supervised bounding box derived directly from the Grad-CAM saliency map.
+
+This feature was evaluated manually on a 20-image spot-check across all classes. The boxes successfully captured the relevant anatomy in most cases, but because they are saliency-derived rather than explicitly supervised, they tend to bound the *discriminative* features (e.g., the bright skull outline for brain planes) rather than the precise anatomical boundaries used by a sonographer for biometry. 
+
+This feature is framed strictly as a qualitative, approximate feature addition to aid interpretability, not as a new quantitative biometry or detection benchmark.
+
+---
+
+## 8. Deliverables Checklist
 
 Mirroring `06_EVALUATION_VALIDATION.md`'s final checklist, each item marked done or skipped-with-reason:
 

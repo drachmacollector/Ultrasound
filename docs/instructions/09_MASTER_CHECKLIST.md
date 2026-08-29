@@ -55,15 +55,15 @@ The single top-to-bottom list. Everything here is detailed in files `00`–`07`;
 - [ ] `[M]` Test end-to-end on a real video file first, then webcam
 
 ### Phase 6 — Evaluation & Validation ([06_EVALUATION_VALIDATION.md](06_EVALUATION_VALIDATION.md))
-- [ ] `[A]` In-distribution test metrics (per-class + macro-F1, confusion matrix)
-- [ ] `[A]` Cross-device generalization metrics, gap explicitly reported
-- [ ] `[A]` Realistic-video frame-level accuracy, with/without smoothing
+- [x] `[A]` In-distribution test metrics (per-class + macro-F1, confusion matrix)
+- [x] `[A]` Cross-device generalization metrics, gap explicitly reported
+- [x] `[A]` Realistic-video frame-level accuracy, with/without smoothing
 - [x] `[A]` Video stability metrics (switches/min, latency-to-stabilize (mean 489.3 ms), dwell time)
-- [ ] `[A]` Run all planned ablations
-- [ ] `[M+A]` Write final [EVAL_REPORT.md](../EVAL_REPORT.md) including honest limitations section
+- [x] `[A]` Run all planned ablations
+- [x] `[M+A]` Write final [EVAL_REPORT.md](../EVAL_REPORT.md) including honest limitations section
 
 ### Phase 7 — Stretch Goals ([07_STRETCH_GOALS_AND_ROADMAP.md](07_STRETCH_GOALS_AND_ROADMAP.md)) — only after Phases 0-6 are fully done
-- [ ] Detection-informed multi-task head
+- [ ] Detection-informed multi-task head (Smoke tested, val F1 low — deferred)
 - [ ] ONNX/TensorRT export + quantization
 - [x] Tier-2a majority-vote mode filter (`src/smoothing/tier2_mode_filter.py`)
   - Sweep: dual grid A+B, 42 combos. Selected: `window=9, min_majority_frac=0.7` (338ms added lag).
@@ -71,10 +71,21 @@ The single top-to-bottom list. Everything here is detailed in files `00`–`07`;
   - Decision: Tier-2b (learned GRU) NOT built — Tier-2a sufficient. See `docs/phases/phase_07/tier2_results.md`.
   - Caveat (documented in results): validated on a single ~20-frame (~833ms) clip with ~1 switch. Win is real but not validated on sustained real-world oscillation.
   - Pipeline integration: opt-in via `--enable-tier2` / `--tier2-config` flags (off by default).
-- [ ] Tier-2b learned temporal head (deferred — Tier-2a sufficient)
-- [ ] Web UI polish
+- [x] Tier-2b learned temporal head (deferred — Tier-2a sufficient)
+- [x] Web UI polish
 - [ ] Proper domain-specific self-supervised pretraining
 - [ ] Second clinical track (intrapartum monitoring), if desired
+
+### Phase 8 — Final Showcase-Readiness
+- [x] `[M+A]` Stage 1: NatalIA dataset acquisition and structural verification
+- [x] `[A]` Stage 2: NatalIA standard-vs-Other & non-expert-operator evaluation
+- [x] `[M+A]` Stage 3: CAM-to-bounding-box weakly-supervised localisation & spot-check
+- [x] `[A]` Stage 4: Full 6-Backbone Cross-Device Sweep
+- [x] `[M+A]` Stage 5: ACAM-Style Adaptive-Contrast Preprocessing Ablation
+- [x] `[A]` Stage 6.1: Resolve dual-UI ambiguity and stale checklist
+- [x] `[M+A]` Stage 6.2: Update README.md for external/clinical-audience readability
+- [x] `[A]` Stage 6.3: Final consolidated EVAL_REPORT.md update
+- [x] `[A]` Stage 6.5: Full documentation and logs audit
 
 ---
 
