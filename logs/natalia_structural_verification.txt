@@ -1,0 +1,5 @@
+﻿Found 90 subdirectories matching pattern.
+resume.csv has 19407 rows.
+Missing files check: 0 files missing.
+Value counts: {5: 19061, 3: 134, 1: 63, 2: 61, 4: 46, 0: 42}
+metadata.csv found with 90 rows. Columns: ['Study Name', 'protocol', 'position', 'Age', 'Gender', 'Level of Education', 'Ultrasound Experience', 'Years of Experience', 'Race/Ethnicity', 'Visual Impairment', 'specify', 'dominant hand']

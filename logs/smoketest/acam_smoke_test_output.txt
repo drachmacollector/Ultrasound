@@ -1,0 +1,71 @@
+﻿conda.exe : 22:23:11 [INFO] epochs_max overridden to 1 via CLI
+At D:\miniconda\shell\condabin\Conda.psm1:194 char:17
++ ...             & $Env:CONDA_EXE $Env:_CE_M $Env:_CE_CONDA $Command @Othe ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (22:23:11 [INFO]...en to 1 via CLI:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+22:23:11 [INFO] Using device: cuda
+22:23:11 [INFO] Building model: convnext_tiny.fb_in22k_ft_in1k (pretrained=True)
+22:23:12 [INFO] Loading pretrained weights from Hugging Face hub (timm/convnext_tiny.fb_in22k_ft_in1k)
+22:23:12 [INFO] HTTP Request: GET https://huggingface.co/api/agent-harnesses "HTTP/1.1 200 OK"
+22:23:12 [INFO] HTTP Request: HEAD 
+https://huggingface.co/timm/convnext_tiny.fb_in22k_ft_in1k/resolve/main/model.safetensors "HTTP/1.1 302 Found"
+22:23:12 [INFO] [timm/convnext_tiny.fb_in22k_ft_in1k] Safe alternative available for 'pytorch_model.bin' (as 
+'model.safetensors'). Loading weights using safetensors.
+22:23:13 [INFO] Missing keys (head.fc.weight, head.fc.bias) discovered while loading pretrained weights. This is 
+expected if model is being adapted.
+22:23:13 [INFO] ACAM enabled (K=10, ╬▒Γêê[1.0,3.0]) ΓÇö 5559 learnable parameters
+22:23:13 [INFO] Image size: 224x224
+22:23:13 [INFO] Loss: CrossEntropyLoss (class-weighted)
+22:23:13 [INFO] Starting training: backbone=convnext_tiny.fb_in22k_ft_in1k, epochs_max=1, patience=8, lr=1.00e-04, 
+amp=True
+22:28:36 [INFO] Epoch 1 TRAIN | loss=0.7388 acc=0.7089 | 19 img/s
+22:31:25 [INFO] Epoch 1 VAL   | loss=0.2904 acc=0.8485 macro_f1=0.8181
+22:31:27 [INFO] Γ£ô New best checkpoint (val macro-F1=0.8181) ΓåÆ checkpoints\convnext_tiny_acam\best.pt
+22:31:38 [INFO] Confusion matrix saved ΓåÆ checkpoints\convnext_tiny_acam\confusion_matrix_best_epoch1.png
+22:31:38 [INFO] Training complete. Best val macro-F1=0.8181 at epoch 1.
+22:31:38 [INFO] Reloading best checkpoint (epoch 1, macro_f1=0.8181) for final report
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\Ultrasound\src\train\train.py", line 521, in <module>
+    train(cfg)
+  File "D:\Ultrasound\src\train\train.py", line 450, in train
+    best_state = torch.load(str(best_ckpt_path), map_location=device, weights_only=False)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\miniconda\envs\fetalplane\Lib\site-packages\torch\serialization.py", line 1579, in load
+    return _load(
+           ^^^^^^
+  File "D:\miniconda\envs\fetalplane\Lib\site-packages\torch\serialization.py", line 2190, in _load
+    result = unpickler.load()
+             ^^^^^^^^^^^^^^^^
+  File "D:\miniconda\envs\fetalplane\Lib\site-packages\torch\serialization.py", line 2154, in persistent_load
+    typed_storage = load_tensor(
+                    ^^^^^^^^^^^^
+  File "D:\miniconda\envs\fetalplane\Lib\site-packages\torch\serialization.py", line 2116, in load_tensor
+    wrap_storage = restore_location(storage, location)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\miniconda\envs\fetalplane\Lib\site-packages\torch\serialization.py", line 1920, in restore_location
+    return default_restore_location(storage, str(map_location))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\miniconda\envs\fetalplane\Lib\site-packages\torch\serialization.py", line 734, in default_restore_location
+    result = fn(storage, location)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\miniconda\envs\fetalplane\Lib\site-packages\torch\serialization.py", line 668, in _deserialize
+    return obj.to(device=device)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\miniconda\envs\fetalplane\Lib\site-packages\torch\storage.py", line 289, in to
+    return _to(self, device, non_blocking)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\miniconda\envs\fetalplane\Lib\site-packages\torch\_utils.py", line 107, in _to
+    untyped_storage.copy_(self, non_blocking)
+torch.AcceleratorError: CUDA error: unknown error
+Search for `cudaErrorUnknown' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more 
+information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ERROR conda.cli.main_run:execute(148): `conda run python -m src.train.train --config configs/convnext_tiny_acam.yaml 
+--epochs-override 1` failed. (See above for error)

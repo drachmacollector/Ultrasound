@@ -1,24 +1,24 @@
-02:45:37 [MainThread] INFO ============================================================
-02:45:37 [MainThread] INFO TASK 10 HEADLESS VALIDATION — 20260811_024537
+﻿02:45:37 [MainThread] INFO ============================================================
+02:45:37 [MainThread] INFO TASK 10 HEADLESS VALIDATION â€” 20260811_024537
 02:45:37 [MainThread] INFO ============================================================
 02:45:37 [MainThread] INFO Stats log   : logs\realtime_validation_run_20260811_024537.txt
 02:45:37 [MainThread] INFO Screenshots : docs\phase5_screenshots
 02:45:37 [MainThread] INFO 
 02:45:37 [MainThread] INFO RUN A: GradCAM ON, duration=120s
 02:45:37 [MainThread] INFO 
-02:45:37 [MainThread] INFO ────────────────────────────────────────────────────────────
+02:45:37 [MainThread] INFO â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 02:45:37 [MainThread] INFO Run config:
 02:45:37 [MainThread] INFO   source          : data/processed/synthetic_clips/Brain_Trans_thalamic_clip01.mp4
 02:45:37 [MainThread] INFO   duration        : 120 s
 02:45:37 [MainThread] INFO   gradcam         : ON (every_n=7)
 02:45:37 [MainThread] INFO   screenshot_prefix: validation_file
-02:45:37 [MainThread] INFO ────────────────────────────────────────────────────────────
+02:45:37 [MainThread] INFO â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 02:45:38 [MainThread] INFO   backbone: convnext_tiny.fb_in22k_ft_in1k  device: cuda  img_size: 224
 02:45:38 [MainThread] INFO   source resolution: 958x660 @ 24.0 fps
-02:45:38 [MainThread] INFO InferenceThread: Tier1Smoother loaded — alpha=0.20 sw_thr=0.70 dwell=8 hold_floor=None
+02:45:38 [MainThread] INFO InferenceThread: Tier1Smoother loaded â€” alpha=0.20 sw_thr=0.70 dwell=8 hold_floor=None
 02:45:38 [MainThread] INFO InferenceThread: persistent GradCAM initialised for convnext_tiny.fb_in22k_ft_in1k (target layer type: ConvNeXtBlock, throttle: every 7 frames or 1000 ms).
 02:45:38 [CaptureThread] INFO CaptureThread: starting.
-02:45:38 [CaptureThread] INFO CaptureThread: file source — throttling to 24.0 fps (41.7 ms/frame).
+02:45:38 [CaptureThread] INFO CaptureThread: file source â€” throttling to 24.0 fps (41.7 ms/frame).
 02:45:38 [InferenceThread] INFO InferenceThread: starting (device=cuda, amp=True, gradcam=True).
 02:45:48 [MainThread] INFO   [SCREENSHOT] saved docs\phase5_screenshots\validation_file_t010s.png
 02:46:08 [MainThread] INFO   [SCREENSHOT] saved docs\phase5_screenshots\validation_file_t030s.png
@@ -26,8 +26,8 @@
 02:47:38 [InferenceThread] INFO InferenceThread: exiting after 2651 frames processed.
 02:47:38 [CaptureThread] INFO CaptureThread: exiting.
 02:47:38 [MainThread] INFO   [SCREENSHOT] saved docs\phase5_screenshots\validation_file_final.png (final)
-02:47:38 [MainThread] INFO ────────────────────────────────────────────────────────────
-02:47:38 [MainThread] INFO Run A complete — validation_file
+02:47:38 [MainThread] INFO â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+02:47:38 [MainThread] INFO Run A complete â€” validation_file
 02:47:38 [MainThread] INFO   total inf frames    : 2651
 02:47:38 [MainThread] INFO   capture FPS         : 23.6
 02:47:38 [MainThread] INFO   inf FPS mean        : 22.2
@@ -39,32 +39,32 @@
 02:47:38 [MainThread] INFO   gradcam_ms/call     : 62.8 ms (380 calls)
 02:47:38 [MainThread] INFO   gradcam cadence     : 316 ms actual (target: 200 ms)
 02:47:38 [MainThread] INFO   cap drops           : 175
-02:47:38 [MainThread] INFO   Thermal assessment  : STABLE (stable 23.7 → late 23.6, Δ=-0.1)
+02:47:38 [MainThread] INFO   Thermal assessment  : STABLE (stable 23.7 â†’ late 23.6, Î”=-0.1)
 02:47:38 [MainThread] INFO   Dwell @ stable FPS  : 338 ms (IN RANGE)
-02:47:38 [MainThread] INFO ────────────────────────────────────────────────────────────
-02:47:38 [MainThread] INFO Pausing 5 s between runs …
+02:47:38 [MainThread] INFO â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+02:47:38 [MainThread] INFO Pausing 5 s between runs â€¦
 02:47:43 [MainThread] INFO 
 02:47:43 [MainThread] INFO RUN B: GradCAM OFF (pure inference), duration=30s
 02:47:43 [MainThread] INFO 
-02:47:43 [MainThread] INFO ────────────────────────────────────────────────────────────
+02:47:43 [MainThread] INFO â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 02:47:43 [MainThread] INFO Run config:
 02:47:43 [MainThread] INFO   source          : data/processed/synthetic_clips/Brain_Trans_thalamic_clip01.mp4
 02:47:43 [MainThread] INFO   duration        : 30 s
 02:47:43 [MainThread] INFO   gradcam         : OFF (every_n=7)
 02:47:43 [MainThread] INFO   screenshot_prefix: validation_nogradcam
-02:47:43 [MainThread] INFO ────────────────────────────────────────────────────────────
+02:47:43 [MainThread] INFO â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 02:47:44 [MainThread] INFO   backbone: convnext_tiny.fb_in22k_ft_in1k  device: cuda  img_size: 224
 02:47:44 [MainThread] INFO   source resolution: 958x660 @ 24.0 fps
-02:47:44 [MainThread] INFO InferenceThread: Tier1Smoother loaded — alpha=0.20 sw_thr=0.70 dwell=8 hold_floor=None
+02:47:44 [MainThread] INFO InferenceThread: Tier1Smoother loaded â€” alpha=0.20 sw_thr=0.70 dwell=8 hold_floor=None
 02:47:44 [MainThread] INFO InferenceThread: GradCAM disabled.
 02:47:44 [CaptureThread] INFO CaptureThread: starting.
-02:47:44 [CaptureThread] INFO CaptureThread: file source — throttling to 24.0 fps (41.7 ms/frame).
+02:47:44 [CaptureThread] INFO CaptureThread: file source â€” throttling to 24.0 fps (41.7 ms/frame).
 02:47:44 [InferenceThread] INFO InferenceThread: starting (device=cuda, amp=True, gradcam=False).
 02:48:14 [InferenceThread] INFO InferenceThread: exiting after 654 frames processed.
 02:48:14 [CaptureThread] INFO CaptureThread: exiting.
 02:48:14 [MainThread] INFO   [SCREENSHOT] saved docs\phase5_screenshots\validation_nogradcam_final.png (final)
-02:48:14 [MainThread] INFO ────────────────────────────────────────────────────────────
-02:48:14 [MainThread] INFO Run A complete — validation_nogradcam
+02:48:14 [MainThread] INFO â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+02:48:14 [MainThread] INFO Run A complete â€” validation_nogradcam
 02:48:14 [MainThread] INFO   total inf frames    : 654
 02:48:14 [MainThread] INFO   capture FPS         : 24.0
 02:48:14 [MainThread] INFO   inf FPS mean        : 22.1
@@ -76,7 +76,7 @@
 02:48:14 [MainThread] INFO   cap drops           : 54
 02:48:14 [MainThread] INFO   Thermal assessment  : N/A (run too short)
 02:48:14 [MainThread] INFO   Dwell @ stable FPS  : 330 ms (IN RANGE)
-02:48:14 [MainThread] INFO ────────────────────────────────────────────────────────────
+02:48:14 [MainThread] INFO â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 ======================================================================
 TASK 10 VALIDATION REPORT
@@ -97,7 +97,7 @@ Task 10 extended run (120s) FPS trajectory answers the thermal question:
     Stable (30-90s):   23.7 fps
     Late  (90-120s):   23.6 fps
     End EWMA:          24.1 fps
-    Thermal:           STABLE (stable 23.7 → late 23.6, Δ=-0.1)
+    Thermal:           STABLE (stable 23.7 â†’ late 23.6, Î”=-0.1)
 
   Run B (30s, GradCAM OFF, baseline):
     Stable fps:        nan fps
@@ -108,7 +108,7 @@ Task 10 extended run (120s) FPS trajectory answers the thermal question:
 
   min_dwell_frames = 8  (from Tier-1 tuning sweep at 43fps precompute)
   Stable FPS (Run A, 30-90s window) = 23.7 fps
-  Implied dwell window = 8 / 23.7 × 1000 = 338 ms
+  Implied dwell window = 8 / 23.7 Ã— 1000 = 338 ms
   Status: IN RANGE (150-500ms)
 
   NOTE: The 571ms figure from the Task 8/9 benchmark used the end-EWMA
@@ -118,11 +118,11 @@ Task 10 extended run (120s) FPS trajectory answers the thermal question:
 ## Finding 2: Dwell Window vs Tier-2 Trigger Metric (Terminology)
 
   The 'dwell window' (min_dwell_frames / inference_fps) is a STATIC
-  parameter-level number — how long the smoother holds before switching.
+  parameter-level number â€” how long the smoother holds before switching.
 
   The Tier-2 gate criterion (docs/instructions/07_STRETCH_GOALS...md)
   requires mean_latency_ms > 400ms measured on GENUINE annotated
-  transitions — a DYNAMIC measured-behavior metric.  These two numbers
+  transitions â€” a DYNAMIC measured-behavior metric.  These two numbers
   (571ms dwell window vs Tier-2 400ms gate) are conceptually distinct
   even though they happen to be numerically close.  See Task 11 for
   the full reconciliation table.
@@ -168,5 +168,5 @@ Task 10 extended run (120s) FPS trajectory answers the thermal question:
 02:48:14 [MainThread] INFO   Screenshots        : docs\phase5_screenshots/validation_file_t*.png
 02:48:14 [MainThread] INFO ============================================================
 02:48:14 [MainThread] INFO 
-02:48:14 [MainThread] INFO NEXT STEP: webcam validation requires display — run:
+02:48:14 [MainThread] INFO NEXT STEP: webcam validation requires display â€” run:
 02:48:14 [MainThread] INFO   conda run -n fetalplane python -m src.realtime.app --source 0 --log-stats

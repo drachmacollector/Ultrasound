@@ -1,5 +1,5 @@
-========================================================================
-Tier-1 Parameter Sweep — tune_tier1_smoothing.py
+﻿========================================================================
+Tier-1 Parameter Sweep â€” tune_tier1_smoothing.py
 ========================================================================
 
 Loading model...
@@ -25,15 +25,15 @@ Total clips to sweep over: 46
   Running inference on: Other_clip01.mp4
   Running inference on: Other_clip02.mp4
   Running inference on: 20190726T095643_0.avi
-  Running inference on: 20190830T115644__B_产科_tmp_0.avi
-  Running inference on: 20190906T105145__B_产科_0.avi
-  Running inference on: 20190906T105237__B_产科_tmp_0.avi
-  Running inference on: 20190909T155747__B_产科_0.avi
-  Running inference on: 20190909T155747__B_产科_1.avi
+  Running inference on: 20190830T115644__B_äº§ç§‘_tmp_0.avi
+  Running inference on: 20190906T105145__B_äº§ç§‘_0.avi
+  Running inference on: 20190906T105237__B_äº§ç§‘_tmp_0.avi
+  Running inference on: 20190909T155747__B_äº§ç§‘_0.avi
+  Running inference on: 20190909T155747__B_äº§ç§‘_1.avi
   Running inference on: 20190909T155747I1__20190909T155747I1.avi
   Running inference on: 20190909T155747I5__20190909T155747I5.avi
   Running inference on: 20190909T155747I9__20190909T155747I9.avi
-  Running inference on: 20190909T161453__B_产科_0.avi
+  Running inference on: 20190909T161453__B_äº§ç§‘_0.avi
   Running inference on: test_10_80.avi
   Running inference on: test_11_14.avi
   Running inference on: test_12_79.avi
@@ -57,8 +57,8 @@ Total clips to sweep over: 46
 
 Measured inference FPS (from precompute pass, device=cuda): 43.28
 min_dwell_frames sweep: [4, 6, 8, 10, 12, 14, 16]
-  → 150ms @ 43.3fps = 6.5 frames
-  → 500ms @ 43.3fps = 21.6 frames
+  â†’ 150ms @ 43.3fps = 6.5 frames
+  â†’ 500ms @ 43.3fps = 21.6 frames
 
 Sweep-internal baseline (raw argmax, 46 clips):
   Total switches/min across all clips: 788.75
@@ -66,7 +66,7 @@ Sweep-internal baseline (raw argmax, 46 clips):
     202101141947512003470I1.avi: 216.00/min
     202101141947512003470I2.avi: 216.00/min
     202101141947512000310I3.avi: 144.00/min
-    20190909T155747__B_产科_0.avi: 141.64/min
+    20190909T155747__B_äº§ç§‘_0.avi: 141.64/min
     test_14_51.avi: 35.56/min
     test_16_79.avi: 35.56/min
 
@@ -293,12 +293,12 @@ SELECTED PARAMETERS:
   spurious_new      = 0.00/min
   net_switch_delta  = -716.75/min across all clips
   Per-flickery-clip residual:
-    202101141947512003470I1.avi: 216.00 → 72.00/min (66.7% reduction)
-    202101141947512003470I2.avi: 216.00 → 0.00/min (100.0% reduction)
-    202101141947512000310I3.avi: 144.00 → 0.00/min (100.0% reduction)
-    20190909T155747__B_产科_0.avi: 141.64 → 0.00/min (100.0% reduction)
-    test_14_51.avi: 35.56 → 0.00/min (100.0% reduction)
-    test_16_79.avi: 35.56 → 0.00/min (100.0% reduction)
+    202101141947512003470I1.avi: 216.00 â†’ 72.00/min (66.7% reduction)
+    202101141947512003470I2.avi: 216.00 â†’ 0.00/min (100.0% reduction)
+    202101141947512000310I3.avi: 144.00 â†’ 0.00/min (100.0% reduction)
+    20190909T155747__B_äº§ç§‘_0.avi: 141.64 â†’ 0.00/min (100.0% reduction)
+    test_14_51.avi: 35.56 â†’ 0.00/min (100.0% reduction)
+    test_16_79.avi: 35.56 â†’ 0.00/min (100.0% reduction)
   mean_latency_ms   = 0.0 ms (cold-start artefact, see caveat)
   max_latency_ms    = 0.0 ms
 ========================================================================

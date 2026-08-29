@@ -1,4 +1,4 @@
-13:05:23 [INFO] Using device: cuda
+﻿13:05:23 [INFO] Using device: cuda
 13:05:23 [INFO] Building model: convnext_tiny.fb_in22k_ft_in1k (pretrained=True)
 13:05:24 [INFO] Loading pretrained weights from Hugging Face hub (timm/convnext_tiny.fb_in22k_ft_in1k)
 13:05:24 [INFO] HTTP Request: HEAD https://huggingface.co/timm/convnext_tiny.fb_in22k_ft_in1k/resolve/main/model.safetensors "HTTP/1.1 302 Found"
@@ -9,23 +9,23 @@
 13:05:25 [INFO] Starting training: backbone=convnext_tiny.fb_in22k_ft_in1k, epochs_max=60, patience=8, lr=1.00e-04, amp=True
 13:07:58 [INFO] Epoch 1 TRAIN | loss=0.3923 acc=0.7362 | 40 img/s
 13:09:34 [INFO] Epoch 1 VAL   | loss=0.1840 acc=0.8162 macro_f1=0.7184
-13:09:36 [INFO] ✓ New best checkpoint (val macro-F1=0.7184) → checkpoints\convnext_tiny_focal\best.pt
-13:09:40 [INFO] Confusion matrix saved → checkpoints\convnext_tiny_focal\confusion_matrix_best_epoch1.png
+13:09:36 [INFO] âœ“ New best checkpoint (val macro-F1=0.7184) â†’ checkpoints\convnext_tiny_focal\best.pt
+13:09:40 [INFO] Confusion matrix saved â†’ checkpoints\convnext_tiny_focal\confusion_matrix_best_epoch1.png
 13:10:10 [INFO] Epoch 2 TRAIN | loss=0.1302 acc=0.8725 | 204 img/s
 13:10:14 [INFO] Epoch 2 VAL   | loss=0.0781 acc=0.8925 macro_f1=0.8630
-13:10:16 [INFO] ✓ New best checkpoint (val macro-F1=0.8630) → checkpoints\convnext_tiny_focal\best.pt
-13:10:16 [INFO] Confusion matrix saved → checkpoints\convnext_tiny_focal\confusion_matrix_best_epoch2.png
+13:10:16 [INFO] âœ“ New best checkpoint (val macro-F1=0.8630) â†’ checkpoints\convnext_tiny_focal\best.pt
+13:10:16 [INFO] Confusion matrix saved â†’ checkpoints\convnext_tiny_focal\confusion_matrix_best_epoch2.png
 13:10:46 [INFO] Epoch 3 TRAIN | loss=0.0855 acc=0.9048 | 205 img/s
 13:10:50 [INFO] Epoch 3 VAL   | loss=0.0667 acc=0.9101 macro_f1=0.8818
-13:10:51 [INFO] ✓ New best checkpoint (val macro-F1=0.8818) → checkpoints\convnext_tiny_focal\best.pt
-13:10:52 [INFO] Confusion matrix saved → checkpoints\convnext_tiny_focal\confusion_matrix_best_epoch3.png
+13:10:51 [INFO] âœ“ New best checkpoint (val macro-F1=0.8818) â†’ checkpoints\convnext_tiny_focal\best.pt
+13:10:52 [INFO] Confusion matrix saved â†’ checkpoints\convnext_tiny_focal\confusion_matrix_best_epoch3.png
 13:11:21 [INFO] Epoch 4 TRAIN | loss=0.0646 acc=0.9194 | 208 img/s
 13:11:26 [INFO] Epoch 4 VAL   | loss=0.0569 acc=0.9042 macro_f1=0.8792
 13:11:26 [INFO] No improvement for 1/8 epochs (best=0.8818 @ epoch 3)
 13:11:55 [INFO] Epoch 5 TRAIN | loss=0.0549 acc=0.9332 | 204 img/s
 13:12:00 [INFO] Epoch 5 VAL   | loss=0.0625 acc=0.9110 macro_f1=0.8840
-13:12:01 [INFO] ✓ New best checkpoint (val macro-F1=0.8840) → checkpoints\convnext_tiny_focal\best.pt
-13:12:02 [INFO] Confusion matrix saved → checkpoints\convnext_tiny_focal\confusion_matrix_best_epoch5.png
+13:12:01 [INFO] âœ“ New best checkpoint (val macro-F1=0.8840) â†’ checkpoints\convnext_tiny_focal\best.pt
+13:12:02 [INFO] Confusion matrix saved â†’ checkpoints\convnext_tiny_focal\confusion_matrix_best_epoch5.png
 13:12:32 [INFO] Epoch 6 TRAIN | loss=0.0462 acc=0.9437 | 204 img/s
 13:12:36 [INFO] Epoch 6 VAL   | loss=0.0665 acc=0.9091 macro_f1=0.8839
 13:12:36 [INFO] No improvement for 1/8 epochs (best=0.8840 @ epoch 5)
@@ -37,22 +37,22 @@
 13:13:42 [INFO] No improvement for 3/8 epochs (best=0.8840 @ epoch 5)
 13:14:09 [INFO] Epoch 9 TRAIN | loss=0.0210 acc=0.9720 | 221 img/s
 13:14:13 [INFO] Epoch 9 VAL   | loss=0.0752 acc=0.9159 macro_f1=0.8874
-13:14:14 [INFO] ✓ New best checkpoint (val macro-F1=0.8874) → checkpoints\convnext_tiny_focal\best.pt
-13:14:15 [INFO] Confusion matrix saved → checkpoints\convnext_tiny_focal\confusion_matrix_best_epoch9.png
+13:14:14 [INFO] âœ“ New best checkpoint (val macro-F1=0.8874) â†’ checkpoints\convnext_tiny_focal\best.pt
+13:14:15 [INFO] Confusion matrix saved â†’ checkpoints\convnext_tiny_focal\confusion_matrix_best_epoch9.png
 13:14:44 [INFO] Epoch 10 TRAIN | loss=0.0227 acc=0.9738 | 209 img/s
 13:14:48 [INFO] Epoch 10 VAL   | loss=0.0829 acc=0.9091 macro_f1=0.8822
 13:14:48 [INFO] No improvement for 1/8 epochs (best=0.8874 @ epoch 9)
 13:15:16 [INFO] Epoch 11 TRAIN | loss=0.0179 acc=0.9747 | 220 img/s
 13:15:20 [INFO] Epoch 11 VAL   | loss=0.0822 acc=0.9238 macro_f1=0.9033
-13:15:21 [INFO] ✓ New best checkpoint (val macro-F1=0.9033) → checkpoints\convnext_tiny_focal\best.pt
-13:15:22 [INFO] Confusion matrix saved → checkpoints\convnext_tiny_focal\confusion_matrix_best_epoch11.png
+13:15:21 [INFO] âœ“ New best checkpoint (val macro-F1=0.9033) â†’ checkpoints\convnext_tiny_focal\best.pt
+13:15:22 [INFO] Confusion matrix saved â†’ checkpoints\convnext_tiny_focal\confusion_matrix_best_epoch11.png
 13:15:52 [INFO] Epoch 12 TRAIN | loss=0.0249 acc=0.9707 | 206 img/s
 13:15:56 [INFO] Epoch 12 VAL   | loss=0.1190 acc=0.9198 macro_f1=0.8891
 13:15:56 [INFO] No improvement for 1/8 epochs (best=0.9033 @ epoch 11)
 13:16:24 [INFO] Epoch 13 TRAIN | loss=0.0199 acc=0.9768 | 213 img/s
 13:16:29 [INFO] Epoch 13 VAL   | loss=0.0843 acc=0.9277 macro_f1=0.9057
-13:16:29 [INFO] ✓ New best checkpoint (val macro-F1=0.9057) → checkpoints\convnext_tiny_focal\best.pt
-13:16:30 [INFO] Confusion matrix saved → checkpoints\convnext_tiny_focal\confusion_matrix_best_epoch13.png
+13:16:29 [INFO] âœ“ New best checkpoint (val macro-F1=0.9057) â†’ checkpoints\convnext_tiny_focal\best.pt
+13:16:30 [INFO] Confusion matrix saved â†’ checkpoints\convnext_tiny_focal\confusion_matrix_best_epoch13.png
 13:17:01 [INFO] Epoch 14 TRAIN | loss=0.0171 acc=0.9809 | 199 img/s
 13:17:05 [INFO] Epoch 14 VAL   | loss=0.0850 acc=0.9120 macro_f1=0.8831
 13:17:05 [INFO] No improvement for 1/8 epochs (best=0.9057 @ epoch 13)
@@ -81,6 +81,6 @@
 13:20:52 [INFO] Training complete. Best val macro-F1=0.9057 at epoch 13.
 13:20:52 [INFO] Reloading best checkpoint (epoch 13, macro_f1=0.9057) for final report
 13:20:56 [INFO] Epoch 13 VAL   | loss=0.0843 acc=0.9277 macro_f1=0.9057
-13:20:57 [INFO] Confusion matrix saved → checkpoints\convnext_tiny_focal\confusion_matrix_final_epoch13.png
-13:20:57 [INFO] Classification report → checkpoints\convnext_tiny_focal\classification_report_final.txt
-13:20:57 [INFO] TensorBoard logs → logs\convnext_tiny_focal
+13:20:57 [INFO] Confusion matrix saved â†’ checkpoints\convnext_tiny_focal\confusion_matrix_final_epoch13.png
+13:20:57 [INFO] Classification report â†’ checkpoints\convnext_tiny_focal\classification_report_final.txt
+13:20:57 [INFO] TensorBoard logs â†’ logs\convnext_tiny_focal

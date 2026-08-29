@@ -1,4 +1,4 @@
-CROSS-DEVICE GENERALIZATION EVALUATION
+﻿CROSS-DEVICE GENERALIZATION EVALUATION
 Checkpoint : checkpoints/convnext_tiny/best.pt
 Manifest   : data/processed/cross_device_manifest.csv (HC18 + UCL only)
 
@@ -8,33 +8,33 @@ SCOPE LIMITATIONS (explicit, per Phase 6 spec):
      NOT the standard-vs-Other decision.
   2. HC18 and UCL cover Head, Fetal_abdomen, Fetal_femur ONLY.
      No 'Fetal_thorax' or 'Maternal_cervix' cross-device validation was
-     possible — no suitable external dataset covers those two classes.
+     possible â€” no suitable external dataset covers those two classes.
   3. FP and MULTICENTRE subfolders are EXCLUDED (overlap with FETAL_PLANES_DB
-     training data). See 00_PROJECT_OVERVIEW.md §5a.
+     training data). See 00_PROJECT_OVERVIEW.md Â§5a.
 
 COLLAPSED-LABEL SCORING RULE:
-  Head row → CORRECT if argmax ∈ {Brain_Trans_cerebellum,
+  Head row â†’ CORRECT if argmax âˆˆ {Brain_Trans_cerebellum,
              Brain_Trans_thalamic, Brain_Trans_ventricular}
-  Fetal_abdomen / Fetal_femur → exact-match
+  Fetal_abdomen / Fetal_femur â†’ exact-match
 
 ======================================================================
 1. OVERALL ACCURACY (HC18 + UCL combined, collapsed labels)
 ======================================================================
-  1190 / 1423 correct  →  0.8363  (83.6%)
+  1190 / 1423 correct  â†’  0.8363  (83.6%)
 
 ======================================================================
-2. PER-SUBSET ACCURACY (HC18 vs UCL reported SEPARATELY — never blended)
+2. PER-SUBSET ACCURACY (HC18 vs UCL reported SEPARATELY â€” never blended)
 ======================================================================
 
   [HC18]
-    Head                   813 /  999  →  0.8138  (81.4%)
-    SUBSET TOTAL           813 /  999  →  0.8138  (81.4%)
+    Head                   813 /  999  â†’  0.8138  (81.4%)
+    SUBSET TOTAL           813 /  999  â†’  0.8138  (81.4%)
 
   [UCL]
-    Fetal_abdomen          117 /  130  →  0.9000  (90.0%)
-    Fetal_femur            109 /  135  →  0.8074  (80.7%)
-    Head                   151 /  159  →  0.9497  (95.0%)
-    SUBSET TOTAL           377 /  424  →  0.8892  (88.9%)
+    Fetal_abdomen          117 /  130  â†’  0.9000  (90.0%)
+    Fetal_femur            109 /  135  â†’  0.8074  (80.7%)
+    Head                   151 /  159  â†’  0.9497  (95.0%)
+    SUBSET TOTAL           377 /  424  â†’  0.8892  (88.9%)
 
 ======================================================================
 3. GENERALIZATION GAP vs IN-DISTRIBUTION BASELINE
@@ -52,8 +52,8 @@ COLLAPSED-LABEL SCORING RULE:
 4. HEAD MISCLASSIFICATION BREAKDOWN
 ======================================================================
   When a Head image is wrong, which class does the model predict?
-  (Brain→Brain sub-plane confusions are NOT misclassifications under the
-   collapsed scoring rule — they all count as CORRECT.)
+  (Brainâ†’Brain sub-plane confusions are NOT misclassifications under the
+   collapsed scoring rule â€” they all count as CORRECT.)
 
     Other                            180  <-- DOMAIN-SHIFT RED FLAG
     Fetal_thorax                       7  <-- DOMAIN-SHIFT RED FLAG
@@ -65,4 +65,4 @@ COLLAPSED-LABEL SCORING RULE:
 ======================================================================
   Combined Head accuracy: 0.8325 (83.2%)
   Gate threshold: >= 50%
-  Gate result: PASS ✓
+  Gate result: PASS âœ“

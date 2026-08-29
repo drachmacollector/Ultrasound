@@ -1,4 +1,4 @@
-15:32:10 [INFO] Using device: cuda
+﻿15:32:10 [INFO] Using device: cuda
 15:32:10 [INFO] Building multitask model
 15:32:11 [INFO] Loading pretrained weights from Hugging Face hub (timm/convnext_tiny.in12k_ft_in1k)
 15:32:11 [INFO] HTTP Request: GET https://huggingface.co/api/agent-harnesses "HTTP/1.1 200 OK"
@@ -10,14 +10,14 @@
 15:32:21 [INFO] Starting training: backbone=convnext_tiny.fb_in22k_ft_in1k, epochs_max=1, patience=8, lr=1.00e-04, amp=True
 15:34:45 [INFO] Epoch 1 TRAIN | loss=0.8900 acc=0.6569 | 43 img/s
 15:35:39 [INFO] Epoch 1 VAL   | loss=0.3336 acc=0.8592 macro_f1=0.7618
-15:35:41 [INFO] ✓ New best checkpoint (val macro-F1=0.7618) → checkpoints\multitask\best.pt
-15:35:43 [INFO] Confusion matrix saved → checkpoints\multitask\confusion_matrix_best_epoch1.png
+15:35:41 [INFO] âœ“ New best checkpoint (val macro-F1=0.7618) â†’ checkpoints\multitask\best.pt
+15:35:43 [INFO] Confusion matrix saved â†’ checkpoints\multitask\confusion_matrix_best_epoch1.png
 15:35:43 [INFO] Training complete. Best val macro-F1=0.7618 at epoch 1.
 15:35:43 [INFO] Reloading best checkpoint (epoch 1, macro_f1=0.7618) for final report
 15:35:51 [INFO] Epoch 1 VAL   | loss=0.3336 acc=0.8592 macro_f1=0.7618
-15:35:52 [INFO] Confusion matrix saved → checkpoints\multitask\confusion_matrix_final_epoch1.png
-15:35:52 [INFO] Classification report → checkpoints\multitask\classification_report_final.txt
-15:35:52 [INFO] TensorBoard logs → logs\multitask
+15:35:52 [INFO] Confusion matrix saved â†’ checkpoints\multitask\confusion_matrix_final_epoch1.png
+15:35:52 [INFO] Classification report â†’ checkpoints\multitask\classification_report_final.txt
+15:35:52 [INFO] TensorBoard logs â†’ logs\multitask
 10:33:01 [INFO] Using device: cpu
 10:33:01 [INFO] Building multitask model
 10:33:02 [INFO] Loading pretrained weights from Hugging Face hub (timm/convnext_tiny.fb_in22k_ft_in1k)
@@ -49,11 +49,11 @@
 00:27:47 [INFO] Starting training: backbone=convnext_tiny.fb_in22k_ft_in1k, epochs_max=1, patience=8, lr=1.00e-04, amp=True, det_loss_weight=1.0
 00:32:24 [INFO] Epoch 1 TRAIN | loss=0.7785 (cls=0.5560 det=0.2225) acc=0.7922 | 26 img/s | det_pos_rate=0.746 (677/908 batches had real boxes)
 00:34:08 [INFO] Epoch 1 VAL   | loss=nan acc=0.8847 macro_f1=0.8421
-00:34:10 [INFO] ✓ New best checkpoint (val macro-F1=0.8421) → checkpoints\multitask\best.pt
-00:34:15 [INFO] Confusion matrix saved → checkpoints\multitask\confusion_matrix_best_epoch1.png
+00:34:10 [INFO] âœ“ New best checkpoint (val macro-F1=0.8421) â†’ checkpoints\multitask\best.pt
+00:34:15 [INFO] Confusion matrix saved â†’ checkpoints\multitask\confusion_matrix_best_epoch1.png
 00:34:15 [INFO] Training complete. Best val macro-F1=0.8421 at epoch 1.
 00:34:15 [INFO] Reloading best checkpoint (epoch 1, macro_f1=0.8421) for final report
 00:34:37 [INFO] Epoch 1 VAL   | loss=nan acc=0.8847 macro_f1=0.8421
-00:34:38 [INFO] Confusion matrix saved → checkpoints\multitask\confusion_matrix_final_epoch1.png
-00:34:38 [INFO] Classification report → checkpoints\multitask\classification_report_final.txt
-00:34:38 [INFO] TensorBoard logs → logs\multitask
+00:34:38 [INFO] Confusion matrix saved â†’ checkpoints\multitask\confusion_matrix_final_epoch1.png
+00:34:38 [INFO] Classification report â†’ checkpoints\multitask\classification_report_final.txt
+00:34:38 [INFO] TensorBoard logs â†’ logs\multitask

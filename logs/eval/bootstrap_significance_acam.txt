@@ -1,0 +1,79 @@
+﻿conda.exe : 22:55:19 [INFO] ========================================================================
+At D:\miniconda\shell\condabin\Conda.psm1:194 char:17
++ ...             & $Env:CONDA_EXE $Env:_CE_M $Env:_CE_CONDA $Command @Othe ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (22:55:19 [INFO]...===============:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+22:55:19 [INFO] ACAM Ablation ΓÇö Test-Set Evaluation + Bootstrap Significance Test
+22:55:19 [INFO] Phase 8, Stage 5, Task 5.2  (arXiv:2509.00808)
+22:55:19 [INFO] ========================================================================
+22:55:21 [INFO] Device: cuda
+22:55:21 [INFO] ------------------------------------------------------------
+22:55:21 [INFO] Step 1: ACAM checkpoint inference
+22:55:21 [INFO] Loading checkpoint: checkpoints\convnext_tiny_acam\best.pt
+22:55:22 [INFO]   ACAM wrapper active (K=10, ╬▒Γêê[1.0,3.0])
+22:55:24 [INFO]   backbone=convnext_tiny.fb_in22k_ft_in1k  val_macro_f1=0.9129 (training)
+22:55:24 [INFO]   Running inference on 5271 test images...
+22:57:45 [INFO]   Test macro-F1 = 0.8860
+22:57:48 [INFO] Per-class report ΓåÆ checkpoints\convnext_tiny_acam\classification_report_TEST.txt
+22:57:50 [INFO] Confusion matrix saved ΓåÆ checkpoints\convnext_tiny_acam\confusion_matrix_TEST.png
+22:57:50 [INFO] Confusion matrix ΓåÆ checkpoints\convnext_tiny_acam\confusion_matrix_TEST.png
+22:57:50 [INFO] ------------------------------------------------------------
+22:57:50 [INFO] Step 2: Baseline (convnext_tiny) checkpoint inference
+22:57:50 [INFO] Loading checkpoint: checkpoints\convnext_tiny\best.pt
+22:57:51 [INFO]   backbone=convnext_tiny.fb_in22k_ft_in1k  val_macro_f1=0.9180 (training)
+22:57:51 [INFO]   Running inference on 5271 test images...
+22:59:28 [INFO]   Test macro-F1 = 0.8927
+22:59:31 [INFO] Baseline test macro-F1 = 0.8927  (documented: 0.8927)
+22:59:31 [INFO] ------------------------------------------------------------
+22:59:31 [INFO] Step 3: Paired bootstrap (2,000 iterations)
+22:59:31 [INFO] Running 2000 bootstrap iterations (n=5271, seed=42)...
+22:59:50 [INFO] Bootstrap output ΓåÆ logs\eval\bootstrap_significance_acam.txt
+22:59:50 [INFO] DONE.
+
+========================================================================
+BOOTSTRAP SIGNIFICANCE ΓÇö 2,000 iterations, n=5,271 images
+Comparison: convnext_tiny + ACAM  vs.  convnext_tiny (baseline)
+Phase 8, Stage 5  (08_FINAL_EVALUATION_AND_POLISH.md ┬º6, Task 5.2)
+========================================================================
+
+  ACAM     checkpoint : checkpoints/convnext_tiny_acam/best.pt
+  Baseline checkpoint : checkpoints/convnext_tiny/best.pt
+
+  ACAM     test macro-F1 : 0.8860
+  Baseline test macro-F1 : 0.8927
+
+  Point ╬ö (ACAM ΓêÆ baseline) : -0.0067
+  Bootstrap 95% CI of ╬ö     : [-0.0142, +0.0012]
+
+  VERDICT: statistically tied (CI Γêï 0)
+
+========================================================================
+
+Verdict language (matches project standard from EXPERIMENTS.md):
+  robust win  (CI > 0)       ΓÇö both CI bounds > 0  ΓåÆ ACAM robustly outperforms baseline
+  statistically tied (CI Γêï 0)ΓÇö CI straddles 0      ΓåÆ no reliable difference
+  robust loss (CI < 0)       ΓÇö both CI bounds < 0  ΓåÆ ACAM robustly underperforms
+
+========================================================================
+
+ACAM per-class test-set performance:
+
+                         precision    recall  f1-score   support
+
+ Brain_Trans_cerebellum       0.86      0.86      0.86       339
+   Brain_Trans_thalamic       0.81      0.86      0.84       765
+Brain_Trans_ventricular       0.76      0.80      0.78       302
+          Fetal_abdomen       0.85      0.98      0.91       358
+            Fetal_femur       0.86      0.93      0.89       524
+           Fetal_thorax       0.90      0.95      0.92       660
+        Maternal_cervix       0.99      1.00      0.99       645
+                  Other       0.95      0.84      0.89      1678
+
+               accuracy                           0.89      5271
+              macro avg       0.87      0.90      0.89      5271
+           weighted avg       0.90      0.89      0.89      5271
+
+
+Full log: logs/eval/bootstrap_significance_acam.txt

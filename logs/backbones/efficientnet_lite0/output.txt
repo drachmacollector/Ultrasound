@@ -1,9 +1,9 @@
-[INFO] LR finder using device: cuda
+﻿[INFO] LR finder using device: cuda
 [INFO] Loading pretrained weights from Hugging Face hub (timm/efficientnet_lite0.ra_in1k)
 [INFO] HTTP Request: HEAD https://huggingface.co/timm/efficientnet_lite0.ra_in1k/resolve/main/model.safetensors "HTTP/1.1 302 Found"
 [INFO] [timm/efficientnet_lite0.ra_in1k] Safe alternative available for 'pytorch_model.bin' (as 'model.safetensors'). Loading weights using safetensors.
 [INFO] Missing keys (classifier.weight, classifier.bias) discovered while loading pretrained weights. This is expected if model is being adapted.
-[INFO] Running LR range test: 100 steps, LR 1.00e-07 → 1.00e+00
+[INFO] Running LR range test: 100 steps, LR 1.00e-07 â†’ 1.00e+00
 [INFO] Step   0 | LR=1.00e-07 | loss=4.7505 (smoothed=95.0095)
 [INFO] Step  10 | LR=5.01e-07 | loss=4.0786 (smoothed=10.6294)
 [INFO] Step  20 | LR=2.51e-06 | loss=4.7712 (smoothed=6.7190)
@@ -15,5 +15,5 @@
 [INFO] Step  80 | LR=3.98e-02 | loss=0.8455 (smoothed=1.6266)
 [INFO] Step  90 | LR=2.00e-01 | loss=1.4598 (smoothed=1.6434)
 [INFO] Steepest descent LR: 1.12e-06
-[INFO] Suggested training LR (steepest ÷ 10): 1.12e-07
-[INFO] LR finder plot saved → logs\efficientnet_lite0\lr_finder.png
+[INFO] Suggested training LR (steepest Ã· 10): 1.12e-07
+[INFO] LR finder plot saved â†’ logs\efficientnet_lite0\lr_finder.png

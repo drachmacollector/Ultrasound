@@ -1,0 +1,59 @@
+# configs/convnext_tiny_acam.yaml
+#
+# ACAM ablation run: convnext_tiny + Adaptive Contrast Adjustment Module
+# (arXiv:2509.00808, Chen et al.)
+#
+# Differences from configs/convnext_tiny.yaml:
+#   use_acam:         true         (new; triggers ACAM wiring in train.py)
+#   acam_K:           10           (K=10 per paper §2.3 / Table 1)
+#   acam_alpha_min:   1.0          (sigmoid lower bound, paper §5)
+#   acam_alpha_max:   3.0          (sigmoid upper bound, paper §5)
+#   log_dir:          logs/convnext_tiny_acam
+#   checkpoint_dir:   checkpoints/convnext_tiny_acam
+#
+# Everything else is IDENTICAL to convnext_tiny.yaml — same lr=1e-4,
+# batch_size=64, image_size=224, patience=8, seed=42.
+# This ensures the only variable is the ACAM module.
+#
+# Implementation decision (documented per Task 5.1 requirement):
+#   ACAM is wired as nn.Sequential(acam, backbone) so ACAM parameters are
+#   jointly optimised with the backbone using the same AdamW optimiser.
+#   This matches the paper's end-to-end training approach (§2.3).
+#
+# Per §8 of 08_FINAL_EVALUATION_AND_POLISH.md (scheduling Option A),
+# this stage is run FIRST, before NatalIA and cross-device evaluations,
+# so that if ACAM wins, all subsequent stages evaluate against the correct
+# final production checkpoint.
+
+backbone: convnext_tiny.fb_in22k_ft_in1k
+num_classes: 8
+pretrained: true
+image_size: 224
+normalize_mean: [0.485, 0.456, 0.406]
+normalize_std: [0.229, 0.224, 0.225]
+
+train_csv: data/splits/train.csv
+val_csv: data/splits/val.csv
+class_weights_json: data/processed/class_weights.json
+
+batch_size: 64
+num_workers: 4
+epochs_smoke_test: 5
+epochs_max: 60
+early_stopping_patience: 8
+
+optimizer: adamw
+lr: 1e-4
+weight_decay: 0.01
+scheduler: cosine
+amp: true
+
+# ACAM-specific flags
+use_acam: true
+acam_K: 10
+acam_alpha_min: 1.0
+acam_alpha_max: 3.0
+
+log_dir: logs/convnext_tiny_acam
+checkpoint_dir: checkpoints/convnext_tiny_acam
+seed: 42

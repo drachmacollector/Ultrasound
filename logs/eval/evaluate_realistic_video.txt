@@ -1,12 +1,12 @@
-REALISTIC-VIDEO EVALUATION — Phase 6 Task 3
+﻿REALISTIC-VIDEO EVALUATION â€” Phase 6 Task 3
 Checkpoint : checkpoints/convnext_tiny/best.pt
 Smoother   : {'alpha': 0.2, 'hold_floor': None, 'min_dwell_frames': 8, 'switch_threshold': 0.7}
 Inference FPS (benchmark): 37.35 fps  (26.78 ms/frame)
 Clips: 16 synthetic  +  30 IUGC  =  46 total
 
 ========================================================================
-§4a  FRAME-LEVEL ACCURACY — SYNTHETIC CLIPS ONLY
-     (IUGC clips have no accuracy ground truth — §0.6 constraint)
+Â§4a  FRAME-LEVEL ACCURACY â€” SYNTHETIC CLIPS ONLY
+     (IUGC clips have no accuracy ground truth â€” Â§0.6 constraint)
 ========================================================================
 Clip                                           GT Class                    Raw Acc    Sm Acc     Delta  Flag
 ------------------------------------------------------------------------------------------------------------
@@ -26,21 +26,21 @@ Maternal_cervix_clip01.mp4                     Maternal_cervix              1.00
 Maternal_cervix_clip02.mp4                     Maternal_cervix              1.0000    1.0000   +0.0000  
 Other_clip01.mp4                               Other                        1.0000    1.0000   +0.0000  
 Other_clip02.mp4                               Other                        1.0000    1.0000   +0.0000  
-    GATE ⚠: 20190909T155747__B_产科_0.avi mean_dwell_ms ≈ full clip duration (2541.7 ms) despite raw_spm=141.6 — smoother may be permanently stuck on cold-start label
-    GATE ⚠: test_14_51.avi mean_dwell_ms ≈ full clip duration (3375.0 ms) despite raw_spm=35.6 — smoother may be permanently stuck on cold-start label
-    GATE ⚠: test_16_79.avi mean_dwell_ms ≈ full clip duration (3375.0 ms) despite raw_spm=35.6 — smoother may be permanently stuck on cold-start label
-    GATE ⚠: 202101141947512000310I3.avi mean_dwell_ms ≈ full clip duration (833.3 ms) despite raw_spm=144.0 — smoother may be permanently stuck on cold-start label
-    GATE ⚠: 202101141947512003470I2.avi mean_dwell_ms ≈ full clip duration (833.3 ms) despite raw_spm=216.0 — smoother may be permanently stuck on cold-start label
+    GATE âš : 20190909T155747__B_äº§ç§‘_0.avi mean_dwell_ms â‰ˆ full clip duration (2541.7 ms) despite raw_spm=141.6 â€” smoother may be permanently stuck on cold-start label
+    GATE âš : test_14_51.avi mean_dwell_ms â‰ˆ full clip duration (3375.0 ms) despite raw_spm=35.6 â€” smoother may be permanently stuck on cold-start label
+    GATE âš : test_16_79.avi mean_dwell_ms â‰ˆ full clip duration (3375.0 ms) despite raw_spm=35.6 â€” smoother may be permanently stuck on cold-start label
+    GATE âš : 202101141947512000310I3.avi mean_dwell_ms â‰ˆ full clip duration (833.3 ms) despite raw_spm=144.0 â€” smoother may be permanently stuck on cold-start label
+    GATE âš : 202101141947512003470I2.avi mean_dwell_ms â‰ˆ full clip duration (833.3 ms) despite raw_spm=216.0 â€” smoother may be permanently stuck on cold-start label
 
 ------------------------------------------------------------------------
-§4a AGGREGATE (mean across all synthetic clips)
+Â§4a AGGREGATE (mean across all synthetic clips)
 ------------------------------------------------------------------------
   Mean raw accuracy     : 1.0000  (100.0%)
   Mean smoothed accuracy: 1.0000  (100.0%)
   Mean delta (sm - raw) : +0.0000
 
 ========================================================================
-§4b  VIDEO STABILITY METRICS — ALL CLIPS
+Â§4b  VIDEO STABILITY METRICS â€” ALL CLIPS
 ========================================================================
 Clip                                             RawSPM     SmSPM   Reduction     DwellMs
 ------------------------------------------------------------------------------------------
@@ -61,15 +61,15 @@ Maternal_cervix_clip02.mp4                         0.00      0.00        0.0%   
 Other_clip01.mp4                                   0.00      0.00        0.0%       666.7
 Other_clip02.mp4                                   0.00      0.00        0.0%       666.7
 20190726T095643_0.avi                              0.00      0.00        0.0%     17541.7
-20190830T115644__B_产科_tmp_0.avi                    0.00      0.00        0.0%     12500.0
-20190906T105145__B_产科_0.avi                        0.00      0.00        0.0%      7958.3
-20190906T105237__B_产科_tmp_0.avi                    0.00      0.00        0.0%       875.0
-20190909T155747__B_产科_0.avi                      141.64      0.00      100.0%      2541.7
-20190909T155747__B_产科_1.avi                        0.00      0.00        0.0%      4208.3
+20190830T115644__B_äº§ç§‘_tmp_0.avi                    0.00      0.00        0.0%     12500.0
+20190906T105145__B_äº§ç§‘_0.avi                        0.00      0.00        0.0%      7958.3
+20190906T105237__B_äº§ç§‘_tmp_0.avi                    0.00      0.00        0.0%       875.0
+20190909T155747__B_äº§ç§‘_0.avi                      141.64      0.00      100.0%      2541.7
+20190909T155747__B_äº§ç§‘_1.avi                        0.00      0.00        0.0%      4208.3
 20190909T155747I1__20190909T155747I1.avi           0.00      0.00        0.0%      3333.3
 20190909T155747I5__20190909T155747I5.avi           0.00      0.00        0.0%      3333.3
 20190909T155747I9__20190909T155747I9.avi           0.00      0.00        0.0%      3875.0
-20190909T161453__B_产科_0.avi                        0.00      0.00        0.0%      3708.3
+20190909T161453__B_äº§ç§‘_0.avi                        0.00      0.00        0.0%      3708.3
 test_10_80.avi                                     0.00      0.00        0.0%      3375.0
 test_11_14.avi                                     0.00      0.00        0.0%      3375.0
 test_12_79.avi                                     0.00      0.00        0.0%      3375.0
@@ -92,7 +92,7 @@ test_19_24.avi                                     0.00      0.00        0.0%   
 202101191945432007060I2.avi                        0.00      0.00        0.0%       833.3
 
 ------------------------------------------------------------------------
-§4b AGGREGATE (all clips)
+Â§4b AGGREGATE (all clips)
 ------------------------------------------------------------------------
   Clips evaluated                    : 46
   Mean raw switches/min  (per-clip)  : 17.15
@@ -101,15 +101,15 @@ test_19_24.avi                                     0.00      0.00        0.0%   
   Sum raw switches/min   (all clips) : 788.75  (Phase 5 reference: 788.75)
   Sum smoothed spm       (all clips) : 72.00  (Phase 5 reference:  72.00)
   Mean dwell time (smoothed)         : 2430.3 ms
-  Phase 5 reproduction check        : PASS ✓ (within acceptable noise)
+  Phase 5 reproduction check        : PASS âœ“ (within acceptable noise)
 
 ------------------------------------------------------------------------
-§4b LATENCY-TO-STABILIZE — HONEST LIMITATION STATEMENT
+Â§4b LATENCY-TO-STABILIZE â€” HONEST LIMITATION STATEMENT
 ------------------------------------------------------------------------
 True transition-latency validation was not possible in this project because no
 available real video source contains an annotated genuine plane-to-plane transition
-— the primary dataset (FETAL_PLANES_DB) never released source video, and manual
+â€” the primary dataset (FETAL_PLANES_DB) never released source video, and manual
 annotation of the 5 IUGC candidate clips (Phase 5, Task 5) found zero raw
-model-level transitions to time. The dwell-time metric above (§4b) is the closest
+model-level transitions to time. The dwell-time metric above (Â§4b) is the closest
 available proxy for responsiveness, but it measures steady-state holding behaviour,
 not transition-tracking speed.

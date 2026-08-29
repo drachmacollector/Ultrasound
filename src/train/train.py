@@ -52,6 +52,7 @@ from src.data.dataset import (
     FocalPlanesDataset,
 )
 from src.data.transforms import get_eval_transform, get_train_transform
+from src.models.acam import build_acam
 from src.models.backbone import build_model
 from src.train.losses import FocalLoss
 
@@ -236,11 +237,31 @@ def train(cfg: dict) -> None:  # type: ignore[type-arg]
     )
 
     log.info("Building model: %s (pretrained=%s)", backbone_name, cfg.get("pretrained", True))
-    model = build_model(
+    backbone = build_model(
         backbone_name=backbone_name,
         num_classes=num_classes,
         pretrained=cfg.get("pretrained", True),
     )
+
+    # ---- Optional ACAM wrapping (Phase 8, Stage 5) -----------------------
+    # When use_acam=true, prepend the ACAM module before the backbone so that
+    # ACAM parameters are jointly optimised with backbone weights via the same
+    # AdamW optimiser — matching the paper's end-to-end training (§2.3).
+    # Input/output shape of ACAM is [B,3,H,W] → [B,3,H,W], so the backbone
+    # receives the same tensor shape regardless of the ACAM flag.
+    use_acam: bool = bool(cfg.get("use_acam", False))
+    if use_acam:
+        acam = build_acam(cfg)
+        model: nn.Module = nn.Sequential(acam, backbone)
+        n_acam_params = sum(p.numel() for p in acam.parameters())
+        log.info(
+            "ACAM enabled (K=%d, α∈[%.1f,%.1f]) — %d learnable parameters",
+            acam.K, acam.alpha_min, acam.alpha_max, n_acam_params,
+        )
+    else:
+        model = backbone
+        log.info("ACAM disabled — standard backbone-only training")
+
     model = model.to(device)
 
     # ---- Image size & transforms ----------------------------------------
@@ -388,6 +409,7 @@ def train(cfg: dict) -> None:  # type: ignore[type-arg]
                     "model_state_dict": model.state_dict(),
                     "optimizer_state_dict": optimizer.state_dict(),
                     "config": cfg,
+                    "use_acam": use_acam,   # persisted for reproducibility
                 },
                 str(best_ckpt_path),
             )
@@ -421,12 +443,17 @@ def train(cfg: dict) -> None:  # type: ignore[type-arg]
         best_macro_f1, best_epoch,
     )
 
-    # Reload best.pt before generating the final report
+    # Reload best.pt before generating the final report.
+    # Load to CPU first then move to device — avoids a transient
+    # 'CUDA error: unknown error' on Windows when torch.load is called
+    # with map_location=device after the training loop exits and the CUDA
+    # context has begun tearing down.
     best_ckpt_path = ckpt_dir / "best.pt"
     if best_ckpt_path.exists():
         log.info("Reloading best checkpoint (epoch %d, macro_f1=%.4f) for final report", best_epoch, best_macro_f1)
-        best_state = torch.load(str(best_ckpt_path), map_location=device, weights_only=False)
+        best_state = torch.load(str(best_ckpt_path), map_location="cpu", weights_only=False)
         model.load_state_dict(best_state["model_state_dict"])
+        model = model.to(device)
         val_loss, val_acc, val_macro_f1, val_targets, val_preds = validate(
             model, val_loader, criterion, device, best_epoch, use_amp
         )
@@ -485,10 +512,14 @@ if __name__ == "__main__":
     ckpt_dir.mkdir(parents=True, exist_ok=True)
     shutil.copy(args.config, str(ckpt_dir / "config.yaml"))
 
-    # Setup file logging to ensure UTF-8 output
+    # Setup file logging to ensure UTF-8 output.
+    # Use the checkpoint_dir's stem as the log filename so that ACAM and other
+    # ablations get distinct log files (e.g. convnext_tiny_acam_training_output.txt)
+    # rather than colliding with the baseline log.
+    run_name: str = Path(cfg.get("checkpoint_dir", f"checkpoints/{cfg['backbone']}")).name
     log_dir = Path("logs")
     log_dir.mkdir(parents=True, exist_ok=True)
-    file_handler = logging.FileHandler(log_dir / f"{cfg['backbone']}_training_output.txt", mode="a", encoding="utf-8")
+    file_handler = logging.FileHandler(log_dir / f"{run_name}_training_output.txt", mode="a", encoding="utf-8")
     file_handler.setFormatter(logging.Formatter("%(asctime)s [%(levelname)s] %(message)s", datefmt="%H:%M:%S"))
     logging.getLogger().addHandler(file_handler)
 

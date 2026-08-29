@@ -111,3 +111,69 @@ A 10-image test set spot check was performed on `convnext_tiny`:
 | efficientnet_lite0 | N/A (auto-detection unreliable) | 1.5e-3 | Confirmed via direct log read |
 | tf_efficientnetv2_s | N/A (auto-detection unreliable) | 1.5e-3 | Sharp cliff right after the minimum |
 | convnext_tiny | N/A (auto-detection unreliable) | 1e-4 | Most fragile of the six — picked conservatively |
+
+---
+
+## ACAM adaptive-contrast preprocessing ablation (Phase 8, Stage 5)
+
+**Date:** 2026-08-28
+
+**Trigger condition (survey §2.2):** The literature survey identified arXiv:2509.00808 (Chen et al., "Adaptive Contrast Adjustment Module") as a validated, architecture-agnostic preprocessing sub-network tested on the **identical FETAL_PLANES_DB dataset** this project uses (12,400 images, six-category variant). Reported gains of +1.15 to +2.02pp accuracy across lightweight, conventional, and state-of-the-art backbones motivated a single clean ablation against the locked `convnext_tiny` baseline using the existing bootstrap-CI protocol.
+
+**Implementation (documented per Task 5.1 requirement):**
+- Module: `src/models/acam.py` — placed in `src/models/` (not `src/data/`) because ACAM is a **learnable** sub-network with trainable CNN parameters, not a fixed preprocessing transform.
+- Architecture: shallow decision network (Conv→BN→ReLU ×2 → GAP → FC → Sigmoid → scale α to [1,3]) → K=10 contrast-adjusted views via `I'(x,y) = α_k · (I(x,y) − μ)` → channel-concatenation + 1×1 Conv (fusion).
+- **Fusion mechanism choice:** The paper (§2.2, §5) states K views are "fused within downstream classifiers" without specifying the operator. Channel-concatenation + 1×1 conv was chosen as the most standard and defensible interpretation — linear learned fusion that restores the original tensor shape and is fully differentiable. The 1×1 conv is initialised as an equal-weight average so training begins near identity.
+- **K=10** from paper Table 1 (n=10); **α∈[1,3]** from paper §5 Conclusion ("sigmoid-mapped parameters reflecting real sonographer adjustment ranges (1–3)").
+- Input/output: `[B, 3, H, W] → [B, 3, H, W]` — drop-in compatible with any backbone.
+- Parameter count: **5,559 learnable parameters** added to the convnext_tiny stack.
+- Wiring: `nn.Sequential(acam, backbone)` jointly optimised via the same AdamW optimiser. Config flag: `use_acam: true` in `configs/convnext_tiny_acam.yaml`.
+- All other hyperparameters identical to `configs/convnext_tiny.yaml` (lr=1e-4, batch=64, patience=8, seed=42, same class-weighted CE loss, same data splits).
+
+**Training result:**
+- Best val macro-F1: **0.9129** at epoch 16 (baseline: 0.9180).
+- Early stopping triggered at epoch 24 (8 epochs without improvement).
+- No NaN losses; training converged cleanly.
+- Checkpoint: `checkpoints/convnext_tiny_acam/best.pt`.
+
+**Test-set result (data/splits/test.csv — 5,271 images / 896 patients):**
+
+| Model | Test macro-F1 | Point Δ vs baseline |
+|---|---|---|
+| convnext_tiny + ACAM | **0.8860** | −0.0067 |
+| convnext_tiny (baseline) | **0.8927** | — |
+
+**Bootstrap significance test (2,000 iterations, n=5,271, seed=42, paired):**
+- Point Δ (ACAM − baseline): **−0.0067**
+- Bootstrap 95% CI of Δ: **[−0.0142, +0.0012]**
+- **VERDICT: statistically tied (CI ∋ 0)**
+
+The CI straddles zero: ACAM neither robustly wins nor robustly loses. The point estimate is a small negative (−0.0067), but this is not statistically distinguishable from zero at the 95% level.
+
+**Per-class test-set comparison (ACAM vs baseline):**
+
+| Class | ACAM F1 | Baseline F1 | Δ |
+|---|---|---|---|
+| Brain_Trans_cerebellum | 0.86 | 0.87 | −0.01 |
+| Brain_Trans_thalamic | 0.84 | 0.83 | +0.01 |
+| Brain_Trans_ventricular | 0.78 | 0.77 | +0.01 |
+| Fetal_abdomen | 0.91 | 0.88 | +0.03 |
+| Fetal_femur | 0.89 | 0.91 | −0.02 |
+| Fetal_thorax | 0.92 | 0.92 | 0.00 |
+| Maternal_cervix | 0.99 | 0.99 | 0.00 |
+| Other | 0.89 | 0.89 | 0.00 |
+
+**Decision: ACAM retained as documented neutral result — not shipped.**
+
+The ablation result is statistically tied: no reliable evidence that ACAM improves classification on this project's test set. The paper's reported +1.15–2.02pp gains on ConvNeXt-class models did not replicate here at statistical significance. Possible explanations (for the record, not as speculation requiring further investigation):
+1. The paper's training setup differs (Adam vs this project's AdamW, 20 epochs vs up to 60, different augmentation pipeline including `RandomBrightnessContrast` which may already partially subsume ACAM's contrast adaptation effect).
+2. The paper evaluated on a 6-class variant; this project's harder 8-class problem (with the fine-grained 3-way brain split) may provide less benefit from contrast manipulation vs class-discriminative fine detail.
+3. The point estimate is slightly negative (−0.0067), consistent with a marginal net harm from adding contrast variability to a well-regularised baseline — no cause for alarm, and consistent with the project's existing negative-result culture.
+
+The plain `convnext_tiny` checkpoint (`checkpoints/convnext_tiny/best.pt`) remains the production model.
+The ACAM checkpoint is retained at `checkpoints/convnext_tiny_acam/best.pt` for reproducibility.
+
+**Full log:** `logs/eval/bootstrap_significance_acam.txt`
+**Per-class test report:** `checkpoints/convnext_tiny_acam/classification_report_TEST.txt`
+**Confusion matrix:** `checkpoints/convnext_tiny_acam/confusion_matrix_TEST.png`
+

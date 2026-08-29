@@ -1,4 +1,4 @@
-All models were evaluated on the same test set (total support = 1023). Class support (n) is identical across all models:
+﻿All models were evaluated on the same test set (total support = 1023). Class support (n) is identical across all models:
 Brain_Trans_cerebellum=53, Brain_Trans_thalamic=126, Brain_Trans_ventricular=43, Fetal_abdomen=51, Fetal_femur=74, Fetal_thorax=152, Maternal_cervix=141, Other=383.
 
 convnext_tiny:

@@ -1,4 +1,4 @@
-# Validation stats log — started at wall+0s
+﻿# Validation stats log â€” started at wall+0s
 elapsed_s,capture_fps,inference_fps,preprocess_ms,forward_ms,smoothing_ms,gradcam_ms,gradcam_calls,cap_drops,inf_drops
 5.0,30.21,2.42,1.94,127.21,0.000,453.8,4,126,0
 10.0,29.98,2.41,3.71,169.33,1.474,670.4,8,264,0

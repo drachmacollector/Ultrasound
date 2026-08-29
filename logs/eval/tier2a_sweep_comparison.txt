@@ -1,4 +1,4 @@
-========================================================================
+﻿========================================================================
 Tier-2a Dual-Grid Comparison Summary
 Generated: 2026-08-15T03:10:37.658049
 ========================================================================
@@ -23,7 +23,7 @@ GLOBAL BEST (across both grids, all criteria met, min total residual):
   added_lag_ms=338 ms
   meets_all_criteria=True
 
-configs/smoothing_tier2a.yaml written → window_frames=9  min_majority_frac=0.7
+configs/smoothing_tier2a.yaml written â†’ window_frames=9  min_majority_frac=0.7
 
 Log files:
   Grid A log:      logs\eval\tier2a_sweep_grid_A.txt

@@ -1,4 +1,4 @@
-Pipeline headless benchmark
+﻿Pipeline headless benchmark
   source            : data/processed/synthetic_clips/Brain_Trans_cerebellum_clip01.mp4
   checkpoint        : checkpoints/convnext_tiny/best.pt
   smoothing config  : configs/smoothing_tier1.yaml
@@ -17,7 +17,7 @@ Loading model...
 Starting benchmark for 30 s ...
 
 ============================================================
-Benchmark complete — 30.0 s elapsed
+Benchmark complete â€” 30.0 s elapsed
 ============================================================
   capture FPS         : 23.6
   inference FPS (mean): 9.7  [min: 0.0, max: 14.9]
@@ -34,5 +34,5 @@ Benchmark complete — 30.0 s elapsed
 
 Tier-1 dwell calibration check:
   min_dwell_frames = 8
-  at 14.0 fps → 569.9 ms  (target: 150–500 ms)
-  ⚠ dwell OUT OF target range — consider re-tuning if GPU FPS changed
+  at 14.0 fps â†’ 569.9 ms  (target: 150â€“500 ms)
+  âš  dwell OUT OF target range â€” consider re-tuning if GPU FPS changed
