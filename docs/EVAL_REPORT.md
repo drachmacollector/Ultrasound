@@ -324,7 +324,11 @@ This section compiles all known limitations from Phases 2–6 into one canonical
 
 ### 5.1 Video-Transition Latency
 
-Because no publicly available dataset contains annotated genuine fetal plane-to-plane transitions in video format, we synthetically generated 8 multi-plane clips (20 seconds each) featuring continuous probe motion across different standard planes. These clips include genuine, annotated transition "settle" events, allowing us to explicitly measure the latency of the full smoothing pipeline (Tier 1 + Tier 2a) in responding to a real class change.
+Transition latency must be explicitly separated into two distinct operational profiles: **synthetic-clip latency** (optimistic, same-distribution) and **NatalIA latency** (real motion, real failure modes).
+
+#### 5.1.1 Synthetic-Clip Transition Latency (Optimistic)
+
+Because no publicly available dataset contains annotated genuine fetal plane-to-plane transitions in video format, we synthetically generated 8 multi-plane clips (20 seconds each) featuring continuous probe motion across different standard planes. These clips include genuine, annotated transition "settle" events, allowing us to explicitly measure the latency of the full smoothing pipeline (Tier 1 + Tier 2a) in responding to a real class change on in-distribution data.
 
 On 39 genuine transitions evaluated (using `scripts/evaluate_transition_latency.py`), the pipeline achieved:
 
@@ -334,7 +338,13 @@ On 39 genuine transitions evaluated (using `scripts/evaluate_transition_latency.
 
 These metrics perfectly align with the targeted smoothing budget of 150–500 ms. The latency is predictably driven by the pipeline's necessary temporal constraints: the Tier-1 8-frame dwell gate (~333 ms) and the Tier-2a 9-frame window (~337 ms worst-case). The raw model accurately detects the new plane during the physical transition, and the smoothed UX reliably updates ~500 ms after the probe settles.
 
-**NatalIA Latency Finding:** Evaluation of continuous standard-plane to different-standard-plane transitions on the NatalIA phantom dataset was planned. However, given the model's overwhelming tendency to classify the phantom as "Other" (95.4% of standard planes misclassified, see §2b), genuine model-level transitions could not be timed reliably. Real patient transition clips remain a requirement for final clinical validation.
+#### 5.1.2 NatalIA Transition Latency (Real Motion)
+
+When this exact pipeline was run against the NatalIA phantom dataset—the only dataset providing continuous, real free-hand probe motion—transition-tracking behaviour was roughly **5–14× worse** than the headline synthetic number. 
+
+Because the raw model mostly defaults to predicting "Other" for these out-of-distribution phantom textures (see §2b), it struggles to hold the new standard plane long enough to pass the smoothing gates. In the NatalIA evaluation run, **14/14 transitions failed to stabilize** on the target plane, triggering the fallback penalty. This resulted in a **Mean Latency-to-Stable of 2,750 ms** (P90 = 5,000 ms, Max = 6,458 ms).
+
+The synthetic-clip numbers (489.3 ms) must be treated as an optimistic, single-plane-swap-only baseline. Real patient transition clips remain a strict requirement to measure true clinical transition latency.
 
 ### 5.2 Cross-Device Coverage: 3 of 8 Classes (3 of 7 Anatomical Standard Planes)
 

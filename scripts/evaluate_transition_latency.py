@@ -78,9 +78,19 @@ def run_inference_natalia(exam_dir: Path, df_exam: pd.DataFrame, model: torch.nn
     return all_probs, fps
 
 def main():
+    global LOG_PATH, CSV_PATH
     parser = argparse.ArgumentParser()
     parser.add_argument("--natalia", action="store_true", help="Run latency evaluation on NatalIA transitions")
     args = parser.parse_args()
+
+    import datetime
+    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    if args.natalia:
+        LOG_PATH = Path("logs/eval/evaluate_transition_latency_natalia.txt")
+        CSV_PATH = Path("logs/eval/transition_latency_details_natalia.csv")
+    else:
+        LOG_PATH = Path(f"logs/eval/evaluate_transition_latency_synthetic_{timestamp}.txt")
+        CSV_PATH = Path(f"logs/eval/transition_latency_details_synthetic_{timestamp}.csv")
 
     LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
     CSV_PATH.parent.mkdir(parents=True, exist_ok=True)

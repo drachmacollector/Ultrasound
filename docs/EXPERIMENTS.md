@@ -69,7 +69,7 @@ A paired bootstrap (n=5271, 2000 iterations) was conducted to verify if `convnex
 **Reasoning:** 
 1. `convnext_tiny` is the clear winner on aggregate macro-F1 on the held-out test set. While it wins outright on 1 class (`F_abdomen`), ties on 5, and loses on 2 (notably slightly underperforming `tf_efficientnetv2_s` (0.77 vs 0.80 F1) on the hardest and most clinically meaningful class, `BT_ventricular`), its overall macro-F1 edge is statistically robust. 
 2. `repvgg_a2`'s val-set macro-F1 exhibited high epoch-to-epoch variance, and its early-stopped checkpoint appears to have benefited from a favorable val-set fluctuation rather than a stable generalization improvement. This is precisely the failure mode the test-set evaluation gate was built to catch, as its test-set performance dropped by over -0.04 to 4th place.
-3. While `convnext_tiny` is statistically tied with `tf_efficientnetv2_s` based on the bootstrap test (CI barely straddles zero), secondary criteria cleanly resolve the tie: `convnext_tiny` trains/infers at 224x224 (vs 300x300, meaning faster inference), has a simpler normalization scheme, and offers a cleaner ONNX export path.
+3. While `convnext_tiny` is statistically tied with `tf_efficientnetv2_s` based on the bootstrap test (CI barely straddles zero), secondary criteria cleanly resolve the tie: `convnext_tiny` trains/infers at 224x224 (vs 300x300, meaning faster inference) and has a simpler normalization scheme.
 
 ---
 

@@ -13,7 +13,7 @@ Per Phase 6 limits, `convnext_tiny` achieved 98.0% in-distribution but dropped t
 
 ## Results Summary
 
-| Backbone | In-Dist (Overall) | Cross-Dev (Overall) | Head Cross-Dev | Head Gap vs In-Dist | Gate Check |
+| Backbone | In-Dist (3-class collapsed) | Cross-Dev (Overall) | Head Cross-Dev | Head Gap vs In-Dist | Gate Check |
 |---|---|---|---|---|---|
 | `convnext_tiny` (Base) | 95.8% | 83.6% | 83.2% | -14.8% | PASS ✓ |
 | `tf_efficientnetv2_s` | 96.0% | 85.3% | 88.6% | -11.0% | PASS ✓ |
@@ -22,7 +22,7 @@ Per Phase 6 limits, `convnext_tiny` achieved 98.0% in-distribution but dropped t
 | `repvgg_a1` | 97.0% | 86.9% | 88.9% | -10.7% | PASS ✓ |
 | `mobilenetv3_large_100` | 94.3% | 82.3% | 82.2% | -16.6% | PASS ✓ |
 
-*Note: In-Dist (Overall) is calculated dynamically during eval using test.csv.*
+*Note: The "In-Dist (3-class collapsed)" column reflects a collapsed accuracy (Head/Abdomen/Femur only, excluding the "Other" class and merging brain sub-planes) to serve as a perfectly matched baseline for the cross-device set. It should not be confused with the true 8-way in-distribution macro-F1 of 89.27% (see `docs/EVAL_REPORT.md` §1).*
 
 ### Detailed Misclassification Breakdown (Head Class)
 
