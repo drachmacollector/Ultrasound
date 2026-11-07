@@ -4,19 +4,19 @@
 
 | File | Purpose |
 |---|---|
-| [src/smoothing/tier1.py](file:///d:/Ultrasound/src/smoothing/tier1.py) | Tier-1 EMA + hysteresis smoothing logic |
-| [src/smoothing/test_tier1.py](file:///d:/Ultrasound/src/smoothing/test_tier1.py) | Unit tests verifying stable tracking and hysteresis |
-| [src/realtime/model_loader.py](file:///d:/Ultrasound/src/realtime/model_loader.py) | Centralised `build_model` and `torch.load` single-source of truth |
-| [src/realtime/capture.py](file:///d:/Ultrasound/src/realtime/capture.py) | `FrameSource` and background `CaptureThread` |
-| [src/realtime/queues.py](file:///d:/Ultrasound/src/realtime/queues.py) | Thread-safe `DropOldestQueue` with non-blocking APIs |
-| [src/realtime/pipeline.py](file:///d:/Ultrasound/src/realtime/pipeline.py) | `InferenceThread` and `PipelineStats` |
-| [src/realtime/app.py](file:///d:/Ultrasound/src/realtime/app.py) | `cv2.imshow` main render loop, CLI, and performance HUD |
-| [scripts/create_synthetic_clips.py](file:///d:/Ultrasound/scripts/create_synthetic_clips.py) | Task 2 fallback to generate 50 clips from image frames |
-| [scripts/measure_baseline_flicker.py](file:///d:/Ultrasound/scripts/measure_baseline_flicker.py) | Task 4 raw argmax baseline measurement |
-| [scripts/tune_tier1_smoothing.py](file:///d:/Ultrasound/scripts/tune_tier1_smoothing.py) | Task 6 parameter sweep script |
-| [scripts/validate_pipeline_headless.py](file:///d:/Ultrasound/scripts/validate_pipeline_headless.py) | Task 10 120-second thermal & FPS validation test |
-| [configs/smoothing_tier1.yaml](file:///d:/Ultrasound/configs/smoothing_tier1.yaml) | Output configuration containing selected Tier-1 parameters |
-| [docs/PHASE5_SMOOTHING_TUNING.md](file:///d:/Ultrasound/docs/PHASE5_SMOOTHING_TUNING.md) | Sweep documentation and parameter justification |
+| [src/smoothing/tier1.py](file:///d:/Code/Ultrasound/src/smoothing/tier1.py) | Tier-1 EMA + hysteresis smoothing logic |
+| [src/smoothing/test_tier1.py](file:///d:/Code/Ultrasound/src/smoothing/test_tier1.py) | Unit tests verifying stable tracking and hysteresis |
+| [src/realtime/model_loader.py](file:///d:/Code/Ultrasound/src/realtime/model_loader.py) | Centralised `build_model` and `torch.load` single-source of truth |
+| [src/realtime/capture.py](file:///d:/Code/Ultrasound/src/realtime/capture.py) | `FrameSource` and background `CaptureThread` |
+| [src/realtime/queues.py](file:///d:/Code/Ultrasound/src/realtime/queues.py) | Thread-safe `DropOldestQueue` with non-blocking APIs |
+| [src/realtime/pipeline.py](file:///d:/Code/Ultrasound/src/realtime/pipeline.py) | `InferenceThread` and `PipelineStats` |
+| [src/realtime/app.py](file:///d:/Code/Ultrasound/src/realtime/app.py) | `cv2.imshow` main render loop, CLI, and performance HUD |
+| [scripts/create_synthetic_clips.py](file:///d:/Code/Ultrasound/scripts/create_synthetic_clips.py) | Task 2 fallback to generate 50 clips from image frames |
+| [scripts/measure_baseline_flicker.py](file:///d:/Code/Ultrasound/scripts/measure_baseline_flicker.py) | Task 4 raw argmax baseline measurement |
+| [scripts/tune_tier1_smoothing.py](file:///d:/Code/Ultrasound/scripts/tune_tier1_smoothing.py) | Task 6 parameter sweep script |
+| [scripts/validate_pipeline_headless.py](file:///d:/Code/Ultrasound/scripts/validate_pipeline_headless.py) | Task 10 120-second thermal & FPS validation test |
+| [configs/smoothing_tier1.yaml](file:///d:/Code/Ultrasound/configs/smoothing_tier1.yaml) | Output configuration containing selected Tier-1 parameters |
+| [docs/PHASE5_SMOOTHING_TUNING.md](file:///d:/Code/Ultrasound/docs/PHASE5_SMOOTHING_TUNING.md) | Sweep documentation and parameter justification |
 
 ---
 
@@ -106,3 +106,4 @@ A 155-second headless test sequence generated definitive metrics on the RTX 4060
 - [x] Grad-CAM throttled and using a single persistent `GradCAM` instance, not re-instantiated per call
 - [x] Validated end-to-end on file playback (`--loop`) and on webcam, webcam caveat caption burned into frame
 - [x] `docs/phase 5 walkthrough.md` written with real numbers, not placeholders
+

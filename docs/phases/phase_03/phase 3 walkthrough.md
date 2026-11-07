@@ -101,16 +101,16 @@ Phase 4 training loop loads this JSON directly (`data/processed/class_weights.js
 
 | File | Purpose |
 |---|---|
-| [scripts/build_manifest.py](file:///d:/Ultrasound/scripts/build_manifest.py) | FETAL_PLANES_DB CSV → canonical 8-class manifest |
-| [scripts/patient_split.py](file:///d:/Ultrasound/scripts/patient_split.py) | StratifiedGroupKFold patient-level splits |
-| [scripts/verify_no_leakage.py](file:///d:/Ultrasound/scripts/verify_no_leakage.py) | Hard-assert leakage check |
-| [scripts/build_cross_device_manifest.py](file:///d:/Ultrasound/scripts/build_cross_device_manifest.py) | HC18+UCL only manifest with guardrails |
-| [scripts/generate_sample_clips.py](file:///d:/Ultrasound/scripts/generate_sample_clips.py) | Driver: 2 clips per class → `synthetic_clips/` |
-| [scripts/run_sanity_checks.py](file:///d:/Ultrasound/scripts/run_sanity_checks.py) | All 6 sanity-check visualizations |
-| [src/data/transforms.py](file:///d:/Ultrasound/src/data/transforms.py) | Train + eval albumentations pipelines |
-| [src/data/dataset.py](file:///d:/Ultrasound/src/data/dataset.py) | `FocalPlanesDataset` + `CrossDeviceDataset` |
-| [src/data/class_weights.py](file:///d:/Ultrasound/src/data/class_weights.py) | Inverse-frequency weight computation |
-| [src/data/synthetic_video.py](file:///d:/Ultrasound/src/data/synthetic_video.py) | `_SmoothRandomWalk` + `generate_ego_motion_clip` |
+| [scripts/build_manifest.py](file:///d:/Code/Ultrasound/scripts/build_manifest.py) | FETAL_PLANES_DB CSV → canonical 8-class manifest |
+| [scripts/patient_split.py](file:///d:/Code/Ultrasound/scripts/patient_split.py) | StratifiedGroupKFold patient-level splits |
+| [scripts/verify_no_leakage.py](file:///d:/Code/Ultrasound/scripts/verify_no_leakage.py) | Hard-assert leakage check |
+| [scripts/build_cross_device_manifest.py](file:///d:/Code/Ultrasound/scripts/build_cross_device_manifest.py) | HC18+UCL only manifest with guardrails |
+| [scripts/generate_sample_clips.py](file:///d:/Code/Ultrasound/scripts/generate_sample_clips.py) | Driver: 2 clips per class → `synthetic_clips/` |
+| [scripts/run_sanity_checks.py](file:///d:/Code/Ultrasound/scripts/run_sanity_checks.py) | All 6 sanity-check visualizations |
+| [src/data/transforms.py](file:///d:/Code/Ultrasound/src/data/transforms.py) | Train + eval albumentations pipelines |
+| [src/data/dataset.py](file:///d:/Code/Ultrasound/src/data/dataset.py) | `FocalPlanesDataset` + `CrossDeviceDataset` |
+| [src/data/class_weights.py](file:///d:/Code/Ultrasound/src/data/class_weights.py) | Inverse-frequency weight computation |
+| [src/data/synthetic_video.py](file:///d:/Code/Ultrasound/src/data/synthetic_video.py) | `_SmoothRandomWalk` + `generate_ego_motion_clip` |
 
 ---
 
@@ -127,13 +127,13 @@ Phase 4 training loop loads this JSON directly (`data/processed/class_weights.js
 
 | File | Contents |
 |---|---|
-| [01_class_distribution_splits.png](file:///d:/Ultrasound/data/processed/sanity_checks/01_class_distribution_splits.png) | Class counts per split (grouped bar, FETAL_PLANES_DB) |
-| [02_cross_device_distribution.png](file:///d:/Ultrasound/data/processed/sanity_checks/02_cross_device_distribution.png) | Cross-device counts by source_subset and label |
-| [03_sample_grid_fetal_planes.png](file:///d:/Ultrasound/data/processed/sanity_checks/03_sample_grid_fetal_planes.png) | 5 sample images per class (train split) |
-| [04_sample_grid_cross_device.png](file:///d:/Ultrasound/data/processed/sanity_checks/04_sample_grid_cross_device.png) | 5 sample images per (subset, label) combination |
-| [05_patient_count_heatmap.png](file:///d:/Ultrasound/data/processed/sanity_checks/05_patient_count_heatmap.png) | Heatmap of patient + image counts per class per split |
-| [05_patient_image_counts_per_split.csv](file:///d:/Ultrasound/data/processed/sanity_checks/05_patient_image_counts_per_split.csv) | Same data as CSV |
-| [06_resolution_histogram.png](file:///d:/Ultrasound/data/processed/sanity_checks/06_resolution_histogram.png) | Width / height / aspect-ratio distributions |
+| [01_class_distribution_splits.png](file:///d:/Code/Ultrasound/data/processed/sanity_checks/01_class_distribution_splits.png) | Class counts per split (grouped bar, FETAL_PLANES_DB) |
+| [02_cross_device_distribution.png](file:///d:/Code/Ultrasound/data/processed/sanity_checks/02_cross_device_distribution.png) | Cross-device counts by source_subset and label |
+| [03_sample_grid_fetal_planes.png](file:///d:/Code/Ultrasound/data/processed/sanity_checks/03_sample_grid_fetal_planes.png) | 5 sample images per class (train split) |
+| [04_sample_grid_cross_device.png](file:///d:/Code/Ultrasound/data/processed/sanity_checks/04_sample_grid_cross_device.png) | 5 sample images per (subset, label) combination |
+| [05_patient_count_heatmap.png](file:///d:/Code/Ultrasound/data/processed/sanity_checks/05_patient_count_heatmap.png) | Heatmap of patient + image counts per class per split |
+| [05_patient_image_counts_per_split.csv](file:///d:/Code/Ultrasound/data/processed/sanity_checks/05_patient_image_counts_per_split.csv) | Same data as CSV |
+| [06_resolution_histogram.png](file:///d:/Code/Ultrasound/data/processed/sanity_checks/06_resolution_histogram.png) | Width / height / aspect-ratio distributions |
 
 > [!IMPORTANT]
 > **Manual checkpoint #3:** Review every chart before starting Phase 4. This is the cheapest point to catch labeling or leakage bugs.
@@ -152,3 +152,4 @@ Phase 4 training loop loads this JSON directly (`data/processed/class_weights.js
 - [x] All 6 sanity-check visualizations saved to `data/processed/sanity_checks/`
 
 **Phase 4 can begin after you complete the 3 manual checkpoints above.**
+

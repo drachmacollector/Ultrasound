@@ -138,7 +138,7 @@ conda run -n fetalplane streamlit run app_streamlit.py
 - **NatalIA non-expert-operator (Standard vs Other):** Model correctly defaults to "Other" for out-of-distribution phantom frames — 99.3% "Other" Precision (safe fallback behaviour on unseen anatomy).
 - **Video stabilization latency:** 489.3 ms average latency to stabilize on spurious within-class flicker.
 
-For full evaluation metrics, cross-device confusion matrices, and known limitations, please see the [Evaluation Report (docs/EVAL_REPORT.md)](file:///d:/Ultrasound/docs/EVAL_REPORT.md).
+For full evaluation metrics, cross-device confusion matrices, and known limitations, please see the [Evaluation Report (docs/EVAL_REPORT.md)](file:///d:/Code/Ultrasound/docs/EVAL_REPORT.md).
 
 ### Non-Goals (Explicitly Out of Scope)
 - No clinical validation, no regulatory claims, no real patient data (research datasets and phantom data only).
@@ -174,3 +174,4 @@ conda run -n fetalplane python -m src.realtime.app --source data/processed/synth
 > **Grad-CAM is OFF by default** (clinical mode). Use `--debug` to enable it for model explanation or development runs. The `--no-gradcam` flag is a deprecated no-op (kept for backwards compatibility).
 
 *Validated at **23.6–23.7 fps** stable on RTX 4060 over a 120-second run with no thermal throttling.*
+

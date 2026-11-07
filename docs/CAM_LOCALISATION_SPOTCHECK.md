@@ -101,9 +101,9 @@ Across the 20-image manual review, the CAM-derived box was rated **Plausible on 
 
 ## Implementation notes
 
-- `cam_to_bbox()` source: [`src/models/cam_localisation.py`](file:///d:/Ultrasound/src/models/cam_localisation.py)
+- `cam_to_bbox()` source: [`src/models/cam_localisation.py`](file:///d:/Code/Ultrasound/src/models/cam_localisation.py)
 - Method: Otsu thresholding → largest connected component → min-area filter (2%)
 - Default method: `"otsu"` (parameter-free)
 - Fallback: `method="percentile"` if Otsu proves too permissive/restrictive
 - The `None` return for diffuse CAMs is by design — not an error condition
-- Full unit test log: [`logs/smoketest/test_cam_localisation_output.txt`](file:///d:/Ultrasound/logs/smoketest/test_cam_localisation_output.txt)
+- Full unit test log: [`logs/smoketest/test_cam_localisation_output.txt`](file:///d:/Code/Ultrasound/logs/smoketest/test_cam_localisation_output.txt)

@@ -6,21 +6,21 @@
 
 | File | Purpose |
 |---|---|
-| [src/models/__init__.py](file:///d:/Ultrasound/src/models/__init__.py) | Package init |
-| [src/models/backbone.py](file:///d:/Ultrasound/src/models/backbone.py) | `build_model()` + `get_pretrained_cfg()` via timm |
-| [src/models/gradcam.py](file:///d:/Ultrasound/src/models/gradcam.py) | Grad-CAM with verified per-backbone target layers |
-| [src/models/test_backbone.py](file:///d:/Ultrasound/src/models/test_backbone.py) | Shape unit tests (no data/pretrained needed) |
-| [src/train/__init__.py](file:///d:/Ultrasound/src/train/__init__.py) | Package init |
-| [src/train/train.py](file:///d:/Ultrasound/src/train/train.py) | Config-driven training loop |
-| [configs/repvgg_a1.yaml](file:///d:/Ultrasound/configs/repvgg_a1.yaml) | backbone config |
-| [configs/repvgg_a2.yaml](file:///d:/Ultrasound/configs/repvgg_a2.yaml) | backbone config |
-| [configs/mobilenetv3_large_100.yaml](file:///d:/Ultrasound/configs/mobilenetv3_large_100.yaml) | backbone config |
-| [configs/efficientnet_lite0.yaml](file:///d:/Ultrasound/configs/efficientnet_lite0.yaml) | backbone config |
-| [configs/tf_efficientnetv2_s.yaml](file:///d:/Ultrasound/configs/tf_efficientnetv2_s.yaml) | backbone config — **300×300, TF normalization** |
-| [scripts/lr_finder.py](file:///d:/Ultrasound/scripts/lr_finder.py) | LR range test (self-contained, no extra dependency) |
-| [scripts/smoke_test.py](file:///d:/Ultrasound/scripts/smoke_test.py) | 5-epoch smoke test for all 6 backbones |
-| [scripts/inspect_pretrained_cfg.py](file:///d:/Ultrasound/scripts/inspect_pretrained_cfg.py) | Print pretrained_cfg for all backbones |
-| [docs/EXPERIMENTS.md](file:///d:/Ultrasound/docs/EXPERIMENTS.md) | Pre-populated with verified cfg data; tables ready |
+| [src/models/__init__.py](file:///d:/Code/Ultrasound/src/models/__init__.py) | Package init |
+| [src/models/backbone.py](file:///d:/Code/Ultrasound/src/models/backbone.py) | `build_model()` + `get_pretrained_cfg()` via timm |
+| [src/models/gradcam.py](file:///d:/Code/Ultrasound/src/models/gradcam.py) | Grad-CAM with verified per-backbone target layers |
+| [src/models/test_backbone.py](file:///d:/Code/Ultrasound/src/models/test_backbone.py) | Shape unit tests (no data/pretrained needed) |
+| [src/train/__init__.py](file:///d:/Code/Ultrasound/src/train/__init__.py) | Package init |
+| [src/train/train.py](file:///d:/Code/Ultrasound/src/train/train.py) | Config-driven training loop |
+| [configs/repvgg_a1.yaml](file:///d:/Code/Ultrasound/configs/repvgg_a1.yaml) | backbone config |
+| [configs/repvgg_a2.yaml](file:///d:/Code/Ultrasound/configs/repvgg_a2.yaml) | backbone config |
+| [configs/mobilenetv3_large_100.yaml](file:///d:/Code/Ultrasound/configs/mobilenetv3_large_100.yaml) | backbone config |
+| [configs/efficientnet_lite0.yaml](file:///d:/Code/Ultrasound/configs/efficientnet_lite0.yaml) | backbone config |
+| [configs/tf_efficientnetv2_s.yaml](file:///d:/Code/Ultrasound/configs/tf_efficientnetv2_s.yaml) | backbone config — **300×300, TF normalization** |
+| [scripts/lr_finder.py](file:///d:/Code/Ultrasound/scripts/lr_finder.py) | LR range test (self-contained, no extra dependency) |
+| [scripts/smoke_test.py](file:///d:/Code/Ultrasound/scripts/smoke_test.py) | 5-epoch smoke test for all 6 backbones |
+| [scripts/inspect_pretrained_cfg.py](file:///d:/Code/Ultrasound/scripts/inspect_pretrained_cfg.py) | Print pretrained_cfg for all backbones |
+| [docs/EXPERIMENTS.md](file:///d:/Code/Ultrasound/docs/EXPERIMENTS.md) | Pre-populated with verified cfg data; tables ready |
 
 ---
 
@@ -127,7 +127,7 @@ conda run -n fetalplane tensorboard --logdir logs/
 Compare `MacroF1/val` across all backbones. **Backbone with highest val macro-F1 wins.**
 
 ### Step 5 — Fill in EXPERIMENTS.md
-After runs complete, fill in the backbone comparison table in [docs/EXPERIMENTS.md](file:///d:/Ultrasound/docs/EXPERIMENTS.md).
+After runs complete, fill in the backbone comparison table in [docs/EXPERIMENTS.md](file:///d:/Code/Ultrasound/docs/EXPERIMENTS.md).
 
 ---
 
@@ -139,3 +139,4 @@ The initial `gradcam.py` had incorrect target layer paths using `-1` indices for
 - EfficientNetV2-S: `blocks[5][-1]`
 
 All paths now verified to resolve to the correct layer types.
+

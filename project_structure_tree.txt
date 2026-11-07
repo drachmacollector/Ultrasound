@@ -1,4 +1,4 @@
-d:/Ultrasound/
+d:/Code/Ultrasound/
 ├── assets
 │   ├── fetscan_uiux_fix_brief.md
 │   ├── Newsprint_design_prompt.md
