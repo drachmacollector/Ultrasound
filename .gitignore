@@ -21,12 +21,9 @@ convert_utf16.py
 .tmpgit/
 
 events.out.tfevents.*
-lr_finder.png
-*.png
 *.pt
 !*.txt
 data/raw/fetal_planes_db/LICENSE_NOTE.txt
-!baseline_flicker_chart.png
 !baseline_flicker_report.csv
 !transition_annotations_template.json
 !data/processed/manual_review/**/*
@@ -40,8 +37,6 @@ data/processed/synthetic_clips/*.mp4
 
 
 !data/processed/eval_realistic_video/**/*
-!docs/phase5_screenshots/**/*.png
-!docs/phases/phase_05/phase5_screenshots/*.png
 
 # Scratch and tree files
 scratch_demo.py
@@ -52,3 +47,26 @@ scratch_test_loss.py
 # Demo 1 output videos (generated on-the-fly)
 outputs/
 assets/Newsprint_design_prompt.md
+docs/A multicentre benchmark dataset for comprehensive landmark-based fetal ultrasound biometry.pdf
+
+# Ignore all image files everywhere, overriding any un-ignore exceptions above
+*.png
+*.PNG
+*.jpg
+*.JPG
+*.jpeg
+*.JPEG
+*.gif
+*.GIF
+*.bmp
+*.BMP
+*.tif
+*.TIF
+*.tiff
+*.TIFF
+*.webp
+*.WEBP
+*.ico
+*.ICO
+*.svg
+*.SVG
