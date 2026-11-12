@@ -263,6 +263,11 @@ Methods used for R4.6 claims and the R4.7 association: **{', '.join(passed) if p
 {t}
 
 Figures: `results/figures/G3_similarity_by_stage.pdf`, `results/figures/G3_randomisation_cascade.pdf`.
+
+**Notes.** HOG correlation is reported but is not part of the pass rule. For occlusion it stays high
+(about 0.5–0.65) at every stage, because every occlusion map is built from the same 16 px (20 px) patch grid,
+and HOG features pick up those block edges whatever the model. "Flat maps" are maps with no positive
+energy; these randomised occlusion maps had no positive probability drop anywhere.
 """, encoding="utf-8")
     print(f"wrote {OUT_JSON}, {GATE_MD}")
 

@@ -1,0 +1,650 @@
+{
+ "code_freeze_commit": "2e9c2c21a162aec6261bd24e6fd6245624b51fb3",
+ "per_backbone": {
+  "convnext_tiny": {
+   "gradcam": [
+    {
+     "stage": 0,
+     "name": "trained"
+    },
+    {
+     "stage": 1,
+     "name": "head",
+     "n": 200,
+     "n_flat": 0,
+     "ssim": {
+      "median": 0.2630570659350307,
+      "q25": 0.18216686697385048,
+      "q75": 0.3710168576375133
+     },
+     "spearman": {
+      "median": -0.005005136356764301,
+      "q25": -0.34615955048098807,
+      "q75": 0.23478972345962235
+     },
+     "hog": {
+      "median": 0.10386375098575568,
+      "q25": 0.05921524684529453,
+      "q75": 0.15376422463441863
+     }
+    },
+    {
+     "stage": 2,
+     "name": "+stages[3]",
+     "n": 200,
+     "n_flat": 0,
+     "ssim": {
+      "median": 0.2529972525374158,
+      "q25": 0.20499416151489105,
+      "q75": 0.29731770107103467
+     },
+     "spearman": {
+      "median": 0.03015510737779773,
+      "q25": -0.13959302051643196,
+      "q75": 0.18328829389715814
+     },
+     "hog": {
+      "median": 0.08352840079217302,
+      "q25": 0.04777551006653171,
+      "q75": 0.11661921277711866
+     }
+    },
+    {
+     "stage": 3,
+     "name": "+stages[2]",
+     "n": 200,
+     "n_flat": 0,
+     "ssim": {
+      "median": 0.25460791433943336,
+      "q25": 0.20812304694857017,
+      "q75": 0.3097003626921291
+     },
+     "spearman": {
+      "median": -0.005769890870299048,
+      "q25": -0.17151456052296954,
+      "q75": 0.15471832480371378
+     },
+     "hog": {
+      "median": 0.08056075206899128,
+      "q25": 0.04651871187987296,
+      "q75": 0.12249690298811466
+     }
+    }
+   ],
+   "gradcampp": [
+    {
+     "stage": 0,
+     "name": "trained"
+    },
+    {
+     "stage": 1,
+     "name": "head",
+     "n": 200,
+     "n_flat": 0,
+     "ssim": {
+      "median": 0.3219731078938233,
+      "q25": 0.2396402626669244,
+      "q75": 0.4208975264715865
+     },
+     "spearman": {
+      "median": 0.241381247238179,
+      "q25": -0.018002866270955698,
+      "q75": 0.45576243320835114
+     },
+     "hog": {
+      "median": 0.08121524735233335,
+      "q25": 0.025136179155335545,
+      "q75": 0.15348963421884862
+     }
+    },
+    {
+     "stage": 2,
+     "name": "+stages[3]",
+     "n": 200,
+     "n_flat": 0,
+     "ssim": {
+      "median": 0.27946941436238854,
+      "q25": 0.20843425373345206,
+      "q75": 0.36910543289097025
+     },
+     "spearman": {
+      "median": 0.09070060581478359,
+      "q25": -0.06294757651965831,
+      "q75": 0.2664669109182195
+     },
+     "hog": {
+      "median": 0.05957490247945683,
+      "q25": 0.02035430902603693,
+      "q75": 0.10192884868935673
+     }
+    },
+    {
+     "stage": 3,
+     "name": "+stages[2]",
+     "n": 200,
+     "n_flat": 0,
+     "ssim": {
+      "median": 0.2769108702623587,
+      "q25": 0.22516660896899857,
+      "q75": 0.33650035026265646
+     },
+     "spearman": {
+      "median": 0.046545420586819576,
+      "q25": -0.10624862845423425,
+      "q75": 0.20465114700982623
+     },
+     "hog": {
+      "median": 0.05735561759612065,
+      "q25": 0.016209722221694547,
+      "q75": 0.1031473563897824
+     }
+    }
+   ],
+   "occlusion": [
+    {
+     "stage": 0,
+     "name": "trained"
+    },
+    {
+     "stage": 1,
+     "name": "head",
+     "n": 200,
+     "n_flat": 0,
+     "ssim": {
+      "median": 0.34535419430893477,
+      "q25": 0.2658845811883933,
+      "q75": 0.4170102465107427
+     },
+     "spearman": {
+      "median": 0.04358262377392959,
+      "q25": -0.10860016840406322,
+      "q75": 0.18901727572603702
+     },
+     "hog": {
+      "median": 0.6126152049001561,
+      "q25": 0.559010792562705,
+      "q75": 0.6641417524032032
+     }
+    },
+    {
+     "stage": 2,
+     "name": "+stages[3]",
+     "n": 200,
+     "n_flat": 0,
+     "ssim": {
+      "median": 0.3002284259981526,
+      "q25": 0.2531583148076133,
+      "q75": 0.3554280978865418
+     },
+     "spearman": {
+      "median": 0.04047135611223289,
+      "q25": -0.04796177397721036,
+      "q75": 0.11880794143270627
+     },
+     "hog": {
+      "median": 0.618057110362619,
+      "q25": 0.5714372487566073,
+      "q75": 0.660455590348751
+     }
+    },
+    {
+     "stage": 3,
+     "name": "+stages[2]",
+     "n": 200,
+     "n_flat": 0,
+     "ssim": {
+      "median": 0.24384280129031471,
+      "q25": 0.2177454227207355,
+      "q75": 0.28241418053594924
+     },
+     "spearman": {
+      "median": 0.030705220892701005,
+      "q25": -0.037487605834065255,
+      "q75": 0.0768330490320665
+     },
+     "hog": {
+      "median": 0.6499883582486545,
+      "q25": 0.6053715100029637,
+      "q75": 0.6855576101182635
+     }
+    }
+   ]
+  },
+  "tf_efficientnetv2_s": {
+   "gradcam": [
+    {
+     "stage": 0,
+     "name": "trained"
+    },
+    {
+     "stage": 1,
+     "name": "head",
+     "n": 200,
+     "n_flat": 0,
+     "ssim": {
+      "median": 0.32839841721904006,
+      "q25": 0.23969558905338764,
+      "q75": 0.4356918301524935
+     },
+     "spearman": {
+      "median": 0.1979188990488508,
+      "q25": -0.04549304714153429,
+      "q75": 0.467383226412195
+     },
+     "hog": {
+      "median": 0.06992117424142698,
+      "q25": 0.03632834022714075,
+      "q75": 0.11985036833327285
+     }
+    },
+    {
+     "stage": 2,
+     "name": "+blocks[5]",
+     "n": 200,
+     "n_flat": 0,
+     "ssim": {
+      "median": 0.265550426254766,
+      "q25": 0.2217224127991274,
+      "q75": 0.3040608681861674
+     },
+     "spearman": {
+      "median": 0.023300543202594386,
+      "q25": -0.10151293101408851,
+      "q75": 0.16507378254603217
+     },
+     "hog": {
+      "median": 0.032265774662337494,
+      "q25": 0.011924273341498913,
+      "q75": 0.06346204707310879
+     }
+    },
+    {
+     "stage": 3,
+     "name": "+blocks[4]",
+     "n": 200,
+     "n_flat": 0,
+     "ssim": {
+      "median": 0.31109205099752024,
+      "q25": 0.23960429049526688,
+      "q75": 0.356262670541725
+     },
+     "spearman": {
+      "median": 0.22862022736413778,
+      "q25": 0.0303024191014516,
+      "q75": 0.4134974790005211
+     },
+     "hog": {
+      "median": 0.05908496587046912,
+      "q25": 0.030782278870397105,
+      "q75": 0.08295654649259705
+     }
+    }
+   ],
+   "gradcampp": [
+    {
+     "stage": 0,
+     "name": "trained"
+    },
+    {
+     "stage": 1,
+     "name": "head",
+     "n": 200,
+     "n_flat": 0,
+     "ssim": {
+      "median": 0.38642566218421825,
+      "q25": 0.29692843603624874,
+      "q75": 0.5170111403293087
+     },
+     "spearman": {
+      "median": 0.40339121228995295,
+      "q25": 0.1600484672289494,
+      "q75": 0.623454039161472
+     },
+     "hog": {
+      "median": 0.11099304967558914,
+      "q25": 0.06916245532642888,
+      "q75": 0.18222188914131143
+     }
+    },
+    {
+     "stage": 2,
+     "name": "+blocks[5]",
+     "n": 200,
+     "n_flat": 0,
+     "ssim": {
+      "median": 0.3048099730786565,
+      "q25": 0.25234824268439177,
+      "q75": 0.35246503315254163
+     },
+     "spearman": {
+      "median": 0.1682709346808046,
+      "q25": 0.04323851970589784,
+      "q75": 0.2760195459006318
+     },
+     "hog": {
+      "median": 0.05207985669433619,
+      "q25": 0.025883848581151114,
+      "q75": 0.08483679234374306
+     }
+    },
+    {
+     "stage": 3,
+     "name": "+blocks[4]",
+     "n": 200,
+     "n_flat": 0,
+     "ssim": {
+      "median": 0.2632231759213683,
+      "q25": 0.1942408533009555,
+      "q75": 0.30795835883348666
+     },
+     "spearman": {
+      "median": 0.06665049164893894,
+      "q25": -0.1133397032269508,
+      "q75": 0.21703147614670412
+     },
+     "hog": {
+      "median": 0.05622623240035943,
+      "q25": 0.023620618924959633,
+      "q75": 0.0811192964809051
+     }
+    }
+   ],
+   "occlusion": [
+    {
+     "stage": 0,
+     "name": "trained"
+    },
+    {
+     "stage": 1,
+     "name": "head",
+     "n": 200,
+     "n_flat": 5,
+     "ssim": {
+      "median": 0.38107193574154485,
+      "q25": 0.31035974047901105,
+      "q75": 0.46123009241617313
+     },
+     "spearman": {
+      "median": 0.0,
+      "q25": -0.13014030332499116,
+      "q75": 0.11362985566277395
+     },
+     "hog": {
+      "median": 0.5143047087558363,
+      "q25": 0.4422703116866155,
+      "q75": 0.5786367797036585
+     }
+    },
+    {
+     "stage": 2,
+     "name": "+blocks[5]",
+     "n": 200,
+     "n_flat": 5,
+     "ssim": {
+      "median": 0.296862300900398,
+      "q25": 0.25851494865834457,
+      "q75": 0.34909345125023394
+     },
+     "spearman": {
+      "median": 0.04435711025802373,
+      "q25": -0.03945076181739082,
+      "q75": 0.12626478242927514
+     },
+     "hog": {
+      "median": 0.6373227518967575,
+      "q25": 0.5539520650097468,
+      "q75": 0.687465071743661
+     }
+    },
+    {
+     "stage": 3,
+     "name": "+blocks[4]",
+     "n": 200,
+     "n_flat": 5,
+     "ssim": {
+      "median": 0.31295339476797335,
+      "q25": 0.23423816837590927,
+      "q75": 0.3906929389094665
+     },
+     "spearman": {
+      "median": 0.046202041231801244,
+      "q25": -0.03982697812463079,
+      "q75": 0.1357500167642938
+     },
+     "hog": {
+      "median": 0.597384416261132,
+      "q25": 0.4714397149335688,
+      "q75": 0.6706360506610682
+     }
+    }
+   ]
+  }
+ },
+ "examples": {},
+ "image_ids": [
+  "Patient00375_Plane4_1_of_1",
+  "Patient00475_Plane4_1_of_1",
+  "Patient00477_Plane4_1_of_1",
+  "Patient00480_Plane4_1_of_1",
+  "Patient00490_Plane4_1_of_1",
+  "Patient00539_Plane4_1_of_1",
+  "Patient00598_Plane4_1_of_1",
+  "Patient00604_Plane4_1_of_1",
+  "Patient00629_Plane5_1_of_1",
+  "Patient00643_Plane3_1_of_1",
+  "Patient01227_Plane2_1_of_1",
+  "Patient01228_Plane4_2_of_3",
+  "Patient01228_Plane6_1_of_1",
+  "Patient01229_Plane2_1_of_1",
+  "Patient01230_Plane2_1_of_1",
+  "Patient01232_Plane6_5_of_7",
+  "Patient01234_Plane3_3_of_6",
+  "Patient01235_Plane3_2_of_3",
+  "Patient01237_Plane4_2_of_3",
+  "Patient01240_Plane3_3_of_3",
+  "Patient01245_Plane3_2_of_2",
+  "Patient01247_Plane2_1_of_1",
+  "Patient01248_Plane3_1_of_1",
+  "Patient01248_Plane5_1_of_1",
+  "Patient01250_Plane5_1_of_2",
+  "Patient01256_Plane2_1_of_1",
+  "Patient01257_Plane4_3_of_3",
+  "Patient01262_Plane6_1_of_2",
+  "Patient01271_Plane3_13_of_15",
+  "Patient01271_Plane3_1_of_15",
+  "Patient01274_Plane3_2_of_4",
+  "Patient01275_Plane3_5_of_7",
+  "Patient01278_Plane5_1_of_1",
+  "Patient01285_Plane3_1_of_1",
+  "Patient01286_Plane4_5_of_5",
+  "Patient01293_Plane4_4_of_4",
+  "Patient01295_Plane5_1_of_1",
+  "Patient01296_Plane3_3_of_5",
+  "Patient01298_Plane4_3_of_3",
+  "Patient01300_Plane3_6_of_6",
+  "Patient01310_Plane4_6_of_7",
+  "Patient01318_Plane5_1_of_1",
+  "Patient01323_Plane4_1_of_6",
+  "Patient01327_Plane1_21_of_21",
+  "Patient01331_Plane1_2_of_4",
+  "Patient01332_Plane3_1_of_4",
+  "Patient01339_Plane6_1_of_1",
+  "Patient01347_Plane1_20_of_24",
+  "Patient01350_Plane2_1_of_1",
+  "Patient01350_Plane6_6_of_7",
+  "Patient01351_Plane6_2_of_3",
+  "Patient01352_Plane4_1_of_4",
+  "Patient01362_Plane3_1_of_1",
+  "Patient01366_Plane3_3_of_4",
+  "Patient01372_Plane5_3_of_4",
+  "Patient01373_Plane5_1_of_1",
+  "Patient01374_Plane1_5_of_12",
+  "Patient01384_Plane3_3_of_3",
+  "Patient01397_Plane3_1_of_3",
+  "Patient01399_Plane3_2_of_2",
+  "Patient01406_Plane3_2_of_3",
+  "Patient01408_Plane3_3_of_9",
+  "Patient01408_Plane3_4_of_9",
+  "Patient01408_Plane5_2_of_2",
+  "Patient01409_Plane3_3_of_4",
+  "Patient01410_Plane1_1_of_1",
+  "Patient01413_Plane3_1_of_4",
+  "Patient01419_Plane3_4_of_4",
+  "Patient01425_Plane5_1_of_1",
+  "Patient01428_Plane4_1_of_6",
+  "Patient01438_Plane2_1_of_1",
+  "Patient01441_Plane3_1_of_1",
+  "Patient01442_Plane1_10_of_22",
+  "Patient01443_Plane3_2_of_2",
+  "Patient01444_Plane1_12_of_28",
+  "Patient01444_Plane1_25_of_28",
+  "Patient01450_Plane6_1_of_1",
+  "Patient01452_Plane3_1_of_2",
+  "Patient01461_Plane3_2_of_3",
+  "Patient01462_Plane3_2_of_4",
+  "Patient01463_Plane6_5_of_5",
+  "Patient01470_Plane2_1_of_1",
+  "Patient01475_Plane3_2_of_4",
+  "Patient01481_Plane1_34_of_35",
+  "Patient01481_Plane1_5_of_35",
+  "Patient01483_Plane3_2_of_4",
+  "Patient01484_Plane2_1_of_1",
+  "Patient01485_Plane3_2_of_4",
+  "Patient01486_Plane1_16_of_26",
+  "Patient01486_Plane3_1_of_3",
+  "Patient01495_Plane3_1_of_1",
+  "Patient01495_Plane5_1_of_2",
+  "Patient01496_Plane2_1_of_2",
+  "Patient01497_Plane1_6_of_7",
+  "Patient01498_Plane1_1_of_3",
+  "Patient01505_Plane2_1_of_1",
+  "Patient01505_Plane3_2_of_3",
+  "Patient01505_Plane3_3_of_3",
+  "Patient01509_Plane1_5_of_13",
+  "Patient01510_Plane3_2_of_4",
+  "Patient01515_Plane1_1_of_8",
+  "Patient01523_Plane3_2_of_4",
+  "Patient01526_Plane4_2_of_2",
+  "Patient01527_Plane4_1_of_2",
+  "Patient01528_Plane6_1_of_1",
+  "Patient01530_Plane2_1_of_2",
+  "Patient01536_Plane3_1_of_3",
+  "Patient01539_Plane4_1_of_1",
+  "Patient01539_Plane5_2_of_2",
+  "Patient01549_Plane5_1_of_1",
+  "Patient01551_Plane2_2_of_2",
+  "Patient01552_Plane3_1_of_2",
+  "Patient01556_Plane2_1_of_1",
+  "Patient01557_Plane3_3_of_4",
+  "Patient01558_Plane6_3_of_3",
+  "Patient01566_Plane1_20_of_29",
+  "Patient01566_Plane2_1_of_1",
+  "Patient01573_Plane5_1_of_1",
+  "Patient01580_Plane6_1_of_1",
+  "Patient01582_Plane5_1_of_3",
+  "Patient01584_Plane6_2_of_3",
+  "Patient01586_Plane3_4_of_4",
+  "Patient01590_Plane3_1_of_6",
+  "Patient01590_Plane3_5_of_6",
+  "Patient01592_Plane5_5_of_5",
+  "Patient01595_Plane3_2_of_2",
+  "Patient01599_Plane4_1_of_1",
+  "Patient01600_Plane6_2_of_8",
+  "Patient01606_Plane1_11_of_18",
+  "Patient01606_Plane1_16_of_18",
+  "Patient01608_Plane3_3_of_3",
+  "Patient01610_Plane3_2_of_9",
+  "Patient01610_Plane3_8_of_9",
+  "Patient01611_Plane1_1_of_1",
+  "Patient01611_Plane3_1_of_3",
+  "Patient01612_Plane1_16_of_21",
+  "Patient01612_Plane1_4_of_21",
+  "Patient01612_Plane3_3_of_3",
+  "Patient01613_Plane1_10_of_15",
+  "Patient01613_Plane3_2_of_2",
+  "Patient01618_Plane6_5_of_5",
+  "Patient01622_Plane6_2_of_4",
+  "Patient01627_Plane3_1_of_1",
+  "Patient01627_Plane5_2_of_2",
+  "Patient01632_Plane6_2_of_4",
+  "Patient01634_Plane2_1_of_2",
+  "Patient01635_Plane3_3_of_4",
+  "Patient01635_Plane6_1_of_2",
+  "Patient01638_Plane5_1_of_1",
+  "Patient01644_Plane2_1_of_1",
+  "Patient01647_Plane3_3_of_9",
+  "Patient01650_Plane2_1_of_1",
+  "Patient01650_Plane3_6_of_6",
+  "Patient01651_Plane3_2_of_2",
+  "Patient01651_Plane4_1_of_3",
+  "Patient01653_Plane3_9_of_11",
+  "Patient01653_Plane5_1_of_3",
+  "Patient01659_Plane3_2_of_3",
+  "Patient01659_Plane3_3_of_3",
+  "Patient01662_Plane5_1_of_2",
+  "Patient01675_Plane5_1_of_1",
+  "Patient01676_Plane1_9_of_14",
+  "Patient01679_Plane3_2_of_9",
+  "Patient01679_Plane3_9_of_9",
+  "Patient01679_Plane4_2_of_9",
+  "Patient01681_Plane3_1_of_5",
+  "Patient01694_Plane1_1_of_1",
+  "Patient01698_Plane1_1_of_1",
+  "Patient01702_Plane3_5_of_8",
+  "Patient01705_Plane6_2_of_2",
+  "Patient01706_Plane3_3_of_4",
+  "Patient01708_Plane2_1_of_2",
+  "Patient01710_Plane3_1_of_5",
+  "Patient01710_Plane3_4_of_5",
+  "Patient01715_Plane2_1_of_1",
+  "Patient01716_Plane2_1_of_1",
+  "Patient01718_Plane3_3_of_4",
+  "Patient01721_Plane3_4_of_6",
+  "Patient01726_Plane5_1_of_1",
+  "Patient01728_Plane3_1_of_2",
+  "Patient01731_Plane3_1_of_6",
+  "Patient01732_Plane5_1_of_1",
+  "Patient01733_Plane3_1_of_4",
+  "Patient01742_Plane2_1_of_1",
+  "Patient01749_Plane2_1_of_1",
+  "Patient01750_Plane2_1_of_1",
+  "Patient01750_Plane3_2_of_3",
+  "Patient01750_Plane6_1_of_2",
+  "Patient01754_Plane5_2_of_2",
+  "Patient01757_Plane3_1_of_1",
+  "Patient01757_Plane4_1_of_1",
+  "Patient01765_Plane6_2_of_4",
+  "Patient01770_Plane6_2_of_4",
+  "Patient01772_Plane5_1_of_1",
+  "Patient01772_Plane6_4_of_4",
+  "Patient01773_Plane6_1_of_5",
+  "Patient01779_Plane6_1_of_3",
+  "Patient01780_Plane3_1_of_3",
+  "Patient01782_Plane6_1_of_6",
+  "Patient01789_Plane2_1_of_2"
+ ],
+ "decision": {
+  "gradcam": {
+   "pass": true,
+   "per_backbone": {
+    "convnext_tiny": true,
+    "tf_efficientnetv2_s": true
+   }
+  },
+  "gradcampp": {
+   "pass": true,
+   "per_backbone": {
+    "convnext_tiny": true,
+    "tf_efficientnetv2_s": true
+   }
+  },
+  "occlusion": {
+   "pass": true,
+   "per_backbone": {
+    "convnext_tiny": true,
+    "tf_efficientnetv2_s": true
+   }
+  }
+ },
+ "rule": "median SSIM < 0.5 and median Spearman < 0.5 at stage 2 (head + last stage re-initialised), on both backbones"
+}
