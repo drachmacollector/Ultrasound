@@ -57,6 +57,23 @@ def get_eval_transform(
     ])
 
 
+def load_grayscale(image_path: str | Path) -> np.ndarray:
+    """Load an image as HxW uint8 greyscale.
+
+    IMREAD_GRAYSCALE also converts RGB sources (e.g. African/Egypt PNGs) with the
+    standard luminance formula. Raises FileNotFoundError if the file cannot be read.
+    """
+    img = cv2.imread(str(image_path), cv2.IMREAD_GRAYSCALE)
+    if img is None:
+        raise FileNotFoundError(f"Could not read image: {image_path}")
+    return img
+
+
+def gray_to_rgb(gray: np.ndarray) -> np.ndarray:
+    """Replicate a HxW uint8 image to HxWx3 (the input format of every backbone)."""
+    return cv2.cvtColor(gray, cv2.COLOR_GRAY2RGB)
+
+
 def load_and_prep_grayscale_to_rgb(image_path: str | Path) -> np.ndarray:
     """Load an ultrasound image and replicate the single channel to 3 channels.
 
@@ -66,10 +83,4 @@ def load_and_prep_grayscale_to_rgb(image_path: str | Path) -> np.ndarray:
 
     Raises FileNotFoundError if the file does not exist.
     """
-    # IMREAD_GRAYSCALE also converts RGB sources (e.g. African/Egypt PNGs) with the
-    # standard luminance formula.
-    img = cv2.imread(str(image_path), cv2.IMREAD_GRAYSCALE)
-    if img is None:
-        raise FileNotFoundError(f"Could not read image: {image_path}")
-    img_rgb = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
-    return img_rgb
+    return gray_to_rgb(load_grayscale(image_path))

@@ -18,9 +18,10 @@ import sys
 from pathlib import Path
 
 import pandas as pd
-from statsmodels.stats.proportion import confint_proportions_2indep, proportion_confint
+from statsmodels.stats.proportion import confint_proportions_2indep
 
 sys.path.insert(0, ".")
+from src.eval.stats import wilson  # noqa: E402
 
 AUDIT = Path("data/processed/audit")
 RAW = AUDIT / "ratings_raw"
@@ -33,11 +34,6 @@ RULE_RECALL = 0.80
 RULE_MIN_PAIRS = 20
 RULE_SECTOR_OK = 0.90
 RULE_GLANCE_MIN = 14
-
-
-def wilson(k: int, n: int) -> tuple[float, float]:
-    lo, hi = proportion_confint(k, n, alpha=0.05, method="wilson") if n else (float("nan"),) * 2
-    return float(lo), float(hi)
 
 
 def fmt_p(k: int, n: int) -> str:
@@ -246,7 +242,17 @@ def main() -> None:
         " stay frozen; patient-clustered CIs (R2) account for the within-patient redundancy.",
         "",
         "## 8. Sign-off",
-        "Emphasis decision recorded by the implementer; **PI to confirm** (append name/date below).",
+        "**Decision: CONFIRMED, overlays are a secondary axis** (PI delegated the call to the implementer, "
+        "2026-11-12). Rationale:",
+        "",
+        "* The rule outcome is not borderline: calipers are rare in FPDB and not enriched in standard planes, so a "
+        "'calipers ⇒ standard plane' finding could not carry the paper.",
+        "* The device/operator confound is large and measurable (Other share 65% on Aloka vs 14% on E6). It directly "
+        "explains a clinically relevant failure: standard planes rejected as 'Other' on unseen devices. "
+        "E2 (acquisition-only models), E3 (probes), E6 (machine-stratified errors) and A3 therefore lead.",
+        "* Overlays stay in the study where they are measurable: UI/text reliance (E4, E5 `a_text`/`b_*`) and the "
+        "train→external overlay shift (calipers common externally, UI absent on African images), which also keeps "
+        "synthetic caliper augmentation (A2) in R5.",
         "",
     ]
     OUT_MD.write_text("\n".join(lines), encoding="utf-8")

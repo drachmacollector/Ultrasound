@@ -109,4 +109,8 @@ a lower bound, since dotted/dark calipers are missed).
 * **Exact duplicates** (see results/json/R1_exact_duplicates.json): byte-identical FPDB images exist within patients (never across splits); 8 test-split groups carry contradictory labels for the identical image. Splits stay frozen; patient-clustered CIs (R2) account for the within-patient redundancy.
 
 ## 8. Sign-off
-Emphasis decision recorded by the implementer; **PI to confirm** (append name/date below).
+**Decision: CONFIRMED, overlays are a secondary axis** (PI delegated the call to the implementer, 2026-11-12). Rationale:
+
+* The rule outcome is not borderline: calipers are rare in FPDB and not enriched in standard planes, so a 'calipers ⇒ standard plane' finding could not carry the paper.
+* The device/operator confound is large and measurable (Other share 65% on Aloka vs 14% on E6). It directly explains a clinically relevant failure: standard planes rejected as 'Other' on unseen devices. E2 (acquisition-only models), E3 (probes), E6 (machine-stratified errors) and A3 therefore lead.
+* Overlays stay in the study where they are measurable: UI/text reliance (E4, E5 `a_text`/`b_*`) and the train→external overlay shift (calipers common externally, UI absent on African images), which also keeps synthetic caliper augmentation (A2) in R5.

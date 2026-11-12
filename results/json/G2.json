@@ -1,0 +1,239 @@
+{
+ "gate": {
+  "passed": true,
+  "checks": [
+   {
+    "check": "convnext_tiny FPDB-test macro-F1 (8-way)",
+    "value": 0.8929133970830758,
+    "target": 0.8927,
+    "tolerance": 0.005,
+    "pass": true,
+    "kind": "primary"
+   },
+   {
+    "check": "convnext_tiny HC18+UCL acc_full",
+    "value": 0.8362614195361912,
+    "target": 0.836,
+    "tolerance": 0.003,
+    "pass": true,
+    "kind": "primary"
+   },
+   {
+    "check": "convnext_tiny HC18 acc_full",
+    "value": 0.8138138138138138,
+    "target": 0.814,
+    "tolerance": 0.005,
+    "pass": true,
+    "kind": "primary"
+   },
+   {
+    "check": "convnext_tiny UCL acc_full",
+    "value": 0.8891509433962265,
+    "target": 0.889,
+    "tolerance": 0.005,
+    "pass": true,
+    "kind": "primary"
+   },
+   {
+    "check": "convnext_tiny HC18+UCL Head errors",
+    "value": 194,
+    "target": 194,
+    "tolerance": 3,
+    "pass": true,
+    "kind": "primary"
+   },
+   {
+    "check": "convnext_tiny HC18+UCL Head errors predicted Other",
+    "value": 180,
+    "target": 180,
+    "tolerance": 3,
+    "pass": true,
+    "kind": "primary"
+   },
+   {
+    "check": "tf_efficientnetv2_s FPDB-test macro-F1 (8-way)",
+    "value": 0.8856088232090733,
+    "target": 0.8853,
+    "tolerance": 0.005,
+    "pass": true,
+    "kind": "primary"
+   },
+   {
+    "check": "repvgg_a1 FPDB-test macro-F1 (8-way)",
+    "value": 0.8761310223421065,
+    "target": 0.876,
+    "tolerance": 0.005,
+    "pass": true,
+    "kind": "primary"
+   },
+   {
+    "check": "repvgg_a2 FPDB-test macro-F1 (8-way)",
+    "value": 0.8811185175963896,
+    "target": 0.8811,
+    "tolerance": 0.005,
+    "pass": true,
+    "kind": "primary"
+   },
+   {
+    "check": "mobilenetv3_large_100 FPDB-test macro-F1 (8-way)",
+    "value": 0.8751599498059834,
+    "target": 0.8751,
+    "tolerance": 0.005,
+    "pass": true,
+    "kind": "primary"
+   },
+   {
+    "check": "efficientnet_lite0 FPDB-test macro-F1 (8-way)",
+    "value": 0.8825131964892583,
+    "target": 0.8823,
+    "tolerance": 0.005,
+    "pass": true,
+    "kind": "primary"
+   },
+   {
+    "check": "convnext_tiny HC18+UCL acc_full",
+    "value": 0.8362614195361912,
+    "target": 0.836,
+    "tolerance": 0.003,
+    "pass": true,
+    "kind": "secondary"
+   },
+   {
+    "check": "convnext_tiny HC18+UCL Head errors predicted Other",
+    "value": 180,
+    "target": 180,
+    "tolerance": 3,
+    "pass": true,
+    "kind": "secondary"
+   },
+   {
+    "check": "tf_efficientnetv2_s HC18+UCL acc_full",
+    "value": 0.8531271960646521,
+    "target": 0.853,
+    "tolerance": 0.003,
+    "pass": true,
+    "kind": "secondary"
+   },
+   {
+    "check": "tf_efficientnetv2_s HC18+UCL Head errors predicted Other",
+    "value": 68,
+    "target": 68,
+    "tolerance": 3,
+    "pass": true,
+    "kind": "secondary"
+   },
+   {
+    "check": "repvgg_a1 HC18+UCL acc_full",
+    "value": 0.8685874912157414,
+    "target": 0.869,
+    "tolerance": 0.003,
+    "pass": true,
+    "kind": "secondary"
+   },
+   {
+    "check": "repvgg_a1 HC18+UCL Head errors predicted Other",
+    "value": 56,
+    "target": 56,
+    "tolerance": 3,
+    "pass": true,
+    "kind": "secondary"
+   },
+   {
+    "check": "repvgg_a2 HC18+UCL acc_full",
+    "value": 0.842586085734364,
+    "target": 0.843,
+    "tolerance": 0.003,
+    "pass": true,
+    "kind": "secondary"
+   },
+   {
+    "check": "repvgg_a2 HC18+UCL Head errors predicted Other",
+    "value": 107,
+    "target": 107,
+    "tolerance": 3,
+    "pass": true,
+    "kind": "secondary"
+   },
+   {
+    "check": "mobilenetv3_large_100 HC18+UCL acc_full",
+    "value": 0.8229093464511595,
+    "target": 0.823,
+    "tolerance": 0.003,
+    "pass": true,
+    "kind": "secondary"
+   },
+   {
+    "check": "mobilenetv3_large_100 HC18+UCL Head errors predicted Other",
+    "value": 171,
+    "target": 171,
+    "tolerance": 3,
+    "pass": true,
+    "kind": "secondary"
+   },
+   {
+    "check": "efficientnet_lite0 HC18+UCL acc_full",
+    "value": 0.8503162333099087,
+    "target": 0.85,
+    "tolerance": 0.003,
+    "pass": true,
+    "kind": "secondary"
+   },
+   {
+    "check": "efficientnet_lite0 HC18+UCL Head errors predicted Other",
+    "value": 95,
+    "target": 95,
+    "tolerance": 3,
+    "pass": true,
+    "kind": "secondary"
+   }
+  ],
+  "secondary_all_pass": true
+ },
+ "repvgg_a1": {
+  "hc18_ucl_acc_full": {
+   "ranking": [
+    "repvgg_a1",
+    "tf_efficientnetv2_s",
+    "efficientnet_lite0",
+    "repvgg_a2",
+    "convnext_tiny",
+    "mobilenetv3_large_100"
+   ],
+   "points": {
+    "convnext_tiny": 0.8362614195361912,
+    "tf_efficientnetv2_s": 0.8531271960646521,
+    "repvgg_a1": 0.8685874912157414,
+    "repvgg_a2": 0.842586085734364,
+    "mobilenetv3_large_100": 0.8229093464511595,
+    "efficientnet_lite0": 0.8503162333099087
+   },
+   "significantly_better_than": 4,
+   "significantly_worse_than": 0,
+   "of": 5,
+   "supported": false
+  },
+  "pooled_bal_acc_full": {
+   "ranking": [
+    "efficientnet_lite0",
+    "tf_efficientnetv2_s",
+    "mobilenetv3_large_100",
+    "convnext_tiny",
+    "repvgg_a2",
+    "repvgg_a1"
+   ],
+   "points": {
+    "convnext_tiny": 0.7279882974833917,
+    "tf_efficientnetv2_s": 0.7531313004847001,
+    "repvgg_a1": 0.6910826694128697,
+    "repvgg_a2": 0.7248399478503554,
+    "mobilenetv3_large_100": 0.743177748466135,
+    "efficientnet_lite0": 0.7653888416689296
+   },
+   "significantly_better_than": 0,
+   "significantly_worse_than": 5,
+   "of": 5,
+   "supported": false
+  },
+  "verdict": "withdrawn (endpoint-dependent)"
+ }
+}

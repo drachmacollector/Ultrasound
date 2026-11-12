@@ -100,6 +100,32 @@ class FocalPlanesDataset(Dataset):
         }
 
 
+EXTERNAL_REQUIRED_COLUMNS: tuple[str, ...] = (
+    "image_path", "image_id", "dataset", "patient_id", "centre", "device", "plane_label_collapsed",
+)
+EXTERNAL_ALLOWED_LABELS: frozenset[str] = frozenset({"Head", "Abdomen", "Femur", "Thorax"})
+
+
+def validate_external_manifest(df: pd.DataFrame, name: str = "manifest",
+                               required: tuple[str, ...] = EXTERNAL_REQUIRED_COLUMNS) -> None:
+    """Raise ValueError unless ``df`` is an admissible external test manifest.
+
+    FP/MULTICENTRE landmark images are FPDB images (or come from the FPDB centre) and must
+    never be used as an external set.
+    """
+    missing = set(required) - set(df.columns)
+    if missing:
+        raise ValueError(f"{name}: missing columns {sorted(missing)}")
+    forbidden = df["image_path"].map(
+        lambda p: any(part in ("FP", "MULTICENTRE") for part in norm_path(p).parts)
+    )
+    if forbidden.any():
+        raise ValueError(f"{name}: FP/MULTICENTRE images must never be used as an external set")
+    unknown = set(df["plane_label_collapsed"]) - EXTERNAL_ALLOWED_LABELS
+    if unknown:
+        raise ValueError(f"{name}: unexpected labels {unknown}")
+
+
 class ExternalDataset(Dataset):
     """External test set from data/processed/external/<name>.csv.
 
@@ -107,10 +133,8 @@ class ExternalDataset(Dataset):
     image, image_id, patient_id, dataset, centre, device, label_collapsed.
     """
 
-    REQUIRED_COLUMNS: tuple[str, ...] = (
-        "image_path", "image_id", "dataset", "patient_id", "centre", "device", "plane_label_collapsed",
-    )
-    ALLOWED_LABELS: frozenset[str] = frozenset({"Head", "Abdomen", "Femur", "Thorax"})
+    REQUIRED_COLUMNS = EXTERNAL_REQUIRED_COLUMNS
+    ALLOWED_LABELS = EXTERNAL_ALLOWED_LABELS
 
     def __init__(
         self,
@@ -122,17 +146,7 @@ class ExternalDataset(Dataset):
         self.transform = transform if transform is not None else get_eval_transform()
         self.prepare = prepare
 
-        missing = set(self.REQUIRED_COLUMNS) - set(self.df.columns)
-        if missing:
-            raise ValueError(f"{csv_path}: missing columns {sorted(missing)}")
-        forbidden = self.df["image_path"].map(
-            lambda p: any(part in ("FP", "MULTICENTRE") for part in norm_path(p).parts)
-        )
-        if forbidden.any():
-            raise ValueError(f"{csv_path}: FP/MULTICENTRE images must never be used as an external set")
-        unknown = set(self.df["plane_label_collapsed"]) - self.ALLOWED_LABELS
-        if unknown:
-            raise ValueError(f"{csv_path}: unexpected labels {unknown}")
+        validate_external_manifest(self.df, str(csv_path))
 
     def __len__(self) -> int:
         return len(self.df)

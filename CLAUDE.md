@@ -50,6 +50,7 @@ results/ · runs/ (gitignored) · docs/research/ · archive/
 python -m pytest
 python -m src.train.train --config configs/convnext_tiny.yaml --out-dir runs/<run_id> [--seed 11] [--epochs-override 1]
 python -m src.eval.predict --ckpt <ckpt> --dataset fpdb_test|hc18|ucl|african --run-id <id>      # R2
+python scripts/research/r2_reevaluate_existing.py [--score-only]                                # R2 + Gate G2
 python scripts/research/r5_run_matrix.py                                                         # R5
 python scripts/research/render_results.py                                                        # R6
 ```

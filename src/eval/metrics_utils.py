@@ -1,14 +1,11 @@
 """
 src/eval/metrics_utils.py
 
-Shared evaluation utilities used by both src/train/train.py and
-src/eval/evaluate_test.py.  Factored here to avoid circular imports and
-code duplication.
+Training-time plotting helper (used by src/train/train.py). Study metrics live in
+src/eval/metrics.py and src/eval/stats.py.
 
 Functions:
     save_confusion_matrix()  — plots and saves a normalized confusion matrix PNG.
-    format_classification_report()  — returns a compact single-line-per-class
-        string for the aggregate summary file.
 """
 from __future__ import annotations
 

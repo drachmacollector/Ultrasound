@@ -95,11 +95,15 @@ class LoadedModel:
     ckpt_path: Path
     config: dict[str, Any] = field(repr=False)
 
-    def eval_transform(self) -> A.Compose:
-        """Deterministic eval pipeline matching this checkpoint's training geometry."""
-        if self.preprocess_mode != "resize":
+    def eval_transform(self, mode: str | None = None) -> A.Compose:
+        """Deterministic eval pipeline matching this checkpoint's training geometry.
+
+        ``mode`` overrides the checkpoint's preprocess mode (cross-preprocessing analyses).
+        """
+        mode = self.preprocess_mode if mode is None else mode
+        if mode != "resize":
             raise NotImplementedError(
-                f"preprocess_mode={self.preprocess_mode!r} is implemented in R5 (src/preprocess/pipeline.py)."
+                f"preprocess_mode={mode!r} is implemented in R5 (src/preprocess/pipeline.py)."
             )
         return get_eval_transform(img_size=self.img_size, mean=self.normalize_mean, std=self.normalize_std)
 
