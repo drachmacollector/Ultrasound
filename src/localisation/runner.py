@@ -20,12 +20,13 @@ All masks are projected into model-input space with ``to_model_space`` (soft, IN
 """
 from __future__ import annotations
 
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
-from torch.utils.data import DataLoader, Dataset
+from torch.utils.data import Dataset, default_collate
 
 from src.audit.metadata import load_masks, mask_path
 from src.data.dataset import CANONICAL_CLASSES
@@ -133,6 +134,25 @@ class SaliencyInputs(Dataset):
                 "fill_grey": fill_grey, "has_r1_mask": has_r1}
 
 
+def threaded_batches(ds: Dataset, batch_size: int, workers: int):
+    """Collated batches of ``ds`` in order, loaded by a thread pool one batch ahead.
+
+    Threads instead of DataLoader worker processes: on this Windows machine each spawned worker
+    takes ~30 s to import torch, which dominated short saliency jobs (decoding and cv2 work
+    release the GIL, so threads keep the GPU fed).
+    """
+    n = len(ds)
+    starts = list(range(0, n, batch_size))
+    with ThreadPoolExecutor(max(1, workers)) as ex:
+        def submit(k: int):
+            return [ex.submit(ds.__getitem__, i) for i in range(k, min(k + batch_size, n))]
+        pending = submit(starts[0]) if starts else []
+        for j, _ in enumerate(starts):
+            current = pending
+            pending = submit(starts[j + 1]) if j + 1 < len(starts) else []
+            yield default_collate([f.result() for f in current])
+
+
 # ----------------------------------------------------------------------------- metrics
 def target_sets(frame: pd.DataFrame) -> tuple[list[list[int]], list[list[int]]]:
     true = [COLLAPSED_MEMBERS[c] for c in frame["true_collapsed"]]
@@ -183,8 +203,7 @@ def compute(lm: LoadedModel, spec: RunSpec, engine: SaliencyEngine | None = None
     frame = spec.frame.reset_index(drop=True)
     true_t, pred_t = target_sets(frame)
     landmarks = load_landmarks()
-    loader = DataLoader(SaliencyInputs(frame, lm, landmarks), batch_size=spec.batch_size, shuffle=False,
-                        num_workers=spec.num_workers, pin_memory=lm.device.type == "cuda")
+    loader = threaded_batches(SaliencyInputs(frame, lm, landmarks), spec.batch_size, spec.num_workers)
     own = engine is None
     eng = engine or SaliencyEngine(lm.model, lm.backbone_name, spec.method)
     rows, maps_keep = [], {}

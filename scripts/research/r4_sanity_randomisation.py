@@ -40,7 +40,6 @@ import torch
 from scipy.stats import pearsonr, spearmanr
 from skimage.feature import hog
 from skimage.metrics import structural_similarity
-from torch.utils.data import DataLoader
 
 sys.path.insert(0, ".")
 from src.audit.plotting import INK, plt, save  # noqa: E402
@@ -80,14 +79,17 @@ def sample(frame: pd.DataFrame) -> pd.DataFrame:
     return pd.concat(parts).sort_values("image_id").reset_index(drop=True)
 
 
-def maps_for(lm, model, method: str, frame: pd.DataFrame, num_workers: int) -> np.ndarray:
+def load_batches(lm, frame: pd.DataFrame, num_workers: int) -> list[dict]:
+    """The 200 inputs, loaded once per backbone and reused for every method and stage."""
+    return list(R.threaded_batches(R.SaliencyInputs(frame, lm, R.load_landmarks()), 32, num_workers))
+
+
+def maps_for(lm, model, method: str, frame: pd.DataFrame, batches: list[dict]) -> np.ndarray:
     true_t, _ = R.target_sets(frame)
     eng = SaliencyEngine(model, lm.backbone_name, method)
-    loader = DataLoader(R.SaliencyInputs(frame, lm, R.load_landmarks()), batch_size=8 if method == "occlusion" else 32,
-                        num_workers=num_workers)
     out = []
     try:
-        for b in loader:
+        for b in batches:
             t = [true_t[i] for i in b["idx"].numpy()]
             fill = normalised_fill(b["fill_grey"].numpy(), lm.normalize_mean, lm.normalize_std)
             out.append(eng(b["x"], t, fill))
@@ -135,16 +137,17 @@ def run(num_workers: int, allow_dirty: bool) -> dict:
         lm = load_model(R.legacy_ckpt(bb))
         frame = sample(R.load_frame("fpdb_test", PREDS_ROOT / R.legacy_run_id(bb)))
         res["image_ids"] = frame["image_id"].tolist()
+        batches = load_batches(lm, frame, num_workers)
         res["per_backbone"][bb] = {}
         for method in METHODS:
             t0 = time.perf_counter()
             model = copy.deepcopy(lm.model)
-            ref = maps_for(lm, model, method, frame, num_workers)
+            ref = maps_for(lm, model, method, frame, batches)
             stages = [{"stage": 0, "name": "trained"}]
             ex = {"trained": ref[:3].astype(np.float16)}
             for s, (name, mods) in enumerate(STAGES[bb], start=1):
                 reinit(model, mods, seed=0)
-                cur = maps_for(lm, model, method, frame, num_workers)
+                cur = maps_for(lm, model, method, frame, batches)
                 st = summarise([similarity(a, b) for a, b in zip(ref, cur)])
                 stages.append({"stage": s, "name": name, **st})
                 ex[name] = cur[:3].astype(np.float16)
