@@ -207,7 +207,7 @@ def sensitivity(method: str) -> dict:
             r[f"qc_included|{a}"] = float(primary(f, include_qc=True).query("anatomy == @a")["epg_minus_area_true"].mean())
         fe = primary(f).query("anatomy == 'Femur'")
         for w in ("w05", "w15"):
-            r[f"femur_{w}"] = float(fe[f"epg_minus_area_true_{w}"].mean())
+            r[f"femur_{w}"] = float(fe[f"epg_minus_area_{w}_true"].mean())
         r["femur_w10"] = float(fe["epg_minus_area_true"].mean())
         he = primary(f).query("anatomy == 'Head'")
         if "epg_minus_area_truesub" in he:
@@ -318,14 +318,16 @@ def fig_out_sector(res_e7: dict) -> None:
             lo.append(e["point"] - e["lo"])
             hi.append(e["hi"] - e["point"])
         x = np.arange(len(groups)) + (j - 2.5) * w
-        ax.errorbar(x, ys, yerr=[lo, hi], fmt="o", ms=2.5, lw=0.8, capsize=1.5,
-                    color=SERIES[j % 3] if j < 3 else NEUTRAL, label=R.LEGACY[bb], alpha=1 if j < 3 else 0.6)
+        # three validated colours, then neutral grey with distinct markers (identity never by colour alone)
+        ax.errorbar(x, ys, yerr=[lo, hi], fmt="osD^vP"[j], ms=3, lw=0.8, capsize=1.5,
+                    color=SERIES[j] if j < 3 else NEUTRAL, label=R.LEGACY[bb])
     base = [res_e7["convnext_tiny"]["by_machine"][g]["out_sector_area"] if k == "m"
             else res_e7["convnext_tiny"]["external"][g]["out_sector_area"] for g, k in groups]
-    ax.scatter(np.arange(len(groups)), base, marker="_", s=200, color=INK, label="uniform-map baseline (area)")
+    ax.scatter(np.arange(len(groups)), base, marker="_", s=300, color=INK, label="uniform map (out-of-sector area)")
     ax.set_xticks(range(len(groups)), ["FPDB Aloka", "FPDB E6", "FPDB S10", "HC18", "UCL", "African"], fontsize=7)
-    ax.set_ylabel("Grad-CAM energy outside sector")
-    ax.legend(fontsize=6, ncol=4, loc="upper right")
+    ax.set_ylabel("share of Grad-CAM energy\noutside the fan sector")
+    ax.set_ylim(0, None)
+    ax.legend(fontsize=6, ncol=7, loc="upper center", bbox_to_anchor=(0.5, -0.12), handletextpad=0.3, columnspacing=0.8)
     fig.tight_layout()
     save(fig, "R4_out_sector_by_machine")
 
@@ -416,7 +418,7 @@ def main() -> None:
     fig_grid(methods[0])
     if res["e7"]:
         fig_out_sector(res["e7"])
-    print(f"wrote {OUT_JSON}, {OUT_MD}")
+    print("redrew figures" if a.figures_only else f"wrote {OUT_JSON}, {OUT_MD}")
 
 
 if __name__ == "__main__":

@@ -10,8 +10,12 @@ images (QC-flagged landmarks excluded).
 2. Discrimination of correct vs incorrect: AUROC of EPG − area alone, of confidence alone, and of a
    logistic model on both (5-fold GroupKFold out-of-fold predictions, patient groups, no in-sample
    optimism); ΔAUROC (both − confidence) by paired patient-cluster bootstrap.
-3. Deployable variant: predicted-class saliency (``epg_pred``; the true label is unknown at deployment).
-   African (no landmarks): GT-free ``out_sector_frac_pred`` as the saliency monitor.
+3. Predicted-class variant (``epg_pred``), the plan's "deployable" variant. It is **not** deployable and
+   is mechanically favoured: the landmark mask marks the TRUE anatomy, so when the prediction is wrong
+   the predicted-class map is scored against an anatomy it does not belong to and its EPG is low by
+   construction. Reported for completeness, never as evidence.
+   The only ground-truth-free monitor here is ``out_sector_frac_pred`` (predicted-class map, sector mask
+   from the image), tested on the African set (no landmarks needed).
 4. In-distribution analogue: FPDB-test landmark images (C(source_machine) instead of C(dataset)).
 5. Every legacy backbone x passing method: the AUROC table (secondary).
 
@@ -188,6 +192,9 @@ def figure(res: dict) -> None:
 
 
 def fmt(e: dict) -> str:
+    """Estimate (point) or PairedEstimate (delta, signed)."""
+    if "delta" in e:
+        return f"{e['delta']:+.3f} [{e['lo']:+.3f}, {e['hi']:+.3f}]"
     return f"{e['point']:.3f} [{e['lo']:.3f}, {e['hi']:.3f}]"
 
 
@@ -199,15 +206,17 @@ def markdown(res: dict) -> str:
     def disc_line(dd: dict) -> str:
         return (f"AUROC {dd['score']}: {fmt(dd['auroc_score'])}; confidence: {fmt(dd['auroc_conf'])}; both (OOF): "
                 f"{fmt(dd['auroc_both_oof'])}; Δ both − confidence {fmt(dd['delta_both_minus_conf'])} "
-                f"(p = {dd['delta_both_minus_conf']['p']:.3g})")
+                f"(p = {dd['delta_both_minus_conf']['p_two_sided']:.3g})")
 
     L = ["# R4.7 (P3b): does on-anatomy saliency predict correctness? (exploratory, legacy checkpoints)", "",
          f"Primary: `{res['primary_model']}`, {res['primary_method']}, HC18 + UCL landmark images. 95% patient-cluster CIs.", "",
          "## Primary (true-class saliency; uses the true label, so not deployable)", "",
          "* " + glm_line(res["primary"]["glm"]), "* " + disc_line(res["primary"]["discrimination"]), "",
-         "## Deployable variant (predicted-class saliency)", "",
+         "## Predicted-class saliency against the expert mask (NOT deployable; favoured by construction)", "",
+         "The landmark mask marks the true anatomy: when the prediction is wrong, the predicted-class map is scored "
+         "against an anatomy it does not belong to, so a low EPG for errors is built in. Reported, not interpreted.", "",
          "* " + glm_line(res["deployable_pred_target"]["glm"]), "* " + disc_line(res["deployable_pred_target"]["discrimination"]), "",
-         "## African (no landmarks): out-of-sector energy of the predicted-class map", "",
+         "## African (no landmarks): out-of-sector energy of the predicted-class map (ground-truth-free monitor)", "",
          "* " + glm_line(res["african_out_sector_pred"]["glm"]), "* " + disc_line(res["african_out_sector_pred"]["discrimination"]),
          f"* {res['african_out_sector_pred']['note']}", "",
          "## In-distribution analogue (FPDB-test landmark images)", "",
@@ -225,7 +234,14 @@ def markdown(res: dict) -> str:
 
 
 def main() -> None:
-    res = analyse()
+    import argparse
+
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--report-only", action="store_true", help="re-render table and figure from the JSON")
+    if ap.parse_args().report_only:
+        res = json.loads(OUT_JSON.read_text(encoding="utf-8"))
+    else:
+        res = analyse()
     OUT_JSON.write_text(json.dumps(res, indent=1), encoding="utf-8")
     OUT_MD.write_text(markdown(res), encoding="utf-8")
     figure(res)
