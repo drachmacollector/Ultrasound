@@ -10,7 +10,7 @@ Model, input size, normalisation and preprocess mode come from the checkpoint
 native-resolution greyscale image before the geometric transform; ``meta`` carries
 ``image_id``, ``dataset`` and the R1 masks (``masks`` is None if no mask file exists).
 Perturbed or re-preprocessed predictions must name a ``variant`` so files never collide.
-Cached preprocess modes (``src.preprocess.pipeline``) read the pre-rendered, pre-resized image.
+Other preprocess modes read their cache (``src.preprocess.pipeline.load_prepared``).
 
 Scoring columns (see plans/R2_EVALUATION_CORE.md §R2.2):
   pred_fine          8-way argmax
@@ -44,10 +44,10 @@ from torch.utils.data import DataLoader, Dataset
 from src.audit.metadata import load_masks, mask_path
 from src.data.dataset import CANONICAL_CLASSES
 from src.data.labels import COLLAPSED, FINE_TO_COLLAPSED, collapse_probs
-from src.data.transforms import gray_to_rgb, load_grayscale
+from src.data.transforms import gray_to_rgb
 from src.eval.datasets import EvalSet, load_eval_set
 from src.models.loading import REPO_ROOT, load_model
-from src.preprocess.pipeline import cache_path, is_cached
+from src.preprocess.pipeline import load_prepared
 
 PREDS_ROOT = Path("results/preds")
 Perturb = Callable[[np.ndarray, dict], np.ndarray]
@@ -66,17 +66,15 @@ class FrameDataset(Dataset):
         self.transform = transform
         self.perturb = perturb
         self.mode, self.img_size = mode, img_size
-        if is_cached(mode) and perturb is not None:
-            raise ValueError("perturbations act on native-resolution images; not combinable with cached modes")
+        if mode != "resize" and perturb is not None:
+            raise ValueError("perturbations act on the original native image; only combinable with mode 'resize'")
 
     def __len__(self) -> int:
         return len(self.frame)
 
     def __getitem__(self, i: int) -> torch.Tensor:
         row = self.frame.iloc[i]
-        src = (cache_path(self.mode, self.img_size, row["dataset"], row["image_id"]) if is_cached(self.mode)
-               else row["image_path"])
-        gray = load_grayscale(src)
+        gray, _ = load_prepared(self.mode, self.img_size, row["dataset"], row["image_id"], row["image_path"])
         if self.perturb is not None:
             mp = mask_path(row["image_id"], row["dataset"])
             meta = {"image_id": row["image_id"], "dataset": row["dataset"],

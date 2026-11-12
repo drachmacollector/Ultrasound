@@ -26,7 +26,7 @@ import cv2
 import numpy as np
 import pandas as pd
 
-from src.preprocess.pipeline import ALL_MODES, is_cached
+from src.preprocess.pipeline import crop_to_sector, is_cached, is_letterbox, to_input_geometry
 
 FEMUR_REL_WIDTHS = (0.05, 0.10, 0.15)
 FEMUR_MIN_WIDTH_PX = 3.0
@@ -134,9 +134,14 @@ def to_model_space(mask: np.ndarray, *, preprocess_mode: str, img_size: int, sec
     """Native-space mask -> (img_size, img_size) float32 soft mask in the geometry the model saw.
 
     ``resize`` and the cached R3 modes (stored pre-resized) share the square resize. The
-    letterbox modes (R5) must call the image pipeline's own geometry function; until they
-    exist this raises.
+    letterbox modes crop to the bounding box of the native ``sector`` mask (``sector_clean``) and
+    then apply the image pipeline's own geometry (``src.preprocess.pipeline.to_input_geometry``).
     """
-    if preprocess_mode == "resize" or (preprocess_mode in ALL_MODES and is_cached(preprocess_mode)):
+    if preprocess_mode == "resize" or is_cached(preprocess_mode):
         return cv2.resize(np.asarray(mask, np.float32), (img_size, img_size), interpolation=cv2.INTER_LINEAR)
-    raise NotImplementedError(f"to_model_space: preprocess_mode={preprocess_mode!r} not implemented yet")
+    if is_letterbox(preprocess_mode):
+        if sector is None:
+            raise ValueError("letterbox modes need the native sector mask")
+        crop = crop_to_sector(np.asarray(mask, np.float32), np.asarray(sector))
+        return to_input_geometry(crop, img_size, preprocess_mode).astype(np.float32)
+    raise ValueError(f"to_model_space: unknown preprocess_mode {preprocess_mode!r}")

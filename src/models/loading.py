@@ -23,7 +23,6 @@ import torch.nn as nn
 
 from src.data.transforms import IMAGENET_MEAN, IMAGENET_STD, get_eval_transform
 from src.models.backbone import build_model
-from src.preprocess.pipeline import is_cached
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 
@@ -102,10 +101,8 @@ class LoadedModel:
         ``mode`` overrides the checkpoint's preprocess mode (cross-preprocessing analyses).
         """
         mode = self.preprocess_mode if mode is None else mode
-        if mode != "resize" and not is_cached(mode):
-            raise NotImplementedError(f"preprocess_mode={mode!r} is not implemented yet.")
-        # cached modes are stored pre-resized to img_size, so the same pipeline applies (resize = identity)
-        return get_eval_transform(img_size=self.img_size, mean=self.normalize_mean, std=self.normalize_std)
+        return get_eval_transform(img_size=self.img_size, mean=self.normalize_mean, std=self.normalize_std,
+                                  mode=mode)
 
 
 def load_model(ckpt_path: str | Path, device: torch.device | None = None) -> LoadedModel:

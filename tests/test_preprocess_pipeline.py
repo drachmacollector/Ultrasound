@@ -8,7 +8,15 @@ import numpy as np
 import pytest
 
 from src.data.transforms import get_eval_transform, get_train_transform, gray_to_rgb, load_grayscale
-from src.preprocess.pipeline import ALL_MODES, is_cached, render, resize_for_cache
+from src.preprocess.pipeline import (
+    ALL_MODES,
+    CACHED_MODES,
+    LETTERBOX_MODES,
+    is_cached,
+    is_letterbox,
+    render,
+    resize_for_cache,
+)
 
 
 def toy() -> tuple[np.ndarray, dict[str, np.ndarray]]:
@@ -44,9 +52,11 @@ def test_overlay_only_and_shape_only() -> None:
 
 
 def test_mode_registry() -> None:
-    assert not is_cached("resize") and all(is_cached(m) for m in ALL_MODES[1:])
+    assert not is_cached("resize") and all(is_cached(m) for m in CACHED_MODES)
+    assert all(is_letterbox(m) and not is_cached(m) for m in LETTERBOX_MODES)
+    assert set(ALL_MODES) == {"resize", *CACHED_MODES, *LETTERBOX_MODES}
     with pytest.raises(ValueError):
-        is_cached("sector_letterbox")
+        is_cached("sector_crop")
 
 
 @pytest.mark.parametrize("size", [224, 300])

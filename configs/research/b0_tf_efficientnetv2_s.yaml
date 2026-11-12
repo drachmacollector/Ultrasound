@@ -1,0 +1,40 @@
+# configs/research/b0_tf_efficientnetv2_s.yaml  (R5.6, generated from configs/tf_efficientnetv2_s.yaml)
+#
+# B0 baseline: the legacy recipe (square resize, class-weighted CE).
+# Backbone hyperparameters are copied verbatim from the B0 config; only the arm keys differ.
+# Seeds 11/22/33 via --seed; --out-dir runs/b0_effv2s_s<seed> (scripts/research/r5_run_matrix.py).
+
+backbone: tf_efficientnetv2_s.in21k_ft_in1k
+num_classes: 8
+pretrained: true
+image_size: 300
+normalize_mean:
+- 0.5
+- 0.5
+- 0.5
+normalize_std:
+- 0.5
+- 0.5
+- 0.5
+train_csv: data/splits/train.csv
+val_csv: data/splits/val.csv
+class_weights_json: data/processed/class_weights.json
+batch_size: 24
+num_workers: 4
+epochs_smoke_test: 5
+epochs_max: 60
+early_stopping_patience: 8
+optimizer: adamw
+lr: 0.0015
+weight_decay: 0.01
+scheduler: cosine
+amp: true
+preprocess_mode: resize
+caliper_aug_p: 0.0
+sampler: none
+style_aug: false
+use_class_weights: true
+run_root: runs/
+checkpoint_dir: runs/b0_effv2s
+log_dir: runs/b0_effv2s/tb
+seed: 11

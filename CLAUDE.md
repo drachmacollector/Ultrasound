@@ -64,6 +64,10 @@ python scripts/research/e4_availability_train.py --train --evaluate             
 python scripts/research/r4_localisation.py --dev                                                 # R4 development (val only)
 python scripts/research/r4_sanity_randomisation.py                                               # R4 Gate G3 (needs clean src/)
 python scripts/research/r4_localisation.py --run; r4_summarise.py; r4_association.py              # R4 test/external (after G3)
-python scripts/research/r5_run_matrix.py                                                         # R5
+python scripts/research/build_cache.py --mode sector_letterbox sector_letterbox_inpaint          # R5 caches (native-scale crops)
+python scripts/research/r5_run_matrix.py --smoke                                                 # R5 1-epoch smoke runs (allowed before G4)
+python scripts/research/r5_run_matrix.py                                                         # R5 24 runs (refuses before Gate G4: OSF link)
+python scripts/research/r5_evaluate_matrix.py --predict --saliency --probes --score              # R5 secondary analyses
+python scripts/research/r5_primary_endpoint.py                                                   # R5 pre-registered primary (never edit)
 python scripts/research/render_results.py                                                        # R6
 ```

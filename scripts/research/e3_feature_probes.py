@@ -40,7 +40,13 @@ for _v in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS"):
     os.environ.setdefault(_v, "1")
 
 sys.path.insert(0, ".")
-from src.audit.probes import load_features, probe_oof  # noqa: E402
+from src.audit.probes import (  # noqa: E402
+    MIN_CELL,
+    load_features,
+    probe_oof,
+    within_class_machine_targets,
+    within_class_mean,
+)
 from src.eval import metrics as M  # noqa: E402
 from src.eval.stats import CMMetric, cluster_bootstrap, paired_cluster_bootstrap  # noqa: E402
 
@@ -49,8 +55,6 @@ PREDS_ROOT = Path("results/preds")
 BACKBONES = {"convnext_tiny": "convnext", "tf_efficientnetv2_s": "effv2s", "repvgg_a1": "repvgga1",
              "repvgg_a2": "repvgga2", "mobilenetv3_large_100": "mnv3l", "efficientnet_lite0": "efflite0"}
 SANITY_ON = ("convnext_tiny", "tf_efficientnetv2_s")
-WITHIN_CLASSES = ("Fetal_abdomen", "Fetal_femur", "Brain_Trans_thalamic", "Other")
-MIN_CELL = 30
 FEATURE_TYPES = ("finetuned", "imagenet")
 CACHE = Path("results/preds/_e3_oof")          # per-probe OOF predictions (resumable)
 OUT_JSON = Path("results/json/E3.json")
@@ -82,10 +86,8 @@ def tasks(meta: pd.DataFrame) -> dict[str, pd.Series]:
     t = {"machine4": meta["source_machine"],
          "machine3": meta.loc[meta["source_machine"] != "Other", "source_machine"],
          "operator4": meta["operator"]}
-    for c in WITHIN_CLASSES:
-        g = meta[meta["true_label"] == c]
-        keep = g["source_machine"].value_counts()[lambda s: s >= MIN_CELL].index
-        t[f"machine|{c}"] = g.loc[g["source_machine"].isin(keep), "source_machine"]
+    for c, y in within_class_machine_targets(meta).items():
+        t[f"machine|{c}"] = y
     for m in ("Aloka", "Voluson E6", "Voluson S10"):
         t[f"class|{m}"] = meta.loc[meta["source_machine"] == m, "true_label"]
     return t
@@ -134,15 +136,6 @@ def bal_acc(classes: list[str]) -> CMMetric:
     return CMMetric("oof_bal_acc", "y", "oof", classes, M.balanced_accuracy)
 
 
-def within_mean(df: pd.DataFrame) -> float:
-    """Mean over classes of the within-class machine-decoding balanced accuracy."""
-    vals = []
-    for _, g in df.groupby("cls"):
-        cls = sorted(set(g["y"]) | set(g["oof"]))
-        vals.append(M.balanced_accuracy(M.confusion(g["y"].map(cls.index), g["oof"].map(cls.index), len(cls))))
-    return float(np.mean(vals))
-
-
 def score() -> dict:
     res: dict = {"models": {}, "min_cell": MIN_CELL}
     for bb in BACKBONES:
@@ -163,9 +156,9 @@ def score() -> dict:
                 if t.startswith("machine|"):
                     frames.append(d.assign(cls=t.split("|", 1)[1]))
             within[ft] = pd.concat(frames, ignore_index=True)
-            r[ft]["within_class_mean"] = cluster_bootstrap(within[ft], within_mean, max_nan_frac=0.01)
+            r[ft]["within_class_mean"] = cluster_bootstrap(within[ft], within_class_mean, max_nan_frac=0.01)
         r["finetuned_minus_imagenet_within_class"] = paired_cluster_bootstrap(within["imagenet"], within["finetuned"],
-                                                                              within_mean)
+                                                                              within_class_mean)
         res["models"][bb] = r
         print(f"  scored {bb}", flush=True)
     return res

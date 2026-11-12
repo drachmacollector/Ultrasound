@@ -24,8 +24,8 @@ def test_out_dir_redirects() -> None:
     assert cfg["log_dir"].replace("\\", "/") == "runs/_smoke/a/tb"
 
 
-@pytest.mark.parametrize("opt", [{"preprocess_mode": "sector_letterbox"}, {"sampler": "acquisition_balanced"},
-                                 {"style_aug": True}, {"caliper_aug_p": 0.3}, {"use_acam": True}])
+@pytest.mark.parametrize("opt", [{"preprocess_mode": "sector_crop"}, {"sampler": "uniform"},
+                                 {"style_aug": "yes"}, {"caliper_aug_p": 0.3}, {"use_acam": True}])
 def test_unimplemented_options_rejected(opt: dict) -> None:
     with pytest.raises(NotImplementedError):
         assert_supported_options(opt)
@@ -34,3 +34,11 @@ def test_unimplemented_options_rejected(opt: dict) -> None:
 def test_b0_options_accepted() -> None:
     assert_supported_options({"preprocess_mode": "resize", "sampler": "none", "style_aug": False,
                               "caliper_aug_p": 0.0, "use_class_weights": True})
+
+
+def test_r5_arm_options_accepted() -> None:
+    """AFP: letterbox + inpaint, caliper augmentation, acquisition-balanced sampler, style augmentation."""
+    assert_supported_options({"preprocess_mode": "sector_letterbox_inpaint", "caliper_aug_p": 0.3,
+                              "sampler": "acquisition_balanced", "style_aug": True, "use_class_weights": False})
+    with pytest.raises(ValueError):
+        assert_supported_options({"preprocess_mode": "sector_letterbox", "caliper_aug_p": 1.5})

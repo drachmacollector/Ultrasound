@@ -11,6 +11,9 @@ Linear probes for feature decodability (R3 E3, P1b).
   inner ``GroupKFold(3)`` picks C from ``C_GRID`` by balanced accuracy; the model is standardisation
   + multinomial logistic regression with balanced class weights. Returns out-of-fold predictions,
   so every image is predicted by a probe that never saw its patient.
+* ``within_class_machine_targets`` / ``within_class_mean``: the P1b/P4b shortcut index, i.e. the
+  machine decoded within one true class (classes in ``WITHIN_CLASSES``, machines with >= ``MIN_CELL``
+  images in that class), averaged over classes. Shared by R3 E3 and R5 evaluation.
 * Speed: run probes with single-threaded BLAS (``OMP_NUM_THREADS=1`` etc.) and parallelise over
   probes; multi-threaded BLAS oversubscribes the CPU and makes each fit 10-25x slower.
 """
@@ -28,6 +31,8 @@ from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
 C_GRID = (0.01, 0.1, 1.0, 10.0)
+WITHIN_CLASSES = ("Fetal_abdomen", "Fetal_femur", "Brain_Trans_thalamic", "Other")
+MIN_CELL = 30
 OUTER_FOLDS = 5
 INNER_FOLDS = 3
 
@@ -101,3 +106,29 @@ def extract_imagenet_features(ckpt: Path, out_dir: Path, dataset: str = "fpdb_te
     np.save(out_dir / f"{dataset}.features.npy", np.concatenate(feats))
     (out_dir / f"{dataset}.features_ids.txt").write_text("\n".join(es.frame["image_id"]) + "\n", encoding="utf-8")
     return out_dir / f"{dataset}.features.npy"
+
+
+def within_class_machine_targets(meta: pd.DataFrame, classes=WITHIN_CLASSES,
+                                 min_cell: int = MIN_CELL) -> dict[str, pd.Series]:
+    """class -> machine labels of that class's images (machines with >= min_cell images kept).
+
+    ``meta`` is indexed by image_id with columns ``true_label`` and ``source_machine``.
+    """
+    out = {}
+    for c in classes:
+        g = meta[meta["true_label"] == c]
+        keep = g["source_machine"].value_counts()[lambda v: v >= min_cell].index
+        out[c] = g.loc[g["source_machine"].isin(keep), "source_machine"]
+    return out
+
+
+def within_class_mean(df: pd.DataFrame) -> float:
+    """Mean over classes (column ``cls``) of the out-of-fold balanced accuracy of ``oof`` vs ``y``."""
+    from src.eval import metrics as M
+
+    vals = []
+    for _, g in df.groupby("cls"):
+        labels = sorted(set(g["y"]) | set(g["oof"]))
+        idx = {c: i for i, c in enumerate(labels)}
+        vals.append(M.balanced_accuracy(M.confusion(g["y"].map(idx), g["oof"].map(idx), len(labels))))
+    return float(np.mean(vals))

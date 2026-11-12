@@ -13,19 +13,32 @@ Design notes:
 - AdamW + CosineAnnealingLR + AMP (GradScaler).
 - Validation macro-F1 is the early-stopping and model-selection metric.
 - Never writes into the frozen checkpoints/ folder (resolve_output_dirs); outputs go to
-  --out-dir: best.pt (config embedded), config.yaml, train_log.txt, tb/ (TensorBoard).
+  --out-dir: best.pt (config embedded, with git_hash and cache_key), config.yaml, train_log.txt,
+  tb/ (TensorBoard), env.txt (pip freeze), sampler_report.json (acquisition-balanced sampler),
+  and DONE (written last). Validation predictions at the best epoch are written by
+  ``src.eval.predict`` (the evaluation code path) to results/preds/<run_id>/fpdb_val.parquet.
+- R5 options (all default to B0): preprocess_mode, caliper_aug_p (letterbox modes only),
+  sampler in {none, acquisition_balanced}, use_class_weights, style_aug.
+- Determinism: torch/numpy/random seeded; each DataLoader worker seeded by worker_init_fn;
+  seeded shuffle/sampler generators; cudnn.benchmark off; deterministic algorithms (warn only).
+  AMP stays on for training (as in B0); evaluation is fp32.
+- Resume-safe: a run directory that already holds best.pt and DONE is skipped.
 """
 from __future__ import annotations
 
 import argparse
 import json
 import logging
+import os
 import random
+import subprocess
+import sys
 import time
 from pathlib import Path
 
 from dotenv import load_dotenv
 load_dotenv()
+os.environ.setdefault("CUBLAS_WORKSPACE_CONFIG", ":4096:8")  # deterministic cuBLAS (set before CUDA init)
 
 import numpy as np
 import torch
@@ -50,7 +63,9 @@ from src.data.dataset import (
 from src.data.transforms import get_eval_transform, get_train_transform
 from src.models.backbone import build_model
 from src.models.loading import forbidden_token_in
-from src.preprocess.pipeline import ALL_MODES, cache_dir, is_cached
+from src.preprocess.caliper_aug import CaliperAug
+from src.preprocess.pipeline import ALL_MODES, cache_dir, cache_key, check_cache, is_cached, is_letterbox
+from src.train import sampler as acq
 from src.train.losses import FocalLoss
 
 # ---------------------------------------------------------------------------
@@ -107,8 +122,8 @@ def build_class_weight_tensor(
 #: rejected loudly instead of being silently ignored (R5 extends these).
 SUPPORTED_OPTIONS: dict[str, tuple] = {  # type: ignore[type-arg]
     "preprocess_mode": ALL_MODES,
-    "sampler": ("none",),
-    "style_aug": (False,),
+    "sampler": ("none", "acquisition_balanced"),
+    "style_aug": (False, True),
     "use_acam": (False,),
 }
 
@@ -119,8 +134,11 @@ def assert_supported_options(cfg: dict) -> None:  # type: ignore[type-arg]
         value = cfg.get(key, defaults[key])
         if value not in allowed:
             raise NotImplementedError(f"{key}={value!r} is not implemented yet (allowed: {allowed}).")
-    if float(cfg.get("caliper_aug_p", 0.0)) != 0.0:
-        raise NotImplementedError("caliper_aug_p > 0 is implemented in R5 (src/preprocess/caliper_aug.py).")
+    p = float(cfg.get("caliper_aug_p", 0.0))
+    if not 0.0 <= p <= 1.0:
+        raise ValueError(f"caliper_aug_p={p} outside [0, 1]")
+    if p > 0 and not is_letterbox(cfg.get("preprocess_mode", "resize")):
+        raise NotImplementedError("caliper_aug_p > 0 needs a letterbox preprocess_mode (native-scale sector mask).")
 
 
 def assert_no_leakage(cfg: dict, test_csv: str = "data/splits/test.csv") -> None:  # type: ignore[type-arg]
@@ -172,6 +190,45 @@ def resolve_output_dirs(cfg: dict, out_dir: str | None) -> dict:  # type: ignore
         cfg["log_dir"] = str(Path(out_dir) / "tb")
     assert_not_frozen(cfg)
     return cfg
+
+
+def seed_worker(worker_id: int) -> None:
+    """Seed numpy and random in each DataLoader worker from torch's per-worker seed."""
+    s = torch.initial_seed() % 2**32
+    np.random.seed(s)
+    random.seed(s)
+
+
+class RecordingSampler(torch.utils.data.Sampler):  # type: ignore[type-arg]
+    """Wraps a sampler and keeps the indices of the latest epoch (realised-joint check)."""
+
+    def __init__(self, inner: torch.utils.data.Sampler):  # type: ignore[type-arg]
+        self.inner = inner
+        self.last: list[int] = []
+
+    def __iter__(self):
+        self.last = list(iter(self.inner))
+        return iter(self.last)
+
+    def __len__(self) -> int:
+        return len(self.inner)  # type: ignore[arg-type]
+
+
+def git_describe() -> str:
+    try:
+        return subprocess.run(["git", "rev-parse", "--short=10", "HEAD"], capture_output=True, text=True,
+                              check=True).stdout.strip()
+    except (OSError, subprocess.CalledProcessError):
+        return "unknown"
+
+
+def write_env(path: Path) -> None:
+    out = subprocess.run([sys.executable, "-m", "pip", "freeze"], capture_output=True, text=True)
+    path.write_text(out.stdout, encoding="utf-8")
+
+
+def run_is_done(ckpt_dir: Path) -> bool:
+    return (ckpt_dir / "best.pt").exists() and (ckpt_dir / "DONE").exists()
 
 
 # ---------------------------------------------------------------------------
@@ -288,12 +345,19 @@ def train(cfg: dict) -> None:  # type: ignore[type-arg]
     assert_no_leakage(cfg)
     assert_not_frozen(cfg)
     assert_supported_options(cfg)
+    ckpt_dir = Path(cfg.get("checkpoint_dir", f"checkpoints/{cfg['backbone']}"))
+    if run_is_done(ckpt_dir):
+        log.info("Run already complete (best.pt + DONE in %s); skipping.", ckpt_dir)
+        return
 
     # ---- Reproducibility -------------------------------------------------
     seed: int = cfg.get("seed", 42)
     torch.manual_seed(seed)
     np.random.seed(seed)
     random.seed(seed)  # albumentations p= gates use Python's stdlib random
+    torch.backends.cudnn.benchmark = False
+    torch.use_deterministic_algorithms(True, warn_only=True)
+    cfg["git_hash"] = git_describe()
 
     # ---- Device ----------------------------------------------------------
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -327,31 +391,50 @@ def train(cfg: dict) -> None:  # type: ignore[type-arg]
     mode: str = cfg.get("preprocess_mode", "resize")
     if is_cached(mode) and not (cache_dir(mode, img_size) / "fpdb").is_dir():
         raise SystemExit(f"cache for preprocess_mode={mode!r} missing: run scripts/research/build_cache.py --mode {mode}")
+    if is_letterbox(mode):
+        check_cache(mode)
+        cfg["cache_key"] = cache_key()
+    caliper_p = float(cfg.get("caliper_aug_p", 0.0))
+    style_aug = bool(cfg.get("style_aug", False))
     train_dataset = FocalPlanesDataset(
         csv_path=cfg["train_csv"],
-        transform=get_train_transform(img_size=img_size, mean=normalize_mean, std=normalize_std),
+        transform=get_train_transform(img_size=img_size, mean=normalize_mean, std=normalize_std, mode=mode,
+                                      style_aug=style_aug),
         preprocess_mode=mode,
         img_size=img_size,
+        caliper_aug=CaliperAug(p=caliper_p) if caliper_p > 0 else None,
     )
     val_dataset = FocalPlanesDataset(
         csv_path=cfg["val_csv"],
-        transform=get_eval_transform(img_size=img_size, mean=normalize_mean, std=normalize_std),
+        transform=get_eval_transform(img_size=img_size, mean=normalize_mean, std=normalize_std, mode=mode),
         preprocess_mode=mode,
         img_size=img_size,
     )
-    log.info("Preprocess mode: %s", mode)
+    log.info("Preprocess mode: %s | caliper_aug_p=%.2f | style_aug=%s | sampler=%s",
+             mode, caliper_p, style_aug, cfg.get("sampler", "none"))
 
     num_workers: int = cfg.get("num_workers", 4)
     batch_size: int = cfg.get("batch_size", 32)
 
+    sampler_plan = None
+    rec_sampler = None
+    if cfg.get("sampler", "none") == "acquisition_balanced":
+        sampler_plan = acq.plan_weights(train_dataset.df["source_machine"].astype(str).tolist(),
+                                        train_dataset.df["plane_label"].astype(str).tolist())
+        rec_sampler = RecordingSampler(acq.build_sampler(sampler_plan, seed=seed))
+        log.info("Acquisition-balanced sampler: clipped share %.4f, groups %s, pooled %s",
+                 sampler_plan.clipped_share, sorted(set(sampler_plan.groups)), sampler_plan.pooled)
     train_loader: DataLoader = DataLoader(  # type: ignore[type-arg]
         train_dataset,
         batch_size=batch_size,
-        shuffle=True,
+        shuffle=rec_sampler is None,
+        sampler=rec_sampler,
         num_workers=num_workers,
         pin_memory=True,
         drop_last=True,
         persistent_workers=(num_workers > 0),
+        worker_init_fn=seed_worker,
+        generator=torch.Generator().manual_seed(seed),
     )
     val_loader: DataLoader = DataLoader(  # type: ignore[type-arg]
         val_dataset,
@@ -360,7 +443,10 @@ def train(cfg: dict) -> None:  # type: ignore[type-arg]
         num_workers=num_workers,
         pin_memory=True,
         persistent_workers=(num_workers > 0),
+        worker_init_fn=seed_worker,
     )
+    sampler_report: dict = sampler_plan.report() if sampler_plan is not None else {}
+    drawn: list[int] = []
 
     # ---- Loss function ---------------------------------------------------
     use_class_weights: bool = bool(cfg.get("use_class_weights", True))
@@ -402,7 +488,6 @@ def train(cfg: dict) -> None:  # type: ignore[type-arg]
     writer = SummaryWriter(log_dir=str(log_dir))
 
     # ---- Checkpoint dir --------------------------------------------------
-    ckpt_dir = Path(cfg.get("checkpoint_dir", f"checkpoints/{backbone_name}"))
     ckpt_dir.mkdir(parents=True, exist_ok=True)
 
     # ---- Early stopping state -------------------------------------------
@@ -424,6 +509,14 @@ def train(cfg: dict) -> None:  # type: ignore[type-arg]
         train_loss, train_acc = train_one_epoch(
             model, train_loader, criterion, optimizer, scaler, device, epoch, use_amp
         )
+
+        # --- Sampler check (R5.3): realised class x machine-group joint, epochs 1-2 pooled ---
+        if rec_sampler is not None and sampler_plan is not None and epoch <= 2:
+            drawn.extend(rec_sampler.last)
+            joint = acq.realised_joint(sampler_plan, drawn)
+            gap = acq.check_realised(sampler_plan, joint) if epoch == 2 else acq.realised_gap(sampler_plan, joint)
+            sampler_report[f"epochs1-{epoch}_max_within_group_gap_pp"] = gap
+            log.info("Sampler epochs 1-%d: realised vs target within-group max gap %.2f pp", epoch, gap)
 
         # --- Validate ---
         val_loss, val_acc, val_macro_f1, val_targets, val_preds = validate(
@@ -535,6 +628,23 @@ def train(cfg: dict) -> None:  # type: ignore[type-arg]
 
     writer.close()
     log.info("TensorBoard logs → %s", log_dir)
+
+    # ---- Run artefacts (R5.5) ------------------------------------------
+    if sampler_report:
+        (ckpt_dir / "sampler_report.json").write_text(json.dumps(sampler_report, indent=1, default=str),
+                                                      encoding="utf-8")
+    write_env(ckpt_dir / "env.txt")
+    del model
+    torch.cuda.empty_cache()
+    from src.eval.predict import PREDS_ROOT, predict  # local import keeps module import light
+
+    # smoke runs (runs/_smoke/<id>) must never share a predictions folder with the real run
+    run_id = f"_smoke_{ckpt_dir.name}" if ckpt_dir.parent.name == "_smoke" else ckpt_dir.name
+    val_pq = predict(best_ckpt_path, "fpdb_val", PREDS_ROOT / run_id, run_id=run_id, num_workers=num_workers)
+    (ckpt_dir / "DONE").write_text(json.dumps({"best_epoch": best_epoch, "best_val_macro_f1": best_macro_f1,
+                                               "val_preds": val_pq.as_posix(), "git_hash": cfg["git_hash"]},
+                                              indent=1), encoding="utf-8")
+    log.info("DONE: val predictions → %s", val_pq)
 
 
 # ---------------------------------------------------------------------------

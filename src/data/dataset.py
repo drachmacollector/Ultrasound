@@ -23,8 +23,9 @@ import pandas as pd
 from torch.utils.data import Dataset
 
 from src.data.paths import fpdb_image_id, fpdb_patient_id, norm_path
-from src.data.transforms import get_eval_transform, load_and_prep_grayscale_to_rgb
-from src.preprocess.pipeline import cache_path, is_cached
+from src.data.transforms import get_eval_transform, gray_to_rgb, load_and_prep_grayscale_to_rgb
+from src.preprocess.caliper_aug import CaliperAug
+from src.preprocess.pipeline import check_mode, is_letterbox, load_prepared
 
 # Single source of truth for label ordering (index = model output position).
 CANONICAL_CLASSES = [
@@ -56,10 +57,13 @@ class FocalPlanesDataset(Dataset):
         return_meta: If True, __getitem__ returns a dict with image, label, image_id,
             patient_id (``fpdb_<n>``), source_machine and operator.
         prepare: Optional hook applied to the HxWx3 uint8 image before ``transform``.
-        preprocess_mode: ``resize`` reads the original image; a cached mode
-            (``src.preprocess.pipeline.CACHED_MODES``) reads the pre-rendered image from
-            ``data/processed/cache/<mode>_<img_size>/fpdb/<image_id>.png``.
-        img_size: model input size (selects the cache folder).
+        preprocess_mode: ``resize`` reads the original image; any other mode reads its cache
+            (``src.preprocess.pipeline.load_prepared``): the E4 modes pre-resized, the letterbox
+            modes as native-scale sector crops with their sector mask.
+        img_size: model input size (selects the E4 cache folder).
+        caliper_aug: R5.2 synthetic calipers, drawn on the native-scale letterbox crop inside its
+            sector before ``transform`` (training only). The RNG is drawn from numpy's global
+            state, which ``worker_init_fn`` seeds per worker.
     """
 
     def __init__(
@@ -71,15 +75,19 @@ class FocalPlanesDataset(Dataset):
         prepare: Prepare | None = None,
         preprocess_mode: str = "resize",
         img_size: int = 224,
+        caliper_aug: CaliperAug | None = None,
     ):
+        check_mode(preprocess_mode)
+        if caliper_aug is not None and not is_letterbox(preprocess_mode):
+            raise ValueError("caliper augmentation needs a letterbox mode (sector mask at native scale)")
         self.df = pd.read_csv(csv_path)
         self.transform = transform if transform is not None else get_eval_transform()
         self.label_col = label_col
         self.return_meta = return_meta
         self.prepare = prepare
-        self.cached = is_cached(preprocess_mode)
         self.preprocess_mode = preprocess_mode
         self.img_size = img_size
+        self.caliper_aug = caliper_aug
 
         unknown = set(str(x) for x in self.df[label_col].unique()) - set(CANONICAL_CLASSES)
         if unknown:
@@ -93,9 +101,11 @@ class FocalPlanesDataset(Dataset):
 
     def __getitem__(self, index: int):
         row = self.df.iloc[index]
-        path = (cache_path(self.preprocess_mode, self.img_size, "fpdb", fpdb_image_id(row["image_path"]))
-                if self.cached else norm_path(row["image_path"]))
-        img = load_and_prep_grayscale_to_rgb(path)  # HxWx3 uint8
+        gray, sector = load_prepared(self.preprocess_mode, self.img_size, "fpdb", fpdb_image_id(row["image_path"]),
+                                     norm_path(row["image_path"]))
+        if self.caliper_aug is not None:
+            gray = self.caliper_aug(gray, sector, np.random.default_rng(np.random.randint(0, 2**31 - 1)))
+        img = gray_to_rgb(gray)  # HxWx3 uint8
         if self.prepare is not None:
             img = self.prepare(img, row)
         label_idx = CLASS_TO_IDX[str(row[self.label_col])]

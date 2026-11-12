@@ -28,3 +28,20 @@ def test_deterministic_and_chance_on_noise() -> None:
     noise = np.random.default_rng(1).normal(size=X.shape)       # no signal -> about chance out of fold
     oof, _ = probe_oof(noise, y, g)
     assert 0.3 < (oof == y).mean() < 0.7
+
+
+def test_within_class_machine_targets_and_mean() -> None:
+    import pandas as pd
+
+    from src.audit.probes import within_class_machine_targets, within_class_mean
+
+    meta = pd.DataFrame({"true_label": ["Other"] * 6 + ["Fetal_femur"] * 4,
+                         "source_machine": ["A", "A", "A", "B", "B", "C", "A", "A", "B", "B"]},
+                        index=[f"i{k}" for k in range(10)])
+    t = within_class_machine_targets(meta, classes=("Other", "Fetal_femur"), min_cell=2)
+    assert list(t["Other"]) == ["A", "A", "A", "B", "B"]          # machine C (1 image) dropped
+    assert list(t["Fetal_femur"]) == ["A", "A", "B", "B"]
+    df = pd.DataFrame({"cls": ["x"] * 4 + ["y"] * 2, "y": ["A", "A", "B", "B", "A", "B"],
+                       "oof": ["A", "B", "B", "B", "A", "A"]})
+    # class x: recall A 0.5, B 1.0 -> 0.75; class y: recall A 1.0, B 0.0 -> 0.5; mean 0.625
+    assert within_class_mean(df) == 0.625

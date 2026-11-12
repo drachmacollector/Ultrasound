@@ -109,5 +109,26 @@ def test_to_model_space_matches_eval_transform(size: int) -> None:
 def test_to_model_space_cached_modes_and_unknown() -> None:
     m = np.ones((10, 20), np.uint8)
     assert AM.to_model_space(m, preprocess_mode="nonanat_only", img_size=8).shape == (8, 8)
-    with pytest.raises(NotImplementedError):
-        AM.to_model_space(m, preprocess_mode="sector_letterbox", img_size=8)
+    with pytest.raises(ValueError):
+        AM.to_model_space(m, preprocess_mode="sector_letterbox", img_size=8)      # needs the sector
+    with pytest.raises(ValueError):
+        AM.to_model_space(m, preprocess_mode="bogus", img_size=8)
+
+
+@pytest.mark.parametrize("mode", ["sector_letterbox", "sector_letterbox_inpaint"])
+@pytest.mark.parametrize("size", [224, 300])
+def test_to_model_space_letterbox_matches_image_pipeline(mode: str, size: int) -> None:
+    """Mask projection == the real eval transform applied to the prepared image carrying the ellipse."""
+    from src.preprocess.pipeline import prepare_native
+
+    sector = np.zeros((H, W), np.uint8)
+    sector[30:380, 60:520] = 1
+    m = AM.head_ellipse(*axis_endpoints(300.0, 200.0, 150.0, 110.0, 30.0), (H, W))
+    gray = (m * 255).astype(np.uint8)
+    masks = {"sector": sector, "sector_clean": sector, "ui": np.zeros_like(sector), "marker": np.zeros_like(sector)}
+    img, _ = prepare_native(gray, masks, mode)
+    t = get_eval_transform(img_size=size, mode=mode)(image=np.repeat(img[..., None], 3, axis=2))["image"].numpy()
+    ch0 = t[0] * IMAGENET_STD[0] + IMAGENET_MEAN[0]
+    proj = AM.to_model_space(m, preprocess_mode=mode, img_size=size, sector=sector)
+    assert proj.shape == (size, size)
+    assert dice(proj > 0.5, ch0 > 0.5) >= 0.98

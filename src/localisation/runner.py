@@ -38,6 +38,7 @@ from src.localisation import metrics as LM
 from src.localisation.anatomy_masks import FEMUR_REL_WIDTHS, anatomy_mask_for_row, to_model_space
 from src.models.loading import LoadedModel
 from src.models.saliency import SaliencyEngine, normalised_fill
+from src.preprocess.pipeline import load_prepared
 
 LANDMARKS = {"fpdb": Path("data/processed/landmarks/fpdb_landmarks.parquet"),
              "external": Path("data/processed/landmarks/external_landmarks.parquet")}
@@ -93,7 +94,13 @@ def load_frame(dataset: str, run_dir: Path, landmark_only: bool = False) -> pd.D
 
 
 class SaliencyInputs(Dataset):
-    """Model input + model-space masks (sector, ui, anatomy at each femur width) + fill grey."""
+    """Model input + model-space masks (sector, ui, anatomy at each femur width) + fill grey.
+
+    Masks and the fill grey come from the original native image and its R1 masks; the model input
+    is what the checkpoint's preprocess mode feeds the model (``load_prepared``: the original image
+    for ``resize``, the cached rendering otherwise). Letterbox modes project masks through the crop
+    to the native sector's bounding box.
+    """
 
     def __init__(self, frame: pd.DataFrame, lm: LoadedModel, landmarks: pd.DataFrame):
         self.frame = frame.reset_index(drop=True)
@@ -104,8 +111,8 @@ class SaliencyInputs(Dataset):
     def __len__(self) -> int:
         return len(self.frame)
 
-    def _ms(self, m: np.ndarray) -> np.ndarray:
-        return to_model_space(m, preprocess_mode=self.mode, img_size=self.S)
+    def _ms(self, m: np.ndarray, sector: np.ndarray) -> np.ndarray:
+        return to_model_space(m, preprocess_mode=self.mode, img_size=self.S, sector=sector)
 
     def __getitem__(self, i: int) -> dict:
         row = self.frame.iloc[i]
@@ -126,11 +133,13 @@ class SaliencyInputs(Dataset):
                 raise ValueError(f"{row['image_id']}: landmark frame size differs from the image")
             for k, w in enumerate(FEMUR_REL_WIDTHS):
                 if k == 0 or lr["anatomy"] == "Femur":
-                    anat[k] = self._ms(anatomy_mask_for_row(lr, gray.shape, femur_rel_width=w))
+                    anat[k] = self._ms(anatomy_mask_for_row(lr, gray.shape, femur_rel_width=w), sector)
             if lr["anatomy"] != "Femur":
                 anat[1] = anat[2] = anat[0]
-        x = self.tf(image=gray_to_rgb(gray))["image"]
-        return {"x": x, "idx": i, "sector": self._ms(sector), "ui": self._ms(ui), "anat": anat,
+        model_in = gray if self.mode == "resize" else load_prepared(self.mode, self.S, row["dataset"], row["image_id"],
+                                                                     row["image_path"])[0]
+        x = self.tf(image=gray_to_rgb(model_in))["image"]
+        return {"x": x, "idx": i, "sector": self._ms(sector, sector), "ui": self._ms(ui, sector), "anat": anat,
                 "fill_grey": fill_grey, "has_r1_mask": has_r1}
 
 

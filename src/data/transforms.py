@@ -22,39 +22,59 @@ import cv2
 import numpy as np
 from albumentations.pytorch import ToTensorV2
 
+from src.preprocess.pipeline import geometric
+
 IMG_SIZE = 224
 IMAGENET_MEAN = (0.485, 0.456, 0.406)
 IMAGENET_STD = (0.229, 0.224, 0.225)
+
+
+def style_augmentations() -> list[A.BasicTransform]:
+    """R5.4 device-style augmentation (arm A4), albumentations 2.0.8 argument names."""
+    return [
+        A.RandomGamma(gamma_limit=(80, 120), p=0.5),
+        A.RandomBrightnessContrast(brightness_limit=0.3, contrast_limit=0.3, p=0.5),
+        A.GaussianBlur(blur_limit=(3, 5), p=0.2),
+        A.MultiplicativeNoise(multiplier=(0.8, 1.2), per_channel=False, elementwise=True, p=0.3),
+        A.Downscale(scale_range=(0.5, 0.9), p=0.2),
+        A.CLAHE(clip_limit=2.0, p=0.2),
+    ]
 
 
 def get_train_transform(
     img_size: int = IMG_SIZE,
     mean: tuple[float, ...] = IMAGENET_MEAN,
     std: tuple[float, ...] = IMAGENET_STD,
+    mode: str = "resize",
+    style_aug: bool = False,
+    augment: bool = True,
 ) -> A.Compose:
-    """Full augmentation pipeline for training (B0 / legacy recipe)."""
-    return A.Compose([
-        A.Resize(img_size, img_size),
-        A.HorizontalFlip(p=0.5),
-        A.Affine(rotate=(-10, 10), scale=(0.9, 1.1), translate_percent=(-0.1, 0.1), p=0.7),
-        A.RandomBrightnessContrast(brightness_limit=0.2, contrast_limit=0.2, p=0.5),
-        A.MultiplicativeNoise(multiplier=(0.9, 1.1), per_channel=False, elementwise=True, p=0.3),
-        A.Normalize(mean=mean, std=std),
-        ToTensorV2(),
-    ])
+    """Training pipeline = the mode's geometric transform + augmentation + normalisation.
+
+    B0 (``mode="resize"``, ``style_aug=False``) is the legacy recipe. ``style_aug`` replaces the
+    0.2/0.2 brightness-contrast and the 0.9-1.1 speckle entries by the R5.4 list; flip and affine
+    are unchanged. ``augment=False`` drops every random op (parity check against eval).
+    """
+    aug: list[A.BasicTransform] = []
+    if augment:
+        aug = [A.HorizontalFlip(p=0.5),
+               A.Affine(rotate=(-10, 10), scale=(0.9, 1.1), translate_percent=(-0.1, 0.1), p=0.7)]
+        if style_aug:
+            aug += style_augmentations()
+        else:
+            aug += [A.RandomBrightnessContrast(brightness_limit=0.2, contrast_limit=0.2, p=0.5),
+                    A.MultiplicativeNoise(multiplier=(0.9, 1.1), per_channel=False, elementwise=True, p=0.3)]
+    return A.Compose([*geometric(img_size, mode), *aug, A.Normalize(mean=mean, std=std), ToTensorV2()])
 
 
 def get_eval_transform(
     img_size: int = IMG_SIZE,
     mean: tuple[float, ...] = IMAGENET_MEAN,
     std: tuple[float, ...] = IMAGENET_STD,
+    mode: str = "resize",
 ) -> A.Compose:
-    """Minimal pipeline for val/test/inference: resize + normalize only."""
-    return A.Compose([
-        A.Resize(img_size, img_size),
-        A.Normalize(mean=mean, std=std),
-        ToTensorV2(),
-    ])
+    """Deterministic pipeline for val/test/inference: the mode's geometry + normalisation."""
+    return A.Compose([*geometric(img_size, mode), A.Normalize(mean=mean, std=std), ToTensorV2()])
 
 
 def load_grayscale(image_path: str | Path) -> np.ndarray:
