@@ -19,3 +19,4 @@ grad-cam==1.5.5
 python-dotenv==1.2.2
 pillow==10.4.0
 pytest==9.2.0
+tabulate==0.10.0

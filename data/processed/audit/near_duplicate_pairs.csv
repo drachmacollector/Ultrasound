@@ -1,0 +1,437 @@
+image_id_a,image_id_b,ssim,label_a,label_b,cs_a,cs_b,source_machine,patient_id
+Patient01230_Plane4_1_of_4,Patient01230_Plane4_2_of_4,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1230
+Patient01230_Plane4_1_of_4,Patient01230_Plane4_3_of_4,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1230
+Patient01230_Plane4_1_of_4,Patient01230_Plane4_4_of_4,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1230
+Patient01230_Plane4_2_of_4,Patient01230_Plane4_3_of_4,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1230
+Patient01230_Plane4_2_of_4,Patient01230_Plane4_4_of_4,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1230
+Patient01230_Plane4_3_of_4,Patient01230_Plane4_4_of_4,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1230
+Patient01234_Plane4_2_of_4,Patient01234_Plane4_3_of_4,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1234
+Patient01234_Plane4_2_of_4,Patient01234_Plane4_4_of_4,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1234
+Patient01234_Plane4_3_of_4,Patient01234_Plane4_4_of_4,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1234
+Patient01238_Plane4_2_of_4,Patient01238_Plane4_3_of_4,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1238
+Patient01238_Plane4_2_of_4,Patient01238_Plane4_4_of_4,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1238
+Patient01238_Plane4_3_of_4,Patient01238_Plane4_4_of_4,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1238
+Patient01239_Plane4_1_of_4,Patient01239_Plane4_2_of_4,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1239
+Patient01239_Plane4_1_of_4,Patient01239_Plane4_3_of_4,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1239
+Patient01239_Plane4_2_of_4,Patient01239_Plane4_3_of_4,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1239
+Patient01246_Plane1_1_of_7,Patient01246_Plane1_5_of_7,1.0,Other,Other,0,0,Aloka,fpdb_1246
+Patient01246_Plane1_2_of_7,Patient01246_Plane1_4_of_7,1.0,Other,Other,0,0,Aloka,fpdb_1246
+Patient01248_Plane1_2_of_15,Patient01248_Plane1_8_of_15,1.0,Other,Other,0,0,Aloka,fpdb_1248
+Patient01249_Plane1_1_of_7,Patient01249_Plane1_2_of_7,1.0,Other,Other,0,0,Aloka,fpdb_1249
+Patient01249_Plane1_4_of_7,Patient01249_Plane1_7_of_7,1.0,Other,Other,0,0,Aloka,fpdb_1249
+Patient01252_Plane1_2_of_17,Patient01252_Plane1_15_of_17,1.0,Other,Other,0,0,Aloka,fpdb_1252
+Patient01252_Plane1_6_of_17,Patient01252_Plane1_14_of_17,1.0,Other,Other,0,0,Aloka,fpdb_1252
+Patient01252_Plane1_7_of_17,Patient01252_Plane1_10_of_17,1.0,Other,Other,0,0,Aloka,fpdb_1252
+Patient01254_Plane4_1_of_2,Patient01254_Plane4_2_of_2,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1254
+Patient01257_Plane1_5_of_12,Patient01257_Plane1_8_of_12,1.0,Other,Other,0,0,Aloka,fpdb_1257
+Patient01259_Plane1_6_of_7,Patient01259_Plane1_7_of_7,1.0,Other,Other,0,0,Aloka,fpdb_1259
+Patient01271_Plane3_1_of_15,Patient01271_Plane3_10_of_15,1.0,Brain_Trans_ventricular,Brain_Trans_ventricular,0,0,Voluson E6,fpdb_1271
+Patient01271_Plane3_2_of_15,Patient01271_Plane3_6_of_15,1.0,Brain_Trans_cerebellum,Brain_Trans_cerebellum,0,0,Voluson E6,fpdb_1271
+Patient01271_Plane3_3_of_15,Patient01271_Plane3_7_of_15,1.0,Other,Other,0,0,Voluson E6,fpdb_1271
+Patient01271_Plane3_4_of_15,Patient01271_Plane3_14_of_15,1.0,Brain_Trans_thalamic,Brain_Trans_thalamic,0,0,Voluson E6,fpdb_1271
+Patient01271_Plane3_5_of_15,Patient01271_Plane3_15_of_15,1.0,Brain_Trans_ventricular,Brain_Trans_ventricular,0,0,Voluson E6,fpdb_1271
+Patient01271_Plane3_8_of_15,Patient01271_Plane3_12_of_15,1.0,Brain_Trans_thalamic,Brain_Trans_thalamic,1,1,Voluson E6,fpdb_1271
+Patient01271_Plane3_9_of_15,Patient01271_Plane3_13_of_15,1.0,Brain_Trans_thalamic,Brain_Trans_thalamic,0,0,Voluson E6,fpdb_1271
+Patient01271_Plane4_1_of_2,Patient01271_Plane4_2_of_2,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1271
+Patient01271_Plane5_1_of_7,Patient01271_Plane5_3_of_7,1.0,Fetal_femur,Fetal_femur,0,0,Voluson E6,fpdb_1271
+Patient01271_Plane5_5_of_7,Patient01271_Plane5_6_of_7,1.0,Fetal_femur,Fetal_femur,1,1,Voluson E6,fpdb_1271
+Patient01271_Plane5_5_of_7,Patient01271_Plane5_7_of_7,1.0,Fetal_femur,Fetal_femur,1,1,Voluson E6,fpdb_1271
+Patient01271_Plane5_6_of_7,Patient01271_Plane5_7_of_7,1.0,Fetal_femur,Fetal_femur,1,1,Voluson E6,fpdb_1271
+Patient01271_Plane6_1_of_2,Patient01271_Plane6_2_of_2,1.0,Fetal_thorax,Fetal_thorax,0,0,Voluson E6,fpdb_1271
+Patient01272_Plane1_5_of_14,Patient01272_Plane1_13_of_14,1.0,Other,Other,0,0,Aloka,fpdb_1272
+Patient01286_Plane3_1_of_5,Patient01286_Plane3_2_of_5,1.0,Brain_Trans_thalamic,Brain_Trans_thalamic,1,1,Voluson E6,fpdb_1286
+Patient01286_Plane3_3_of_5,Patient01286_Plane3_5_of_5,1.0,Brain_Trans_thalamic,Brain_Trans_ventricular,0,0,Voluson E6,fpdb_1286
+Patient01286_Plane4_1_of_5,Patient01286_Plane4_4_of_5,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1286
+Patient01286_Plane4_2_of_5,Patient01286_Plane4_5_of_5,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1286
+Patient01286_Plane5_1_of_2,Patient01286_Plane5_2_of_2,1.0,Fetal_femur,Fetal_femur,0,0,Voluson E6,fpdb_1286
+Patient01287_Plane1_5_of_10,Patient01287_Plane1_9_of_10,1.0,Other,Other,0,0,Aloka,fpdb_1287
+Patient01304_Plane4_2_of_10,Patient01304_Plane4_7_of_10,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1304
+Patient01304_Plane4_2_of_10,Patient01304_Plane4_8_of_10,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1304
+Patient01304_Plane4_2_of_10,Patient01304_Plane4_9_of_10,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1304
+Patient01304_Plane4_2_of_10,Patient01304_Plane4_10_of_10,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1304
+Patient01304_Plane4_7_of_10,Patient01304_Plane4_8_of_10,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1304
+Patient01304_Plane4_7_of_10,Patient01304_Plane4_9_of_10,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1304
+Patient01304_Plane4_7_of_10,Patient01304_Plane4_10_of_10,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1304
+Patient01304_Plane4_8_of_10,Patient01304_Plane4_9_of_10,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1304
+Patient01304_Plane4_8_of_10,Patient01304_Plane4_10_of_10,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1304
+Patient01304_Plane4_9_of_10,Patient01304_Plane4_10_of_10,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1304
+Patient01307_Plane1_6_of_25,Patient01307_Plane1_20_of_25,1.0,Other,Other,0,0,Aloka,fpdb_1307
+Patient01307_Plane1_7_of_25,Patient01307_Plane1_22_of_25,1.0,Other,Other,0,0,Aloka,fpdb_1307
+Patient01307_Plane1_8_of_25,Patient01307_Plane1_14_of_25,1.0,Other,Other,0,0,Aloka,fpdb_1307
+Patient01307_Plane1_10_of_25,Patient01307_Plane1_23_of_25,1.0,Other,Other,0,0,Aloka,fpdb_1307
+Patient01307_Plane1_11_of_25,Patient01307_Plane1_24_of_25,1.0,Other,Other,0,0,Aloka,fpdb_1307
+Patient01307_Plane1_12_of_25,Patient01307_Plane1_15_of_25,1.0,Other,Other,0,0,Aloka,fpdb_1307
+Patient01310_Plane4_4_of_7,Patient01310_Plane4_5_of_7,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1310
+Patient01310_Plane4_4_of_7,Patient01310_Plane4_6_of_7,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1310
+Patient01310_Plane4_4_of_7,Patient01310_Plane4_7_of_7,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1310
+Patient01310_Plane4_5_of_7,Patient01310_Plane4_6_of_7,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1310
+Patient01310_Plane4_5_of_7,Patient01310_Plane4_7_of_7,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1310
+Patient01310_Plane4_6_of_7,Patient01310_Plane4_7_of_7,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1310
+Patient01312_Plane4_1_of_5,Patient01312_Plane4_2_of_5,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1312
+Patient01312_Plane4_1_of_5,Patient01312_Plane4_3_of_5,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1312
+Patient01312_Plane4_1_of_5,Patient01312_Plane4_4_of_5,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1312
+Patient01312_Plane4_1_of_5,Patient01312_Plane4_5_of_5,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1312
+Patient01312_Plane4_2_of_5,Patient01312_Plane4_3_of_5,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1312
+Patient01312_Plane4_2_of_5,Patient01312_Plane4_4_of_5,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1312
+Patient01312_Plane4_2_of_5,Patient01312_Plane4_5_of_5,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1312
+Patient01312_Plane4_3_of_5,Patient01312_Plane4_4_of_5,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1312
+Patient01312_Plane4_3_of_5,Patient01312_Plane4_5_of_5,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1312
+Patient01312_Plane4_4_of_5,Patient01312_Plane4_5_of_5,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1312
+Patient01316_Plane4_2_of_5,Patient01316_Plane4_3_of_5,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1316
+Patient01316_Plane4_2_of_5,Patient01316_Plane4_4_of_5,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1316
+Patient01316_Plane4_2_of_5,Patient01316_Plane4_5_of_5,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1316
+Patient01316_Plane4_3_of_5,Patient01316_Plane4_4_of_5,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1316
+Patient01316_Plane4_3_of_5,Patient01316_Plane4_5_of_5,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1316
+Patient01316_Plane4_4_of_5,Patient01316_Plane4_5_of_5,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1316
+Patient01322_Plane4_1_of_6,Patient01322_Plane4_2_of_6,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1322
+Patient01322_Plane4_1_of_6,Patient01322_Plane4_3_of_6,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1322
+Patient01322_Plane4_1_of_6,Patient01322_Plane4_4_of_6,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1322
+Patient01322_Plane4_2_of_6,Patient01322_Plane4_3_of_6,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1322
+Patient01322_Plane4_2_of_6,Patient01322_Plane4_4_of_6,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1322
+Patient01322_Plane4_3_of_6,Patient01322_Plane4_4_of_6,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1322
+Patient01323_Plane4_2_of_6,Patient01323_Plane4_3_of_6,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1323
+Patient01323_Plane4_2_of_6,Patient01323_Plane4_4_of_6,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1323
+Patient01323_Plane4_2_of_6,Patient01323_Plane4_5_of_6,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1323
+Patient01323_Plane4_2_of_6,Patient01323_Plane4_6_of_6,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1323
+Patient01323_Plane4_3_of_6,Patient01323_Plane4_4_of_6,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1323
+Patient01323_Plane4_3_of_6,Patient01323_Plane4_5_of_6,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1323
+Patient01323_Plane4_3_of_6,Patient01323_Plane4_6_of_6,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1323
+Patient01323_Plane4_4_of_6,Patient01323_Plane4_5_of_6,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1323
+Patient01323_Plane4_4_of_6,Patient01323_Plane4_6_of_6,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1323
+Patient01323_Plane4_5_of_6,Patient01323_Plane4_6_of_6,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1323
+Patient01325_Plane4_1_of_6,Patient01325_Plane4_2_of_6,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1325
+Patient01325_Plane4_1_of_6,Patient01325_Plane4_3_of_6,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1325
+Patient01325_Plane4_1_of_6,Patient01325_Plane4_4_of_6,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1325
+Patient01325_Plane4_1_of_6,Patient01325_Plane4_5_of_6,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1325
+Patient01325_Plane4_2_of_6,Patient01325_Plane4_3_of_6,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1325
+Patient01325_Plane4_2_of_6,Patient01325_Plane4_4_of_6,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1325
+Patient01325_Plane4_2_of_6,Patient01325_Plane4_5_of_6,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1325
+Patient01325_Plane4_3_of_6,Patient01325_Plane4_4_of_6,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1325
+Patient01325_Plane4_3_of_6,Patient01325_Plane4_5_of_6,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1325
+Patient01325_Plane4_4_of_6,Patient01325_Plane4_5_of_6,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1325
+Patient01327_Plane1_4_of_21,Patient01327_Plane1_18_of_21,1.0,Other,Other,0,0,Aloka,fpdb_1327
+Patient01327_Plane1_5_of_21,Patient01327_Plane1_16_of_21,1.0,Other,Other,0,0,Aloka,fpdb_1327
+Patient01327_Plane1_8_of_21,Patient01327_Plane1_17_of_21,1.0,Other,Other,0,0,Aloka,fpdb_1327
+Patient01327_Plane1_10_of_21,Patient01327_Plane1_19_of_21,1.0,Other,Other,0,0,Aloka,fpdb_1327
+Patient01328_Plane1_6_of_13,Patient01328_Plane1_11_of_13,1.0,Other,Other,0,0,Aloka,fpdb_1328
+Patient01328_Plane3_3_of_4,Patient01328_Plane3_4_of_4,0.9985,Brain_Trans_thalamic,Brain_Trans_thalamic,0,0,Aloka,fpdb_1328
+Patient01330_Plane1_7_of_16,Patient01330_Plane1_14_of_16,1.0,Other,Other,0,0,Aloka,fpdb_1330
+Patient01330_Plane1_9_of_16,Patient01330_Plane1_12_of_16,1.0,Other,Other,0,0,Aloka,fpdb_1330
+Patient01330_Plane1_10_of_16,Patient01330_Plane1_15_of_16,1.0,Other,Other,0,0,Aloka,fpdb_1330
+Patient01330_Plane1_13_of_16,Patient01330_Plane1_16_of_16,1.0,Other,Other,0,0,Aloka,fpdb_1330
+Patient01332_Plane1_6_of_12,Patient01332_Plane1_12_of_12,1.0,Other,Other,0,0,Aloka,fpdb_1332
+Patient01347_Plane1_4_of_24,Patient01347_Plane1_11_of_24,1.0,Other,Other,0,0,Aloka,fpdb_1347
+Patient01347_Plane1_4_of_24,Patient01347_Plane1_15_of_24,1.0,Other,Other,0,0,Aloka,fpdb_1347
+Patient01347_Plane1_8_of_24,Patient01347_Plane1_10_of_24,1.0,Other,Other,0,0,Aloka,fpdb_1347
+Patient01347_Plane1_11_of_24,Patient01347_Plane1_15_of_24,1.0,Other,Other,0,0,Aloka,fpdb_1347
+Patient01347_Plane1_13_of_24,Patient01347_Plane1_16_of_24,1.0,Other,Other,0,0,Aloka,fpdb_1347
+Patient01347_Plane1_14_of_24,Patient01347_Plane1_20_of_24,1.0,Other,Other,0,0,Aloka,fpdb_1347
+Patient01347_Plane1_14_of_24,Patient01347_Plane1_23_of_24,1.0,Other,Other,0,0,Aloka,fpdb_1347
+Patient01347_Plane1_20_of_24,Patient01347_Plane1_23_of_24,1.0,Other,Other,0,0,Aloka,fpdb_1347
+Patient01363_Plane2_1_of_3,Patient01363_Plane2_2_of_3,1.0,Fetal_abdomen,Fetal_abdomen,0,0,Voluson E6,fpdb_1363
+Patient01363_Plane2_1_of_3,Patient01363_Plane2_3_of_3,1.0,Fetal_abdomen,Fetal_abdomen,0,0,Voluson E6,fpdb_1363
+Patient01363_Plane2_2_of_3,Patient01363_Plane2_3_of_3,1.0,Fetal_abdomen,Fetal_abdomen,0,0,Voluson E6,fpdb_1363
+Patient01363_Plane3_1_of_7,Patient01363_Plane3_5_of_7,1.0,Brain_Trans_thalamic,Brain_Trans_thalamic,0,0,Voluson E6,fpdb_1363
+Patient01363_Plane3_1_of_7,Patient01363_Plane3_6_of_7,1.0,Brain_Trans_thalamic,Brain_Trans_thalamic,0,0,Voluson E6,fpdb_1363
+Patient01363_Plane3_2_of_7,Patient01363_Plane3_7_of_7,1.0,Brain_Trans_ventricular,Brain_Trans_ventricular,1,1,Voluson E6,fpdb_1363
+Patient01363_Plane3_3_of_7,Patient01363_Plane3_4_of_7,1.0,Brain_Trans_cerebellum,Brain_Trans_cerebellum,0,0,Voluson E6,fpdb_1363
+Patient01363_Plane3_5_of_7,Patient01363_Plane3_6_of_7,1.0,Brain_Trans_thalamic,Brain_Trans_thalamic,0,0,Voluson E6,fpdb_1363
+Patient01364_Plane1_2_of_6,Patient01364_Plane1_5_of_6,1.0,Other,Other,0,0,Aloka,fpdb_1364
+Patient01365_Plane1_5_of_17,Patient01365_Plane1_11_of_17,1.0,Other,Other,0,0,Aloka,fpdb_1365
+Patient01365_Plane1_10_of_17,Patient01365_Plane1_15_of_17,1.0,Other,Other,0,0,Aloka,fpdb_1365
+Patient01366_Plane1_4_of_8,Patient01366_Plane1_7_of_8,1.0,Other,Other,0,0,Aloka,fpdb_1366
+Patient01367_Plane1_5_of_8,Patient01367_Plane1_7_of_8,1.0,Other,Other,0,0,Aloka,fpdb_1367
+Patient01372_Plane3_4_of_8,Patient01372_Plane3_7_of_8,1.0,Brain_Trans_ventricular,Brain_Trans_ventricular,0,0,Voluson E6,fpdb_1372
+Patient01372_Plane3_5_of_8,Patient01372_Plane3_8_of_8,1.0,Brain_Trans_cerebellum,Brain_Trans_cerebellum,0,0,Voluson E6,fpdb_1372
+Patient01372_Plane5_1_of_4,Patient01372_Plane5_2_of_4,1.0,Fetal_femur,Fetal_femur,1,1,Voluson E6,fpdb_1372
+Patient01373_Plane1_2_of_9,Patient01373_Plane1_4_of_9,1.0,Other,Other,0,0,Aloka,fpdb_1373
+Patient01373_Plane1_5_of_9,Patient01373_Plane1_9_of_9,1.0,Other,Other,0,0,Aloka,fpdb_1373
+Patient01384_Plane3_2_of_3,Patient01384_Plane3_3_of_3,1.0,Brain_Trans_ventricular,Brain_Trans_ventricular,0,0,Voluson E6,fpdb_1384
+Patient01391_Plane1_2_of_26,Patient01391_Plane1_25_of_26,1.0,Other,Other,0,0,Voluson S10,fpdb_1391
+Patient01391_Plane1_3_of_26,Patient01391_Plane1_7_of_26,1.0,Other,Other,0,0,Voluson S10,fpdb_1391
+Patient01391_Plane1_8_of_26,Patient01391_Plane1_12_of_26,1.0,Other,Other,0,0,Voluson S10,fpdb_1391
+Patient01391_Plane1_8_of_26,Patient01391_Plane1_15_of_26,1.0,Other,Other,0,0,Voluson S10,fpdb_1391
+Patient01391_Plane1_11_of_26,Patient01391_Plane1_17_of_26,1.0,Other,Other,0,0,Voluson S10,fpdb_1391
+Patient01391_Plane1_12_of_26,Patient01391_Plane1_15_of_26,1.0,Other,Other,0,0,Voluson S10,fpdb_1391
+Patient01391_Plane1_13_of_26,Patient01391_Plane1_16_of_26,1.0,Other,Other,0,0,Voluson S10,fpdb_1391
+Patient01395_Plane1_1_of_8,Patient01395_Plane1_4_of_8,1.0,Other,Other,0,0,Voluson S10,fpdb_1395
+Patient01395_Plane1_2_of_8,Patient01395_Plane1_7_of_8,1.0,Other,Other,0,0,Voluson S10,fpdb_1395
+Patient01397_Plane1_2_of_9,Patient01397_Plane1_5_of_9,1.0,Other,Other,0,0,Voluson S10,fpdb_1397
+Patient01397_Plane1_2_of_9,Patient01397_Plane1_7_of_9,1.0,Other,Other,0,0,Voluson S10,fpdb_1397
+Patient01397_Plane1_5_of_9,Patient01397_Plane1_7_of_9,1.0,Other,Other,0,0,Voluson S10,fpdb_1397
+Patient01402_Plane1_1_of_8,Patient01402_Plane1_3_of_8,1.0,Other,Other,0,0,Voluson S10,fpdb_1402
+Patient01408_Plane1_4_of_15,Patient01408_Plane1_13_of_15,1.0,Other,Other,0,0,Voluson S10,fpdb_1408
+Patient01409_Plane1_13_of_27,Patient01409_Plane1_25_of_27,1.0,Other,Other,0,0,Voluson S10,fpdb_1409
+Patient01409_Plane1_16_of_27,Patient01409_Plane1_21_of_27,1.0,Other,Other,0,0,Voluson S10,fpdb_1409
+Patient01409_Plane1_19_of_27,Patient01409_Plane1_22_of_27,1.0,Other,Other,0,0,Voluson S10,fpdb_1409
+Patient01409_Plane1_19_of_27,Patient01409_Plane1_27_of_27,1.0,Other,Other,0,0,Voluson S10,fpdb_1409
+Patient01409_Plane1_22_of_27,Patient01409_Plane1_27_of_27,1.0,Other,Other,0,0,Voluson S10,fpdb_1409
+Patient01422_Plane1_7_of_19,Patient01422_Plane1_14_of_19,1.0,Other,Other,0,0,Aloka,fpdb_1422
+Patient01424_Plane1_3_of_14,Patient01424_Plane1_8_of_14,1.0,Other,Other,0,0,Aloka,fpdb_1424
+Patient01424_Plane1_4_of_14,Patient01424_Plane1_11_of_14,1.0,Other,Other,0,0,Aloka,fpdb_1424
+Patient01424_Plane1_6_of_14,Patient01424_Plane1_12_of_14,1.0,Other,Other,0,0,Aloka,fpdb_1424
+Patient01425_Plane1_2_of_7,Patient01425_Plane1_3_of_7,1.0,Other,Other,0,0,Aloka,fpdb_1425
+Patient01426_Plane1_4_of_7,Patient01426_Plane1_6_of_7,1.0,Other,Other,0,0,Aloka,fpdb_1426
+Patient01426_Plane1_4_of_7,Patient01426_Plane1_7_of_7,1.0,Other,Other,0,0,Aloka,fpdb_1426
+Patient01426_Plane1_6_of_7,Patient01426_Plane1_7_of_7,1.0,Other,Other,0,0,Aloka,fpdb_1426
+Patient01433_Plane3_1_of_8,Patient01433_Plane3_3_of_8,1.0,Brain_Trans_thalamic,Brain_Trans_thalamic,0,0,Voluson E6,fpdb_1433
+Patient01433_Plane3_1_of_8,Patient01433_Plane3_4_of_8,1.0,Brain_Trans_thalamic,Brain_Trans_thalamic,0,0,Voluson E6,fpdb_1433
+Patient01433_Plane3_2_of_8,Patient01433_Plane3_7_of_8,1.0,Brain_Trans_thalamic,Brain_Trans_thalamic,0,0,Voluson E6,fpdb_1433
+Patient01433_Plane3_2_of_8,Patient01433_Plane3_8_of_8,1.0,Brain_Trans_thalamic,Brain_Trans_thalamic,0,0,Voluson E6,fpdb_1433
+Patient01433_Plane3_3_of_8,Patient01433_Plane3_4_of_8,1.0,Brain_Trans_thalamic,Brain_Trans_thalamic,0,0,Voluson E6,fpdb_1433
+Patient01433_Plane3_5_of_8,Patient01433_Plane3_6_of_8,1.0,Brain_Trans_thalamic,Brain_Trans_thalamic,0,0,Voluson E6,fpdb_1433
+Patient01433_Plane3_7_of_8,Patient01433_Plane3_8_of_8,1.0,Brain_Trans_thalamic,Brain_Trans_thalamic,0,0,Voluson E6,fpdb_1433
+Patient01433_Plane5_1_of_3,Patient01433_Plane5_2_of_3,1.0,Fetal_femur,Fetal_femur,0,0,Voluson E6,fpdb_1433
+Patient01433_Plane5_1_of_3,Patient01433_Plane5_3_of_3,1.0,Fetal_femur,Fetal_femur,0,0,Voluson E6,fpdb_1433
+Patient01433_Plane5_2_of_3,Patient01433_Plane5_3_of_3,1.0,Fetal_femur,Fetal_femur,0,0,Voluson E6,fpdb_1433
+Patient01433_Plane6_2_of_5,Patient01433_Plane6_4_of_5,1.0,Fetal_thorax,Fetal_thorax,0,0,Voluson E6,fpdb_1433
+Patient01433_Plane6_2_of_5,Patient01433_Plane6_5_of_5,1.0,Fetal_thorax,Fetal_thorax,0,0,Voluson E6,fpdb_1433
+Patient01433_Plane6_4_of_5,Patient01433_Plane6_5_of_5,1.0,Fetal_thorax,Fetal_thorax,0,0,Voluson E6,fpdb_1433
+Patient01438_Plane1_4_of_15,Patient01438_Plane1_11_of_15,1.0,Other,Other,0,0,Voluson S10,fpdb_1438
+Patient01441_Plane1_3_of_6,Patient01441_Plane1_4_of_6,1.0,Other,Other,0,0,Voluson S10,fpdb_1441
+Patient01441_Plane2_1_of_2,Patient01441_Plane2_2_of_2,0.968,Fetal_abdomen,Fetal_abdomen,0,0,Voluson S10,fpdb_1441
+Patient01442_Plane1_2_of_22,Patient01442_Plane1_12_of_22,1.0,Other,Other,0,0,Voluson S10,fpdb_1442
+Patient01442_Plane1_8_of_22,Patient01442_Plane1_14_of_22,1.0,Other,Other,0,0,Voluson S10,fpdb_1442
+Patient01444_Plane1_6_of_28,Patient01444_Plane1_16_of_28,1.0,Other,Other,0,0,Voluson S10,fpdb_1444
+Patient01444_Plane1_7_of_28,Patient01444_Plane1_17_of_28,1.0,Other,Other,0,0,Voluson S10,fpdb_1444
+Patient01444_Plane1_18_of_28,Patient01444_Plane1_20_of_28,1.0,Other,Other,0,0,Voluson S10,fpdb_1444
+Patient01445_Plane1_1_of_11,Patient01445_Plane1_4_of_11,1.0,Other,Other,0,0,Voluson S10,fpdb_1445
+Patient01445_Plane1_3_of_11,Patient01445_Plane1_8_of_11,1.0,Other,Other,0,0,Voluson S10,fpdb_1445
+Patient01445_Plane1_5_of_11,Patient01445_Plane1_11_of_11,0.9267,Other,Other,0,0,Voluson S10,fpdb_1445
+Patient01446_Plane1_4_of_29,Patient01446_Plane1_24_of_29,1.0,Other,Other,0,0,Aloka,fpdb_1446
+Patient01446_Plane1_5_of_29,Patient01446_Plane1_10_of_29,1.0,Other,Other,0,0,Aloka,fpdb_1446
+Patient01446_Plane1_5_of_29,Patient01446_Plane1_15_of_29,1.0,Other,Other,0,0,Aloka,fpdb_1446
+Patient01446_Plane1_8_of_29,Patient01446_Plane1_29_of_29,1.0,Other,Other,0,0,Aloka,fpdb_1446
+Patient01446_Plane1_9_of_29,Patient01446_Plane1_28_of_29,1.0,Other,Other,0,0,Aloka,fpdb_1446
+Patient01446_Plane1_10_of_29,Patient01446_Plane1_15_of_29,1.0,Other,Other,0,0,Aloka,fpdb_1446
+Patient01446_Plane1_11_of_29,Patient01446_Plane1_21_of_29,1.0,Other,Other,0,0,Aloka,fpdb_1446
+Patient01446_Plane1_12_of_29,Patient01446_Plane1_22_of_29,1.0,Other,Other,0,0,Aloka,fpdb_1446
+Patient01446_Plane1_20_of_29,Patient01446_Plane1_27_of_29,1.0,Other,Other,0,0,Aloka,fpdb_1446
+Patient01448_Plane1_3_of_13,Patient01448_Plane1_11_of_13,1.0,Other,Other,0,0,Aloka,fpdb_1448
+Patient01449_Plane1_3_of_7,Patient01449_Plane1_4_of_7,1.0,Other,Other,0,0,Aloka,fpdb_1449
+Patient01450_Plane1_8_of_14,Patient01450_Plane1_14_of_14,1.0,Other,Other,0,0,Aloka,fpdb_1450
+Patient01454_Plane1_2_of_6,Patient01454_Plane1_6_of_6,1.0,Other,Other,0,0,Voluson S10,fpdb_1454
+Patient01469_Plane1_5_of_7,Patient01469_Plane1_7_of_7,1.0,Other,Other,0,0,Voluson S10,fpdb_1469
+Patient01470_Plane1_2_of_4,Patient01470_Plane1_3_of_4,1.0,Other,Other,0,0,Voluson S10,fpdb_1470
+Patient01471_Plane3_1_of_2,Patient01471_Plane3_2_of_2,1.0,Brain_Trans_thalamic,Brain_Trans_thalamic,0,0,Voluson E6,fpdb_1471
+Patient01471_Plane5_1_of_2,Patient01471_Plane5_2_of_2,1.0,Fetal_femur,Fetal_femur,0,0,Voluson E6,fpdb_1471
+Patient01471_Plane6_1_of_2,Patient01471_Plane6_2_of_2,1.0,Fetal_thorax,Fetal_thorax,0,0,Voluson E6,fpdb_1471
+Patient01472_Plane1_2_of_11,Patient01472_Plane1_5_of_11,1.0,Other,Other,0,0,Voluson S10,fpdb_1472
+Patient01472_Plane1_4_of_11,Patient01472_Plane1_7_of_11,1.0,Other,Other,0,0,Voluson S10,fpdb_1472
+Patient01473_Plane1_2_of_30,Patient01473_Plane1_5_of_30,1.0,Other,Other,0,0,Voluson S10,fpdb_1473
+Patient01473_Plane1_3_of_30,Patient01473_Plane1_29_of_30,1.0,Other,Other,0,0,Voluson S10,fpdb_1473
+Patient01473_Plane1_7_of_30,Patient01473_Plane1_25_of_30,1.0,Other,Other,0,0,Voluson S10,fpdb_1473
+Patient01473_Plane1_8_of_30,Patient01473_Plane1_30_of_30,1.0,Other,Other,0,0,Voluson S10,fpdb_1473
+Patient01473_Plane1_15_of_30,Patient01473_Plane1_16_of_30,1.0,Other,Other,0,0,Voluson S10,fpdb_1473
+Patient01474_Plane3_1_of_3,Patient01474_Plane3_3_of_3,1.0,Brain_Trans_thalamic,Brain_Trans_thalamic,0,0,Voluson E6,fpdb_1474
+Patient01475_Plane2_1_of_2,Patient01475_Plane2_2_of_2,1.0,Fetal_abdomen,Fetal_abdomen,0,0,Voluson E6,fpdb_1475
+Patient01476_Plane3_2_of_3,Patient01476_Plane3_3_of_3,1.0,Brain_Trans_thalamic,Brain_Trans_thalamic,0,0,Voluson E6,fpdb_1476
+Patient01476_Plane4_2_of_5,Patient01476_Plane4_4_of_5,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1476
+Patient01476_Plane4_3_of_5,Patient01476_Plane4_5_of_5,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1476
+Patient01477_Plane3_1_of_5,Patient01477_Plane3_4_of_5,1.0,Brain_Trans_ventricular,Brain_Trans_thalamic,1,1,Voluson E6,fpdb_1477
+Patient01477_Plane3_2_of_5,Patient01477_Plane3_5_of_5,1.0,Brain_Trans_ventricular,Brain_Trans_ventricular,1,1,Voluson E6,fpdb_1477
+Patient01477_Plane5_1_of_2,Patient01477_Plane5_2_of_2,1.0,Fetal_femur,Fetal_femur,1,1,Voluson E6,fpdb_1477
+Patient01478_Plane3_1_of_12,Patient01478_Plane3_11_of_12,1.0,Brain_Trans_thalamic,Brain_Trans_thalamic,0,0,Voluson E6,fpdb_1478
+Patient01478_Plane3_3_of_12,Patient01478_Plane3_6_of_12,1.0,Brain_Trans_ventricular,Brain_Trans_ventricular,0,0,Voluson E6,fpdb_1478
+Patient01478_Plane3_4_of_12,Patient01478_Plane3_8_of_12,1.0,Brain_Trans_thalamic,Brain_Trans_thalamic,0,0,Voluson E6,fpdb_1478
+Patient01478_Plane3_5_of_12,Patient01478_Plane3_12_of_12,1.0,Brain_Trans_cerebellum,Brain_Trans_cerebellum,1,1,Voluson E6,fpdb_1478
+Patient01479_Plane1_3_of_9,Patient01479_Plane1_9_of_9,1.0,Other,Other,0,0,Voluson S10,fpdb_1479
+Patient01479_Plane1_6_of_9,Patient01479_Plane1_8_of_9,1.0,Other,Other,0,0,Voluson S10,fpdb_1479
+Patient01480_Plane3_4_of_6,Patient01480_Plane3_6_of_6,1.0,Brain_Trans_cerebellum,Brain_Trans_cerebellum,0,0,Voluson E6,fpdb_1480
+Patient01481_Plane1_2_of_35,Patient01481_Plane1_4_of_35,1.0,Other,Other,0,0,Aloka,fpdb_1481
+Patient01481_Plane1_2_of_35,Patient01481_Plane1_34_of_35,1.0,Other,Other,0,0,Aloka,fpdb_1481
+Patient01481_Plane1_3_of_35,Patient01481_Plane1_25_of_35,1.0,Other,Other,0,0,Aloka,fpdb_1481
+Patient01481_Plane1_4_of_35,Patient01481_Plane1_34_of_35,1.0,Other,Other,0,0,Aloka,fpdb_1481
+Patient01481_Plane1_5_of_35,Patient01481_Plane1_8_of_35,1.0,Other,Other,0,0,Aloka,fpdb_1481
+Patient01481_Plane1_6_of_35,Patient01481_Plane1_14_of_35,1.0,Other,Other,0,0,Aloka,fpdb_1481
+Patient01481_Plane1_10_of_35,Patient01481_Plane1_16_of_35,1.0,Other,Other,0,0,Aloka,fpdb_1481
+Patient01481_Plane1_10_of_35,Patient01481_Plane1_20_of_35,1.0,Other,Other,0,0,Aloka,fpdb_1481
+Patient01481_Plane1_10_of_35,Patient01481_Plane1_26_of_35,1.0,Other,Other,0,0,Aloka,fpdb_1481
+Patient01481_Plane1_11_of_35,Patient01481_Plane1_28_of_35,1.0,Other,Other,0,0,Aloka,fpdb_1481
+Patient01481_Plane1_13_of_35,Patient01481_Plane1_22_of_35,1.0,Other,Other,0,0,Aloka,fpdb_1481
+Patient01481_Plane1_15_of_35,Patient01481_Plane1_24_of_35,1.0,Other,Other,0,0,Aloka,fpdb_1481
+Patient01481_Plane1_16_of_35,Patient01481_Plane1_20_of_35,1.0,Other,Other,0,0,Aloka,fpdb_1481
+Patient01481_Plane1_16_of_35,Patient01481_Plane1_26_of_35,1.0,Other,Other,0,0,Aloka,fpdb_1481
+Patient01481_Plane1_20_of_35,Patient01481_Plane1_26_of_35,1.0,Other,Other,0,0,Aloka,fpdb_1481
+Patient01481_Plane1_21_of_35,Patient01481_Plane1_29_of_35,1.0,Other,Other,0,0,Aloka,fpdb_1481
+Patient01481_Plane1_27_of_35,Patient01481_Plane1_30_of_35,1.0,Other,Other,0,0,Aloka,fpdb_1481
+Patient01483_Plane3_2_of_4,Patient01483_Plane3_4_of_4,1.0,Brain_Trans_thalamic,Brain_Trans_thalamic,0,0,Voluson E6,fpdb_1483
+Patient01483_Plane5_1_of_2,Patient01483_Plane5_2_of_2,1.0,Fetal_femur,Fetal_femur,0,0,Voluson E6,fpdb_1483
+Patient01484_Plane1_2_of_16,Patient01484_Plane1_11_of_16,1.0,Other,Other,0,0,Aloka,fpdb_1484
+Patient01484_Plane1_7_of_16,Patient01484_Plane1_10_of_16,1.0,Other,Other,0,0,Aloka,fpdb_1484
+Patient01485_Plane1_3_of_18,Patient01485_Plane1_16_of_18,1.0,Other,Other,0,0,Aloka,fpdb_1485
+Patient01485_Plane1_9_of_18,Patient01485_Plane1_14_of_18,1.0,Other,Other,0,0,Aloka,fpdb_1485
+Patient01486_Plane1_3_of_26,Patient01486_Plane1_12_of_26,1.0,Other,Other,0,0,Aloka,fpdb_1486
+Patient01486_Plane1_3_of_26,Patient01486_Plane1_24_of_26,1.0,Other,Other,0,0,Aloka,fpdb_1486
+Patient01486_Plane1_9_of_26,Patient01486_Plane1_17_of_26,1.0,Other,Other,0,0,Aloka,fpdb_1486
+Patient01486_Plane1_10_of_26,Patient01486_Plane1_15_of_26,1.0,Other,Other,0,0,Aloka,fpdb_1486
+Patient01486_Plane1_12_of_26,Patient01486_Plane1_24_of_26,1.0,Other,Other,0,0,Aloka,fpdb_1486
+Patient01487_Plane1_3_of_17,Patient01487_Plane1_6_of_17,1.0,Other,Other,0,0,Voluson S10,fpdb_1487
+Patient01487_Plane1_3_of_17,Patient01487_Plane1_16_of_17,1.0,Other,Other,0,0,Voluson S10,fpdb_1487
+Patient01487_Plane1_5_of_17,Patient01487_Plane1_7_of_17,1.0,Other,Other,0,0,Voluson S10,fpdb_1487
+Patient01487_Plane1_6_of_17,Patient01487_Plane1_16_of_17,1.0,Other,Other,0,0,Voluson S10,fpdb_1487
+Patient01488_Plane3_1_of_3,Patient01488_Plane3_3_of_3,1.0,Brain_Trans_thalamic,Brain_Trans_thalamic,0,0,Voluson E6,fpdb_1488
+Patient01488_Plane5_1_of_2,Patient01488_Plane5_2_of_2,1.0,Fetal_femur,Fetal_femur,0,0,Voluson E6,fpdb_1488
+Patient01496_Plane1_2_of_7,Patient01496_Plane1_6_of_7,1.0,Other,Other,0,0,Voluson S10,fpdb_1496
+Patient01496_Plane1_4_of_7,Patient01496_Plane1_5_of_7,1.0,Other,Other,0,0,Voluson S10,fpdb_1496
+Patient01497_Plane1_1_of_7,Patient01497_Plane1_6_of_7,1.0,Other,Other,0,0,Voluson S10,fpdb_1497
+Patient01500_Plane1_4_of_9,Patient01500_Plane1_5_of_9,1.0,Other,Other,0,0,Voluson S10,fpdb_1500
+Patient01505_Plane1_2_of_24,Patient01505_Plane1_7_of_24,1.0,Other,Other,0,0,Voluson S10,fpdb_1505
+Patient01505_Plane1_16_of_24,Patient01505_Plane1_19_of_24,1.0,Other,Other,0,0,Voluson S10,fpdb_1505
+Patient01508_Plane1_2_of_3,Patient01508_Plane1_3_of_3,1.0,Other,Other,0,0,Voluson S10,fpdb_1508
+Patient01510_Plane1_5_of_12,Patient01510_Plane1_11_of_12,1.0,Other,Other,0,0,Aloka,fpdb_1510
+Patient01510_Plane3_2_of_4,Patient01510_Plane3_3_of_4,0.9994,Brain_Trans_ventricular,Other,0,0,Aloka,fpdb_1510
+Patient01512_Plane1_1_of_8,Patient01512_Plane1_4_of_8,1.0,Other,Other,0,0,Aloka,fpdb_1512
+Patient01512_Plane1_2_of_8,Patient01512_Plane1_3_of_8,1.0,Other,Other,0,0,Aloka,fpdb_1512
+Patient01517_Plane1_3_of_20,Patient01517_Plane1_12_of_20,1.0,Other,Other,0,0,Voluson S10,fpdb_1517
+Patient01517_Plane1_8_of_20,Patient01517_Plane1_17_of_20,1.0,Other,Other,0,0,Voluson S10,fpdb_1517
+Patient01517_Plane1_10_of_20,Patient01517_Plane1_15_of_20,1.0,Other,Other,0,0,Voluson S10,fpdb_1517
+Patient01517_Plane1_14_of_20,Patient01517_Plane1_18_of_20,1.0,Other,Other,0,0,Voluson S10,fpdb_1517
+Patient01535_Plane1_5_of_21,Patient01535_Plane1_18_of_21,1.0,Other,Other,0,0,Voluson S10,fpdb_1535
+Patient01535_Plane1_6_of_21,Patient01535_Plane1_13_of_21,1.0,Other,Other,0,0,Voluson S10,fpdb_1535
+Patient01535_Plane1_8_of_21,Patient01535_Plane1_11_of_21,1.0,Other,Other,0,0,Voluson S10,fpdb_1535
+Patient01537_Plane3_1_of_9,Patient01537_Plane3_5_of_9,1.0,Brain_Trans_thalamic,Brain_Trans_thalamic,0,0,Voluson E6,fpdb_1537
+Patient01537_Plane3_3_of_9,Patient01537_Plane3_6_of_9,1.0,Brain_Trans_cerebellum,Brain_Trans_ventricular,0,0,Voluson E6,fpdb_1537
+Patient01537_Plane3_7_of_9,Patient01537_Plane3_8_of_9,1.0,Brain_Trans_thalamic,Brain_Trans_thalamic,0,0,Voluson E6,fpdb_1537
+Patient01539_Plane1_1_of_25,Patient01539_Plane1_7_of_25,1.0,Other,Other,0,0,Voluson S10,fpdb_1539
+Patient01539_Plane1_1_of_25,Patient01539_Plane1_24_of_25,1.0,Other,Other,0,0,Voluson S10,fpdb_1539
+Patient01539_Plane1_2_of_25,Patient01539_Plane1_21_of_25,1.0,Other,Other,0,0,Voluson S10,fpdb_1539
+Patient01539_Plane1_5_of_25,Patient01539_Plane1_19_of_25,1.0,Other,Other,0,0,Voluson S10,fpdb_1539
+Patient01539_Plane1_6_of_25,Patient01539_Plane1_16_of_25,1.0,Other,Other,0,0,Voluson S10,fpdb_1539
+Patient01539_Plane1_7_of_25,Patient01539_Plane1_24_of_25,1.0,Other,Other,0,0,Voluson S10,fpdb_1539
+Patient01539_Plane1_15_of_25,Patient01539_Plane1_23_of_25,1.0,Other,Other,0,0,Voluson S10,fpdb_1539
+Patient01541_Plane1_2_of_5,Patient01541_Plane1_4_of_5,1.0,Other,Other,0,0,Voluson S10,fpdb_1541
+Patient01541_Plane1_2_of_5,Patient01541_Plane1_5_of_5,1.0,Other,Other,0,0,Voluson S10,fpdb_1541
+Patient01541_Plane1_4_of_5,Patient01541_Plane1_5_of_5,1.0,Other,Other,0,0,Voluson S10,fpdb_1541
+Patient01545_Plane1_6_of_13,Patient01545_Plane1_11_of_13,1.0,Other,Other,0,0,Aloka,fpdb_1545
+Patient01547_Plane1_5_of_18,Patient01547_Plane1_12_of_18,1.0,Other,Other,0,0,Aloka,fpdb_1547
+Patient01547_Plane1_7_of_18,Patient01547_Plane1_17_of_18,1.0,Other,Other,0,0,Aloka,fpdb_1547
+Patient01551_Plane1_4_of_22,Patient01551_Plane1_18_of_22,1.0,Other,Other,0,0,Voluson S10,fpdb_1551
+Patient01551_Plane1_11_of_22,Patient01551_Plane1_20_of_22,1.0,Other,Other,0,0,Voluson S10,fpdb_1551
+Patient01551_Plane1_16_of_22,Patient01551_Plane1_19_of_22,1.0,Other,Other,0,0,Voluson S10,fpdb_1551
+Patient01551_Plane1_17_of_22,Patient01551_Plane1_22_of_22,1.0,Other,Other,0,0,Voluson S10,fpdb_1551
+Patient01566_Plane1_2_of_29,Patient01566_Plane1_5_of_29,1.0,Other,Other,0,0,Aloka,fpdb_1566
+Patient01566_Plane1_2_of_29,Patient01566_Plane1_9_of_29,1.0,Other,Other,0,0,Aloka,fpdb_1566
+Patient01566_Plane1_2_of_29,Patient01566_Plane1_24_of_29,1.0,Other,Other,0,0,Aloka,fpdb_1566
+Patient01566_Plane1_2_of_29,Patient01566_Plane1_27_of_29,1.0,Other,Other,0,0,Aloka,fpdb_1566
+Patient01566_Plane1_3_of_29,Patient01566_Plane1_12_of_29,1.0,Other,Other,0,0,Aloka,fpdb_1566
+Patient01566_Plane1_3_of_29,Patient01566_Plane1_14_of_29,1.0,Other,Other,0,0,Aloka,fpdb_1566
+Patient01566_Plane1_4_of_29,Patient01566_Plane1_18_of_29,1.0,Other,Other,0,0,Aloka,fpdb_1566
+Patient01566_Plane1_5_of_29,Patient01566_Plane1_9_of_29,1.0,Other,Other,0,0,Aloka,fpdb_1566
+Patient01566_Plane1_5_of_29,Patient01566_Plane1_24_of_29,1.0,Other,Other,0,0,Aloka,fpdb_1566
+Patient01566_Plane1_5_of_29,Patient01566_Plane1_27_of_29,1.0,Other,Other,0,0,Aloka,fpdb_1566
+Patient01566_Plane1_7_of_29,Patient01566_Plane1_21_of_29,1.0,Other,Other,0,0,Aloka,fpdb_1566
+Patient01566_Plane1_8_of_29,Patient01566_Plane1_16_of_29,1.0,Other,Other,0,0,Aloka,fpdb_1566
+Patient01566_Plane1_9_of_29,Patient01566_Plane1_24_of_29,1.0,Other,Other,0,0,Aloka,fpdb_1566
+Patient01566_Plane1_9_of_29,Patient01566_Plane1_27_of_29,1.0,Other,Other,0,0,Aloka,fpdb_1566
+Patient01566_Plane1_12_of_29,Patient01566_Plane1_14_of_29,1.0,Other,Other,0,0,Aloka,fpdb_1566
+Patient01566_Plane1_24_of_29,Patient01566_Plane1_27_of_29,1.0,Other,Other,0,0,Aloka,fpdb_1566
+Patient01570_Plane1_9_of_16,Patient01570_Plane1_16_of_16,1.0,Other,Other,0,0,Aloka,fpdb_1570
+Patient01570_Plane1_10_of_16,Patient01570_Plane1_13_of_16,1.0,Other,Other,0,0,Aloka,fpdb_1570
+Patient01572_Plane1_6_of_9,Patient01572_Plane1_9_of_9,1.0,Other,Other,0,0,Aloka,fpdb_1572
+Patient01573_Plane1_1_of_8,Patient01573_Plane1_5_of_8,1.0,Other,Other,0,0,Aloka,fpdb_1573
+Patient01573_Plane1_2_of_8,Patient01573_Plane1_6_of_8,1.0,Other,Other,0,0,Aloka,fpdb_1573
+Patient01573_Plane2_1_of_2,Patient01573_Plane2_2_of_2,1.0,Fetal_abdomen,Fetal_abdomen,0,0,Aloka,fpdb_1573
+Patient01606_Plane1_2_of_18,Patient01606_Plane1_14_of_18,1.0,Other,Other,0,0,Aloka,fpdb_1606
+Patient01606_Plane1_3_of_18,Patient01606_Plane1_8_of_18,1.0,Other,Other,0,0,Aloka,fpdb_1606
+Patient01612_Plane1_1_of_21,Patient01612_Plane1_15_of_21,1.0,Other,Other,0,0,Aloka,fpdb_1612
+Patient01612_Plane1_4_of_21,Patient01612_Plane1_19_of_21,1.0,Other,Other,0,0,Aloka,fpdb_1612
+Patient01612_Plane1_7_of_21,Patient01612_Plane1_11_of_21,1.0,Other,Other,0,0,Aloka,fpdb_1612
+Patient01612_Plane1_7_of_21,Patient01612_Plane1_20_of_21,1.0,Other,Other,0,0,Aloka,fpdb_1612
+Patient01612_Plane1_8_of_21,Patient01612_Plane1_16_of_21,1.0,Other,Other,0,0,Aloka,fpdb_1612
+Patient01612_Plane1_11_of_21,Patient01612_Plane1_20_of_21,1.0,Other,Other,0,0,Aloka,fpdb_1612
+Patient01620_Plane2_1_of_2,Patient01620_Plane2_2_of_2,1.0,Fetal_abdomen,Fetal_abdomen,0,0,Voluson E6,fpdb_1620
+Patient01631_Plane1_2_of_16,Patient01631_Plane1_6_of_16,1.0,Other,Other,0,0,Aloka,fpdb_1631
+Patient01631_Plane1_3_of_16,Patient01631_Plane1_10_of_16,1.0,Other,Other,0,0,Aloka,fpdb_1631
+Patient01631_Plane1_5_of_16,Patient01631_Plane1_9_of_16,1.0,Other,Other,0,0,Aloka,fpdb_1631
+Patient01631_Plane1_7_of_16,Patient01631_Plane1_13_of_16,1.0,Other,Other,0,0,Aloka,fpdb_1631
+Patient01631_Plane1_11_of_16,Patient01631_Plane1_14_of_16,1.0,Other,Other,0,0,Aloka,fpdb_1631
+Patient01631_Plane1_12_of_16,Patient01631_Plane1_16_of_16,1.0,Other,Other,0,0,Aloka,fpdb_1631
+Patient01633_Plane1_4_of_13,Patient01633_Plane1_7_of_13,1.0,Other,Other,0,0,Aloka,fpdb_1633
+Patient01633_Plane1_5_of_13,Patient01633_Plane1_8_of_13,1.0,Other,Other,0,0,Aloka,fpdb_1633
+Patient01645_Plane6_3_of_4,Patient01645_Plane6_4_of_4,1.0,Fetal_thorax,Fetal_thorax,0,0,Voluson E6,fpdb_1645
+Patient01647_Plane2_1_of_2,Patient01647_Plane2_2_of_2,1.0,Fetal_abdomen,Fetal_abdomen,0,0,Voluson E6,fpdb_1647
+Patient01647_Plane3_1_of_9,Patient01647_Plane3_6_of_9,1.0,Brain_Trans_ventricular,Brain_Trans_ventricular,1,1,Voluson E6,fpdb_1647
+Patient01647_Plane3_2_of_9,Patient01647_Plane3_7_of_9,1.0,Brain_Trans_thalamic,Brain_Trans_thalamic,1,1,Voluson E6,fpdb_1647
+Patient01647_Plane3_3_of_9,Patient01647_Plane3_4_of_9,0.9858,Brain_Trans_cerebellum,Other,0,0,Voluson E6,fpdb_1647
+Patient01647_Plane3_3_of_9,Patient01647_Plane3_8_of_9,1.0,Brain_Trans_cerebellum,Brain_Trans_cerebellum,0,0,Voluson E6,fpdb_1647
+Patient01647_Plane3_4_of_9,Patient01647_Plane3_8_of_9,0.9858,Other,Brain_Trans_cerebellum,0,0,Voluson E6,fpdb_1647
+Patient01647_Plane3_5_of_9,Patient01647_Plane3_9_of_9,1.0,Brain_Trans_thalamic,Brain_Trans_thalamic,0,0,Voluson E6,fpdb_1647
+Patient01647_Plane4_1_of_5,Patient01647_Plane4_3_of_5,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1647
+Patient01647_Plane5_1_of_4,Patient01647_Plane5_3_of_4,1.0,Fetal_femur,Fetal_femur,0,0,Voluson E6,fpdb_1647
+Patient01647_Plane5_2_of_4,Patient01647_Plane5_4_of_4,1.0,Fetal_femur,Fetal_femur,1,1,Voluson E6,fpdb_1647
+Patient01647_Plane6_2_of_4,Patient01647_Plane6_4_of_4,1.0,Fetal_thorax,Fetal_thorax,0,0,Voluson E6,fpdb_1647
+Patient01648_Plane3_1_of_6,Patient01648_Plane3_4_of_6,1.0,Brain_Trans_cerebellum,Brain_Trans_cerebellum,1,1,Voluson E6,fpdb_1648
+Patient01648_Plane3_2_of_6,Patient01648_Plane3_5_of_6,1.0,Brain_Trans_thalamic,Brain_Trans_ventricular,1,1,Voluson E6,fpdb_1648
+Patient01648_Plane3_3_of_6,Patient01648_Plane3_6_of_6,1.0,Brain_Trans_thalamic,Brain_Trans_thalamic,0,0,Voluson E6,fpdb_1648
+Patient01648_Plane5_2_of_5,Patient01648_Plane5_4_of_5,1.0,Fetal_femur,Fetal_femur,1,1,Voluson E6,fpdb_1648
+Patient01648_Plane5_3_of_5,Patient01648_Plane5_5_of_5,1.0,Fetal_femur,Fetal_femur,1,1,Voluson E6,fpdb_1648
+Patient01649_Plane3_1_of_5,Patient01649_Plane3_4_of_5,1.0,Brain_Trans_thalamic,Brain_Trans_cerebellum,0,0,Voluson E6,fpdb_1649
+Patient01649_Plane3_3_of_5,Patient01649_Plane3_5_of_5,1.0,Brain_Trans_thalamic,Brain_Trans_thalamic,0,0,Voluson E6,fpdb_1649
+Patient01649_Plane5_1_of_2,Patient01649_Plane5_2_of_2,1.0,Fetal_femur,Fetal_femur,0,0,Voluson E6,fpdb_1649
+Patient01650_Plane3_1_of_6,Patient01650_Plane3_4_of_6,1.0,Brain_Trans_cerebellum,Brain_Trans_cerebellum,0,0,Voluson E6,fpdb_1650
+Patient01650_Plane3_2_of_6,Patient01650_Plane3_5_of_6,1.0,Brain_Trans_thalamic,Brain_Trans_thalamic,0,0,Voluson E6,fpdb_1650
+Patient01650_Plane3_3_of_6,Patient01650_Plane3_6_of_6,1.0,Brain_Trans_cerebellum,Brain_Trans_cerebellum,0,0,Voluson E6,fpdb_1650
+Patient01650_Plane5_1_of_2,Patient01650_Plane5_2_of_2,1.0,Fetal_femur,Fetal_femur,0,0,Voluson E6,fpdb_1650
+Patient01651_Plane4_1_of_3,Patient01651_Plane4_3_of_3,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1651
+Patient01652_Plane2_1_of_2,Patient01652_Plane2_2_of_2,1.0,Fetal_abdomen,Fetal_abdomen,0,0,Voluson E6,fpdb_1652
+Patient01653_Plane3_1_of_11,Patient01653_Plane3_9_of_11,1.0,Brain_Trans_cerebellum,Brain_Trans_cerebellum,1,1,Voluson E6,fpdb_1653
+Patient01653_Plane3_2_of_11,Patient01653_Plane3_6_of_11,1.0,Brain_Trans_cerebellum,Brain_Trans_cerebellum,1,1,Voluson E6,fpdb_1653
+Patient01653_Plane3_3_of_11,Patient01653_Plane3_7_of_11,1.0,Brain_Trans_ventricular,Brain_Trans_ventricular,1,1,Voluson E6,fpdb_1653
+Patient01653_Plane3_4_of_11,Patient01653_Plane3_10_of_11,1.0,Brain_Trans_cerebellum,Brain_Trans_thalamic,1,1,Voluson E6,fpdb_1653
+Patient01653_Plane3_5_of_11,Patient01653_Plane3_11_of_11,1.0,Brain_Trans_thalamic,Brain_Trans_thalamic,1,1,Voluson E6,fpdb_1653
+Patient01653_Plane4_1_of_6,Patient01653_Plane4_4_of_6,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1653
+Patient01653_Plane4_2_of_6,Patient01653_Plane4_6_of_6,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1653
+Patient01655_Plane1_9_of_12,Patient01655_Plane1_12_of_12,1.0,Other,Other,0,0,Aloka,fpdb_1655
+Patient01659_Plane1_3_of_6,Patient01659_Plane1_5_of_6,1.0,Other,Other,0,0,Aloka,fpdb_1659
+Patient01662_Plane4_3_of_8,Patient01662_Plane4_4_of_8,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1662
+Patient01662_Plane4_3_of_8,Patient01662_Plane4_5_of_8,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1662
+Patient01662_Plane4_3_of_8,Patient01662_Plane4_6_of_8,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1662
+Patient01662_Plane4_3_of_8,Patient01662_Plane4_7_of_8,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1662
+Patient01662_Plane4_3_of_8,Patient01662_Plane4_8_of_8,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1662
+Patient01662_Plane4_4_of_8,Patient01662_Plane4_5_of_8,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1662
+Patient01662_Plane4_4_of_8,Patient01662_Plane4_6_of_8,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1662
+Patient01662_Plane4_4_of_8,Patient01662_Plane4_7_of_8,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1662
+Patient01662_Plane4_4_of_8,Patient01662_Plane4_8_of_8,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1662
+Patient01662_Plane4_5_of_8,Patient01662_Plane4_6_of_8,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1662
+Patient01662_Plane4_5_of_8,Patient01662_Plane4_7_of_8,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1662
+Patient01662_Plane4_5_of_8,Patient01662_Plane4_8_of_8,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1662
+Patient01662_Plane4_6_of_8,Patient01662_Plane4_7_of_8,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1662
+Patient01662_Plane4_6_of_8,Patient01662_Plane4_8_of_8,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1662
+Patient01662_Plane4_7_of_8,Patient01662_Plane4_8_of_8,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1662
+Patient01672_Plane1_3_of_10,Patient01672_Plane1_6_of_10,1.0,Other,Other,0,0,Aloka,fpdb_1672
+Patient01676_Plane1_1_of_14,Patient01676_Plane1_8_of_14,1.0,Other,Other,0,0,Voluson S10,fpdb_1676
+Patient01676_Plane1_7_of_14,Patient01676_Plane1_14_of_14,1.0,Other,Other,1,1,Voluson S10,fpdb_1676
+Patient01678_Plane2_1_of_2,Patient01678_Plane2_2_of_2,1.0,Fetal_abdomen,Fetal_abdomen,0,0,Voluson E6,fpdb_1678
+Patient01678_Plane3_1_of_8,Patient01678_Plane3_7_of_8,1.0,Brain_Trans_thalamic,Brain_Trans_thalamic,0,0,Voluson E6,fpdb_1678
+Patient01678_Plane3_2_of_8,Patient01678_Plane3_5_of_8,1.0,Brain_Trans_cerebellum,Brain_Trans_cerebellum,0,0,Voluson E6,fpdb_1678
+Patient01678_Plane3_4_of_8,Patient01678_Plane3_6_of_8,1.0,Brain_Trans_cerebellum,Brain_Trans_cerebellum,0,0,Voluson E6,fpdb_1678
+Patient01678_Plane4_2_of_3,Patient01678_Plane4_3_of_3,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1678
+Patient01678_Plane5_1_of_2,Patient01678_Plane5_2_of_2,1.0,Fetal_femur,Fetal_femur,1,1,Voluson E6,fpdb_1678
+Patient01679_Plane2_1_of_2,Patient01679_Plane2_2_of_2,1.0,Fetal_abdomen,Fetal_abdomen,0,0,Voluson E6,fpdb_1679
+Patient01679_Plane3_3_of_9,Patient01679_Plane3_6_of_9,1.0,Brain_Trans_ventricular,Brain_Trans_thalamic,1,1,Voluson E6,fpdb_1679
+Patient01679_Plane3_4_of_9,Patient01679_Plane3_7_of_9,1.0,Brain_Trans_thalamic,Brain_Trans_thalamic,0,0,Voluson E6,fpdb_1679
+Patient01679_Plane3_5_of_9,Patient01679_Plane3_9_of_9,1.0,Brain_Trans_ventricular,Brain_Trans_ventricular,0,0,Voluson E6,fpdb_1679
+Patient01679_Plane4_1_of_9,Patient01679_Plane4_5_of_9,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1679
+Patient01679_Plane4_2_of_9,Patient01679_Plane4_6_of_9,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1679
+Patient01679_Plane4_3_of_9,Patient01679_Plane4_7_of_9,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1679
+Patient01679_Plane4_4_of_9,Patient01679_Plane4_9_of_9,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1679
+Patient01679_Plane5_1_of_6,Patient01679_Plane5_4_of_6,1.0,Fetal_femur,Fetal_femur,0,0,Voluson E6,fpdb_1679
+Patient01679_Plane5_2_of_6,Patient01679_Plane5_6_of_6,1.0,Fetal_femur,Fetal_femur,0,0,Voluson E6,fpdb_1679
+Patient01680_Plane3_1_of_8,Patient01680_Plane3_6_of_8,1.0,Brain_Trans_ventricular,Brain_Trans_ventricular,0,0,Voluson E6,fpdb_1680
+Patient01680_Plane3_2_of_8,Patient01680_Plane3_5_of_8,1.0,Brain_Trans_cerebellum,Brain_Trans_cerebellum,0,0,Voluson E6,fpdb_1680
+Patient01680_Plane3_3_of_8,Patient01680_Plane3_7_of_8,1.0,Brain_Trans_thalamic,Brain_Trans_thalamic,0,0,Voluson E6,fpdb_1680
+Patient01680_Plane3_4_of_8,Patient01680_Plane3_8_of_8,1.0,Brain_Trans_thalamic,Brain_Trans_thalamic,0,0,Voluson E6,fpdb_1680
+Patient01681_Plane3_1_of_5,Patient01681_Plane3_3_of_5,1.0,Brain_Trans_ventricular,Brain_Trans_ventricular,0,0,Voluson E6,fpdb_1681
+Patient01681_Plane3_2_of_5,Patient01681_Plane3_5_of_5,1.0,Brain_Trans_ventricular,Brain_Trans_ventricular,0,0,Voluson E6,fpdb_1681
+Patient01681_Plane5_1_of_2,Patient01681_Plane5_2_of_2,1.0,Fetal_femur,Fetal_femur,1,1,Voluson E6,fpdb_1681
+Patient01682_Plane3_1_of_6,Patient01682_Plane3_5_of_6,1.0,Brain_Trans_thalamic,Brain_Trans_thalamic,0,0,Voluson E6,fpdb_1682
+Patient01682_Plane3_2_of_6,Patient01682_Plane3_6_of_6,1.0,Brain_Trans_thalamic,Brain_Trans_thalamic,0,0,Voluson E6,fpdb_1682
+Patient01682_Plane5_1_of_2,Patient01682_Plane5_2_of_2,1.0,Fetal_femur,Fetal_femur,0,0,Voluson E6,fpdb_1682
+Patient01692_Plane3_2_of_4,Patient01692_Plane3_3_of_4,0.9819,Brain_Trans_cerebellum,Other,0,0,Voluson S10,fpdb_1692
+Patient01714_Plane2_1_of_2,Patient01714_Plane2_2_of_2,0.9937,Fetal_abdomen,Fetal_abdomen,0,0,Aloka,fpdb_1714
+Patient01715_Plane3_1_of_3,Patient01715_Plane3_2_of_3,0.9987,Brain_Trans_thalamic,Brain_Trans_thalamic,0,0,Aloka,fpdb_1715
+Patient01716_Plane3_2_of_3,Patient01716_Plane3_3_of_3,0.9993,Brain_Trans_ventricular,Brain_Trans_ventricular,0,0,Aloka,fpdb_1716
+Patient01731_Plane4_1_of_2,Patient01731_Plane4_2_of_2,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1731
+Patient01734_Plane4_2_of_3,Patient01734_Plane4_3_of_3,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_1734
+Patient00619_Plane4_1_of_2,Patient00619_Plane4_2_of_2,1.0,Maternal_cervix,Maternal_cervix,0,0,Voluson E6,fpdb_619

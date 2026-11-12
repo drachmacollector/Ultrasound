@@ -1,0 +1,176 @@
+{
+  "prevalence": {
+    "calipers_standard": [
+      2,
+      119
+    ],
+    "calipers_other": [
+      2,
+      31
+    ],
+    "diff": -0.04770940634318244,
+    "diff_ci_newcombe": [
+      -0.19089908637252676,
+      0.015327809731605732
+    ],
+    "pooled_300": {
+      "calipers": "9/300 = 3.0% [1.6%, 5.6%]",
+      "text": "300/300 = 100.0% [98.7%, 100.0%]"
+    }
+  },
+  "detector": {
+    "test": {
+      "calipers": {
+        "tp": 0,
+        "fp": 1,
+        "fn": 4,
+        "tn": 145,
+        "precision": 0.0,
+        "recall": 0.0,
+        "recall_ci": [
+          0.0,
+          0.4898908364545974
+        ]
+      },
+      "text": {
+        "tp": 145,
+        "fp": 0,
+        "fn": 5,
+        "tn": 0,
+        "precision": 1.0,
+        "recall": 0.9666666666666667,
+        "recall_ci": [
+          0.924348203821221,
+          0.9856795681019075
+        ]
+      }
+    },
+    "train": {
+      "calipers": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 4,
+        "tn": 145,
+        "precision": 1.0,
+        "recall": 0.2,
+        "recall_ci": [
+          0.036224108632430196,
+          0.6244653702374748
+        ]
+      },
+      "text": {
+        "tp": 147,
+        "fp": 0,
+        "fn": 3,
+        "tn": 0,
+        "precision": 1.0,
+        "recall": 0.98,
+        "recall_ci": [
+          0.9428533167296139,
+          0.9931752486770326
+        ]
+      }
+    }
+  },
+  "pairs": {
+    "test_groups_ge2": 943,
+    "images_in_groups_ge2": 3904,
+    "label_heterogeneous_groups": 315,
+    "near_duplicate_pairs_ssim_ge_0.90": 436,
+    "near_duplicate_images": 658,
+    "near_duplicate_pairs_same_label": 425,
+    "caliper_pair_candidates": 0
+  },
+  "landmark_qc": {
+    "fpdb/test/Abdomen": 0.014285714285714285,
+    "fpdb/test/Femur": 0.0,
+    "fpdb/test/Head": 0.0,
+    "fpdb/val/Abdomen": 0.02040816326530612,
+    "fpdb/val/Femur": 0.0,
+    "fpdb/val/Head": 0.0,
+    "hc18/external/Head": 0.0,
+    "ucl/external/Abdomen": 0.007692307692307693,
+    "ucl/external/Femur": 0.0,
+    "ucl/external/Head": 0.006289308176100629
+  },
+  "sector_check": {
+    "Aloka": {
+      "ok": 40,
+      "n": 44
+    },
+    "Other": {
+      "ok": 19,
+      "n": 20
+    },
+    "Voluson E6": {
+      "ok": 43,
+      "n": 49
+    },
+    "Voluson S10": {
+      "ok": 36,
+      "n": 37
+    }
+  },
+  "sector_recheck": {
+    "Aloka": {
+      "ok": 10,
+      "n": 10
+    },
+    "Voluson E6": {
+      "ok": 28,
+      "n": 30
+    }
+  },
+  "external_audit": {
+    "Algeria": {
+      "n": 6,
+      "calipers": 0,
+      "text": 6
+    },
+    "Egypt": {
+      "n": 6,
+      "calipers": 0,
+      "text": 0
+    },
+    "Ghana": {
+      "n": 6,
+      "calipers": 6,
+      "text": 0
+    },
+    "Malawi": {
+      "n": 6,
+      "calipers": 0,
+      "text": 5
+    },
+    "Radboud UMC (NL)": {
+      "n": 6,
+      "calipers": 0,
+      "text": 5
+    },
+    "UCLH (UK)": {
+      "n": 6,
+      "calipers": 4,
+      "text": 6
+    },
+    "Uganda": {
+      "n": 6,
+      "calipers": 6,
+      "text": 6
+    }
+  },
+  "landmark_glance": {
+    "ok": 15,
+    "n": 15
+  },
+  "decisions": {
+    "overlays_primary_axis": false,
+    "caliper_detector_recall_train": 0.2,
+    "caliper_detector_passes": false,
+    "E5a_restricted_to_agreed_images": true,
+    "E5d_feasible": false,
+    "sector_consensus_prior_needed": true,
+    "sector_recheck_passes": true,
+    "landmark_glance_ok": true,
+    "head_qc_ok": true
+  }
+}

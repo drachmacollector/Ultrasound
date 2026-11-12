@@ -11,6 +11,7 @@ scikit-learn
 scikit-image
 statsmodels
 pyarrow
+tabulate               # pandas.DataFrame.to_markdown
 matplotlib
 seaborn
 pyyaml

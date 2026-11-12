@@ -1,0 +1,301 @@
+split,audit_idx,image_id,image_path,patient_id,source_machine,operator,plane_label,plane_collapsed
+test,0,Patient01250_Plane3_2_of_2,data\raw\fetal_planes_db\Images\Patient01250_Plane3_2_of_2.png,fpdb_1250,Voluson E6,Op. 1,Brain_Trans_ventricular,Head
+train,0,Patient00891_Plane1_2_of_11,data\raw\fetal_planes_db\Images\Patient00891_Plane1_2_of_11.png,fpdb_891,Aloka,Op. 3,Other,Other
+train,1,Patient00789_Plane3_2_of_3,data\raw\fetal_planes_db\Images\Patient00789_Plane3_2_of_3.png,fpdb_789,Aloka,Op. 3,Brain_Trans_thalamic,Head
+test,1,Patient01706_Plane1_1_of_1,data\raw\fetal_planes_db\Images\Patient01706_Plane1_1_of_1.png,fpdb_1706,Voluson E6,Op. 1,Other,Other
+train,2,Patient00936_Plane6_2_of_4,data\raw\fetal_planes_db\Images\Patient00936_Plane6_2_of_4.png,fpdb_936,Voluson E6,Op. 1,Fetal_thorax,Thorax
+test,2,Patient01403_Plane1_1_of_1,data\raw\fetal_planes_db\Images\Patient01403_Plane1_1_of_1.png,fpdb_1403,Voluson S10,Other,Other,Other
+test,3,Patient01375_Plane5_2_of_2,data\raw\fetal_planes_db\Images\Patient01375_Plane5_2_of_2.png,fpdb_1375,Voluson E6,Op. 1,Fetal_femur,Femur
+test,4,Patient01731_Plane6_1_of_1,data\raw\fetal_planes_db\Images\Patient01731_Plane6_1_of_1.png,fpdb_1731,Voluson E6,Op. 2,Fetal_thorax,Thorax
+test,5,Patient01722_Plane5_1_of_1,data\raw\fetal_planes_db\Images\Patient01722_Plane5_1_of_1.png,fpdb_1722,Voluson E6,Op. 1,Fetal_femur,Femur
+train,3,Patient01024_Plane2_1_of_1,data\raw\fetal_planes_db\Images\Patient01024_Plane2_1_of_1.png,fpdb_1024,Voluson E6,Op. 2,Fetal_abdomen,Abdomen
+train,4,Patient00305_Plane2_2_of_2,data\raw\fetal_planes_db\Images\Patient00305_Plane2_2_of_2.png,fpdb_305,Voluson S10,Other,Fetal_abdomen,Abdomen
+test,6,Patient00609_Plane4_1_of_1,data\raw\fetal_planes_db\Images\Patient00609_Plane4_1_of_1.png,fpdb_609,Other,Other,Maternal_cervix,Cervix
+train,5,Patient00720_Plane1_3_of_27,data\raw\fetal_planes_db\Images\Patient00720_Plane1_3_of_27.png,fpdb_720,Aloka,Op. 3,Other,Other
+train,6,Patient00929_Plane3_5_of_8,data\raw\fetal_planes_db\Images\Patient00929_Plane3_5_of_8.png,fpdb_929,Voluson E6,Op. 1,Brain_Trans_thalamic,Head
+test,7,Patient01331_Plane1_4_of_4,data\raw\fetal_planes_db\Images\Patient01331_Plane1_4_of_4.png,fpdb_1331,Aloka,Op. 3,Other,Other
+train,7,Patient00834_Plane5_1_of_1,data\raw\fetal_planes_db\Images\Patient00834_Plane5_1_of_1.png,fpdb_834,Aloka,Op. 3,Fetal_femur,Femur
+train,8,Patient01107_Plane5_1_of_1,data\raw\fetal_planes_db\Images\Patient01107_Plane5_1_of_1.png,fpdb_1107,Voluson E6,Op. 1,Fetal_femur,Femur
+test,8,Patient01508_Plane3_1_of_2,data\raw\fetal_planes_db\Images\Patient01508_Plane3_1_of_2.png,fpdb_1508,Voluson S10,Other,Brain_Trans_cerebellum,Head
+train,9,Patient00139_Plane4_1_of_1,data\raw\fetal_planes_db\Images\Patient00139_Plane4_1_of_1.png,fpdb_139,Aloka,Other,Maternal_cervix,Cervix
+train,10,Patient00857_Plane2_1_of_1,data\raw\fetal_planes_db\Images\Patient00857_Plane2_1_of_1.png,fpdb_857,Voluson E6,Op. 2,Fetal_abdomen,Abdomen
+test,9,Patient01496_Plane6_1_of_1,data\raw\fetal_planes_db\Images\Patient01496_Plane6_1_of_1.png,fpdb_1496,Voluson S10,Other,Fetal_thorax,Thorax
+test,10,Patient01614_Plane6_1_of_1,data\raw\fetal_planes_db\Images\Patient01614_Plane6_1_of_1.png,fpdb_1614,Aloka,Op. 3,Fetal_thorax,Thorax
+test,11,Patient00335_Plane4_1_of_1,data\raw\fetal_planes_db\Images\Patient00335_Plane4_1_of_1.png,fpdb_335,Aloka,Other,Maternal_cervix,Cervix
+test,12,Patient01658_Plane3_2_of_2,data\raw\fetal_planes_db\Images\Patient01658_Plane3_2_of_2.png,fpdb_1658,Aloka,Op. 3,Brain_Trans_thalamic,Head
+train,11,Patient00930_Plane5_1_of_1,data\raw\fetal_planes_db\Images\Patient00930_Plane5_1_of_1.png,fpdb_930,Other,Other,Fetal_femur,Femur
+train,12,Patient00019_Plane1_18_of_18,data\raw\fetal_planes_db\Images\Patient00019_Plane1_18_of_18.png,fpdb_19,Aloka,Other,Other,Other
+train,13,Patient01052_Plane5_2_of_2,data\raw\fetal_planes_db\Images\Patient01052_Plane5_2_of_2.png,fpdb_1052,Voluson E6,Op. 1,Fetal_femur,Femur
+train,14,Patient00908_Plane2_1_of_1,data\raw\fetal_planes_db\Images\Patient00908_Plane2_1_of_1.png,fpdb_908,Aloka,Op. 3,Fetal_abdomen,Abdomen
+test,13,Patient01786_Plane4_2_of_3,data\raw\fetal_planes_db\Images\Patient01786_Plane4_2_of_3.png,fpdb_1786,Voluson S10,Other,Maternal_cervix,Cervix
+test,14,Patient00641_Plane5_1_of_1,data\raw\fetal_planes_db\Images\Patient00641_Plane5_1_of_1.png,fpdb_641,Other,Other,Fetal_femur,Femur
+train,15,Patient00305_Plane6_3_of_3,data\raw\fetal_planes_db\Images\Patient00305_Plane6_3_of_3.png,fpdb_305,Voluson S10,Other,Fetal_thorax,Thorax
+train,16,Patient01080_Plane2_1_of_1,data\raw\fetal_planes_db\Images\Patient01080_Plane2_1_of_1.png,fpdb_1080,Aloka,Op. 3,Fetal_abdomen,Abdomen
+test,15,Patient01535_Plane2_1_of_3,data\raw\fetal_planes_db\Images\Patient01535_Plane2_1_of_3.png,fpdb_1535,Voluson S10,Other,Fetal_abdomen,Abdomen
+test,16,Patient01509_Plane4_1_of_2,data\raw\fetal_planes_db\Images\Patient01509_Plane4_1_of_2.png,fpdb_1509,Voluson S10,Other,Maternal_cervix,Cervix
+train,17,Patient01167_Plane5_1_of_1,data\raw\fetal_planes_db\Images\Patient01167_Plane5_1_of_1.png,fpdb_1167,Aloka,Op. 3,Fetal_femur,Femur
+test,17,Patient01643_Plane5_1_of_1,data\raw\fetal_planes_db\Images\Patient01643_Plane5_1_of_1.png,fpdb_1643,Voluson E6,Op. 1,Fetal_femur,Femur
+train,18,Patient00912_Plane2_1_of_1,data\raw\fetal_planes_db\Images\Patient00912_Plane2_1_of_1.png,fpdb_912,Voluson E6,Op. 2,Fetal_abdomen,Abdomen
+train,19,Patient00989_Plane3_1_of_1,data\raw\fetal_planes_db\Images\Patient00989_Plane3_1_of_1.png,fpdb_989,Aloka,Op. 3,Brain_Trans_thalamic,Head
+test,18,Patient00656_Plane3_1_of_1,data\raw\fetal_planes_db\Images\Patient00656_Plane3_1_of_1.png,fpdb_656,Other,Other,Other,Other
+test,19,Patient01248_Plane1_13_of_15,data\raw\fetal_planes_db\Images\Patient01248_Plane1_13_of_15.png,fpdb_1248,Aloka,Op. 3,Other,Other
+train,20,Patient00938_Plane1_1_of_1,data\raw\fetal_planes_db\Images\Patient00938_Plane1_1_of_1.png,fpdb_938,Aloka,Op. 3,Other,Other
+test,20,Patient01677_Plane1_2_of_9,data\raw\fetal_planes_db\Images\Patient01677_Plane1_2_of_9.png,fpdb_1677,Voluson S10,Other,Other,Other
+train,21,Patient01139_Plane5_3_of_3,data\raw\fetal_planes_db\Images\Patient01139_Plane5_3_of_3.png,fpdb_1139,Voluson E6,Op. 1,Fetal_femur,Femur
+test,21,Patient01326_Plane1_1_of_1,data\raw\fetal_planes_db\Images\Patient01326_Plane1_1_of_1.png,fpdb_1326,Voluson E6,Op. 1,Other,Other
+test,22,Patient01470_Plane1_1_of_4,data\raw\fetal_planes_db\Images\Patient01470_Plane1_1_of_4.png,fpdb_1470,Voluson S10,Other,Other,Other
+train,22,Patient00830_Plane5_1_of_1,data\raw\fetal_planes_db\Images\Patient00830_Plane5_1_of_1.png,fpdb_830,Voluson E6,Op. 2,Fetal_femur,Femur
+train,23,Patient00848_Plane4_9_of_9,data\raw\fetal_planes_db\Images\Patient00848_Plane4_9_of_9.png,fpdb_848,Voluson E6,Op. 2,Maternal_cervix,Cervix
+train,24,Patient00930_Plane2_2_of_3,data\raw\fetal_planes_db\Images\Patient00930_Plane2_2_of_3.png,fpdb_930,Other,Other,Fetal_abdomen,Abdomen
+train,25,Patient00661_Plane1_1_of_1,data\raw\fetal_planes_db\Images\Patient00661_Plane1_1_of_1.png,fpdb_661,Other,Other,Other,Other
+test,23,Patient01690_Plane1_1_of_1,data\raw\fetal_planes_db\Images\Patient01690_Plane1_1_of_1.png,fpdb_1690,Voluson S10,Other,Other,Other
+train,26,Patient00900_Plane3_1_of_1,data\raw\fetal_planes_db\Images\Patient00900_Plane3_1_of_1.png,fpdb_900,Voluson E6,Op. 1,Other,Other
+test,24,Patient00607_Plane4_1_of_1,data\raw\fetal_planes_db\Images\Patient00607_Plane4_1_of_1.png,fpdb_607,Other,Other,Maternal_cervix,Cervix
+train,27,Patient00743_Plane3_2_of_2,data\raw\fetal_planes_db\Images\Patient00743_Plane3_2_of_2.png,fpdb_743,Voluson E6,Op. 2,Brain_Trans_thalamic,Head
+test,25,Patient01555_Plane5_1_of_1,data\raw\fetal_planes_db\Images\Patient01555_Plane5_1_of_1.png,fpdb_1555,Voluson E6,Op. 1,Fetal_femur,Femur
+test,26,Patient01477_Plane5_2_of_2,data\raw\fetal_planes_db\Images\Patient01477_Plane5_2_of_2.png,fpdb_1477,Voluson E6,Other,Fetal_femur,Femur
+test,27,Patient01267_Plane4_2_of_3,data\raw\fetal_planes_db\Images\Patient01267_Plane4_2_of_3.png,fpdb_1267,Voluson E6,Op. 1,Maternal_cervix,Cervix
+test,28,Patient01714_Plane3_1_of_2,data\raw\fetal_planes_db\Images\Patient01714_Plane3_1_of_2.png,fpdb_1714,Aloka,Op. 3,Other,Other
+test,29,Patient00653_Plane1_1_of_1,data\raw\fetal_planes_db\Images\Patient00653_Plane1_1_of_1.png,fpdb_653,Other,Other,Other,Other
+test,30,Patient01787_Plane6_1_of_2,data\raw\fetal_planes_db\Images\Patient01787_Plane6_1_of_2.png,fpdb_1787,Voluson S10,Other,Fetal_thorax,Thorax
+test,31,Patient01517_Plane1_8_of_20,data\raw\fetal_planes_db\Images\Patient01517_Plane1_8_of_20.png,fpdb_1517,Voluson S10,Other,Other,Other
+test,32,Patient01696_Plane6_1_of_3,data\raw\fetal_planes_db\Images\Patient01696_Plane6_1_of_3.png,fpdb_1696,Aloka,Op. 3,Fetal_thorax,Thorax
+test,33,Patient01588_Plane1_1_of_1,data\raw\fetal_planes_db\Images\Patient01588_Plane1_1_of_1.png,fpdb_1588,Voluson E6,Other,Other,Other
+train,28,Patient01100_Plane3_2_of_2,data\raw\fetal_planes_db\Images\Patient01100_Plane3_2_of_2.png,fpdb_1100,Other,Other,Brain_Trans_cerebellum,Head
+test,34,Patient00652_Plane3_1_of_1,data\raw\fetal_planes_db\Images\Patient00652_Plane3_1_of_1.png,fpdb_652,Other,Other,Brain_Trans_ventricular,Head
+test,35,Patient01259_Plane2_1_of_1,data\raw\fetal_planes_db\Images\Patient01259_Plane2_1_of_1.png,fpdb_1259,Aloka,Op. 3,Fetal_abdomen,Abdomen
+test,36,Patient01535_Plane5_1_of_1,data\raw\fetal_planes_db\Images\Patient01535_Plane5_1_of_1.png,fpdb_1535,Voluson S10,Other,Fetal_femur,Femur
+test,37,Patient01751_Plane1_1_of_1,data\raw\fetal_planes_db\Images\Patient01751_Plane1_1_of_1.png,fpdb_1751,Aloka,Op. 3,Other,Other
+test,38,Patient01294_Plane2_1_of_1,data\raw\fetal_planes_db\Images\Patient01294_Plane2_1_of_1.png,fpdb_1294,Voluson E6,Op. 1,Fetal_abdomen,Abdomen
+train,29,Patient00702_Plane3_1_of_1,data\raw\fetal_planes_db\Images\Patient00702_Plane3_1_of_1.png,fpdb_702,Other,Other,Brain_Trans_ventricular,Head
+test,39,Patient01718_Plane5_1_of_1,data\raw\fetal_planes_db\Images\Patient01718_Plane5_1_of_1.png,fpdb_1718,Voluson S10,Other,Fetal_femur,Femur
+train,30,Patient00860_Plane3_2_of_3,data\raw\fetal_planes_db\Images\Patient00860_Plane3_2_of_3.png,fpdb_860,Voluson E6,Op. 2,Brain_Trans_thalamic,Head
+train,31,Patient00305_Plane3_3_of_5,data\raw\fetal_planes_db\Images\Patient00305_Plane3_3_of_5.png,fpdb_305,Voluson S10,Other,Brain_Trans_thalamic,Head
+test,40,Patient01473_Plane2_1_of_1,data\raw\fetal_planes_db\Images\Patient01473_Plane2_1_of_1.png,fpdb_1473,Voluson S10,Other,Fetal_abdomen,Abdomen
+train,32,Patient00794_Plane5_1_of_1,data\raw\fetal_planes_db\Images\Patient00794_Plane5_1_of_1.png,fpdb_794,Aloka,Op. 3,Fetal_femur,Femur
+train,33,Patient00822_Plane4_2_of_3,data\raw\fetal_planes_db\Images\Patient00822_Plane4_2_of_3.png,fpdb_822,Voluson E6,Op. 1,Maternal_cervix,Cervix
+train,34,Patient00750_Plane2_1_of_1,data\raw\fetal_planes_db\Images\Patient00750_Plane2_1_of_1.png,fpdb_750,Aloka,Op. 3,Fetal_abdomen,Abdomen
+train,35,Patient00264_Plane4_1_of_1,data\raw\fetal_planes_db\Images\Patient00264_Plane4_1_of_1.png,fpdb_264,Aloka,Other,Maternal_cervix,Cervix
+train,36,Patient01100_Plane6_1_of_1,data\raw\fetal_planes_db\Images\Patient01100_Plane6_1_of_1.png,fpdb_1100,Other,Other,Fetal_thorax,Thorax
+test,41,Patient01726_Plane2_1_of_1,data\raw\fetal_planes_db\Images\Patient01726_Plane2_1_of_1.png,fpdb_1726,Voluson S10,Other,Fetal_abdomen,Abdomen
+test,42,Patient01684_Plane5_1_of_1,data\raw\fetal_planes_db\Images\Patient01684_Plane5_1_of_1.png,fpdb_1684,Voluson E6,Op. 2,Fetal_femur,Femur
+train,37,Patient01085_Plane3_2_of_3,data\raw\fetal_planes_db\Images\Patient01085_Plane3_2_of_3.png,fpdb_1085,Voluson E6,Op. 2,Brain_Trans_thalamic,Head
+test,43,Patient01356_Plane6_4_of_4,data\raw\fetal_planes_db\Images\Patient01356_Plane6_4_of_4.png,fpdb_1356,Voluson E6,Op. 2,Fetal_thorax,Thorax
+train,38,Patient00813_Plane6_4_of_4,data\raw\fetal_planes_db\Images\Patient00813_Plane6_4_of_4.png,fpdb_813,Aloka,Op. 3,Fetal_thorax,Thorax
+test,44,Patient00630_Plane1_1_of_1,data\raw\fetal_planes_db\Images\Patient00630_Plane1_1_of_1.png,fpdb_630,Other,Other,Other,Other
+test,45,Patient01555_Plane4_4_of_4,data\raw\fetal_planes_db\Images\Patient01555_Plane4_4_of_4.png,fpdb_1555,Voluson E6,Op. 1,Maternal_cervix,Cervix
+train,39,Patient00904_Plane2_1_of_1,data\raw\fetal_planes_db\Images\Patient00904_Plane2_1_of_1.png,fpdb_904,Voluson E6,Op. 2,Fetal_abdomen,Abdomen
+train,40,Patient00949_Plane3_1_of_2,data\raw\fetal_planes_db\Images\Patient00949_Plane3_1_of_2.png,fpdb_949,Voluson E6,Op. 2,Brain_Trans_thalamic,Head
+test,46,Patient01545_Plane2_1_of_2,data\raw\fetal_planes_db\Images\Patient01545_Plane2_1_of_2.png,fpdb_1545,Aloka,Op. 3,Fetal_abdomen,Abdomen
+train,41,Patient00262_Plane4_1_of_1,data\raw\fetal_planes_db\Images\Patient00262_Plane4_1_of_1.png,fpdb_262,Aloka,Other,Maternal_cervix,Cervix
+test,47,Patient01290_Plane3_1_of_1,data\raw\fetal_planes_db\Images\Patient01290_Plane3_1_of_1.png,fpdb_1290,Aloka,Op. 3,Brain_Trans_thalamic,Head
+test,48,Patient00406_Plane4_1_of_1,data\raw\fetal_planes_db\Images\Patient00406_Plane4_1_of_1.png,fpdb_406,Aloka,Other,Maternal_cervix,Cervix
+test,49,Patient01712_Plane2_1_of_2,data\raw\fetal_planes_db\Images\Patient01712_Plane2_1_of_2.png,fpdb_1712,Voluson S10,Other,Fetal_abdomen,Abdomen
+train,42,Patient00771_Plane2_1_of_1,data\raw\fetal_planes_db\Images\Patient00771_Plane2_1_of_1.png,fpdb_771,Aloka,Op. 3,Fetal_abdomen,Abdomen
+train,43,Patient00710_Plane3_1_of_6,data\raw\fetal_planes_db\Images\Patient00710_Plane3_1_of_6.png,fpdb_710,Other,Other,Brain_Trans_thalamic,Head
+train,44,Patient00988_Plane6_1_of_1,data\raw\fetal_planes_db\Images\Patient00988_Plane6_1_of_1.png,fpdb_988,Aloka,Op. 3,Fetal_thorax,Thorax
+test,50,Patient01779_Plane1_1_of_1,data\raw\fetal_planes_db\Images\Patient01779_Plane1_1_of_1.png,fpdb_1779,Voluson S10,Other,Other,Other
+test,51,Patient00647_Plane5_1_of_1,data\raw\fetal_planes_db\Images\Patient00647_Plane5_1_of_1.png,fpdb_647,Other,Other,Fetal_femur,Femur
+train,45,Patient00305_Plane2_1_of_2,data\raw\fetal_planes_db\Images\Patient00305_Plane2_1_of_2.png,fpdb_305,Voluson S10,Other,Fetal_abdomen,Abdomen
+test,52,Patient01662_Plane4_4_of_8,data\raw\fetal_planes_db\Images\Patient01662_Plane4_4_of_8.png,fpdb_1662,Voluson E6,Op. 2,Maternal_cervix,Cervix
+test,53,Patient01287_Plane6_1_of_1,data\raw\fetal_planes_db\Images\Patient01287_Plane6_1_of_1.png,fpdb_1287,Aloka,Op. 3,Fetal_thorax,Thorax
+test,54,Patient01437_Plane3_1_of_1,data\raw\fetal_planes_db\Images\Patient01437_Plane3_1_of_1.png,fpdb_1437,Voluson S10,Other,Brain_Trans_thalamic,Head
+train,46,Patient00101_Plane4_2_of_2,data\raw\fetal_planes_db\Images\Patient00101_Plane4_2_of_2.png,fpdb_101,Other,Other,Maternal_cervix,Cervix
+train,47,Patient00663_Plane3_1_of_1,data\raw\fetal_planes_db\Images\Patient00663_Plane3_1_of_1.png,fpdb_663,Other,Other,Other,Other
+train,48,Patient00008_Plane1_7_of_31,data\raw\fetal_planes_db\Images\Patient00008_Plane1_7_of_31.png,fpdb_8,Aloka,Other,Other,Other
+train,49,Patient00698_Plane2_1_of_1,data\raw\fetal_planes_db\Images\Patient00698_Plane2_1_of_1.png,fpdb_698,Other,Other,Fetal_abdomen,Abdomen
+train,50,Patient00667_Plane3_1_of_1,data\raw\fetal_planes_db\Images\Patient00667_Plane3_1_of_1.png,fpdb_667,Other,Other,Other,Other
+train,51,Patient01226_Plane6_1_of_1,data\raw\fetal_planes_db\Images\Patient01226_Plane6_1_of_1.png,fpdb_1226,Voluson E6,Op. 1,Fetal_thorax,Thorax
+train,52,Patient00891_Plane3_3_of_3,data\raw\fetal_planes_db\Images\Patient00891_Plane3_3_of_3.png,fpdb_891,Aloka,Op. 3,Brain_Trans_cerebellum,Head
+test,55,Patient01678_Plane2_2_of_2,data\raw\fetal_planes_db\Images\Patient01678_Plane2_2_of_2.png,fpdb_1678,Voluson E6,Other,Fetal_abdomen,Abdomen
+train,53,Patient01052_Plane4_1_of_1,data\raw\fetal_planes_db\Images\Patient01052_Plane4_1_of_1.png,fpdb_1052,Voluson E6,Op. 1,Maternal_cervix,Cervix
+train,54,Patient00229_Plane4_1_of_1,data\raw\fetal_planes_db\Images\Patient00229_Plane4_1_of_1.png,fpdb_229,Aloka,Other,Maternal_cervix,Cervix
+test,56,Patient00655_Plane3_1_of_1,data\raw\fetal_planes_db\Images\Patient00655_Plane3_1_of_1.png,fpdb_655,Other,Other,Brain_Trans_thalamic,Head
+test,57,Patient01688_Plane1_1_of_1,data\raw\fetal_planes_db\Images\Patient01688_Plane1_1_of_1.png,fpdb_1688,Voluson E6,Op. 2,Other,Other
+train,55,Patient01018_Plane4_1_of_1,data\raw\fetal_planes_db\Images\Patient01018_Plane4_1_of_1.png,fpdb_1018,Other,Other,Maternal_cervix,Cervix
+train,56,Patient01226_Plane3_1_of_1,data\raw\fetal_planes_db\Images\Patient01226_Plane3_1_of_1.png,fpdb_1226,Voluson E6,Op. 1,Brain_Trans_thalamic,Head
+train,57,Patient00790_Plane3_1_of_5,data\raw\fetal_planes_db\Images\Patient00790_Plane3_1_of_5.png,fpdb_790,Voluson E6,Op. 1,Brain_Trans_cerebellum,Head
+test,58,Patient01698_Plane4_1_of_2,data\raw\fetal_planes_db\Images\Patient01698_Plane4_1_of_2.png,fpdb_1698,Voluson S10,Other,Maternal_cervix,Cervix
+train,58,Patient01187_Plane3_3_of_3,data\raw\fetal_planes_db\Images\Patient01187_Plane3_3_of_3.png,fpdb_1187,Aloka,Op. 3,Brain_Trans_thalamic,Head
+train,59,Patient00781_Plane1_1_of_1,data\raw\fetal_planes_db\Images\Patient00781_Plane1_1_of_1.png,fpdb_781,Voluson E6,Op. 1,Other,Other
+train,60,Patient01145_Plane3_1_of_1,data\raw\fetal_planes_db\Images\Patient01145_Plane3_1_of_1.png,fpdb_1145,Voluson E6,Op. 1,Brain_Trans_cerebellum,Head
+test,59,Patient00644_Plane4_2_of_5,data\raw\fetal_planes_db\Images\Patient00644_Plane4_2_of_5.png,fpdb_644,Voluson E6,Other,Maternal_cervix,Cervix
+test,60,Patient01624_Plane3_2_of_2,data\raw\fetal_planes_db\Images\Patient01624_Plane3_2_of_2.png,fpdb_1624,Voluson E6,Other,Brain_Trans_cerebellum,Head
+train,61,Patient00954_Plane6_1_of_1,data\raw\fetal_planes_db\Images\Patient00954_Plane6_1_of_1.png,fpdb_954,Aloka,Op. 3,Fetal_thorax,Thorax
+train,62,Patient00318_Plane4_1_of_1,data\raw\fetal_planes_db\Images\Patient00318_Plane4_1_of_1.png,fpdb_318,Aloka,Other,Maternal_cervix,Cervix
+test,61,Patient01281_Plane6_1_of_2,data\raw\fetal_planes_db\Images\Patient01281_Plane6_1_of_2.png,fpdb_1281,Voluson E6,Op. 2,Fetal_thorax,Thorax
+test,62,Patient00659_Plane5_1_of_1,data\raw\fetal_planes_db\Images\Patient00659_Plane5_1_of_1.png,fpdb_659,Other,Other,Fetal_femur,Femur
+test,63,Patient01769_Plane1_1_of_1,data\raw\fetal_planes_db\Images\Patient01769_Plane1_1_of_1.png,fpdb_1769,Aloka,Op. 3,Other,Other
+test,64,Patient01599_Plane6_1_of_1,data\raw\fetal_planes_db\Images\Patient01599_Plane6_1_of_1.png,fpdb_1599,Voluson E6,Op. 1,Fetal_thorax,Thorax
+train,63,Patient01087_Plane4_3_of_3,data\raw\fetal_planes_db\Images\Patient01087_Plane4_3_of_3.png,fpdb_1087,Voluson E6,Op. 1,Maternal_cervix,Cervix
+test,65,Patient00651_Plane3_1_of_1,data\raw\fetal_planes_db\Images\Patient00651_Plane3_1_of_1.png,fpdb_651,Other,Other,Brain_Trans_thalamic,Head
+test,66,Patient01639_Plane6_1_of_1,data\raw\fetal_planes_db\Images\Patient01639_Plane6_1_of_1.png,fpdb_1639,Voluson E6,Op. 1,Fetal_thorax,Thorax
+train,64,Patient00816_Plane6_1_of_1,data\raw\fetal_planes_db\Images\Patient00816_Plane6_1_of_1.png,fpdb_816,Other,Other,Fetal_thorax,Thorax
+train,65,Patient00874_Plane3_1_of_2,data\raw\fetal_planes_db\Images\Patient00874_Plane3_1_of_2.png,fpdb_874,Aloka,Op. 3,Brain_Trans_thalamic,Head
+train,66,Patient00836_Plane2_1_of_1,data\raw\fetal_planes_db\Images\Patient00836_Plane2_1_of_1.png,fpdb_836,Aloka,Op. 3,Fetal_abdomen,Abdomen
+test,67,Patient01410_Plane1_1_of_1,data\raw\fetal_planes_db\Images\Patient01410_Plane1_1_of_1.png,fpdb_1410,Voluson S10,Other,Other,Other
+train,67,Patient01171_Plane6_2_of_2,data\raw\fetal_planes_db\Images\Patient01171_Plane6_2_of_2.png,fpdb_1171,Aloka,Op. 3,Fetal_thorax,Thorax
+train,68,Patient00673_Plane3_1_of_1,data\raw\fetal_planes_db\Images\Patient00673_Plane3_1_of_1.png,fpdb_673,Other,Other,Brain_Trans_thalamic,Head
+test,68,Patient01346_Plane3_2_of_3,data\raw\fetal_planes_db\Images\Patient01346_Plane3_2_of_3.png,fpdb_1346,Aloka,Op. 3,Brain_Trans_thalamic,Head
+test,69,Patient00647_Plane2_1_of_1,data\raw\fetal_planes_db\Images\Patient00647_Plane2_1_of_1.png,fpdb_647,Other,Other,Fetal_abdomen,Abdomen
+test,70,Patient01490_Plane3_1_of_2,data\raw\fetal_planes_db\Images\Patient01490_Plane3_1_of_2.png,fpdb_1490,Voluson E6,Op. 2,Brain_Trans_thalamic,Head
+test,71,Patient00499_Plane4_1_of_1,data\raw\fetal_planes_db\Images\Patient00499_Plane4_1_of_1.png,fpdb_499,Aloka,Other,Maternal_cervix,Cervix
+test,72,Patient01227_Plane3_3_of_4,data\raw\fetal_planes_db\Images\Patient01227_Plane3_3_of_4.png,fpdb_1227,Voluson E6,Op. 1,Brain_Trans_thalamic,Head
+train,69,Patient00698_Plane6_1_of_1,data\raw\fetal_planes_db\Images\Patient00698_Plane6_1_of_1.png,fpdb_698,Other,Other,Fetal_thorax,Thorax
+test,73,Patient01409_Plane6_1_of_2,data\raw\fetal_planes_db\Images\Patient01409_Plane6_1_of_2.png,fpdb_1409,Voluson S10,Other,Fetal_thorax,Thorax
+train,70,Patient00759_Plane5_1_of_1,data\raw\fetal_planes_db\Images\Patient00759_Plane5_1_of_1.png,fpdb_759,Voluson E6,Op. 1,Fetal_femur,Femur
+test,74,Patient01493_Plane3_4_of_5,data\raw\fetal_planes_db\Images\Patient01493_Plane3_4_of_5.png,fpdb_1493,Voluson E6,Op. 2,Brain_Trans_thalamic,Head
+test,75,Patient01275_Plane2_2_of_2,data\raw\fetal_planes_db\Images\Patient01275_Plane2_2_of_2.png,fpdb_1275,Voluson S10,Other,Fetal_abdomen,Abdomen
+test,76,Patient01580_Plane4_4_of_4,data\raw\fetal_planes_db\Images\Patient01580_Plane4_4_of_4.png,fpdb_1580,Voluson E6,Op. 1,Maternal_cervix,Cervix
+test,77,Patient01304_Plane6_2_of_3,data\raw\fetal_planes_db\Images\Patient01304_Plane6_2_of_3.png,fpdb_1304,Voluson E6,Op. 2,Fetal_thorax,Thorax
+train,71,Patient00753_Plane5_1_of_2,data\raw\fetal_planes_db\Images\Patient00753_Plane5_1_of_2.png,fpdb_753,Aloka,Op. 3,Fetal_femur,Femur
+test,78,Patient01289_Plane5_1_of_1,data\raw\fetal_planes_db\Images\Patient01289_Plane5_1_of_1.png,fpdb_1289,Aloka,Op. 3,Fetal_femur,Femur
+test,79,Patient01308_Plane3_3_of_3,data\raw\fetal_planes_db\Images\Patient01308_Plane3_3_of_3.png,fpdb_1308,Aloka,Op. 3,Brain_Trans_ventricular,Head
+test,80,Patient01570_Plane2_1_of_1,data\raw\fetal_planes_db\Images\Patient01570_Plane2_1_of_1.png,fpdb_1570,Aloka,Op. 3,Fetal_abdomen,Abdomen
+test,81,Patient00619_Plane4_2_of_2,data\raw\fetal_planes_db\Images\Patient00619_Plane4_2_of_2.png,fpdb_619,Voluson E6,Op. 1,Maternal_cervix,Cervix
+test,82,Patient01691_Plane2_1_of_1,data\raw\fetal_planes_db\Images\Patient01691_Plane2_1_of_1.png,fpdb_1691,Voluson S10,Other,Fetal_abdomen,Abdomen
+train,72,Patient00779_Plane4_2_of_4,data\raw\fetal_planes_db\Images\Patient00779_Plane4_2_of_4.png,fpdb_779,Voluson E6,Op. 1,Maternal_cervix,Cervix
+train,73,Patient00680_Plane2_1_of_1,data\raw\fetal_planes_db\Images\Patient00680_Plane2_1_of_1.png,fpdb_680,Other,Other,Fetal_abdomen,Abdomen
+test,83,Patient01636_Plane3_1_of_2,data\raw\fetal_planes_db\Images\Patient01636_Plane3_1_of_2.png,fpdb_1636,Voluson E6,Op. 2,Brain_Trans_ventricular,Head
+test,84,Patient01381_Plane1_1_of_1,data\raw\fetal_planes_db\Images\Patient01381_Plane1_1_of_1.png,fpdb_1381,Voluson E6,Op. 2,Other,Other
+test,85,Patient00630_Plane3_1_of_1,data\raw\fetal_planes_db\Images\Patient00630_Plane3_1_of_1.png,fpdb_630,Other,Other,Brain_Trans_ventricular,Head
+train,74,Patient00001_Plane1_3_of_15,data\raw\fetal_planes_db\Images\Patient00001_Plane1_3_of_15.png,fpdb_1,Aloka,Other,Other,Other
+test,86,Patient01273_Plane1_1_of_1,data\raw\fetal_planes_db\Images\Patient01273_Plane1_1_of_1.png,fpdb_1273,Aloka,Op. 3,Other,Other
+train,75,Patient00962_Plane2_1_of_1,data\raw\fetal_planes_db\Images\Patient00962_Plane2_1_of_1.png,fpdb_962,Other,Other,Fetal_abdomen,Abdomen
+test,87,Patient01710_Plane4_1_of_1,data\raw\fetal_planes_db\Images\Patient01710_Plane4_1_of_1.png,fpdb_1710,Voluson S10,Other,Maternal_cervix,Cervix
+train,76,Patient00305_Plane3_1_of_5,data\raw\fetal_planes_db\Images\Patient00305_Plane3_1_of_5.png,fpdb_305,Voluson S10,Other,Brain_Trans_ventricular,Head
+test,88,Patient01291_Plane3_2_of_2,data\raw\fetal_planes_db\Images\Patient01291_Plane3_2_of_2.png,fpdb_1291,Voluson E6,Op. 2,Brain_Trans_cerebellum,Head
+train,77,Patient00907_Plane4_4_of_4,data\raw\fetal_planes_db\Images\Patient00907_Plane4_4_of_4.png,fpdb_907,Aloka,Op. 3,Maternal_cervix,Cervix
+test,89,Patient01549_Plane2_1_of_1,data\raw\fetal_planes_db\Images\Patient01549_Plane2_1_of_1.png,fpdb_1549,Aloka,Op. 3,Fetal_abdomen,Abdomen
+train,78,Patient00742_Plane5_1_of_1,data\raw\fetal_planes_db\Images\Patient00742_Plane5_1_of_1.png,fpdb_742,Aloka,Op. 3,Fetal_femur,Femur
+test,90,Patient01328_Plane6_3_of_3,data\raw\fetal_planes_db\Images\Patient01328_Plane6_3_of_3.png,fpdb_1328,Aloka,Op. 3,Fetal_thorax,Thorax
+test,91,Patient01295_Plane6_6_of_8,data\raw\fetal_planes_db\Images\Patient01295_Plane6_6_of_8.png,fpdb_1295,Voluson E6,Op. 2,Fetal_thorax,Thorax
+test,92,Patient01228_Plane3_2_of_2,data\raw\fetal_planes_db\Images\Patient01228_Plane3_2_of_2.png,fpdb_1228,Voluson E6,Op. 1,Brain_Trans_thalamic,Head
+test,93,Patient00367_Plane4_1_of_1,data\raw\fetal_planes_db\Images\Patient00367_Plane4_1_of_1.png,fpdb_367,Aloka,Other,Maternal_cervix,Cervix
+train,79,Patient00797_Plane1_5_of_8,data\raw\fetal_planes_db\Images\Patient00797_Plane1_5_of_8.png,fpdb_797,Aloka,Op. 3,Other,Other
+train,80,Patient00873_Plane2_1_of_1,data\raw\fetal_planes_db\Images\Patient00873_Plane2_1_of_1.png,fpdb_873,Aloka,Op. 3,Fetal_abdomen,Abdomen
+test,94,Patient01762_Plane5_1_of_1,data\raw\fetal_planes_db\Images\Patient01762_Plane5_1_of_1.png,fpdb_1762,Voluson S10,Other,Fetal_femur,Femur
+test,95,Patient01327_Plane6_1_of_1,data\raw\fetal_planes_db\Images\Patient01327_Plane6_1_of_1.png,fpdb_1327,Aloka,Op. 3,Fetal_thorax,Thorax
+train,81,Patient00305_Plane5_1_of_1,data\raw\fetal_planes_db\Images\Patient00305_Plane5_1_of_1.png,fpdb_305,Voluson S10,Other,Fetal_femur,Femur
+train,82,Patient00764_Plane5_1_of_1,data\raw\fetal_planes_db\Images\Patient00764_Plane5_1_of_1.png,fpdb_764,Voluson E6,Op. 2,Fetal_femur,Femur
+test,96,Patient01306_Plane3_3_of_4,data\raw\fetal_planes_db\Images\Patient01306_Plane3_3_of_4.png,fpdb_1306,Voluson S10,Other,Brain_Trans_ventricular,Head
+test,97,Patient01644_Plane4_4_of_5,data\raw\fetal_planes_db\Images\Patient01644_Plane4_4_of_5.png,fpdb_1644,Voluson E6,Op. 1,Maternal_cervix,Cervix
+test,98,Patient01251_Plane5_1_of_1,data\raw\fetal_planes_db\Images\Patient01251_Plane5_1_of_1.png,fpdb_1251,Aloka,Op. 3,Fetal_femur,Femur
+train,83,Patient00724_Plane6_1_of_2,data\raw\fetal_planes_db\Images\Patient00724_Plane6_1_of_2.png,fpdb_724,Other,Other,Fetal_thorax,Thorax
+test,99,Patient00649_Plane2_1_of_1,data\raw\fetal_planes_db\Images\Patient00649_Plane2_1_of_1.png,fpdb_649,Other,Other,Fetal_abdomen,Abdomen
+test,100,Patient01533_Plane3_4_of_4,data\raw\fetal_planes_db\Images\Patient01533_Plane3_4_of_4.png,fpdb_1533,Voluson E6,Other,Brain_Trans_thalamic,Head
+test,101,Patient01741_Plane2_1_of_1,data\raw\fetal_planes_db\Images\Patient01741_Plane2_1_of_1.png,fpdb_1741,Aloka,Op. 3,Fetal_abdomen,Abdomen
+test,102,Patient01618_Plane1_1_of_1,data\raw\fetal_planes_db\Images\Patient01618_Plane1_1_of_1.png,fpdb_1618,Voluson E6,Op. 2,Other,Other
+test,103,Patient01606_Plane3_2_of_5,data\raw\fetal_planes_db\Images\Patient01606_Plane3_2_of_5.png,fpdb_1606,Aloka,Op. 3,Brain_Trans_ventricular,Head
+train,84,Patient00981_Plane3_2_of_3,data\raw\fetal_planes_db\Images\Patient00981_Plane3_2_of_3.png,fpdb_981,Voluson E6,Op. 2,Brain_Trans_ventricular,Head
+train,85,Patient00107_Plane4_1_of_2,data\raw\fetal_planes_db\Images\Patient00107_Plane4_1_of_2.png,fpdb_107,Other,Other,Maternal_cervix,Cervix
+test,104,Patient01441_Plane5_1_of_1,data\raw\fetal_planes_db\Images\Patient01441_Plane5_1_of_1.png,fpdb_1441,Voluson S10,Other,Fetal_femur,Femur
+train,86,Patient00789_Plane5_2_of_2,data\raw\fetal_planes_db\Images\Patient00789_Plane5_2_of_2.png,fpdb_789,Aloka,Op. 3,Fetal_femur,Femur
+test,105,Patient00643_Plane5_1_of_1,data\raw\fetal_planes_db\Images\Patient00643_Plane5_1_of_1.png,fpdb_643,Other,Other,Fetal_femur,Femur
+test,106,Patient00659_Plane3_1_of_1,data\raw\fetal_planes_db\Images\Patient00659_Plane3_1_of_1.png,fpdb_659,Other,Other,Brain_Trans_thalamic,Head
+train,87,Patient01022_Plane6_1_of_1,data\raw\fetal_planes_db\Images\Patient01022_Plane6_1_of_1.png,fpdb_1022,Voluson E6,Op. 1,Fetal_thorax,Thorax
+test,107,Patient01426_Plane6_1_of_1,data\raw\fetal_planes_db\Images\Patient01426_Plane6_1_of_1.png,fpdb_1426,Aloka,Op. 3,Fetal_thorax,Thorax
+train,88,Patient00982_Plane1_1_of_1,data\raw\fetal_planes_db\Images\Patient00982_Plane1_1_of_1.png,fpdb_982,Voluson E6,Op. 1,Other,Other
+test,108,Patient00480_Plane4_1_of_1,data\raw\fetal_planes_db\Images\Patient00480_Plane4_1_of_1.png,fpdb_480,Aloka,Other,Maternal_cervix,Cervix
+test,109,Patient01421_Plane3_1_of_2,data\raw\fetal_planes_db\Images\Patient01421_Plane3_1_of_2.png,fpdb_1421,Voluson E6,Op. 1,Brain_Trans_ventricular,Head
+train,89,Patient00859_Plane1_1_of_1,data\raw\fetal_planes_db\Images\Patient00859_Plane1_1_of_1.png,fpdb_859,Voluson E6,Op. 2,Other,Other
+train,90,Patient00742_Plane3_1_of_4,data\raw\fetal_planes_db\Images\Patient00742_Plane3_1_of_4.png,fpdb_742,Aloka,Op. 3,Brain_Trans_thalamic,Head
+test,110,Patient01319_Plane1_1_of_1,data\raw\fetal_planes_db\Images\Patient01319_Plane1_1_of_1.png,fpdb_1319,Voluson E6,Op. 1,Other,Other
+test,111,Patient00514_Plane4_1_of_1,data\raw\fetal_planes_db\Images\Patient00514_Plane4_1_of_1.png,fpdb_514,Aloka,Other,Maternal_cervix,Cervix
+train,91,Patient00784_Plane6_1_of_3,data\raw\fetal_planes_db\Images\Patient00784_Plane6_1_of_3.png,fpdb_784,Voluson E6,Op. 1,Fetal_thorax,Thorax
+train,92,Patient00021_Plane1_3_of_22,data\raw\fetal_planes_db\Images\Patient00021_Plane1_3_of_22.png,fpdb_21,Aloka,Other,Other,Other
+train,93,Patient00305_Plane3_4_of_5,data\raw\fetal_planes_db\Images\Patient00305_Plane3_4_of_5.png,fpdb_305,Voluson S10,Other,Brain_Trans_cerebellum,Head
+train,94,Patient01195_Plane4_2_of_4,data\raw\fetal_planes_db\Images\Patient01195_Plane4_2_of_4.png,fpdb_1195,Voluson E6,Op. 1,Maternal_cervix,Cervix
+train,95,Patient00059_Plane4_1_of_1,data\raw\fetal_planes_db\Images\Patient00059_Plane4_1_of_1.png,fpdb_59,Aloka,Other,Maternal_cervix,Cervix
+train,96,Patient00953_Plane6_1_of_1,data\raw\fetal_planes_db\Images\Patient00953_Plane6_1_of_1.png,fpdb_953,Aloka,Op. 3,Fetal_thorax,Thorax
+train,97,Patient01083_Plane6_1_of_1,data\raw\fetal_planes_db\Images\Patient01083_Plane6_1_of_1.png,fpdb_1083,Voluson E6,Op. 2,Fetal_thorax,Thorax
+test,112,Patient01559_Plane4_3_of_3,data\raw\fetal_planes_db\Images\Patient01559_Plane4_3_of_3.png,fpdb_1559,Voluson E6,Op. 1,Maternal_cervix,Cervix
+test,113,Patient01663_Plane5_1_of_2,data\raw\fetal_planes_db\Images\Patient01663_Plane5_1_of_2.png,fpdb_1663,Voluson E6,Op. 2,Fetal_femur,Femur
+train,98,Patient00695_Plane5_1_of_1,data\raw\fetal_planes_db\Images\Patient00695_Plane5_1_of_1.png,fpdb_695,Voluson E6,Op. 1,Fetal_femur,Femur
+train,99,Patient01220_Plane1_10_of_10,data\raw\fetal_planes_db\Images\Patient01220_Plane1_10_of_10.png,fpdb_1220,Aloka,Op. 3,Other,Other
+train,100,Patient00305_Plane6_2_of_3,data\raw\fetal_planes_db\Images\Patient00305_Plane6_2_of_3.png,fpdb_305,Voluson S10,Other,Fetal_thorax,Thorax
+train,101,Patient01000_Plane1_1_of_1,data\raw\fetal_planes_db\Images\Patient01000_Plane1_1_of_1.png,fpdb_1000,Voluson E6,Op. 2,Other,Other
+train,102,Patient00053_Plane4_1_of_1,data\raw\fetal_planes_db\Images\Patient00053_Plane4_1_of_1.png,fpdb_53,Other,Other,Maternal_cervix,Cervix
+train,103,Patient01063_Plane1_1_of_1,data\raw\fetal_planes_db\Images\Patient01063_Plane1_1_of_1.png,fpdb_1063,Voluson E6,Op. 1,Other,Other
+train,104,Patient01105_Plane4_1_of_2,data\raw\fetal_planes_db\Images\Patient01105_Plane4_1_of_2.png,fpdb_1105,Voluson E6,Op. 1,Maternal_cervix,Cervix
+test,114,Patient01741_Plane5_1_of_1,data\raw\fetal_planes_db\Images\Patient01741_Plane5_1_of_1.png,fpdb_1741,Aloka,Op. 3,Fetal_femur,Femur
+test,115,Patient01539_Plane3_5_of_5,data\raw\fetal_planes_db\Images\Patient01539_Plane3_5_of_5.png,fpdb_1539,Voluson S10,Other,Brain_Trans_thalamic,Head
+test,116,Patient01785_Plane5_1_of_1,data\raw\fetal_planes_db\Images\Patient01785_Plane5_1_of_1.png,fpdb_1785,Voluson S10,Other,Fetal_femur,Femur
+train,105,Patient01054_Plane6_2_of_2,data\raw\fetal_planes_db\Images\Patient01054_Plane6_2_of_2.png,fpdb_1054,Voluson E6,Op. 2,Fetal_thorax,Thorax
+train,106,Patient00305_Plane6_1_of_3,data\raw\fetal_planes_db\Images\Patient00305_Plane6_1_of_3.png,fpdb_305,Voluson S10,Other,Fetal_thorax,Thorax
+test,117,Patient00611_Plane4_1_of_1,data\raw\fetal_planes_db\Images\Patient00611_Plane4_1_of_1.png,fpdb_611,Other,Other,Maternal_cervix,Cervix
+test,118,Patient01289_Plane1_5_of_9,data\raw\fetal_planes_db\Images\Patient01289_Plane1_5_of_9.png,fpdb_1289,Aloka,Op. 3,Other,Other
+train,107,Patient01076_Plane3_2_of_2,data\raw\fetal_planes_db\Images\Patient01076_Plane3_2_of_2.png,fpdb_1076,Voluson E6,Op. 2,Brain_Trans_cerebellum,Head
+train,108,Patient00060_Plane4_1_of_1,data\raw\fetal_planes_db\Images\Patient00060_Plane4_1_of_1.png,fpdb_60,Other,Other,Maternal_cervix,Cervix
+train,109,Patient00746_Plane6_9_of_11,data\raw\fetal_planes_db\Images\Patient00746_Plane6_9_of_11.png,fpdb_746,Voluson E6,Op. 2,Fetal_thorax,Thorax
+test,119,Patient01633_Plane1_9_of_13,data\raw\fetal_planes_db\Images\Patient01633_Plane1_9_of_13.png,fpdb_1633,Aloka,Op. 3,Other,Other
+test,120,Patient01737_Plane6_1_of_1,data\raw\fetal_planes_db\Images\Patient01737_Plane6_1_of_1.png,fpdb_1737,Voluson E6,Op. 1,Fetal_thorax,Thorax
+test,121,Patient01306_Plane4_1_of_1,data\raw\fetal_planes_db\Images\Patient01306_Plane4_1_of_1.png,fpdb_1306,Voluson S10,Other,Maternal_cervix,Cervix
+train,110,Patient01199_Plane1_10_of_11,data\raw\fetal_planes_db\Images\Patient01199_Plane1_10_of_11.png,fpdb_1199,Aloka,Op. 3,Other,Other
+train,111,Patient00770_Plane1_2_of_2,data\raw\fetal_planes_db\Images\Patient00770_Plane1_2_of_2.png,fpdb_770,Aloka,Op. 3,Other,Other
+train,112,Patient00759_Plane3_2_of_4,data\raw\fetal_planes_db\Images\Patient00759_Plane3_2_of_4.png,fpdb_759,Voluson E6,Op. 1,Other,Other
+train,113,Patient00761_Plane3_1_of_3,data\raw\fetal_planes_db\Images\Patient00761_Plane3_1_of_3.png,fpdb_761,Voluson E6,Op. 2,Brain_Trans_thalamic,Head
+train,114,Patient00751_Plane3_2_of_2,data\raw\fetal_planes_db\Images\Patient00751_Plane3_2_of_2.png,fpdb_751,Aloka,Op. 3,Brain_Trans_cerebellum,Head
+train,115,Patient00911_Plane3_2_of_3,data\raw\fetal_planes_db\Images\Patient00911_Plane3_2_of_3.png,fpdb_911,Aloka,Op. 3,Brain_Trans_ventricular,Head
+train,116,Patient00049_Plane4_1_of_1,data\raw\fetal_planes_db\Images\Patient00049_Plane4_1_of_1.png,fpdb_49,Other,Other,Maternal_cervix,Cervix
+train,117,Patient00731_Plane6_4_of_4,data\raw\fetal_planes_db\Images\Patient00731_Plane6_4_of_4.png,fpdb_731,Voluson E6,Op. 2,Fetal_thorax,Thorax
+train,118,Patient00698_Plane3_1_of_3,data\raw\fetal_planes_db\Images\Patient00698_Plane3_1_of_3.png,fpdb_698,Other,Other,Brain_Trans_thalamic,Head
+train,119,Patient00851_Plane5_1_of_1,data\raw\fetal_planes_db\Images\Patient00851_Plane5_1_of_1.png,fpdb_851,Aloka,Op. 3,Fetal_femur,Femur
+train,120,Patient00954_Plane3_2_of_2,data\raw\fetal_planes_db\Images\Patient00954_Plane3_2_of_2.png,fpdb_954,Aloka,Op. 3,Brain_Trans_cerebellum,Head
+test,122,Patient01548_Plane2_1_of_1,data\raw\fetal_planes_db\Images\Patient01548_Plane2_1_of_1.png,fpdb_1548,Aloka,Op. 3,Fetal_abdomen,Abdomen
+test,123,Patient00631_Plane2_1_of_1,data\raw\fetal_planes_db\Images\Patient00631_Plane2_1_of_1.png,fpdb_631,Other,Other,Fetal_abdomen,Abdomen
+test,124,Patient00640_Plane2_1_of_1,data\raw\fetal_planes_db\Images\Patient00640_Plane2_1_of_1.png,fpdb_640,Other,Other,Fetal_abdomen,Abdomen
+test,125,Patient01616_Plane5_1_of_1,data\raw\fetal_planes_db\Images\Patient01616_Plane5_1_of_1.png,fpdb_1616,Voluson E6,Other,Fetal_femur,Femur
+test,126,Patient01634_Plane2_2_of_2,data\raw\fetal_planes_db\Images\Patient01634_Plane2_2_of_2.png,fpdb_1634,Voluson E6,Other,Fetal_abdomen,Abdomen
+test,127,Patient01570_Plane3_2_of_3,data\raw\fetal_planes_db\Images\Patient01570_Plane3_2_of_3.png,fpdb_1570,Aloka,Op. 3,Brain_Trans_ventricular,Head
+train,121,Patient00681_Plane3_1_of_1,data\raw\fetal_planes_db\Images\Patient00681_Plane3_1_of_1.png,fpdb_681,Other,Other,Brain_Trans_thalamic,Head
+test,128,Patient01697_Plane5_1_of_1,data\raw\fetal_planes_db\Images\Patient01697_Plane5_1_of_1.png,fpdb_1697,Aloka,Op. 3,Fetal_femur,Femur
+test,129,Patient01314_Plane6_1_of_2,data\raw\fetal_planes_db\Images\Patient01314_Plane6_1_of_2.png,fpdb_1314,Voluson E6,Op. 1,Fetal_thorax,Thorax
+train,122,Patient00710_Plane6_1_of_1,data\raw\fetal_planes_db\Images\Patient00710_Plane6_1_of_1.png,fpdb_710,Other,Other,Fetal_thorax,Thorax
+test,130,Patient00660_Plane3_1_of_1,data\raw\fetal_planes_db\Images\Patient00660_Plane3_1_of_1.png,fpdb_660,Other,Other,Other,Other
+train,123,Patient01163_Plane1_1_of_1,data\raw\fetal_planes_db\Images\Patient01163_Plane1_1_of_1.png,fpdb_1163,Voluson E6,Op. 1,Other,Other
+train,124,Patient01045_Plane4_1_of_2,data\raw\fetal_planes_db\Images\Patient01045_Plane4_1_of_2.png,fpdb_1045,Voluson E6,Op. 1,Maternal_cervix,Cervix
+test,131,Patient01545_Plane1_3_of_13,data\raw\fetal_planes_db\Images\Patient01545_Plane1_3_of_13.png,fpdb_1545,Aloka,Op. 3,Other,Other
+train,125,Patient01178_Plane6_1_of_1,data\raw\fetal_planes_db\Images\Patient01178_Plane6_1_of_1.png,fpdb_1178,Voluson E6,Op. 1,Fetal_thorax,Thorax
+test,132,Patient00427_Plane4_1_of_1,data\raw\fetal_planes_db\Images\Patient00427_Plane4_1_of_1.png,fpdb_427,Aloka,Other,Maternal_cervix,Cervix
+test,133,Patient01265_Plane2_1_of_2,data\raw\fetal_planes_db\Images\Patient01265_Plane2_1_of_2.png,fpdb_1265,Voluson E6,Op. 1,Fetal_abdomen,Abdomen
+train,126,Patient00816_Plane5_1_of_1,data\raw\fetal_planes_db\Images\Patient00816_Plane5_1_of_1.png,fpdb_816,Other,Other,Fetal_femur,Femur
+test,134,Patient01391_Plane6_2_of_2,data\raw\fetal_planes_db\Images\Patient01391_Plane6_2_of_2.png,fpdb_1391,Voluson S10,Other,Fetal_thorax,Thorax
+train,127,Patient00783_Plane1_1_of_1,data\raw\fetal_planes_db\Images\Patient00783_Plane1_1_of_1.png,fpdb_783,Voluson E6,Op. 2,Other,Other
+train,128,Patient00834_Plane1_18_of_34,data\raw\fetal_planes_db\Images\Patient00834_Plane1_18_of_34.png,fpdb_834,Aloka,Op. 3,Other,Other
+train,129,Patient00662_Plane5_1_of_1,data\raw\fetal_planes_db\Images\Patient00662_Plane5_1_of_1.png,fpdb_662,Other,Other,Fetal_femur,Femur
+test,135,Patient01272_Plane5_1_of_1,data\raw\fetal_planes_db\Images\Patient01272_Plane5_1_of_1.png,fpdb_1272,Aloka,Op. 3,Fetal_femur,Femur
+train,130,Patient00039_Plane1_6_of_47,data\raw\fetal_planes_db\Images\Patient00039_Plane1_6_of_47.png,fpdb_39,Aloka,Other,Other,Other
+train,131,Patient00852_Plane6_1_of_1,data\raw\fetal_planes_db\Images\Patient00852_Plane6_1_of_1.png,fpdb_852,Aloka,Op. 3,Fetal_thorax,Thorax
+test,136,Patient01375_Plane2_1_of_1,data\raw\fetal_planes_db\Images\Patient01375_Plane2_1_of_1.png,fpdb_1375,Voluson E6,Op. 1,Fetal_abdomen,Abdomen
+test,137,Patient01658_Plane5_1_of_1,data\raw\fetal_planes_db\Images\Patient01658_Plane5_1_of_1.png,fpdb_1658,Aloka,Op. 3,Fetal_femur,Femur
+train,132,Patient00234_Plane4_1_of_1,data\raw\fetal_planes_db\Images\Patient00234_Plane4_1_of_1.png,fpdb_234,Aloka,Other,Maternal_cervix,Cervix
+train,133,Patient00816_Plane2_1_of_1,data\raw\fetal_planes_db\Images\Patient00816_Plane2_1_of_1.png,fpdb_816,Other,Other,Fetal_abdomen,Abdomen
+test,138,Patient01676_Plane3_2_of_3,data\raw\fetal_planes_db\Images\Patient01676_Plane3_2_of_3.png,fpdb_1676,Voluson S10,Other,Brain_Trans_cerebellum,Head
+test,139,Patient01763_Plane6_1_of_1,data\raw\fetal_planes_db\Images\Patient01763_Plane6_1_of_1.png,fpdb_1763,Voluson S10,Other,Fetal_thorax,Thorax
+train,134,Patient00870_Plane1_1_of_8,data\raw\fetal_planes_db\Images\Patient00870_Plane1_1_of_8.png,fpdb_870,Aloka,Op. 3,Other,Other
+test,140,Patient00371_Plane4_1_of_1,data\raw\fetal_planes_db\Images\Patient00371_Plane4_1_of_1.png,fpdb_371,Aloka,Other,Maternal_cervix,Cervix
+train,135,Patient00732_Plane6_5_of_7,data\raw\fetal_planes_db\Images\Patient00732_Plane6_5_of_7.png,fpdb_732,Voluson E6,Op. 1,Fetal_thorax,Thorax
+test,141,Patient01657_Plane1_2_of_2,data\raw\fetal_planes_db\Images\Patient01657_Plane1_2_of_2.png,fpdb_1657,Aloka,Op. 3,Other,Other
+test,142,Patient01771_Plane2_1_of_1,data\raw\fetal_planes_db\Images\Patient01771_Plane2_1_of_1.png,fpdb_1771,Voluson E6,Op. 1,Fetal_abdomen,Abdomen
+test,143,Patient01454_Plane3_1_of_2,data\raw\fetal_planes_db\Images\Patient01454_Plane3_1_of_2.png,fpdb_1454,Voluson S10,Other,Brain_Trans_cerebellum,Head
+train,136,Patient01065_Plane1_1_of_1,data\raw\fetal_planes_db\Images\Patient01065_Plane1_1_of_1.png,fpdb_1065,Aloka,Op. 3,Other,Other
+test,144,Patient01729_Plane1_1_of_1,data\raw\fetal_planes_db\Images\Patient01729_Plane1_1_of_1.png,fpdb_1729,Aloka,Op. 3,Other,Other
+train,137,Patient01019_Plane2_1_of_5,data\raw\fetal_planes_db\Images\Patient01019_Plane2_1_of_5.png,fpdb_1019,Voluson E6,Op. 2,Fetal_abdomen,Abdomen
+train,138,Patient00674_Plane3_1_of_1,data\raw\fetal_planes_db\Images\Patient00674_Plane3_1_of_1.png,fpdb_674,Other,Other,Other,Other
+test,145,Patient01497_Plane3_1_of_3,data\raw\fetal_planes_db\Images\Patient01497_Plane3_1_of_3.png,fpdb_1497,Voluson S10,Other,Brain_Trans_thalamic,Head
+test,146,Patient01456_Plane1_3_of_3,data\raw\fetal_planes_db\Images\Patient01456_Plane1_3_of_3.png,fpdb_1456,Voluson S10,Other,Other,Other
+train,139,Patient01179_Plane6_1_of_1,data\raw\fetal_planes_db\Images\Patient01179_Plane6_1_of_1.png,fpdb_1179,Voluson E6,Op. 1,Fetal_thorax,Thorax
+train,140,Patient01224_Plane5_1_of_1,data\raw\fetal_planes_db\Images\Patient01224_Plane5_1_of_1.png,fpdb_1224,Voluson E6,Op. 2,Fetal_femur,Femur
+train,141,Patient00910_Plane6_2_of_2,data\raw\fetal_planes_db\Images\Patient00910_Plane6_2_of_2.png,fpdb_910,Aloka,Op. 3,Fetal_thorax,Thorax
+train,142,Patient00960_Plane5_1_of_1,data\raw\fetal_planes_db\Images\Patient00960_Plane5_1_of_1.png,fpdb_960,Other,Other,Fetal_femur,Femur
+test,147,Patient01614_Plane3_2_of_2,data\raw\fetal_planes_db\Images\Patient01614_Plane3_2_of_2.png,fpdb_1614,Aloka,Op. 3,Brain_Trans_cerebellum,Head
+test,148,Patient01395_Plane1_2_of_8,data\raw\fetal_planes_db\Images\Patient01395_Plane1_2_of_8.png,fpdb_1395,Voluson S10,Other,Other,Other
+test,149,Patient01520_Plane2_1_of_1,data\raw\fetal_planes_db\Images\Patient01520_Plane2_1_of_1.png,fpdb_1520,Voluson E6,Op. 2,Fetal_abdomen,Abdomen
+train,143,Patient00737_Plane2_1_of_1,data\raw\fetal_planes_db\Images\Patient00737_Plane2_1_of_1.png,fpdb_737,Voluson E6,Op. 1,Fetal_abdomen,Abdomen
+train,144,Patient01059_Plane4_3_of_4,data\raw\fetal_planes_db\Images\Patient01059_Plane4_3_of_4.png,fpdb_1059,Voluson E6,Op. 1,Maternal_cervix,Cervix
+train,145,Patient01146_Plane2_1_of_1,data\raw\fetal_planes_db\Images\Patient01146_Plane2_1_of_1.png,fpdb_1146,Voluson E6,Op. 1,Fetal_abdomen,Abdomen
+train,146,Patient00701_Plane4_1_of_2,data\raw\fetal_planes_db\Images\Patient00701_Plane4_1_of_2.png,fpdb_701,Voluson E6,Op. 1,Maternal_cervix,Cervix
+train,147,Patient00305_Plane3_5_of_5,data\raw\fetal_planes_db\Images\Patient00305_Plane3_5_of_5.png,fpdb_305,Voluson S10,Other,Brain_Trans_thalamic,Head
+train,148,Patient00698_Plane5_1_of_1,data\raw\fetal_planes_db\Images\Patient00698_Plane5_1_of_1.png,fpdb_698,Other,Other,Fetal_femur,Femur
+train,149,Patient01096_Plane3_5_of_6,data\raw\fetal_planes_db\Images\Patient01096_Plane3_5_of_6.png,fpdb_1096,Voluson E6,Op. 1,Brain_Trans_thalamic,Head

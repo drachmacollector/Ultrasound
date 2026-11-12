@@ -1,0 +1,29 @@
+{
+  "ui_min_intensity": 40,
+  "sector_dilate_px": 5,
+  "glyph_max_area_frac": 0.004,
+  "glyph_min_area": 8,
+  "glyph_ring_px": 3,
+  "glyph_ring_bg_frac": 0.6,
+  "tophat_k": 9,
+  "marker_min_intensity": 200,
+  "marker_min_tophat": 60,
+  "cross_sizes": [
+    7,
+    9,
+    11,
+    13,
+    17,
+    21
+  ],
+  "cross_ncc": 0.78,
+  "max_crosses_per_image": 12,
+  "dot_min_area": 2,
+  "dot_max_area": 30,
+  "dotted_min_dots": 5,
+  "dotted_max_gap": 18,
+  "dotted_angle_tol_deg": 6.0,
+  "dotted_spacing_cv": 0.35,
+  "score_dotted_lines": false,
+  "caliper_score_threshold": 1
+}

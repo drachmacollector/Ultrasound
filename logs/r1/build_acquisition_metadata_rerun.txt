@@ -1,0 +1,11 @@
+fpdb: 50 chunks, 0 to do
+external: 8 chunks, 0 to do
+{
+  "other_share_trainval": {
+    "Aloka": 0.6506,
+    "Other": 0.0421,
+    "Voluson E6": 0.1357,
+    "Voluson S10": 0.0
+  },
+  "s10_test_other": 0.5163
+}

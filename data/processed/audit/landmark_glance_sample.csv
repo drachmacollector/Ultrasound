@@ -1,0 +1,16 @@
+glance_idx,image_id,anatomy
+0,Patient01025_Plane2_1_of_1,Abdomen
+1,Patient00889_Plane2_1_of_1,Abdomen
+2,Patient01032_Plane2_1_of_1,Abdomen
+3,Patient01198_Plane2_1_of_1,Abdomen
+4,Patient00768_Plane2_1_of_2,Abdomen
+5,Patient00863_Plane5_2_of_2,Femur
+6,Patient00969_Plane5_1_of_1,Femur
+7,Patient01151_Plane5_2_of_4,Femur
+8,Patient01151_Plane5_3_of_4,Femur
+9,Patient00926_Plane5_1_of_1,Femur
+10,Patient01026_Plane3_4_of_6,Head
+11,Patient01151_Plane3_5_of_13,Head
+12,Patient00814_Plane3_2_of_3,Head
+13,Patient00838_Plane3_3_of_4,Head
+14,Patient00733_Plane3_4_of_4,Head

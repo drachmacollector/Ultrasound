@@ -1,25 +1,22 @@
 """
 scripts/run_sanity_checks.py
 
-Produces all Phase 3 sanity-check visualizations and saves them to
-data/processed/sanity_checks/ as PNG files.
-
-Per 03_DATA_PIPELINE.md Step 7 and PHASE_3_KICKOFF_PROMPT.md Task 8:
+Sanity-check visualisations of the frozen FPDB splits and the external test sets
+(data/processed/external/external_all.csv, built by build_external_manifests.py),
+saved to data/processed/sanity_checks/:
 
 1. Class distribution bar charts:
-   - train / val / test (FETAL_PLANES_DB) — stacked/grouped bar chart
-   - cross-device manifest broken down by source_subset (HC18 vs UCL)
+   - train / val / test (FETAL_PLANES_DB)
+   - external sets by dataset (HC18 / UCL / African)
 
 2. Sample image grids:
    - ~5 images per class from train.csv (FETAL_PLANES_DB)
-   - ~5 images per class from cross_device_manifest.csv
+   - ~5 images per (dataset, collapsed class) from the external manifest
 
 3. Patient count per class per split (printed as table + saved as CSV)
 
 4. Image resolution / aspect-ratio histogram (FETAL_PLANES_DB only —
    confirms whether plain 224x224 resize is reasonable)
-
-[MANUAL]: Review every chart before Phase 4 starts.
 """
 import sys
 from pathlib import Path
@@ -46,7 +43,7 @@ OUT_DIR = Path("data/processed/sanity_checks")
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 MANIFEST_PATH = PROCESSED_DIR / "manifest.csv"
-CROSS_DEVICE_PATH = PROCESSED_DIR / "cross_device_manifest.csv"
+EXTERNAL_PATH = PROCESSED_DIR / "external" / "external_all.csv"
 
 from src.data.dataset import CANONICAL_CLASSES
 
@@ -109,27 +106,25 @@ def plot_class_distributions():
     print(f"  Saved: {out}")
 
 
-def plot_cross_device_distribution():
-    if not CROSS_DEVICE_PATH.exists():
-        print("  [SKIP] cross_device_manifest.csv not found — skipping cross-device chart")
+def plot_external_distribution():
+    if not EXTERNAL_PATH.exists():
+        print("  [SKIP] external_all.csv not found - run scripts/build_external_manifests.py")
         return
 
-    df = pd.read_csv(CROSS_DEVICE_PATH)
-    counts = df.groupby(["source_subset", "plane_label"]).size().unstack(fill_value=0)
+    df = pd.read_csv(EXTERNAL_PATH)
+    counts = df.groupby(["dataset", "plane_label_collapsed"]).size().unstack(fill_value=0)
 
     _fig, ax = plt.subplots(figsize=(8, 5))
     counts.T.plot(kind="bar", ax=ax, colormap="Set2", edgecolor="white", width=0.6)
-    ax.set_xlabel("Plane label")
+    ax.set_xlabel("Collapsed class")
     ax.set_ylabel("Image count")
-    ax.set_title("Cross-device manifest — Image count by label & source subset\n"
-                 "(HC18 = Netherlands/Head only; UCL = UCLH Head+Abdomen+Femur)",
-                 fontsize=11, fontweight="bold")
+    ax.set_title("External test sets - image count by class and dataset", fontsize=11, fontweight="bold")
     ax.set_xticklabels(ax.get_xticklabels(), rotation=30, ha="right", fontsize=9)
-    ax.legend(title="Source subset")
+    ax.legend(title="Dataset")
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
     plt.tight_layout()
-    out = OUT_DIR / "02_cross_device_distribution.png"
+    out = OUT_DIR / "02_external_distribution.png"
     plt.savefig(out, dpi=150)
     plt.close()
     print(f"  Saved: {out}")
@@ -178,13 +173,13 @@ def plot_sample_grid_fetal_planes(n_per_class: int = 5):
     print(f"  Saved: {out}")
 
 
-def plot_sample_grid_cross_device(n_per_label: int = 5):
-    if not CROSS_DEVICE_PATH.exists():
-        print("  [SKIP] cross_device_manifest.csv not found — skipping cross-device grid")
+def plot_sample_grid_external(n_per_label: int = 5):
+    if not EXTERNAL_PATH.exists():
+        print("  [SKIP] external_all.csv not found - run scripts/build_external_manifests.py")
         return
 
-    df = pd.read_csv(CROSS_DEVICE_PATH)
-    groups = df.groupby(["source_subset", "plane_label"])
+    df = pd.read_csv(EXTERNAL_PATH)
+    groups = df.groupby(["dataset", "plane_label_collapsed"])
     keys_raw = list(groups.groups.keys())
     keys_tuple = [k for k in keys_raw if isinstance(k, tuple) and len(k) >= 2]
     keys = sorted(keys_tuple, key=lambda x: (str(x[0]), str(x[1])))
@@ -194,7 +189,7 @@ def plot_sample_grid_cross_device(n_per_label: int = 5):
 
     fig = plt.figure(figsize=(n_cols * 2.2, n_rows * 2.2))
     gs = gridspec.GridSpec(n_rows, n_cols, figure=fig, hspace=0.35, wspace=0.05)
-    fig.suptitle("Cross-device dataset — Sample images per (subset, label)",
+    fig.suptitle("External test sets - sample images per (dataset, class)",
                  fontsize=13, fontweight="bold", y=1.01)
 
     for row_i, (subset, label) in enumerate(keys):  # type: ignore
@@ -211,7 +206,7 @@ def plot_sample_grid_cross_device(n_per_label: int = 5):
                               va="center", fontsize=7, labelpad=80)
 
     plt.tight_layout()
-    out = OUT_DIR / "04_sample_grid_cross_device.png"
+    out = OUT_DIR / "04_sample_grid_external.png"
     plt.savefig(out, dpi=120, bbox_inches="tight")
     plt.close()
     print(f"  Saved: {out}")
@@ -335,11 +330,11 @@ def plot_resolution_histogram(max_sample: int = 1000):
 def main():
     print("\n=== Sanity check 1: Class distribution charts ===")
     plot_class_distributions()
-    plot_cross_device_distribution()
+    plot_external_distribution()
 
     print("\n=== Sanity check 2: Sample image grids ===")
     plot_sample_grid_fetal_planes()
-    plot_sample_grid_cross_device()
+    plot_sample_grid_external()
 
     print("\n=== Sanity check 3: Patient count per class per split ===")
     save_patient_count_table()
@@ -348,8 +343,7 @@ def main():
     plot_resolution_histogram()
 
     print(f"\nAll sanity-check visualizations saved to {OUT_DIR}/")
-    print("\n[MANUAL REVIEW REQUIRED] Open the sanity_checks/ folder and review every chart")
-    print("before starting Phase 4. This is the cheapest point to catch labeling/leakage bugs.")
+    print("Review every chart: this is the cheapest point to catch labelling or leakage bugs.")
 
 
 if __name__ == "__main__":

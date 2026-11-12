@@ -1,0 +1,94 @@
+{
+  "exact_duplicate_images": 863,
+  "exact_duplicate_groups": 384,
+  "groups_spanning_splits": 0,
+  "groups_spanning_patients": 0,
+  "groups_with_label_conflict": 8,
+  "dup_images_by_split": {
+    "test": 414,
+    "train": 379,
+    "val": 70
+  },
+  "label_conflict_examples": [
+    [
+      "Patient01649_Plane3_1_of_5",
+      "test",
+      "Brain_Trans_thalamic"
+    ],
+    [
+      "Patient01649_Plane3_4_of_5",
+      "test",
+      "Brain_Trans_cerebellum"
+    ],
+    [
+      "Patient01537_Plane3_3_of_9",
+      "test",
+      "Brain_Trans_cerebellum"
+    ],
+    [
+      "Patient01537_Plane3_6_of_9",
+      "test",
+      "Brain_Trans_ventricular"
+    ],
+    [
+      "Patient01648_Plane3_2_of_6",
+      "test",
+      "Brain_Trans_thalamic"
+    ],
+    [
+      "Patient01648_Plane3_5_of_6",
+      "test",
+      "Brain_Trans_ventricular"
+    ],
+    [
+      "Patient01650_Plane1_1_of_1",
+      "test",
+      "Other"
+    ],
+    [
+      "Patient01650_Plane6_1_of_1",
+      "test",
+      "Fetal_thorax"
+    ],
+    [
+      "Patient01618_Plane2_1_of_1",
+      "test",
+      "Fetal_abdomen"
+    ],
+    [
+      "Patient01618_Plane4_1_of_1",
+      "test",
+      "Maternal_cervix"
+    ],
+    [
+      "Patient01450_Plane2_1_of_1",
+      "test",
+      "Fetal_abdomen"
+    ],
+    [
+      "Patient01450_Plane6_1_of_1",
+      "test",
+      "Fetal_thorax"
+    ],
+    [
+      "Patient01272_Plane2_1_of_1",
+      "test",
+      "Fetal_abdomen"
+    ],
+    [
+      "Patient01272_Plane3_3_of_3",
+      "test",
+      "Other"
+    ],
+    [
+      "Patient01441_Plane2_2_of_2",
+      "test",
+      "Fetal_abdomen"
+    ],
+    [
+      "Patient01441_Plane1_1_of_6",
+      "test",
+      "Other"
+    ]
+  ]
+}

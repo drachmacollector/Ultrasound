@@ -39,6 +39,7 @@ archive/data/processed/eval_tier2/
 archive/data/processed/natalia_showcase_clips/
 archive/data/processed/tier2a_tuning/
 archive/data/processed/tier1_tuning/sweep_results.csv
+archive/data/processed/cross_device_manifest.csv
 
 # ---------------------------------------------------------------------------
 # Docs: third-party PDFs are kept locally only

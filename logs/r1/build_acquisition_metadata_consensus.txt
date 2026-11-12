@@ -1,0 +1,69 @@
+fpdb_cons: 50 chunks, 50 to do
+  fpdb_cons: 1/50 chunks done
+  fpdb_cons: 2/50 chunks done
+  fpdb_cons: 3/50 chunks done
+  fpdb_cons: 4/50 chunks done
+  fpdb_cons: 5/50 chunks done
+  fpdb_cons: 6/50 chunks done
+  fpdb_cons: 7/50 chunks done
+  fpdb_cons: 8/50 chunks done
+  fpdb_cons: 9/50 chunks done
+  fpdb_cons: 10/50 chunks done
+  fpdb_cons: 11/50 chunks done
+  fpdb_cons: 12/50 chunks done
+  fpdb_cons: 13/50 chunks done
+  fpdb_cons: 14/50 chunks done
+  fpdb_cons: 15/50 chunks done
+  fpdb_cons: 16/50 chunks done
+  fpdb_cons: 17/50 chunks done
+  fpdb_cons: 18/50 chunks done
+  fpdb_cons: 19/50 chunks done
+  fpdb_cons: 20/50 chunks done
+  fpdb_cons: 21/50 chunks done
+  fpdb_cons: 22/50 chunks done
+  fpdb_cons: 23/50 chunks done
+  fpdb_cons: 24/50 chunks done
+  fpdb_cons: 25/50 chunks done
+  fpdb_cons: 26/50 chunks done
+  fpdb_cons: 27/50 chunks done
+  fpdb_cons: 28/50 chunks done
+  fpdb_cons: 29/50 chunks done
+  fpdb_cons: 30/50 chunks done
+  fpdb_cons: 31/50 chunks done
+  fpdb_cons: 32/50 chunks done
+  fpdb_cons: 33/50 chunks done
+  fpdb_cons: 34/50 chunks done
+  fpdb_cons: 35/50 chunks done
+  fpdb_cons: 36/50 chunks done
+  fpdb_cons: 37/50 chunks done
+  fpdb_cons: 38/50 chunks done
+  fpdb_cons: 39/50 chunks done
+  fpdb_cons: 40/50 chunks done
+  fpdb_cons: 41/50 chunks done
+  fpdb_cons: 42/50 chunks done
+  fpdb_cons: 43/50 chunks done
+  fpdb_cons: 44/50 chunks done
+  fpdb_cons: 45/50 chunks done
+  fpdb_cons: 46/50 chunks done
+  fpdb_cons: 47/50 chunks done
+  fpdb_cons: 48/50 chunks done
+  fpdb_cons: 49/50 chunks done
+  fpdb_cons: 50/50 chunks done
+external_cons: 8 chunks, 8 to do
+  external_cons: 1/8 chunks done
+  external_cons: 2/8 chunks done
+  external_cons: 3/8 chunks done
+  external_cons: 4/8 chunks done
+  external_cons: 5/8 chunks done
+  external_cons: 6/8 chunks done
+  external_cons: 7/8 chunks done
+  external_cons: 8/8 chunks done
+{
+  "other_share_trainval": {
+    "Aloka": 0.6506,
+    "Other": 0.0421,
+    "Voluson E6": 0.1357,
+    "Voluson S10": 0.0
+  },
+  "s10_test_other": 0.5163
+}

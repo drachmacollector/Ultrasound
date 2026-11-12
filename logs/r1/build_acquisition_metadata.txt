@@ -1,0 +1,75 @@
+fpdb: 50 chunks, 50 to do
+  fpdb: 1/50 chunks done
+  fpdb: 2/50 chunks done
+  fpdb: 3/50 chunks done
+  fpdb: 4/50 chunks done
+  fpdb: 5/50 chunks done
+  fpdb: 6/50 chunks done
+  fpdb: 7/50 chunks done
+  fpdb: 8/50 chunks done
+  fpdb: 9/50 chunks done
+  fpdb: 10/50 chunks done
+  fpdb: 11/50 chunks done
+  fpdb: 12/50 chunks done
+  fpdb: 13/50 chunks done
+  fpdb: 14/50 chunks done
+  fpdb: 15/50 chunks done
+  fpdb: 16/50 chunks done
+  fpdb: 17/50 chunks done
+  fpdb: 18/50 chunks done
+  fpdb: 19/50 chunks done
+  fpdb: 20/50 chunks done
+  fpdb: 21/50 chunks done
+  fpdb: 22/50 chunks done
+  fpdb: 23/50 chunks done
+  fpdb: 24/50 chunks done
+  fpdb: 25/50 chunks done
+  fpdb: 26/50 chunks done
+  fpdb: 27/50 chunks done
+  fpdb: 28/50 chunks done
+  fpdb: 29/50 chunks done
+  fpdb: 30/50 chunks done
+  fpdb: 31/50 chunks done
+  fpdb: 32/50 chunks done
+  fpdb: 33/50 chunks done
+  fpdb: 34/50 chunks done
+  fpdb: 35/50 chunks done
+  fpdb: 36/50 chunks done
+  fpdb: 37/50 chunks done
+  fpdb: 38/50 chunks done
+  fpdb: 39/50 chunks done
+  fpdb: 40/50 chunks done
+  fpdb: 41/50 chunks done
+  fpdb: 42/50 chunks done
+  fpdb: 43/50 chunks done
+  fpdb: 44/50 chunks done
+  fpdb: 45/50 chunks done
+  fpdb: 46/50 chunks done
+  fpdb: 47/50 chunks done
+  fpdb: 48/50 chunks done
+  fpdb: 49/50 chunks done
+  fpdb: 50/50 chunks done
+external: 8 chunks, 8 to do
+  external: 1/8 chunks done
+  external: 2/8 chunks done
+  external: 3/8 chunks done
+  external: 4/8 chunks done
+  external: 5/8 chunks done
+  external: 6/8 chunks done
+  external: 7/8 chunks done
+  external: 8/8 chunks done
+Traceback (most recent call last):
+  File "d:\Code\Ultrasound\scripts\build_acquisition_metadata.py", line 147, in <module>
+    main()
+  File "d:\Code\Ultrasound\scripts\build_acquisition_metadata.py", line 140, in main
+    s = summary(meta, ext, checks)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\Code\Ultrasound\scripts\build_acquisition_metadata.py", line 125, in summary
+    return {"checks": checks, "fpdb_by_machine": by(meta, "source_machine"),
+                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\Code\Ultrasound\scripts\build_acquisition_metadata.py", line 123, in by
+    "caliper_detected_rate": g["caliper_score"].gt(0).mean().round(4).to_dict(),
+                             ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\miniconda\envs\fetalplane\Lib\site-packages\pandas\core\groupby\groupby.py", line 1365, in __getattr__
+    raise AttributeError(
+AttributeError: 'SeriesGroupBy' object has no attribute 'gt'

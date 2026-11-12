@@ -1,0 +1,155 @@
+{
+  "checks": {
+    "other_share_trainval": {
+      "Aloka": 0.6506,
+      "Other": 0.0421,
+      "Voluson E6": 0.1357,
+      "Voluson S10": 0.0
+    },
+    "s10_test_other": 0.5163
+  },
+  "fpdb_by_machine": {
+    "Aloka": {
+      "n": 5114,
+      "modal_size": "640x392",
+      "modal_size_share": 0.534,
+      "sector_area_frac_median": 0.828,
+      "shape_class": {
+        "linear": 2388,
+        "fan": 2089,
+        "full": 637
+      },
+      "ui_area_frac_median": 0.0073,
+      "caliper_detected_rate": 0.0233
+    },
+    "Other": {
+      "n": 342,
+      "modal_size": "1137x787",
+      "modal_size_share": 0.705,
+      "sector_area_frac_median": 0.759,
+      "shape_class": {
+        "fan": 206,
+        "linear": 133,
+        "full": 3
+      },
+      "ui_area_frac_median": 0.0066,
+      "caliper_detected_rate": 0.0
+    },
+    "Voluson E6": {
+      "n": 5862,
+      "modal_size": "959x661",
+      "modal_size_share": 0.79,
+      "sector_area_frac_median": 0.859,
+      "shape_class": {
+        "fan": 2334,
+        "linear": 2194,
+        "full": 1334
+      },
+      "ui_area_frac_median": 0.0063,
+      "caliper_detected_rate": 0.0287
+    },
+    "Voluson S10": {
+      "n": 1082,
+      "modal_size": "1137x787",
+      "modal_size_share": 0.939,
+      "sector_area_frac_median": 0.849,
+      "shape_class": {
+        "fan": 752,
+        "full": 209,
+        "linear": 121
+      },
+      "ui_area_frac_median": 0.0072,
+      "caliper_detected_rate": 0.0028
+    }
+  },
+  "external_by_centre": {
+    "Algeria": {
+      "n": 100,
+      "modal_size": "500x430",
+      "modal_size_share": 1.0,
+      "sector_area_frac_median": 0.713,
+      "shape_class": {
+        "fan": 93,
+        "linear": 4,
+        "full": 3
+      },
+      "ui_area_frac_median": 0.0,
+      "caliper_detected_rate": 0.0
+    },
+    "Egypt": {
+      "n": 100,
+      "modal_size": "400x450",
+      "modal_size_share": 1.0,
+      "sector_area_frac_median": 0.954,
+      "shape_class": {
+        "linear": 44,
+        "full": 33,
+        "fan": 23
+      },
+      "ui_area_frac_median": 0.0,
+      "caliper_detected_rate": 0.0
+    },
+    "Ghana": {
+      "n": 75,
+      "modal_size": "500x500",
+      "modal_size_share": 1.0,
+      "sector_area_frac_median": 0.811,
+      "shape_class": {
+        "fan": 72,
+        "linear": 3
+      },
+      "ui_area_frac_median": 0.0,
+      "caliper_detected_rate": 0.9733
+    },
+    "Malawi": {
+      "n": 100,
+      "modal_size": "500x400",
+      "modal_size_share": 1.0,
+      "sector_area_frac_median": 0.74,
+      "shape_class": {
+        "fan": 98,
+        "linear": 2
+      },
+      "ui_area_frac_median": 0.0018,
+      "caliper_detected_rate": 0.0
+    },
+    "Radboud UMC (NL)": {
+      "n": 999,
+      "modal_size": "800x540",
+      "modal_size_share": 0.976,
+      "sector_area_frac_median": 0.854,
+      "shape_class": {
+        "fan": 660,
+        "linear": 308,
+        "full": 31
+      },
+      "ui_area_frac_median": 0.0025,
+      "caliper_detected_rate": 0.001
+    },
+    "UCLH (UK)": {
+      "n": 424,
+      "modal_size": "960x720",
+      "modal_size_share": 0.193,
+      "sector_area_frac_median": 0.865,
+      "shape_class": {
+        "fan": 225,
+        "full": 122,
+        "linear": 77
+      },
+      "ui_area_frac_median": 0.0054,
+      "caliper_detected_rate": 0.283
+    },
+    "Uganda": {
+      "n": 75,
+      "modal_size": "600x500",
+      "modal_size_share": 1.0,
+      "sector_area_frac_median": 0.858,
+      "shape_class": {
+        "fan": 75
+      },
+      "ui_area_frac_median": 0.0,
+      "caliper_detected_rate": 0.0267
+    }
+  },
+  "duplicate_md5_fpdb": 479
+}

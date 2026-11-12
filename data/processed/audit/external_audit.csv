@@ -1,0 +1,43 @@
+audit_idx,image_id,image_path,dataset,centre,plane_label_collapsed,calipers,text,rater
+0,african/patient091_UGA_plane2,data/raw/african_planes/Uganda/patient091_UGA_plane2.png,african,Uganda,Femur,1,1,claude-vision
+1,hc18/097_HC,data/raw/ucl_hc18/images/HC18/Head/097_HC.png,hc18,Radboud UMC (NL),Head,0,0,claude-vision
+2,african/patient018_DZA_plane0,data/raw/african_planes/Algeria/patient018_DZA_plane0.png,african,Algeria,Abdomen,0,1,claude-vision
+3,hc18/426_3HC,data/raw/ucl_hc18/images/HC18/Head/426_3HC.png,hc18,Radboud UMC (NL),Head,0,1,claude-vision
+4,african/patient011_GHA_plane1,data/raw/african_planes/Ghana/patient011_GHA_plane1.png,african,Ghana,Head,1,0,claude-vision
+5,african/patient018_UGA_plane1,data/raw/african_planes/Uganda/patient018_UGA_plane1.png,african,Uganda,Head,1,1,claude-vision
+6,african/patient004_EGY_plane3,data/raw/african_planes/Egypt/patient004_EGY_plane3.png,african,Egypt,Thorax,0,0,claude-vision
+7,african/patient106_UGA_plane0,data/raw/african_planes/Uganda/patient106_UGA_plane0.png,african,Uganda,Abdomen,1,1,claude-vision
+8,african/patient031_UGA_plane0,data/raw/african_planes/Uganda/patient031_UGA_plane0.png,african,Uganda,Abdomen,1,1,claude-vision
+9,african/patient007_EGY_plane2,data/raw/african_planes/Egypt/patient007_EGY_plane2.png,african,Egypt,Femur,0,0,claude-vision
+10,ucl/abdomen/005_14AC,data/raw/ucl_hc18/images/UCL/Abdomen/005_14AC.jpeg,ucl,UCLH (UK),Abdomen,0,1,claude-vision
+11,african/patient086_UGA_plane0,data/raw/african_planes/Uganda/patient086_UGA_plane0.png,african,Uganda,Abdomen,1,1,claude-vision
+12,african/patient004_MWI_plane0,data/raw/african_planes/Malawi/patient004_MWI_plane0.png,african,Malawi,Abdomen,0,1,claude-vision
+13,african/patient002_GHA_plane0,data/raw/african_planes/Ghana/patient002_GHA_plane0.png,african,Ghana,Abdomen,1,0,claude-vision
+14,ucl/abdomen/032_AC,data/raw/ucl_hc18/images/UCL/Abdomen/032_AC.png,ucl,UCLH (UK),Abdomen,1,1,claude-vision
+15,african/patient009_GHA_plane2,data/raw/african_planes/Ghana/patient009_GHA_plane2.png,african,Ghana,Femur,1,0,claude-vision
+16,african/patient012_DZA_plane1,data/raw/african_planes/Algeria/patient012_DZA_plane1.png,african,Algeria,Head,0,1,claude-vision
+17,african/patient004_EGY_plane2,data/raw/african_planes/Egypt/patient004_EGY_plane2.png,african,Egypt,Femur,0,0,claude-vision
+18,ucl/head/005_7HC,data/raw/ucl_hc18/images/UCL/Head/005_7HC.jpeg,ucl,UCLH (UK),Head,1,1,claude-vision
+19,african/patient035_GHA_plane0,data/raw/african_planes/Ghana/patient035_GHA_plane0.png,african,Ghana,Abdomen,1,0,claude-vision
+20,african/patient013_EGY_plane3,data/raw/african_planes/Egypt/patient013_EGY_plane3.png,african,Egypt,Thorax,0,0,claude-vision
+21,african/patient024_DZA_plane2,data/raw/african_planes/Algeria/patient024_DZA_plane2.png,african,Algeria,Femur,0,1,claude-vision
+22,african/patient042_GHA_plane0,data/raw/african_planes/Ghana/patient042_GHA_plane0.png,african,Ghana,Abdomen,1,0,claude-vision
+23,ucl/abdomen/005_6AC,data/raw/ucl_hc18/images/UCL/Abdomen/005_6AC.jpeg,ucl,UCLH (UK),Abdomen,0,1,claude-vision
+24,african/patient012_DZA_plane2,data/raw/african_planes/Algeria/patient012_DZA_plane2.png,african,Algeria,Femur,0,1,claude-vision
+25,african/patient009_EGY_plane2,data/raw/african_planes/Egypt/patient009_EGY_plane2.png,african,Egypt,Femur,0,0,claude-vision
+26,hc18/217_HC,data/raw/ucl_hc18/images/HC18/Head/217_HC.png,hc18,Radboud UMC (NL),Head,0,1,claude-vision
+27,african/patient008_MWI_plane3,data/raw/african_planes/Malawi/patient008_MWI_plane3.png,african,Malawi,Thorax,0,1,claude-vision
+28,african/patient027_MWI_plane1,data/raw/african_planes/Malawi/patient027_MWI_plane1.png,african,Malawi,Head,0,0,claude-vision
+29,ucl/femur/114_2FL,data/raw/ucl_hc18/images/UCL/Femur/114_2FL.jpeg,ucl,UCLH (UK),Femur,1,1,claude-vision
+30,african/patient053_GHA_plane0,data/raw/african_planes/Ghana/patient053_GHA_plane0.png,african,Ghana,Abdomen,1,0,claude-vision
+31,hc18/644_HC,data/raw/ucl_hc18/images/HC18/Head/644_HC.png,hc18,Radboud UMC (NL),Head,0,1,claude-vision
+32,african/patient033_DZA_plane3,data/raw/african_planes/Algeria/patient033_DZA_plane3.png,african,Algeria,Thorax,0,1,claude-vision
+33,hc18/626_HC,data/raw/ucl_hc18/images/HC18/Head/626_HC.png,hc18,Radboud UMC (NL),Head,0,1,claude-vision
+34,african/patient004_MWI_plane2,data/raw/african_planes/Malawi/patient004_MWI_plane2.png,african,Malawi,Femur,0,1,claude-vision
+35,ucl/head/050_HC,data/raw/ucl_hc18/images/UCL/Head/050_HC.jpg,ucl,UCLH (UK),Head,1,1,claude-vision
+36,african/patient039_UGA_plane1,data/raw/african_planes/Uganda/patient039_UGA_plane1.png,african,Uganda,Head,1,1,claude-vision
+37,african/patient011_MWI_plane0,data/raw/african_planes/Malawi/patient011_MWI_plane0.png,african,Malawi,Abdomen,0,1,claude-vision
+38,african/patient045_DZA_plane1,data/raw/african_planes/Algeria/patient045_DZA_plane1.png,african,Algeria,Head,0,1,claude-vision
+39,african/patient023_EGY_plane0,data/raw/african_planes/Egypt/patient023_EGY_plane0.png,african,Egypt,Abdomen,0,0,claude-vision
+40,hc18/024_HC,data/raw/ucl_hc18/images/HC18/Head/024_HC.png,hc18,Radboud UMC (NL),Head,0,1,claude-vision
+41,african/patient016_MWI_plane1,data/raw/african_planes/Malawi/patient016_MWI_plane1.png,african,Malawi,Head,0,1,claude-vision

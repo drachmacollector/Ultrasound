@@ -1,0 +1,41 @@
+recheck_idx,image_id,source_machine,plane_label
+0,Patient01293_Plane2_1_of_1,Voluson E6,Fetal_abdomen
+1,Patient01240_Plane3_1_of_3,Voluson E6,Brain_Trans_thalamic
+2,Patient01640_Plane6_2_of_2,Voluson E6,Fetal_thorax
+3,Patient01354_Plane3_1_of_5,Voluson E6,Other
+4,Patient01254_Plane3_5_of_5,Voluson E6,Brain_Trans_cerebellum
+5,Patient01525_Plane4_6_of_6,Voluson E6,Maternal_cervix
+6,Patient01267_Plane3_3_of_4,Voluson E6,Brain_Trans_cerebellum
+7,Patient01679_Plane4_7_of_9,Voluson E6,Maternal_cervix
+8,Patient01732_Plane3_2_of_3,Voluson E6,Brain_Trans_thalamic
+9,Patient01782_Plane5_2_of_2,Voluson E6,Fetal_femur
+10,Patient01649_Plane3_3_of_5,Voluson E6,Brain_Trans_thalamic
+11,Patient01282_Plane1_1_of_1,Voluson E6,Other
+12,Patient01227_Plane5_2_of_3,Voluson E6,Fetal_femur
+13,Patient01271_Plane3_13_of_15,Voluson E6,Brain_Trans_thalamic
+14,Patient01577_Plane2_1_of_1,Voluson E6,Fetal_abdomen
+15,Patient01648_Plane3_2_of_6,Voluson E6,Brain_Trans_thalamic
+16,Patient01495_Plane6_3_of_3,Voluson E6,Fetal_thorax
+17,Patient01419_Plane6_2_of_2,Voluson E6,Fetal_thorax
+18,Patient01310_Plane6_3_of_5,Voluson E6,Fetal_thorax
+19,Patient01574_Plane6_2_of_2,Voluson E6,Fetal_thorax
+20,Patient00624_Plane4_1_of_1,Voluson E6,Maternal_cervix
+21,Patient01564_Plane6_3_of_3,Voluson E6,Fetal_thorax
+22,Patient01292_Plane6_5_of_6,Voluson E6,Fetal_thorax
+23,Patient01646_Plane3_1_of_3,Voluson E6,Brain_Trans_ventricular
+24,Patient01240_Plane2_1_of_1,Voluson E6,Fetal_abdomen
+25,Patient01556_Plane6_2_of_4,Voluson E6,Fetal_thorax
+26,Patient01662_Plane4_8_of_8,Voluson E6,Maternal_cervix
+27,Patient01274_Plane3_3_of_4,Voluson E6,Brain_Trans_ventricular
+28,Patient01599_Plane4_1_of_1,Voluson E6,Maternal_cervix
+29,Patient01459_Plane5_2_of_2,Voluson E6,Fetal_femur
+30,Patient01365_Plane1_8_of_17,Aloka,Other
+31,Patient01450_Plane1_14_of_14,Aloka,Other
+32,Patient01632_Plane6_1_of_4,Aloka,Fetal_thorax
+33,Patient01612_Plane1_10_of_21,Aloka,Other
+34,Patient01307_Plane1_10_of_25,Aloka,Other
+35,Patient01613_Plane6_1_of_2,Aloka,Fetal_thorax
+36,Patient00487_Plane4_1_of_1,Aloka,Maternal_cervix
+37,Patient01485_Plane1_18_of_18,Aloka,Other
+38,Patient01448_Plane1_4_of_13,Aloka,Other
+39,Patient01332_Plane3_4_of_4,Aloka,Brain_Trans_thalamic

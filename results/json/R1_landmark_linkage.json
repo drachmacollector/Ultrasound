@@ -1,0 +1,84 @@
+{
+  "fp_report": {
+    "Head": {
+      "total": 1637,
+      "by_split": {
+        "test": 765,
+        "train": 746,
+        "val": 126
+      },
+      "kept_val_test": 891,
+      "identity_failures": 0
+    },
+    "Abdomen": {
+      "total": 693,
+      "by_split": {
+        "test": 350,
+        "train": 294,
+        "val": 49
+      },
+      "kept_val_test": 399,
+      "identity_failures": 0
+    },
+    "Femur": {
+      "total": 760,
+      "by_split": {
+        "test": 371,
+        "train": 326,
+        "val": 63
+      },
+      "kept_val_test": 434,
+      "identity_failures": 0
+    }
+  },
+  "counts": {
+    "fpdb/test/Abdomen": 350,
+    "fpdb/test/Femur": 371,
+    "fpdb/test/Head": 765,
+    "fpdb/val/Abdomen": 49,
+    "fpdb/val/Femur": 63,
+    "fpdb/val/Head": 126,
+    "hc18/external/Head": 999,
+    "ucl/external/Abdomen": 130,
+    "ucl/external/Femur": 135,
+    "ucl/external/Head": 159
+  },
+  "qc_flag_rate": {
+    "fpdb/test/Abdomen": 0.014285714285714285,
+    "fpdb/test/Femur": 0.0,
+    "fpdb/test/Head": 0.0,
+    "fpdb/val/Abdomen": 0.02040816326530612,
+    "fpdb/val/Femur": 0.0,
+    "fpdb/val/Head": 0.0,
+    "hc18/external/Head": 0.0,
+    "ucl/external/Abdomen": 0.007692307692307693,
+    "ucl/external/Femur": 0.0,
+    "ucl/external/Head": 0.006289308176100629
+  },
+  "clipped_rate": {
+    "fpdb/test/Abdomen": 0.0,
+    "fpdb/test/Femur": 0.0,
+    "fpdb/test/Head": 0.006535947712418301,
+    "fpdb/val/Abdomen": 0.0,
+    "fpdb/val/Femur": 0.0,
+    "fpdb/val/Head": 0.047619047619047616,
+    "hc18/external/Head": 0.0,
+    "ucl/external/Abdomen": 0.0,
+    "ucl/external/Femur": 0.0,
+    "ucl/external/Head": 0.0
+  },
+  "fp_test_by_machine": {
+    "Abdomen/Aloka": 91,
+    "Abdomen/Other": 4,
+    "Abdomen/Voluson E6": 164,
+    "Abdomen/Voluson S10": 91,
+    "Femur/Aloka": 96,
+    "Femur/Other": 18,
+    "Femur/Voluson E6": 194,
+    "Femur/Voluson S10": 63,
+    "Head/Aloka": 143,
+    "Head/Other": 18,
+    "Head/Voluson E6": 484,
+    "Head/Voluson S10": 120
+  }
+}

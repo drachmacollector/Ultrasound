@@ -3,22 +3,26 @@ src/data/dataset.py
 
 PyTorch Dataset classes for the fetal plane classification project.
 
-FocalPlanesDataset: reads any split CSV (train.csv, val.csv, test.csv)
-  produced by patient_split.py. Returns (image_tensor, label_idx) pairs.
+FocalPlanesDataset: reads a frozen FPDB split CSV (train/val/test). Returns
+  (image_tensor, label_idx) for training, or a metadata dict with return_meta=True.
 
-CrossDeviceDataset: legacy reader for cross_device_manifest.csv (HC18/UCL).
-  Superseded in R1 by ExternalDataset over data/processed/external/*.csv.
+ExternalDataset: reads an external manifest (data/processed/external/*.csv, built
+  by scripts/build_external_manifests.py) and returns a metadata dict per image.
+
+Both accept an optional ``prepare(img_rgb_uint8, row) -> img`` hook applied before the
+albumentations transform (used for sector masking / perturbations in R3-R5).
 
 CANONICAL_CLASSES is the single source of truth for the label -> index mapping
 across training, evaluation and analysis.
 """
 from collections.abc import Callable
 from pathlib import Path
-from typing import ClassVar
 
+import numpy as np
 import pandas as pd
 from torch.utils.data import Dataset
 
+from src.data.paths import fpdb_image_id, fpdb_patient_id, norm_path
 from src.data.transforms import get_eval_transform, load_and_prep_grayscale_to_rgb
 
 # Single source of truth for label ordering (index = model output position).
@@ -38,24 +42,34 @@ IDX_TO_CLASS = {idx: cls for idx, cls in enumerate(CANONICAL_CLASSES)}
 NUM_CLASSES = len(CANONICAL_CLASSES)
 
 
+Prepare = Callable[[np.ndarray, pd.Series], np.ndarray]
+
+
 class FocalPlanesDataset(Dataset):
-    """Dataset backed by any of train.csv / val.csv / test.csv.
+    """Dataset backed by a frozen FPDB split CSV (train.csv / val.csv / test.csv).
 
     Args:
         csv_path: Path to the split CSV file.
-        transform: Callable albumentations pipeline. If None, uses get_eval_transform().
-        label_col: Column name holding the canonical class label string.
+        transform: albumentations pipeline. If None, uses get_eval_transform().
+        label_col: Column holding the canonical class label string.
+        return_meta: If True, __getitem__ returns a dict with image, label, image_id,
+            patient_id (``fpdb_<n>``), source_machine and operator.
+        prepare: Optional hook applied to the HxWx3 uint8 image before ``transform``.
     """
 
     def __init__(
         self,
-        csv_path: str,
+        csv_path: str | Path,
         transform: Callable | None = None,
         label_col: str = "plane_label",
+        return_meta: bool = False,
+        prepare: Prepare | None = None,
     ):
         self.df = pd.read_csv(csv_path)
         self.transform = transform if transform is not None else get_eval_transform()
         self.label_col = label_col
+        self.return_meta = return_meta
+        self.prepare = prepare
 
         unknown = set(str(x) for x in self.df[label_col].unique()) - set(CANONICAL_CLASSES)
         if unknown:
@@ -69,60 +83,71 @@ class FocalPlanesDataset(Dataset):
 
     def __getitem__(self, index: int):
         row = self.df.iloc[index]
-        img = load_and_prep_grayscale_to_rgb(row["image_path"])  # HxWx3 uint8
+        img = load_and_prep_grayscale_to_rgb(norm_path(row["image_path"]))  # HxWx3 uint8
+        if self.prepare is not None:
+            img = self.prepare(img, row)
         label_idx = CLASS_TO_IDX[str(row[self.label_col])]
         tensor = self.transform(image=img)["image"]  # [3, H, W] float32, normalized
-        return tensor, label_idx
+        if not self.return_meta:
+            return tensor, label_idx
+        return {
+            "image": tensor,
+            "label": label_idx,
+            "image_id": fpdb_image_id(row["image_path"]),
+            "patient_id": fpdb_patient_id(row["patient_id"]),
+            "source_machine": str(row["source_machine"]),
+            "operator": str(row["operator"]),
+        }
 
 
-class CrossDeviceDataset(Dataset):
-    """Dataset backed by cross_device_manifest.csv for Phase 6 generalization eval.
+class ExternalDataset(Dataset):
+    """External test set from data/processed/external/<name>.csv.
 
-    Note: 'Head' is a collapsed label — at eval time, any of
-    Brain_Trans_{cerebellum,thalamic,ventricular} is considered correct.
-    This class handles raw loading only; the collapsed-label evaluation logic
-    belongs in the Phase 6 evaluation script.
-
-    Args:
-        csv_path: Path to cross_device_manifest.csv.
-        transform: Callable albumentations pipeline. If None, uses get_eval_transform().
+    Labels are in the collapsed taxonomy (Head/Abdomen/Femur/Thorax). Returns a dict:
+    image, image_id, patient_id, dataset, centre, device, label_collapsed.
     """
 
-    CROSS_DEVICE_LABELS: ClassVar[set[str]] = {"Head", "Fetal_abdomen", "Fetal_femur"}
+    REQUIRED_COLUMNS: tuple[str, ...] = (
+        "image_path", "image_id", "dataset", "patient_id", "centre", "device", "plane_label_collapsed",
+    )
+    ALLOWED_LABELS: frozenset[str] = frozenset({"Head", "Abdomen", "Femur", "Thorax"})
 
     def __init__(
         self,
-        csv_path: str,
+        csv_path: str | Path,
         transform: Callable | None = None,
+        prepare: Prepare | None = None,
     ):
         self.df = pd.read_csv(csv_path)
         self.transform = transform if transform is not None else get_eval_transform()
+        self.prepare = prepare
 
-        # Assert: no FP or MULTICENTRE paths in this manifest
-        forbidden = self.df["image_path"].apply(
-            lambda p: any(part in ("FP", "MULTICENTRE") for part in Path(p).parts)
+        missing = set(self.REQUIRED_COLUMNS) - set(self.df.columns)
+        if missing:
+            raise ValueError(f"{csv_path}: missing columns {sorted(missing)}")
+        forbidden = self.df["image_path"].map(
+            lambda p: any(part in ("FP", "MULTICENTRE") for part in norm_path(p).parts)
         )
-        assert not forbidden.any(), (
-            "CrossDeviceDataset: FP/MULTICENTRE paths found in manifest — this should "
-            "never happen. Re-run build_cross_device_manifest.py."
-        )
-
-        # Assert only known cross-device labels
-        unknown = set(self.df["plane_label"].unique()) - self.CROSS_DEVICE_LABELS
-        assert not unknown, f"Unexpected labels in cross-device manifest: {unknown}"
+        if forbidden.any():
+            raise ValueError(f"{csv_path}: FP/MULTICENTRE images must never be used as an external set")
+        unknown = set(self.df["plane_label_collapsed"]) - self.ALLOWED_LABELS
+        if unknown:
+            raise ValueError(f"{csv_path}: unexpected labels {unknown}")
 
     def __len__(self) -> int:
         return len(self.df)
 
-    def __getitem__(self, index: int):
+    def __getitem__(self, index: int) -> dict:
         row = self.df.iloc[index]
-        image_path = row["image_path"]
-        label_str = row["plane_label"]
-        is_collapsed = bool(row["is_collapsed_label"])
-        source_subset = row["source_subset"]
-
-        img = load_and_prep_grayscale_to_rgb(image_path)
-        augmented = self.transform(image=img)
-        tensor = augmented["image"]
-
-        return tensor, label_str, is_collapsed, source_subset
+        img = load_and_prep_grayscale_to_rgb(norm_path(row["image_path"]))
+        if self.prepare is not None:
+            img = self.prepare(img, row)
+        return {
+            "image": self.transform(image=img)["image"],
+            "image_id": str(row["image_id"]),
+            "patient_id": str(row["patient_id"]),
+            "dataset": str(row["dataset"]),
+            "centre": str(row["centre"]),
+            "device": str(row["device"]),
+            "label_collapsed": str(row["plane_label_collapsed"]),
+        }

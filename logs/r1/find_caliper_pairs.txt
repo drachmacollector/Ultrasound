@@ -1,0 +1,9 @@
+{
+  "test_groups_ge2": 943,
+  "images_in_groups_ge2": 3904,
+  "label_heterogeneous_groups": 315,
+  "near_duplicate_pairs_ssim_ge_0.90": 436,
+  "near_duplicate_images": 658,
+  "near_duplicate_pairs_same_label": 425,
+  "caliper_pair_candidates": 0
+}
