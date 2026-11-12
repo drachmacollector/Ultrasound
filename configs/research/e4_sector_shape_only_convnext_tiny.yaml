@@ -1,0 +1,38 @@
+# configs/research/e4_sector_shape_only_convnext_tiny.yaml
+#
+# R3 E4 (availability): the B0 convnext_tiny recipe, unchanged, trained on `sector_shape_only` inputs
+# (src/preprocess/pipeline.py; cache built by scripts/research/build_cache.py).
+# Seeds 11/22/33 via --seed; checkpoint/log dirs are overridden by --out-dir runs/<run_id>.
+
+backbone: convnext_tiny.fb_in22k_ft_in1k
+num_classes: 8
+pretrained: true
+image_size: 224
+normalize_mean: [0.485, 0.456, 0.406]
+normalize_std: [0.229, 0.224, 0.225]
+
+train_csv: data/splits/train.csv
+val_csv: data/splits/val.csv
+class_weights_json: data/processed/class_weights.json
+
+batch_size: 64
+num_workers: 4
+epochs_smoke_test: 5
+epochs_max: 60
+early_stopping_patience: 8
+
+optimizer: adamw
+lr: 1e-4
+weight_decay: 0.01
+scheduler: cosine
+amp: true
+
+log_dir: runs/e4_sector_shape_only_convnext/tb
+checkpoint_dir: runs/e4_sector_shape_only_convnext
+seed: 11
+
+preprocess_mode: sector_shape_only
+caliper_aug_p: 0.0
+sampler: none
+use_class_weights: true
+style_aug: false

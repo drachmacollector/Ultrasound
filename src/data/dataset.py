@@ -24,6 +24,7 @@ from torch.utils.data import Dataset
 
 from src.data.paths import fpdb_image_id, fpdb_patient_id, norm_path
 from src.data.transforms import get_eval_transform, load_and_prep_grayscale_to_rgb
+from src.preprocess.pipeline import cache_path, is_cached
 
 # Single source of truth for label ordering (index = model output position).
 CANONICAL_CLASSES = [
@@ -55,6 +56,10 @@ class FocalPlanesDataset(Dataset):
         return_meta: If True, __getitem__ returns a dict with image, label, image_id,
             patient_id (``fpdb_<n>``), source_machine and operator.
         prepare: Optional hook applied to the HxWx3 uint8 image before ``transform``.
+        preprocess_mode: ``resize`` reads the original image; a cached mode
+            (``src.preprocess.pipeline.CACHED_MODES``) reads the pre-rendered image from
+            ``data/processed/cache/<mode>_<img_size>/fpdb/<image_id>.png``.
+        img_size: model input size (selects the cache folder).
     """
 
     def __init__(
@@ -64,12 +69,17 @@ class FocalPlanesDataset(Dataset):
         label_col: str = "plane_label",
         return_meta: bool = False,
         prepare: Prepare | None = None,
+        preprocess_mode: str = "resize",
+        img_size: int = 224,
     ):
         self.df = pd.read_csv(csv_path)
         self.transform = transform if transform is not None else get_eval_transform()
         self.label_col = label_col
         self.return_meta = return_meta
         self.prepare = prepare
+        self.cached = is_cached(preprocess_mode)
+        self.preprocess_mode = preprocess_mode
+        self.img_size = img_size
 
         unknown = set(str(x) for x in self.df[label_col].unique()) - set(CANONICAL_CLASSES)
         if unknown:
@@ -83,7 +93,9 @@ class FocalPlanesDataset(Dataset):
 
     def __getitem__(self, index: int):
         row = self.df.iloc[index]
-        img = load_and_prep_grayscale_to_rgb(norm_path(row["image_path"]))  # HxWx3 uint8
+        path = (cache_path(self.preprocess_mode, self.img_size, "fpdb", fpdb_image_id(row["image_path"]))
+                if self.cached else norm_path(row["image_path"]))
+        img = load_and_prep_grayscale_to_rgb(path)  # HxWx3 uint8
         if self.prepare is not None:
             img = self.prepare(img, row)
         label_idx = CLASS_TO_IDX[str(row[self.label_col])]

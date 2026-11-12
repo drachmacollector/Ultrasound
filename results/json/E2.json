@@ -1,0 +1,777 @@
+{
+ "hyperparameters": {
+  "max_iter": 300,
+  "learning_rate": 0.05,
+  "max_leaf_nodes": 15,
+  "l2_regularization": 1.0,
+  "random_state": 0
+ },
+ "feature_sets": {
+  "prior": [
+   "source_machine",
+   "operator"
+  ],
+  "geometry": [
+   "width",
+   "height",
+   "aspect",
+   "sector_area_frac",
+   "sector_x0",
+   "sector_y0",
+   "sector_x1",
+   "sector_y1",
+   "sector_width_ratio",
+   "sector_shape_class",
+   "sector_touch_top",
+   "sector_touch_right",
+   "sector_touch_bottom",
+   "sector_touch_left"
+  ],
+  "intensity": [
+   "mean_intensity",
+   "std_intensity",
+   "frac_nonzero"
+  ],
+  "overlay": [
+   "ui_area_frac",
+   "n_ui_components"
+  ],
+  "all": [
+   "source_machine",
+   "operator",
+   "width",
+   "height",
+   "aspect",
+   "sector_area_frac",
+   "sector_x0",
+   "sector_y0",
+   "sector_x1",
+   "sector_y1",
+   "sector_width_ratio",
+   "sector_shape_class",
+   "sector_touch_top",
+   "sector_touch_right",
+   "sector_touch_bottom",
+   "sector_touch_left",
+   "mean_intensity",
+   "std_intensity",
+   "frac_nonzero",
+   "ui_area_frac",
+   "n_ui_components"
+  ]
+ },
+ "n_trainval": 7129,
+ "n_test": 5271,
+ "results": {
+  "prior": {
+   "all_test": {
+    "n_images": 5271,
+    "n_patients": 896,
+    "auroc_standard_vs_other": {
+     "point": 0.541916111549175,
+     "lo": 0.48180806409811017,
+     "hi": 0.599997939106763,
+     "n_images": 5271,
+     "n_clusters": 896,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "bal_acc_8": {
+     "point": 0.1977920075707549,
+     "lo": 0.18615352299027507,
+     "hi": 0.20867813428839593,
+     "n_images": 5271,
+     "n_clusters": 896,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "bal_acc_collapsed": {
+     "point": 0.26706828242859365,
+     "lo": 0.25248296990057445,
+     "hi": 0.2806606321615018,
+     "n_images": 5271,
+     "n_clusters": 896,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    }
+   },
+   "seen_machines": {
+    "n_images": 4200,
+    "n_patients": 808,
+    "auroc_standard_vs_other": {
+     "point": 0.7346022041553749,
+     "lo": 0.7139726542587923,
+     "hi": 0.7514993342623596,
+     "n_images": 4200,
+     "n_clusters": 808,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "bal_acc_8": {
+     "point": 0.22631087138399666,
+     "lo": 0.21749031620884637,
+     "hi": 0.23427657253202983,
+     "n_images": 4200,
+     "n_clusters": 808,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "bal_acc_collapsed": {
+     "point": 0.30315466170177446,
+     "lo": 0.2917739420858609,
+     "hi": 0.31346138884806196,
+     "n_images": 4200,
+     "n_clusters": 808,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    }
+   },
+   "S10_only": {
+    "n_images": 1071,
+    "n_patients": 90,
+    "auroc_standard_vs_other": {
+     "point": 0.5,
+     "lo": 0.5,
+     "hi": 0.5,
+     "n_images": 1071,
+     "n_clusters": 90,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "bal_acc_8": {
+     "point": 0.125,
+     "lo": 0.125,
+     "hi": 0.125,
+     "n_images": 1071,
+     "n_clusters": 90,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "bal_acc_collapsed": {
+     "point": 0.16666666666666666,
+     "lo": 0.16666666666666666,
+     "hi": 0.16666666666666666,
+     "n_images": 1071,
+     "n_clusters": 90,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    }
+   },
+   "groupkfold_trainval_sanity": {
+    "auroc_standard_vs_other": 0.800682277807523,
+    "bal_acc_8": 0.2139253720203645
+   }
+  },
+  "geometry": {
+   "all_test": {
+    "n_images": 5271,
+    "n_patients": 896,
+    "auroc_standard_vs_other": {
+     "point": 0.6745035788367462,
+     "lo": 0.6127093820481068,
+     "hi": 0.7319958095833808,
+     "n_images": 5271,
+     "n_clusters": 896,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "bal_acc_8": {
+     "point": 0.35497843059442813,
+     "lo": 0.3387853836114365,
+     "hi": 0.3695768136057543,
+     "n_images": 5271,
+     "n_clusters": 896,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "bal_acc_collapsed": {
+     "point": 0.47673116512728847,
+     "lo": 0.45756190557959775,
+     "hi": 0.49508140181520766,
+     "n_images": 5271,
+     "n_clusters": 896,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    }
+   },
+   "seen_machines": {
+    "n_images": 4200,
+    "n_patients": 808,
+    "auroc_standard_vs_other": {
+     "point": 0.8718082023486902,
+     "lo": 0.854285024490602,
+     "hi": 0.8865460603354901,
+     "n_images": 4200,
+     "n_clusters": 808,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "bal_acc_8": {
+     "point": 0.3841122500143886,
+     "lo": 0.3696522239311491,
+     "hi": 0.39851213928432266,
+     "n_images": 4200,
+     "n_clusters": 808,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "bal_acc_collapsed": {
+     "point": 0.5116433639967465,
+     "lo": 0.49384923809081066,
+     "hi": 0.528882607760567,
+     "n_images": 4200,
+     "n_clusters": 808,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    }
+   },
+   "S10_only": {
+    "n_images": 1071,
+    "n_patients": 90,
+    "auroc_standard_vs_other": {
+     "point": 0.4982719738596773,
+     "lo": 0.44778068852579206,
+     "hi": 0.5470492553729144,
+     "n_images": 1071,
+     "n_clusters": 90,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "bal_acc_8": {
+     "point": 0.2606503859270154,
+     "lo": 0.2258897074873867,
+     "hi": 0.294404521684379,
+     "n_images": 1071,
+     "n_clusters": 90,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "bal_acc_collapsed": {
+     "point": 0.3675642232369005,
+     "lo": 0.32073849819565153,
+     "hi": 0.41095176597080146,
+     "n_images": 1071,
+     "n_clusters": 90,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    }
+   },
+   "groupkfold_trainval_sanity": {
+    "auroc_standard_vs_other": 0.8828163158743392,
+    "bal_acc_8": 0.385800403168835
+   }
+  },
+  "intensity": {
+   "all_test": {
+    "n_images": 5271,
+    "n_patients": 896,
+    "auroc_standard_vs_other": {
+     "point": 0.6513669474514575,
+     "lo": 0.6289715703215377,
+     "hi": 0.6729093902144135,
+     "n_images": 5271,
+     "n_clusters": 896,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "bal_acc_8": {
+     "point": 0.24649258688326628,
+     "lo": 0.2332957273041185,
+     "hi": 0.25989911028419244,
+     "n_images": 5271,
+     "n_clusters": 896,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "bal_acc_collapsed": {
+     "point": 0.31843681319540273,
+     "lo": 0.30355144705481435,
+     "hi": 0.33344705749781406,
+     "n_images": 5271,
+     "n_clusters": 896,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    }
+   },
+   "seen_machines": {
+    "n_images": 4200,
+    "n_patients": 808,
+    "auroc_standard_vs_other": {
+     "point": 0.6816900451671184,
+     "lo": 0.6584521585896737,
+     "hi": 0.7042201164335148,
+     "n_images": 4200,
+     "n_clusters": 808,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "bal_acc_8": {
+     "point": 0.258532548508865,
+     "lo": 0.2445273127735664,
+     "hi": 0.2739260194245777,
+     "n_images": 4200,
+     "n_clusters": 808,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "bal_acc_collapsed": {
+     "point": 0.33385191110655676,
+     "lo": 0.31849832435088876,
+     "hi": 0.3510693047929221,
+     "n_images": 4200,
+     "n_clusters": 808,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    }
+   },
+   "S10_only": {
+    "n_images": 1071,
+    "n_patients": 90,
+    "auroc_standard_vs_other": {
+     "point": 0.5459026580183904,
+     "lo": 0.5030632508728825,
+     "hi": 0.591627704232333,
+     "n_images": 1071,
+     "n_clusters": 90,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "bal_acc_8": {
+     "point": 0.16423217245130206,
+     "lo": 0.13416859773653644,
+     "hi": 0.1944710528977288,
+     "n_images": 1071,
+     "n_clusters": 90,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "bal_acc_collapsed": {
+     "point": 0.2131564839546735,
+     "lo": 0.18025774760429494,
+     "hi": 0.24997561274857127,
+     "n_images": 1071,
+     "n_clusters": 90,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    }
+   },
+   "groupkfold_trainval_sanity": {
+    "auroc_standard_vs_other": 0.7710284117707562,
+    "bal_acc_8": 0.2847791617148149
+   }
+  },
+  "overlay": {
+   "all_test": {
+    "n_images": 5271,
+    "n_patients": 896,
+    "auroc_standard_vs_other": {
+     "point": 0.7508520408010941,
+     "lo": 0.720315346026183,
+     "hi": 0.7787920000550961,
+     "n_images": 5271,
+     "n_clusters": 896,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "bal_acc_8": {
+     "point": 0.30670831589680686,
+     "lo": 0.2935851790543734,
+     "hi": 0.3191538323645764,
+     "n_images": 5271,
+     "n_clusters": 896,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "bal_acc_collapsed": {
+     "point": 0.40091011490050227,
+     "lo": 0.3834627618837349,
+     "hi": 0.41686415901313323,
+     "n_images": 5271,
+     "n_clusters": 896,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    }
+   },
+   "seen_machines": {
+    "n_images": 4200,
+    "n_patients": 808,
+    "auroc_standard_vs_other": {
+     "point": 0.8180771093044263,
+     "lo": 0.7963317876126056,
+     "hi": 0.8362377366247121,
+     "n_images": 4200,
+     "n_clusters": 808,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "bal_acc_8": {
+     "point": 0.32614372360242033,
+     "lo": 0.31301319435052694,
+     "hi": 0.3379551314775952,
+     "n_images": 4200,
+     "n_clusters": 808,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "bal_acc_collapsed": {
+     "point": 0.42715978294872564,
+     "lo": 0.4114646187671096,
+     "hi": 0.4417636635882414,
+     "n_images": 4200,
+     "n_clusters": 808,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    }
+   },
+   "S10_only": {
+    "n_images": 1071,
+    "n_patients": 90,
+    "auroc_standard_vs_other": {
+     "point": 0.6708389479637218,
+     "lo": 0.6298842962060546,
+     "hi": 0.70919766431562,
+     "n_images": 1071,
+     "n_clusters": 90,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "bal_acc_8": {
+     "point": 0.18145865941593267,
+     "lo": 0.15523204370724086,
+     "hi": 0.2065496462569978,
+     "n_images": 1071,
+     "n_clusters": 90,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "bal_acc_collapsed": {
+     "point": 0.22509739310035845,
+     "lo": 0.19088285250676437,
+     "hi": 0.2583542056037759,
+     "n_images": 1071,
+     "n_clusters": 90,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    }
+   },
+   "groupkfold_trainval_sanity": {
+    "auroc_standard_vs_other": 0.8514955563769726,
+    "bal_acc_8": 0.32562012899097365
+   }
+  },
+  "all": {
+   "all_test": {
+    "n_images": 5271,
+    "n_patients": 896,
+    "auroc_standard_vs_other": {
+     "point": 0.7743835931806216,
+     "lo": 0.73436366716947,
+     "hi": 0.8119872487403503,
+     "n_images": 5271,
+     "n_clusters": 896,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "bal_acc_8": {
+     "point": 0.4310293421954623,
+     "lo": 0.41528353092632325,
+     "hi": 0.4457514618444923,
+     "n_images": 5271,
+     "n_clusters": 896,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "bal_acc_collapsed": {
+     "point": 0.5569718442909556,
+     "lo": 0.5392727054565489,
+     "hi": 0.5738086495328688,
+     "n_images": 5271,
+     "n_clusters": 896,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    }
+   },
+   "seen_machines": {
+    "n_images": 4200,
+    "n_patients": 808,
+    "auroc_standard_vs_other": {
+     "point": 0.8799283107497742,
+     "lo": 0.8620161176100831,
+     "hi": 0.8943297122880483,
+     "n_images": 4200,
+     "n_clusters": 808,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "bal_acc_8": {
+     "point": 0.4648188723096251,
+     "lo": 0.4501659724737467,
+     "hi": 0.4793717374349326,
+     "n_images": 4200,
+     "n_clusters": 808,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "bal_acc_collapsed": {
+     "point": 0.5987684160638952,
+     "lo": 0.5844305025983434,
+     "hi": 0.6135954604237591,
+     "n_images": 4200,
+     "n_clusters": 808,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    }
+   },
+   "S10_only": {
+    "n_images": 1071,
+    "n_patients": 90,
+    "auroc_standard_vs_other": {
+     "point": 0.6258893225439338,
+     "lo": 0.5786754184145788,
+     "hi": 0.6754847619874976,
+     "n_images": 1071,
+     "n_clusters": 90,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "bal_acc_8": {
+     "point": 0.24740699228943575,
+     "lo": 0.2079432982994755,
+     "hi": 0.28746540286583727,
+     "n_images": 1071,
+     "n_clusters": 90,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "bal_acc_collapsed": {
+     "point": 0.32001761679382085,
+     "lo": 0.2706783141202369,
+     "hi": 0.36941769226468635,
+     "n_images": 1071,
+     "n_clusters": 90,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    }
+   },
+   "groupkfold_trainval_sanity": {
+    "auroc_standard_vs_other": 0.9154110504407045,
+    "bal_acc_8": 0.49431260458831155
+   }
+  }
+ },
+ "paired_auroc_vs_prior": {
+  "seen_machines": {
+   "geometry": {
+    "delta": 0.13720599819331525,
+    "lo": 0.12181913970635085,
+    "hi": 0.15405248126068982,
+    "p_two_sided": 0.0004997501249375312,
+    "point_a": 0.7346022041553749,
+    "point_b": 0.8718082023486902,
+    "n_images": 4200,
+    "n_clusters": 808,
+    "method": "paired_cluster_percentile",
+    "B": 2000,
+    "seed": 20261109,
+    "n_nan": 0
+   },
+   "overlay": {
+    "delta": 0.08347490514905143,
+    "lo": 0.06390860749318526,
+    "hi": 0.10455838239806226,
+    "p_two_sided": 0.0004997501249375312,
+    "point_a": 0.7346022041553749,
+    "point_b": 0.8180771093044263,
+    "n_images": 4200,
+    "n_clusters": 808,
+    "method": "paired_cluster_percentile",
+    "B": 2000,
+    "seed": 20261109,
+    "n_nan": 0
+   },
+   "all": {
+    "delta": 0.14532610659439926,
+    "lo": 0.12903509817082265,
+    "hi": 0.16375755877848108,
+    "p_two_sided": 0.0004997501249375312,
+    "point_a": 0.7346022041553749,
+    "point_b": 0.8799283107497742,
+    "n_images": 4200,
+    "n_clusters": 808,
+    "method": "paired_cluster_percentile",
+    "B": 2000,
+    "seed": 20261109,
+    "n_nan": 0
+   }
+  },
+  "all_test": {
+   "geometry": {
+    "delta": 0.1325874672875712,
+    "lo": 0.11907644762737622,
+    "hi": 0.14722469291165657,
+    "p_two_sided": 0.0004997501249375312,
+    "point_a": 0.541916111549175,
+    "point_b": 0.6745035788367462,
+    "n_images": 5271,
+    "n_clusters": 896,
+    "method": "paired_cluster_percentile",
+    "B": 2000,
+    "seed": 20261109,
+    "n_nan": 0
+   },
+   "overlay": {
+    "delta": 0.20893592925191917,
+    "lo": 0.17239695390306825,
+    "hi": 0.24686454039643388,
+    "p_two_sided": 0.0004997501249375312,
+    "point_a": 0.541916111549175,
+    "point_b": 0.7508520408010941,
+    "n_images": 5271,
+    "n_clusters": 896,
+    "method": "paired_cluster_percentile",
+    "B": 2000,
+    "seed": 20261109,
+    "n_nan": 0
+   },
+   "all": {
+    "delta": 0.2324674816314466,
+    "lo": 0.20287159610852018,
+    "hi": 0.2637009813222705,
+    "p_two_sided": 0.0004997501249375312,
+    "point_a": 0.541916111549175,
+    "point_b": 0.7743835931806216,
+    "n_images": 5271,
+    "n_clusters": 896,
+    "method": "paired_cluster_percentile",
+    "B": 2000,
+    "seed": 20261109,
+    "n_nan": 0
+   }
+  }
+ },
+ "b0_full_image_auroc": {
+  "all_test": {
+   "point": 0.9764800580654942,
+   "lo": 0.9714436368965673,
+   "hi": 0.9809044919696951,
+   "n_images": 5271,
+   "n_clusters": 896,
+   "method": "cluster_percentile",
+   "B": 2000,
+   "seed": 20261109,
+   "n_nan": 0
+  },
+  "seen_machines": {
+   "point": 0.9738159349593496,
+   "lo": 0.9663522787924516,
+   "hi": 0.9798141995443727,
+   "n_images": 4200,
+   "n_clusters": 808,
+   "method": "cluster_percentile",
+   "B": 2000,
+   "seed": 20261109,
+   "n_nan": 0
+  },
+  "S10_only": {
+   "point": 0.9808014550329198,
+   "lo": 0.9726576969914026,
+   "hi": 0.9880141794748116,
+   "n_images": 1071,
+   "n_clusters": 90,
+   "method": "cluster_percentile",
+   "B": 2000,
+   "seed": 20261109,
+   "n_nan": 0
+  }
+ }
+}

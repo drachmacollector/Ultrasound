@@ -32,7 +32,7 @@ deviation: caliper detector recall 0.20 (train) after one tuning round; dotted-l
 ---
 
 ## 2026-11-12 — R2 — Evaluation core and re-evaluation of the six frozen checkpoints (Gate G2)
-commit: uncommitted working tree on `main` (base `8f6ba09`; parquet provenance records `8f6ba09a68-dirty`)
+commit: `739dd78` (parquet provenance records `8f6ba09a68-dirty`: run before the commit)
 run_ids: `legacy_convnext_s42`, `legacy_effv2s_s42`, `legacy_repvgga1_s42`, `legacy_repvgga2_s42`, `legacy_mnv3l_s42`, `legacy_efflite0_s42`
 outputs: `src/eval/{metrics,stats,datasets,predict,scoring,external}.py`, `results/preds/legacy_*_s42/` (30 parquet + meta + features), `results/json/{R2_existing_models,G2}.json`, `results/tables/R2_existing_models.md`, `results/figures/R2_rejection_vs_confusion.{pdf,png}`, `docs/research/GATE_G2.md`
 outcome: G2 PASSED. All 6 primary and 12 secondary reproduction checks match: convnext test macro-F1 0.8929 (legacy 0.8927); HC18+UCL acc_full 83.63% (83.6%); HC18 81.38% / UCL 88.92%; Head→Other 180/194. The other 5 backbones match their macro-F1 to ≤0.0003, and their cross-device accuracy and Head→Other counts match exactly.
@@ -47,3 +47,40 @@ deviation: a `RatioMetric` fast path (sum/sum ratios) was added next to the conf
 deviation: G2 macro-F1 targets for the five other backbones use the 4-decimal values in archive/docs/EVAL_REPORT.md, not the 2-decimal classification reports. This is stricter.
 deviation: extra analyses not in the plan: pairwise comparison on the legacy endpoint (HC18+UCL acc_full), HC18+UCL legacy-set table, and errors on contradictory duplicates.
 deviation: `src/__init__.py` added; it sets `NO_ALBUMENTATIONS_UPDATE=1`, because albumentations' import-time version check made network calls and once timed out during the run.
+
+---
+
+## 2026-11-12 — R3.E1 — Descriptive confounding
+commit: uncommitted (base `739dd78`)   run_ids: none   outputs: `results/{json,tables}/E1.*`, `results/figures/E1_confound_mosaic.*`
+outcome: shares match 00 §3.1 to 3 dp (asserted). Train+val 'Other' share Aloka − Voluson E6 = 51.5 pp [45.0, 57.4]; test S10 'Other' share 51.6% [44.0, 58.1] vs E6 training prior 13.6% [9.7, 18.0]. Cramér's V (train+val): machine × class 0.32 [0.30, 0.43], operator × class 0.31 [0.28, 0.35], image-size bucket × machine 0.79 [0.78, 0.97].
+deviation: strata with < 10 patients get no CI (S10 train+val: 11 images from 1 patient).
+
+## 2026-11-12 — R3.E2 — No-pixel metadata model (P1a)
+commit: uncommitted   outputs: `results/{json,tables}/E2.*`, `results/figures/E2_metadata_roc.*`, `results/preds/e2_metadata/`
+outcome: P1a supported. `prior` (machine + operator) AUROC standard vs Other on seen machines 0.735 [0.714, 0.751] (reproduces the proposal's preliminary 0.735); `geometry` 0.872 [0.854, 0.887]; `all` 0.880 [0.862, 0.894]; full-image B0 0.974. Geometry − prior, paired: +0.137 [+0.122, +0.154]. On S10 the prior is uninformative (0.500).
+deviation: `overlay` features use only the validated UI detector (G1); caliper features excluded. The planned footnote "geometry ≈ prior is expected" was replaced by a data-driven sentence plus paired AUROC contrasts, because geometry clearly exceeds the prior.
+
+## 2026-11-12 — R3.E6 — Stratified performance (P1c)
+commit: uncommitted   outputs: `results/{json,tables}/E6.*`, `results/figures/E6_*`
+outcome: 'Other' recall (6 backbones) Aloka 0.92–0.95, Voluson E6 0.35–0.52, S10 0.81–0.92. P1c (S10 recall lower than E6 and Aloka) NOT supported vs E6: S10 − E6 = +40 to +51 pp (all CIs > 0). Partly supported vs Aloka: S10 − Aloka = −3 to −11 pp (CI < 0 for 5 of 6 backbones). False rejection of standard planes is low everywhere (0–7%). 2 test patients have images from > 1 machine (joint bootstrap).
+deviation: overlay strata not run (G1: caliper detector not validated; UI present on 100% of images). GEE (exchangeable) odds ratios reported as supplementary.
+
+## 2026-11-12 — R3 Box 1 — `render_box1.py`
+outputs: `docs/research/BOX1_ILLUSTRATIVE_ANALYSIS.md` (auto-rendered from E1/E2/E6/R2 JSON; ~220 words; the S10 sentence is chosen by the sign of the contrast, so it states the refuted prediction).
+
+## 2026-11-12 — R3.E3 — Feature decodability (P1b)
+commit: uncommitted   run_ids: `imagenet_<short>` (feature extraction only)   outputs: `results/{json,tables}/E3.*`, `results/figures/E3_decodability.*`
+outcome: P1b supported. Machine decodable within one true class from fine-tuned features: mean balanced accuracy 0.85–0.97 (chance 0.33); unconditional 4-way 0.82–0.89 (chance 0.25); operator 0.76–0.85. ImageNet-only features decode the machine even better (within class 0.99–1.00): fine-tuning REDUCES within-class machine decodability by 2–14 pp (all paired CIs < 0). Fine-tuning does not amplify acquisition information.
+deviation: probe solver unchanged (sklearn lbfgs) but run with single-threaded BLAS in torch-free worker processes; a torch L-BFGS solver was written, validated and then removed when BLAS oversubscription turned out to be the cause of slowness.
+
+## 2026-11-12 — R3.E5 — Reliance perturbations (P2b)
+commit: uncommitted   outputs: `results/preds/legacy_*_s42/fpdb_test__perturb-*.parquet`, `results/{json,tables}/E5.*`, `results/figures/E5_reliance.*`
+outcome: removing out-of-sector content (median 15% of the frame; all detected UI) flips 0.6–2.5% of 8-way predictions and lowers p(Other) by 0–2.4 pp, consistently across `b_zero`/`b_mean`/`b_blur` (same sign, CIs exclude 0, size ratio ≤ 1.5) for 5 of 6 backbones (not mobilenetv3). `a_text` (1.3% of the frame) ≈ `b_*`. Largest for tf_efficientnetv2_s (Other recall −4.5 to −4.8 pp). Effects concentrate on Aloka images. Exploratory UI transplant: an Aloka frame on Voluson E6 images raises p(Other) by +2.3 pp (convnext) / +2.6 pp (effv2s). Reliance on out-of-sector content is real but small.
+deviation: `a_marker`, `c_control` (the pre-declared primary contrast) and `d_pairs` not run (G1). Text drawn on top of the anatomy is not detected at pixel level and is left in place; E5 measures out-of-sector reliance only (coverage table in E5.md).
+
+## 2026-11-12 — R3.E4 — Availability: training without anatomy (P2a)
+commit: uncommitted   run_ids: `e4_nonanat_only_convnext_s{11,22,33}`, `e4_overlay_only_convnext_s{11,22,33}`, `e4_sector_shape_only_convnext_s11` (`runs/`, ~2 GPU-h)
+outputs: `configs/research/e4_*`, `data/processed/cache/` (gitignored), `results/preds/e4_*`, `results/{json,tables}/E4.*`
+outcome: P2a supported. 8-way balanced accuracy without anatomy: `nonanat_only` 0.480 [0.466, 0.492], `overlay_only` 0.421 [0.408, 0.433], `sector_shape_only` 0.436 [0.419, 0.452] (chance 0.125; E2 prior 0.198; E2 all 0.431; full image 0.901). AUROC standard vs Other 0.81 / 0.79 / 0.76. Most of the signal is the sector outline (zoom, depth, framing).
+deviation: cached modes are stored pre-resized to 224 px (identical pixels to on-the-fly resizing; tested) instead of native resolution, for training speed. `nonanat_only` keeps one in-sector grey level per image.
+deviation: RESULTS.md "RQ1–RQ2" section is rendered in R6 (`render_results.py` does not exist yet); all numbers are in results/json/E1–E6.json. E7 (saliency out-of-sector fraction) runs in R4 as planned.

@@ -35,3 +35,31 @@ def test_image_features_keys_and_ranges() -> None:
     assert 0 < feats["sector_area_frac"] < 1 and feats["sector_shape_class"] == "fan"
     assert feats["ui_area_frac"] > 0 and feats["caliper_score"] == 0
     assert set(masks) == set(MASK_KEYS) and all(m.shape == (h, w) for m in masks.values())
+
+
+def test_e2_feature_builder_on_synthetic_frame() -> None:
+    """10-row synthetic metadata frame: feature sets, categorical levels, no forbidden columns."""
+    import pandas as pd
+
+    from src.audit.meta_features import FEATURE_SETS, FORBIDDEN, build_features, category_levels
+
+    n = 10
+    meta = pd.DataFrame({
+        "source_machine": ["Aloka", "Voluson E6"] * 5, "operator": ["Op. 3", "Op. 1"] * 5,
+        "width": range(600, 610), "height": [400] * n, "aspect": [1.5] * n, "sector_area_frac": [0.5] * n,
+        "sector_x0": [0.1] * n, "sector_y0": [0.0] * n, "sector_x1": [0.9] * n, "sector_y1": [1.0] * n,
+        "sector_width_ratio": [0.7] * n, "sector_shape_class": ["fan", "linear"] * 5,
+        "sector_touch_top": [True] * n, "sector_touch_right": [False] * n, "sector_touch_bottom": [True] * n,
+        "sector_touch_left": [False] * n, "mean_intensity": [30.0] * n, "std_intensity": [20.0] * n,
+        "frac_nonzero": [0.6] * n, "ui_area_frac": [0.02] * n, "n_ui_components": [40] * n,
+        "plane_label": ["Other"] * n, "caliper_score": [0] * n,
+    })
+    X = build_features(meta, "all")
+    assert list(X.columns) == list(FEATURE_SETS["all"]) and len(X) == n
+    assert not FORBIDDEN & set(X.columns)
+    assert isinstance(X["source_machine"].dtype, pd.CategoricalDtype) and X["sector_touch_top"].dtype.kind == "i"
+    # test rows with an unseen level get NaN codes instead of silently new categories
+    test = meta.head(2).assign(source_machine=["Voluson S10", "Aloka"])
+    Xt = build_features(test, "prior", category_levels(meta))
+    assert Xt["source_machine"].isna().tolist() == [True, False]
+    assert list(build_features(meta, "prior").columns) == ["source_machine", "operator"]

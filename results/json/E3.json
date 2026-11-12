@@ -1,0 +1,2549 @@
+{
+ "models": {
+  "convnext_tiny": {
+   "finetuned": {
+    "machine4": {
+     "bal_acc": {
+      "point": 0.864534337766361,
+      "lo": 0.8370582281599357,
+      "hi": 0.893907665966539,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 4,
+     "chance": 0.25,
+     "classes": [
+      "Aloka",
+      "Other",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 5271,
+     "C_by_fold": "0.1,0.01,0.01,0.01,0.01",
+     "seconds": 56.5
+    },
+    "machine3": {
+     "bal_acc": {
+      "point": 0.9732198275865015,
+      "lo": 0.9681276991187093,
+      "hi": 0.9778229587362022,
+      "n_images": 5214,
+      "n_clusters": 868,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 5214,
+     "C_by_fold": "1.0,0.1,0.1,0.1,0.1",
+     "seconds": 44.3
+    },
+    "operator4": {
+     "bal_acc": {
+      "point": 0.8460218810900031,
+      "lo": 0.8317005721398428,
+      "hi": 0.8598416829180193,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 4,
+     "chance": 0.25,
+     "classes": [
+      "Op. 1",
+      "Op. 2",
+      "Op. 3",
+      "Other"
+     ],
+     "n_images": 5271,
+     "C_by_fold": "0.1,0.01,0.01,0.01,0.01",
+     "seconds": 72.1
+    },
+    "machine|Fetal_abdomen": {
+     "bal_acc": {
+      "point": 0.9722772860871663,
+      "lo": 0.9525157675519366,
+      "hi": 0.9886345835125783,
+      "n_images": 354,
+      "n_clusters": 299,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 354,
+     "C_by_fold": "1.0,1.0,10.0,10.0,1.0",
+     "seconds": 2.3
+    },
+    "machine|Fetal_femur": {
+     "bal_acc": {
+      "point": 0.9216246787599361,
+      "lo": 0.890636244277985,
+      "hi": 0.9507170863654872,
+      "n_images": 506,
+      "n_clusters": 366,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 506,
+     "C_by_fold": "10.0,10.0,10.0,10.0,10.0",
+     "seconds": 3.4
+    },
+    "machine|Brain_Trans_thalamic": {
+     "bal_acc": {
+      "point": 0.9773027477572932,
+      "lo": 0.9641999639071408,
+      "hi": 0.9881726815609634,
+      "n_images": 747,
+      "n_clusters": 433,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 747,
+     "C_by_fold": "10.0,10.0,10.0,10.0,10.0",
+     "seconds": 4.3
+    },
+    "machine|Other": {
+     "bal_acc": {
+      "point": 0.9596927289850723,
+      "lo": 0.9460639384844204,
+      "hi": 0.9720497857904771,
+      "n_images": 1668,
+      "n_clusters": 353,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 1668,
+     "C_by_fold": "10.0,1.0,10.0,0.1,0.1",
+     "seconds": 10.5
+    },
+    "class|Aloka": {
+     "bal_acc": {
+      "point": 0.9136626571431103,
+      "lo": 0.8908991187934606,
+      "hi": 0.9346830273997201,
+      "n_images": 1737,
+      "n_clusters": 389,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 8,
+     "chance": 0.125,
+     "classes": [
+      "Brain_Trans_cerebellum",
+      "Brain_Trans_thalamic",
+      "Brain_Trans_ventricular",
+      "Fetal_abdomen",
+      "Fetal_femur",
+      "Fetal_thorax",
+      "Maternal_cervix",
+      "Other"
+     ],
+     "n_images": 1737,
+     "C_by_fold": "0.01,0.01,0.01,0.01,0.01",
+     "seconds": 21.7
+    },
+    "class|Voluson E6": {
+     "bal_acc": {
+      "point": 0.8780661845071648,
+      "lo": 0.863091820070339,
+      "hi": 0.8918161473378763,
+      "n_images": 2406,
+      "n_clusters": 391,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 8,
+     "chance": 0.125,
+     "classes": [
+      "Brain_Trans_cerebellum",
+      "Brain_Trans_thalamic",
+      "Brain_Trans_ventricular",
+      "Fetal_abdomen",
+      "Fetal_femur",
+      "Fetal_thorax",
+      "Maternal_cervix",
+      "Other"
+     ],
+     "n_images": 2406,
+     "C_by_fold": "0.01,0.01,0.01,0.01,0.01",
+     "seconds": 36.9
+    },
+    "class|Voluson S10": {
+     "bal_acc": {
+      "point": 0.8893067336473978,
+      "lo": 0.8639377230841753,
+      "hi": 0.9133582417119563,
+      "n_images": 1071,
+      "n_clusters": 90,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 8,
+     "chance": 0.125,
+     "classes": [
+      "Brain_Trans_cerebellum",
+      "Brain_Trans_thalamic",
+      "Brain_Trans_ventricular",
+      "Fetal_abdomen",
+      "Fetal_femur",
+      "Fetal_thorax",
+      "Maternal_cervix",
+      "Other"
+     ],
+     "n_images": 1071,
+     "C_by_fold": "0.01,0.01,0.01,0.01,0.01",
+     "seconds": 15.7
+    },
+    "within_class_mean": {
+     "point": 0.957724360397367,
+     "lo": 0.9482495690672572,
+     "hi": 0.96689310565078,
+     "n_images": 3275,
+     "n_clusters": 543,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    }
+   },
+   "imagenet": {
+    "machine4": {
+     "bal_acc": {
+      "point": 0.9562462023813687,
+      "lo": 0.9296096641698712,
+      "hi": 0.978253727964671,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 4,
+     "chance": 0.25,
+     "classes": [
+      "Aloka",
+      "Other",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 5271,
+     "C_by_fold": "1.0,1.0,1.0,1.0,0.01",
+     "seconds": 33.1
+    },
+    "machine3": {
+     "bal_acc": {
+      "point": 0.9944976993003832,
+      "lo": 0.9919917291824508,
+      "hi": 0.9967172732090592,
+      "n_images": 5214,
+      "n_clusters": 868,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 5214,
+     "C_by_fold": "1.0,1.0,10.0,0.1,1.0",
+     "seconds": 24.0
+    },
+    "operator4": {
+     "bal_acc": {
+      "point": 0.9409813321535486,
+      "lo": 0.9298476694697819,
+      "hi": 0.9508860981887707,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 4,
+     "chance": 0.25,
+     "classes": [
+      "Op. 1",
+      "Op. 2",
+      "Op. 3",
+      "Other"
+     ],
+     "n_images": 5271,
+     "C_by_fold": "0.1,0.1,0.1,1.0,0.1",
+     "seconds": 51.1
+    },
+    "machine|Fetal_abdomen": {
+     "bal_acc": {
+      "point": 0.9980039920159681,
+      "lo": 0.9937106918238993,
+      "hi": 1.0,
+      "n_images": 354,
+      "n_clusters": 299,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 354,
+     "C_by_fold": "10.0,0.1,10.0,1.0,0.1",
+     "seconds": 2.6
+    },
+    "machine|Fetal_femur": {
+     "bal_acc": {
+      "point": 0.9979797979797981,
+      "lo": 0.9948875255623721,
+      "hi": 1.0,
+      "n_images": 506,
+      "n_clusters": 366,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 506,
+     "C_by_fold": "0.01,1.0,0.1,0.1,0.1",
+     "seconds": 3.4
+    },
+    "machine|Brain_Trans_thalamic": {
+     "bal_acc": {
+      "point": 1.0,
+      "lo": 1.0,
+      "hi": 1.0,
+      "n_images": 747,
+      "n_clusters": 433,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 747,
+     "C_by_fold": "0.01,0.01,0.01,0.01,0.01",
+     "seconds": 4.6
+    },
+    "machine|Other": {
+     "bal_acc": {
+      "point": 0.9962431713416001,
+      "lo": 0.9917310544504712,
+      "hi": 0.9995955664986308,
+      "n_images": 1668,
+      "n_clusters": 353,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 1668,
+     "C_by_fold": "10.0,10.0,10.0,0.1,10.0",
+     "seconds": 7.5
+    },
+    "class|Aloka": {
+     "bal_acc": {
+      "point": 0.7904791289265268,
+      "lo": 0.7602182735054893,
+      "hi": 0.820228666028116,
+      "n_images": 1737,
+      "n_clusters": 389,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 8,
+     "chance": 0.125,
+     "classes": [
+      "Brain_Trans_cerebellum",
+      "Brain_Trans_thalamic",
+      "Brain_Trans_ventricular",
+      "Fetal_abdomen",
+      "Fetal_femur",
+      "Fetal_thorax",
+      "Maternal_cervix",
+      "Other"
+     ],
+     "n_images": 1737,
+     "C_by_fold": "0.01,0.01,0.1,0.01,0.01",
+     "seconds": 27.3
+    },
+    "class|Voluson E6": {
+     "bal_acc": {
+      "point": 0.7500960683695116,
+      "lo": 0.7313384432308481,
+      "hi": 0.7689363509766849,
+      "n_images": 2406,
+      "n_clusters": 391,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 8,
+     "chance": 0.125,
+     "classes": [
+      "Brain_Trans_cerebellum",
+      "Brain_Trans_thalamic",
+      "Brain_Trans_ventricular",
+      "Fetal_abdomen",
+      "Fetal_femur",
+      "Fetal_thorax",
+      "Maternal_cervix",
+      "Other"
+     ],
+     "n_images": 2406,
+     "C_by_fold": "0.01,0.1,0.01,0.01,0.01",
+     "seconds": 42.2
+    },
+    "class|Voluson S10": {
+     "bal_acc": {
+      "point": 0.731263538549482,
+      "lo": 0.7006185333324567,
+      "hi": 0.7624869216337934,
+      "n_images": 1071,
+      "n_clusters": 90,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 8,
+     "chance": 0.125,
+     "classes": [
+      "Brain_Trans_cerebellum",
+      "Brain_Trans_thalamic",
+      "Brain_Trans_ventricular",
+      "Fetal_abdomen",
+      "Fetal_femur",
+      "Fetal_thorax",
+      "Maternal_cervix",
+      "Other"
+     ],
+     "n_images": 1071,
+     "C_by_fold": "0.01,0.01,0.01,0.01,0.1",
+     "seconds": 20.9
+    },
+    "within_class_mean": {
+     "point": 0.9980567403343417,
+     "lo": 0.9963591994821084,
+     "hi": 0.9994145800757677,
+     "n_images": 3275,
+     "n_clusters": 543,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    }
+   },
+   "finetuned_minus_imagenet_within_class": {
+    "delta": -0.040332379936974694,
+    "lo": -0.049730408831607315,
+    "hi": -0.03127147961211641,
+    "p_two_sided": 0.0004997501249375312,
+    "point_a": 0.9980567403343417,
+    "point_b": 0.957724360397367,
+    "n_images": 3275,
+    "n_clusters": 543,
+    "method": "paired_cluster_percentile",
+    "B": 2000,
+    "seed": 20261109,
+    "n_nan": 0
+   }
+  },
+  "tf_efficientnetv2_s": {
+   "finetuned": {
+    "machine4": {
+     "bal_acc": {
+      "point": 0.8188960467742231,
+      "lo": 0.7849307913527751,
+      "hi": 0.853737089757005,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 4,
+     "chance": 0.25,
+     "classes": [
+      "Aloka",
+      "Other",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 5271,
+     "C_by_fold": "1.0,0.1,0.1,0.1,1.0",
+     "seconds": 223.2
+    },
+    "machine3": {
+     "bal_acc": {
+      "point": 0.9375171991824508,
+      "lo": 0.9276762546655307,
+      "hi": 0.9461959299440311,
+      "n_images": 5214,
+      "n_clusters": 868,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 5214,
+     "C_by_fold": "1.0,1.0,10.0,1.0,1.0",
+     "seconds": 179.6
+    },
+    "operator4": {
+     "bal_acc": {
+      "point": 0.8363966372175549,
+      "lo": 0.8215999980001597,
+      "hi": 0.8504950546151833,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 4,
+     "chance": 0.25,
+     "classes": [
+      "Op. 1",
+      "Op. 2",
+      "Op. 3",
+      "Other"
+     ],
+     "n_images": 5271,
+     "C_by_fold": "1.0,1.0,1.0,1.0,1.0",
+     "seconds": 315.9
+    },
+    "machine|Fetal_abdomen": {
+     "bal_acc": {
+      "point": 0.8406581982555036,
+      "lo": 0.8005236205919317,
+      "hi": 0.8804587047477037,
+      "n_images": 354,
+      "n_clusters": 299,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 354,
+     "C_by_fold": "10.0,10.0,10.0,1.0,10.0",
+     "seconds": 9.2
+    },
+    "machine|Fetal_femur": {
+     "bal_acc": {
+      "point": 0.8945472815668319,
+      "lo": 0.8597422617136402,
+      "hi": 0.9258985780798291,
+      "n_images": 506,
+      "n_clusters": 366,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 506,
+     "C_by_fold": "10.0,10.0,10.0,10.0,10.0",
+     "seconds": 10.3
+    },
+    "machine|Brain_Trans_thalamic": {
+     "bal_acc": {
+      "point": 0.926335028607756,
+      "lo": 0.901905953066337,
+      "hi": 0.9496649085564222,
+      "n_images": 747,
+      "n_clusters": 433,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 747,
+     "C_by_fold": "10.0,10.0,10.0,10.0,10.0",
+     "seconds": 15.9
+    },
+    "machine|Other": {
+     "bal_acc": {
+      "point": 0.9068819208547213,
+      "lo": 0.8854702511318703,
+      "hi": 0.9290766791851802,
+      "n_images": 1668,
+      "n_clusters": 353,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 1668,
+     "C_by_fold": "0.1,1.0,1.0,1.0,0.1",
+     "seconds": 51.4
+    },
+    "class|Aloka": {
+     "bal_acc": {
+      "point": 0.9267978278131701,
+      "lo": 0.9041260654353681,
+      "hi": 0.946136931620534,
+      "n_images": 1737,
+      "n_clusters": 389,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 8,
+     "chance": 0.125,
+     "classes": [
+      "Brain_Trans_cerebellum",
+      "Brain_Trans_thalamic",
+      "Brain_Trans_ventricular",
+      "Fetal_abdomen",
+      "Fetal_femur",
+      "Fetal_thorax",
+      "Maternal_cervix",
+      "Other"
+     ],
+     "n_images": 1737,
+     "C_by_fold": "0.01,0.01,0.01,0.01,0.1",
+     "seconds": 113.2
+    },
+    "class|Voluson E6": {
+     "bal_acc": {
+      "point": 0.852599511685599,
+      "lo": 0.8374513169449125,
+      "hi": 0.8673887210533068,
+      "n_images": 2406,
+      "n_clusters": 391,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 8,
+     "chance": 0.125,
+     "classes": [
+      "Brain_Trans_cerebellum",
+      "Brain_Trans_thalamic",
+      "Brain_Trans_ventricular",
+      "Fetal_abdomen",
+      "Fetal_femur",
+      "Fetal_thorax",
+      "Maternal_cervix",
+      "Other"
+     ],
+     "n_images": 2406,
+     "C_by_fold": "0.01,0.01,0.01,0.01,0.01",
+     "seconds": 137.1
+    },
+    "class|Voluson S10": {
+     "bal_acc": {
+      "point": 0.8825982491457027,
+      "lo": 0.856860413788212,
+      "hi": 0.9073351494743499,
+      "n_images": 1071,
+      "n_clusters": 90,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 8,
+     "chance": 0.125,
+     "classes": [
+      "Brain_Trans_cerebellum",
+      "Brain_Trans_thalamic",
+      "Brain_Trans_ventricular",
+      "Fetal_abdomen",
+      "Fetal_femur",
+      "Fetal_thorax",
+      "Maternal_cervix",
+      "Other"
+     ],
+     "n_images": 1071,
+     "C_by_fold": "0.01,0.1,0.01,0.01,0.01",
+     "seconds": 79.2
+    },
+    "within_class_mean": {
+     "point": 0.8921056073212031,
+     "lo": 0.8745147644252796,
+     "hi": 0.908885883582177,
+     "n_images": 3275,
+     "n_clusters": 543,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    }
+   },
+   "imagenet": {
+    "machine4": {
+     "bal_acc": {
+      "point": 0.9224575703386066,
+      "lo": 0.8903713046572307,
+      "hi": 0.9520605227100498,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 4,
+     "chance": 0.25,
+     "classes": [
+      "Aloka",
+      "Other",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 5271,
+     "C_by_fold": "10.0,0.01,0.01,1.0,0.01",
+     "seconds": 40.8
+    },
+    "machine3": {
+     "bal_acc": {
+      "point": 0.9895986611379629,
+      "lo": 0.9861794649809856,
+      "hi": 0.9925495384317107,
+      "n_images": 5214,
+      "n_clusters": 868,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 5214,
+     "C_by_fold": "0.1,1.0,1.0,0.1,0.1",
+     "seconds": 33.0
+    },
+    "operator4": {
+     "bal_acc": {
+      "point": 0.9053346382665327,
+      "lo": 0.8934415643006262,
+      "hi": 0.9169691049121816,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 4,
+     "chance": 0.25,
+     "classes": [
+      "Op. 1",
+      "Op. 2",
+      "Op. 3",
+      "Other"
+     ],
+     "n_images": 5271,
+     "C_by_fold": "0.01,0.1,0.01,0.1,0.1",
+     "seconds": 54.5
+    },
+    "machine|Fetal_abdomen": {
+     "bal_acc": {
+      "point": 0.9980039920159681,
+      "lo": 0.9935483870967742,
+      "hi": 1.0,
+      "n_images": 354,
+      "n_clusters": 299,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 354,
+     "C_by_fold": "0.1,1.0,0.1,10.0,1.0",
+     "seconds": 3.1
+    },
+    "machine|Fetal_femur": {
+     "bal_acc": {
+      "point": 0.973974214817412,
+      "lo": 0.9537322591943644,
+      "hi": 0.9904472726078397,
+      "n_images": 506,
+      "n_clusters": 366,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 506,
+     "C_by_fold": "10.0,10.0,1.0,10.0,0.01",
+     "seconds": 3.8
+    },
+    "machine|Brain_Trans_thalamic": {
+     "bal_acc": {
+      "point": 0.9972222222222222,
+      "lo": 0.9904070973990039,
+      "hi": 1.0,
+      "n_images": 747,
+      "n_clusters": 433,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 747,
+     "C_by_fold": "0.1,0.1,1.0,1.0,0.1",
+     "seconds": 5.4
+    },
+    "machine|Other": {
+     "bal_acc": {
+      "point": 0.9916141891841842,
+      "lo": 0.9857952087116268,
+      "hi": 0.9966337019328712,
+      "n_images": 1668,
+      "n_clusters": 353,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 1668,
+     "C_by_fold": "0.1,1.0,0.1,0.1,1.0",
+     "seconds": 11.3
+    },
+    "class|Aloka": {
+     "bal_acc": {
+      "point": 0.7977990201478842,
+      "lo": 0.7699029877009653,
+      "hi": 0.8256466028243642,
+      "n_images": 1737,
+      "n_clusters": 389,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 8,
+     "chance": 0.125,
+     "classes": [
+      "Brain_Trans_cerebellum",
+      "Brain_Trans_thalamic",
+      "Brain_Trans_ventricular",
+      "Fetal_abdomen",
+      "Fetal_femur",
+      "Fetal_thorax",
+      "Maternal_cervix",
+      "Other"
+     ],
+     "n_images": 1737,
+     "C_by_fold": "0.01,0.01,0.01,0.01,0.01",
+     "seconds": 36.8
+    },
+    "class|Voluson E6": {
+     "bal_acc": {
+      "point": 0.705735119954322,
+      "lo": 0.686044397271082,
+      "hi": 0.7241659461948637,
+      "n_images": 2406,
+      "n_clusters": 391,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 8,
+     "chance": 0.125,
+     "classes": [
+      "Brain_Trans_cerebellum",
+      "Brain_Trans_thalamic",
+      "Brain_Trans_ventricular",
+      "Fetal_abdomen",
+      "Fetal_femur",
+      "Fetal_thorax",
+      "Maternal_cervix",
+      "Other"
+     ],
+     "n_images": 2406,
+     "C_by_fold": "0.01,0.01,0.01,0.01,0.01",
+     "seconds": 43.2
+    },
+    "class|Voluson S10": {
+     "bal_acc": {
+      "point": 0.7110521522101318,
+      "lo": 0.6771251173600026,
+      "hi": 0.7394642763690404,
+      "n_images": 1071,
+      "n_clusters": 90,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 8,
+     "chance": 0.125,
+     "classes": [
+      "Brain_Trans_cerebellum",
+      "Brain_Trans_thalamic",
+      "Brain_Trans_ventricular",
+      "Fetal_abdomen",
+      "Fetal_femur",
+      "Fetal_thorax",
+      "Maternal_cervix",
+      "Other"
+     ],
+     "n_images": 1071,
+     "C_by_fold": "0.01,0.01,0.01,0.01,0.01",
+     "seconds": 25.5
+    },
+    "within_class_mean": {
+     "point": 0.9902036545599466,
+     "lo": 0.985125551329932,
+     "hi": 0.9947039964910764,
+     "n_images": 3275,
+     "n_clusters": 543,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    }
+   },
+   "finetuned_minus_imagenet_within_class": {
+    "delta": -0.09809804723874349,
+    "lo": -0.11643863226641121,
+    "hi": -0.08152302790545274,
+    "p_two_sided": 0.0004997501249375312,
+    "point_a": 0.9902036545599466,
+    "point_b": 0.8921056073212031,
+    "n_images": 3275,
+    "n_clusters": 543,
+    "method": "paired_cluster_percentile",
+    "B": 2000,
+    "seed": 20261109,
+    "n_nan": 0
+   }
+  },
+  "repvgg_a1": {
+   "finetuned": {
+    "machine4": {
+     "bal_acc": {
+      "point": 0.8929313369895802,
+      "lo": 0.8612122833542442,
+      "hi": 0.9207998924709686,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 4,
+     "chance": 0.25,
+     "classes": [
+      "Aloka",
+      "Other",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 5271,
+     "C_by_fold": "0.1,0.01,0.01,0.01,0.01",
+     "seconds": 157.2
+    },
+    "machine3": {
+     "bal_acc": {
+      "point": 0.9645385829099814,
+      "lo": 0.9581466437478856,
+      "hi": 0.9710016011831449,
+      "n_images": 5214,
+      "n_clusters": 868,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 5214,
+     "C_by_fold": "0.1,1.0,0.1,1.0,0.1",
+     "seconds": 113.6
+    },
+    "operator4": {
+     "bal_acc": {
+      "point": 0.816470332528646,
+      "lo": 0.8005181248851547,
+      "hi": 0.8319192642328965,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 4,
+     "chance": 0.25,
+     "classes": [
+      "Op. 1",
+      "Op. 2",
+      "Op. 3",
+      "Other"
+     ],
+     "n_images": 5271,
+     "C_by_fold": "0.1,0.1,0.1,0.1,0.1",
+     "seconds": 327.0
+    },
+    "machine|Fetal_abdomen": {
+     "bal_acc": {
+      "point": 0.9537383566200931,
+      "lo": 0.9328771600024583,
+      "hi": 0.9731539102864885,
+      "n_images": 354,
+      "n_clusters": 299,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 354,
+     "C_by_fold": "10.0,1.0,1.0,10.0,0.01",
+     "seconds": 3.6
+    },
+    "machine|Fetal_femur": {
+     "bal_acc": {
+      "point": 0.9635118306351184,
+      "lo": 0.9388130135465245,
+      "hi": 0.9828228450541154,
+      "n_images": 506,
+      "n_clusters": 366,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 506,
+     "C_by_fold": "10.0,10.0,0.1,10.0,10.0",
+     "seconds": 5.4
+    },
+    "machine|Brain_Trans_thalamic": {
+     "bal_acc": {
+      "point": 0.9602723034541217,
+      "lo": 0.9418767377241666,
+      "hi": 0.9759465873459457,
+      "n_images": 747,
+      "n_clusters": 433,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 747,
+     "C_by_fold": "10.0,10.0,10.0,1.0,0.01",
+     "seconds": 6.8
+    },
+    "machine|Other": {
+     "bal_acc": {
+      "point": 0.9580037619006411,
+      "lo": 0.9412554152717558,
+      "hi": 0.9727770143196492,
+      "n_images": 1668,
+      "n_clusters": 353,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 1668,
+     "C_by_fold": "0.1,1.0,0.1,0.1,1.0",
+     "seconds": 29.0
+    },
+    "within_class_mean": {
+     "point": 0.9588815631524935,
+     "lo": 0.9489652586010692,
+     "hi": 0.9679919499108359,
+     "n_images": 3275,
+     "n_clusters": 543,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    }
+   },
+   "imagenet": {
+    "machine4": {
+     "bal_acc": {
+      "point": 0.9410402992035362,
+      "lo": 0.9125723325010966,
+      "hi": 0.9649599403445328,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 4,
+     "chance": 0.25,
+     "classes": [
+      "Aloka",
+      "Other",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 5271,
+     "C_by_fold": "0.1,0.01,0.01,1.0,1.0",
+     "seconds": 40.8
+    },
+    "machine3": {
+     "bal_acc": {
+      "point": 0.991406693366743,
+      "lo": 0.988261905116631,
+      "hi": 0.9942376388412718,
+      "n_images": 5214,
+      "n_clusters": 868,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 5214,
+     "C_by_fold": "1.0,10.0,0.1,1.0,1.0",
+     "seconds": 31.8
+    },
+    "operator4": {
+     "bal_acc": {
+      "point": 0.9258044950316326,
+      "lo": 0.9140468775556766,
+      "hi": 0.9363702294465378,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 4,
+     "chance": 0.25,
+     "classes": [
+      "Op. 1",
+      "Op. 2",
+      "Op. 3",
+      "Other"
+     ],
+     "n_images": 5271,
+     "C_by_fold": "1.0,0.1,0.01,0.1,0.1",
+     "seconds": 51.6
+    },
+    "machine|Fetal_abdomen": {
+     "bal_acc": {
+      "point": 0.992535761809714,
+      "lo": 0.9807009374283638,
+      "hi": 1.0,
+      "n_images": 354,
+      "n_clusters": 299,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 354,
+     "C_by_fold": "0.1,0.01,0.01,0.1,0.1",
+     "seconds": 2.8
+    },
+    "machine|Fetal_femur": {
+     "bal_acc": {
+      "point": 0.9979797979797981,
+      "lo": 0.9948396406617567,
+      "hi": 1.0,
+      "n_images": 506,
+      "n_clusters": 366,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 506,
+     "C_by_fold": "0.01,1.0,1.0,1.0,0.1",
+     "seconds": 3.7
+    },
+    "machine|Brain_Trans_thalamic": {
+     "bal_acc": {
+      "point": 0.995156106519743,
+      "lo": 0.9876585641694161,
+      "hi": 1.0,
+      "n_images": 747,
+      "n_clusters": 433,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 747,
+     "C_by_fold": "1.0,10.0,0.01,1.0,0.01",
+     "seconds": 5.1
+    },
+    "machine|Other": {
+     "bal_acc": {
+      "point": 0.9964772125328497,
+      "lo": 0.9923257832620083,
+      "hi": 0.9994247520520331,
+      "n_images": 1668,
+      "n_clusters": 353,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 1668,
+     "C_by_fold": "1.0,0.1,0.01,0.1,0.1",
+     "seconds": 9.4
+    },
+    "within_class_mean": {
+     "point": 0.9955372197105262,
+     "lo": 0.9918658837763316,
+     "hi": 0.9984114263924567,
+     "n_images": 3275,
+     "n_clusters": 543,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    }
+   },
+   "finetuned_minus_imagenet_within_class": {
+    "delta": -0.03665565655803271,
+    "lo": -0.04647141932810305,
+    "hi": -0.027200238191525197,
+    "p_two_sided": 0.0004997501249375312,
+    "point_a": 0.9955372197105262,
+    "point_b": 0.9588815631524935,
+    "n_images": 3275,
+    "n_clusters": 543,
+    "method": "paired_cluster_percentile",
+    "B": 2000,
+    "seed": 20261109,
+    "n_nan": 0
+   }
+  },
+  "repvgg_a2": {
+   "finetuned": {
+    "machine4": {
+     "bal_acc": {
+      "point": 0.8785930385910539,
+      "lo": 0.8482327766444823,
+      "hi": 0.9069240641293295,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 4,
+     "chance": 0.25,
+     "classes": [
+      "Aloka",
+      "Other",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 5271,
+     "C_by_fold": "0.1,0.01,0.1,0.1,0.1",
+     "seconds": 187.7
+    },
+    "machine3": {
+     "bal_acc": {
+      "point": 0.9620285322777035,
+      "lo": 0.9543089096256924,
+      "hi": 0.9690754613842043,
+      "n_images": 5214,
+      "n_clusters": 868,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 5214,
+     "C_by_fold": "1.0,1.0,1.0,1.0,1.0",
+     "seconds": 126.9
+    },
+    "operator4": {
+     "bal_acc": {
+      "point": 0.8420526853392758,
+      "lo": 0.8269408908725295,
+      "hi": 0.8562752912949292,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 4,
+     "chance": 0.25,
+     "classes": [
+      "Op. 1",
+      "Op. 2",
+      "Op. 3",
+      "Other"
+     ],
+     "n_images": 5271,
+     "C_by_fold": "0.1,0.1,0.1,0.1,0.1",
+     "seconds": 276.8
+    },
+    "machine|Fetal_abdomen": {
+     "bal_acc": {
+      "point": 0.9370903339840466,
+      "lo": 0.9111746327178942,
+      "hi": 0.9609857179095993,
+      "n_images": 354,
+      "n_clusters": 299,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 354,
+     "C_by_fold": "0.1,1.0,10.0,10.0,10.0",
+     "seconds": 4.9
+    },
+    "machine|Fetal_femur": {
+     "bal_acc": {
+      "point": 0.9294776465277862,
+      "lo": 0.8983666168661726,
+      "hi": 0.957449891051238,
+      "n_images": 506,
+      "n_clusters": 366,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 506,
+     "C_by_fold": "10.0,0.01,10.0,10.0,10.0",
+     "seconds": 7.3
+    },
+    "machine|Brain_Trans_thalamic": {
+     "bal_acc": {
+      "point": 0.9623613759977396,
+      "lo": 0.9438945767187211,
+      "hi": 0.9785422077434076,
+      "n_images": 747,
+      "n_clusters": 433,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 747,
+     "C_by_fold": "10.0,10.0,10.0,10.0,10.0",
+     "seconds": 10.8
+    },
+    "machine|Other": {
+     "bal_acc": {
+      "point": 0.9577673917054899,
+      "lo": 0.944223845845046,
+      "hi": 0.9702925579596432,
+      "n_images": 1668,
+      "n_clusters": 353,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 1668,
+     "C_by_fold": "1.0,0.1,1.0,0.1,0.1",
+     "seconds": 31.2
+    },
+    "within_class_mean": {
+     "point": 0.9466741870537656,
+     "lo": 0.9357415642503895,
+     "hi": 0.9571034235405006,
+     "n_images": 3275,
+     "n_clusters": 543,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    }
+   },
+   "imagenet": {
+    "machine4": {
+     "bal_acc": {
+      "point": 0.9419405865978322,
+      "lo": 0.9166584096956903,
+      "hi": 0.9638687196300929,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 4,
+     "chance": 0.25,
+     "classes": [
+      "Aloka",
+      "Other",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 5271,
+     "C_by_fold": "1.0,0.1,1.0,0.01,1.0",
+     "seconds": 45.5
+    },
+    "machine3": {
+     "bal_acc": {
+      "point": 0.9916154773513814,
+      "lo": 0.988842368807964,
+      "hi": 0.9942492794673042,
+      "n_images": 5214,
+      "n_clusters": 868,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 5214,
+     "C_by_fold": "0.1,0.1,1.0,1.0,0.1",
+     "seconds": 38.9
+    },
+    "operator4": {
+     "bal_acc": {
+      "point": 0.9178151542620872,
+      "lo": 0.9051388050721108,
+      "hi": 0.9295907074190157,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 4,
+     "chance": 0.25,
+     "classes": [
+      "Op. 1",
+      "Op. 2",
+      "Op. 3",
+      "Other"
+     ],
+     "n_images": 5271,
+     "C_by_fold": "0.1,0.01,0.01,0.1,0.01",
+     "seconds": 66.9
+    },
+    "machine|Fetal_abdomen": {
+     "bal_acc": {
+      "point": 0.9960079840319361,
+      "lo": 0.9873377150275884,
+      "hi": 1.0,
+      "n_images": 354,
+      "n_clusters": 299,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 354,
+     "C_by_fold": "1.0,10.0,10.0,10.0,10.0",
+     "seconds": 4.0
+    },
+    "machine|Fetal_femur": {
+     "bal_acc": {
+      "point": 0.998989898989899,
+      "lo": 0.9967940938511327,
+      "hi": 1.0,
+      "n_images": 506,
+      "n_clusters": 366,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 506,
+     "C_by_fold": "1.0,0.1,10.0,10.0,10.0",
+     "seconds": 5.5
+    },
+    "machine|Brain_Trans_thalamic": {
+     "bal_acc": {
+      "point": 1.0,
+      "lo": 1.0,
+      "hi": 1.0,
+      "n_images": 747,
+      "n_clusters": 433,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 747,
+     "C_by_fold": "0.01,0.01,0.01,10.0,10.0",
+     "seconds": 6.8
+    },
+    "machine|Other": {
+     "bal_acc": {
+      "point": 0.9978174484143647,
+      "lo": 0.9941758665378373,
+      "hi": 1.0,
+      "n_images": 1668,
+      "n_clusters": 353,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 1668,
+     "C_by_fold": "0.01,0.1,1.0,0.1,0.1",
+     "seconds": 12.1
+    },
+    "within_class_mean": {
+     "point": 0.9982038328590499,
+     "lo": 0.9956871489444586,
+     "hi": 0.9998570733948092,
+     "n_images": 3275,
+     "n_clusters": 543,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    }
+   },
+   "finetuned_minus_imagenet_within_class": {
+    "delta": -0.051529645805284297,
+    "lo": -0.062452187259426556,
+    "hi": -0.041008132824956425,
+    "p_two_sided": 0.0004997501249375312,
+    "point_a": 0.9982038328590499,
+    "point_b": 0.9466741870537656,
+    "n_images": 3275,
+    "n_clusters": 543,
+    "method": "paired_cluster_percentile",
+    "B": 2000,
+    "seed": 20261109,
+    "n_nan": 0
+   }
+  },
+  "mobilenetv3_large_100": {
+   "finetuned": {
+    "machine4": {
+     "bal_acc": {
+      "point": 0.8860127717817945,
+      "lo": 0.8571654515833453,
+      "hi": 0.9137855955140529,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 4,
+     "chance": 0.25,
+     "classes": [
+      "Aloka",
+      "Other",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 5271,
+     "C_by_fold": "0.01,0.01,0.01,0.01,0.01",
+     "seconds": 89.7
+    },
+    "machine3": {
+     "bal_acc": {
+      "point": 0.960740720713693,
+      "lo": 0.9540647095121325,
+      "hi": 0.9665775910351979,
+      "n_images": 5214,
+      "n_clusters": 868,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 5214,
+     "C_by_fold": "0.1,0.01,1.0,0.1,0.1",
+     "seconds": 63.3
+    },
+    "operator4": {
+     "bal_acc": {
+      "point": 0.8295552792283433,
+      "lo": 0.8133995529362857,
+      "hi": 0.8465740796788002,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 4,
+     "chance": 0.25,
+     "classes": [
+      "Op. 1",
+      "Op. 2",
+      "Op. 3",
+      "Other"
+     ],
+     "n_images": 5271,
+     "C_by_fold": "0.01,0.01,0.01,0.01,0.01",
+     "seconds": 110.3
+    },
+    "machine|Fetal_abdomen": {
+     "bal_acc": {
+      "point": 0.9540673689251534,
+      "lo": 0.930301855766972,
+      "hi": 0.9753659442189216,
+      "n_images": 354,
+      "n_clusters": 299,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 354,
+     "C_by_fold": "1.0,0.1,10.0,10.0,10.0",
+     "seconds": 4.1
+    },
+    "machine|Fetal_femur": {
+     "bal_acc": {
+      "point": 0.9773658919289988,
+      "lo": 0.965019598495953,
+      "hi": 0.9872683407387729,
+      "n_images": 506,
+      "n_clusters": 366,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 506,
+     "C_by_fold": "10.0,10.0,10.0,10.0,10.0",
+     "seconds": 6.1
+    },
+    "machine|Brain_Trans_thalamic": {
+     "bal_acc": {
+      "point": 0.9750918273645547,
+      "lo": 0.9613147049439341,
+      "hi": 0.9875140939301925,
+      "n_images": 747,
+      "n_clusters": 433,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 747,
+     "C_by_fold": "10.0,10.0,10.0,10.0,10.0",
+     "seconds": 8.5
+    },
+    "machine|Other": {
+     "bal_acc": {
+      "point": 0.9738655614762606,
+      "lo": 0.9630573191790721,
+      "hi": 0.9832202546399921,
+      "n_images": 1668,
+      "n_clusters": 353,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 1668,
+     "C_by_fold": "0.1,0.1,0.1,1.0,0.1",
+     "seconds": 16.7
+    },
+    "within_class_mean": {
+     "point": 0.9700976624237418,
+     "lo": 0.9622170481019221,
+     "hi": 0.9773908678899941,
+     "n_images": 3275,
+     "n_clusters": 543,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    }
+   },
+   "imagenet": {
+    "machine4": {
+     "bal_acc": {
+      "point": 0.938214882387285,
+      "lo": 0.9121878246735455,
+      "hi": 0.9613933960980835,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 4,
+     "chance": 0.25,
+     "classes": [
+      "Aloka",
+      "Other",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 5271,
+     "C_by_fold": "10.0,10.0,0.01,1.0,1.0",
+     "seconds": 54.2
+    },
+    "machine3": {
+     "bal_acc": {
+      "point": 0.9926512497245829,
+      "lo": 0.9897704688496257,
+      "hi": 0.9951691011892266,
+      "n_images": 5214,
+      "n_clusters": 868,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 5214,
+     "C_by_fold": "0.1,0.1,0.1,0.1,0.01",
+     "seconds": 47.0
+    },
+    "operator4": {
+     "bal_acc": {
+      "point": 0.9236446053476712,
+      "lo": 0.9126133533598852,
+      "hi": 0.93336969048427,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 4,
+     "chance": 0.25,
+     "classes": [
+      "Op. 1",
+      "Op. 2",
+      "Op. 3",
+      "Other"
+     ],
+     "n_images": 5271,
+     "C_by_fold": "0.01,0.01,0.1,0.01,0.01",
+     "seconds": 69.2
+    },
+    "machine|Fetal_abdomen": {
+     "bal_acc": {
+      "point": 0.9774165039883602,
+      "lo": 0.9601405570287302,
+      "hi": 0.992589024300981,
+      "n_images": 354,
+      "n_clusters": 299,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 354,
+     "C_by_fold": "10.0,10.0,0.01,0.01,1.0",
+     "seconds": 4.4
+    },
+    "machine|Fetal_femur": {
+     "bal_acc": {
+      "point": 0.9957536530352065,
+      "lo": 0.9884691726432204,
+      "hi": 1.0,
+      "n_images": 506,
+      "n_clusters": 366,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 506,
+     "C_by_fold": "0.1,1.0,0.01,0.1,0.01",
+     "seconds": 6.0
+    },
+    "machine|Brain_Trans_thalamic": {
+     "bal_acc": {
+      "point": 0.9930899908172636,
+      "lo": 0.9850148770872127,
+      "hi": 0.998760455753596,
+      "n_images": 747,
+      "n_clusters": 433,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 747,
+     "C_by_fold": "0.01,10.0,10.0,0.01,0.1",
+     "seconds": 7.0
+    },
+    "machine|Other": {
+     "bal_acc": {
+      "point": 0.9939954424079743,
+      "lo": 0.9888764339082764,
+      "hi": 0.9980864608395665,
+      "n_images": 1668,
+      "n_clusters": 353,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 1668,
+     "C_by_fold": "10.0,10.0,10.0,1.0,10.0",
+     "seconds": 11.5
+    },
+    "within_class_mean": {
+     "point": 0.9900638975622011,
+     "lo": 0.9847198716969003,
+     "hi": 0.9947324732665911,
+     "n_images": 3275,
+     "n_clusters": 543,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    }
+   },
+   "finetuned_minus_imagenet_within_class": {
+    "delta": -0.0199662351384593,
+    "lo": -0.029002139117874096,
+    "hi": -0.011533312632680169,
+    "p_two_sided": 0.0004997501249375312,
+    "point_a": 0.9900638975622011,
+    "point_b": 0.9700976624237418,
+    "n_images": 3275,
+    "n_clusters": 543,
+    "method": "paired_cluster_percentile",
+    "B": 2000,
+    "seed": 20261109,
+    "n_nan": 0
+   }
+  },
+  "efficientnet_lite0": {
+   "finetuned": {
+    "machine4": {
+     "bal_acc": {
+      "point": 0.8270138006843951,
+      "lo": 0.7950232163763945,
+      "hi": 0.8574111151528256,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 4,
+     "chance": 0.25,
+     "classes": [
+      "Aloka",
+      "Other",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 5271,
+     "C_by_fold": "0.01,0.01,0.01,0.01,0.01",
+     "seconds": 121.1
+    },
+    "machine3": {
+     "bal_acc": {
+      "point": 0.9068930862766146,
+      "lo": 0.8960356772231749,
+      "hi": 0.9165360168844057,
+      "n_images": 5214,
+      "n_clusters": 868,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 5214,
+     "C_by_fold": "0.01,0.1,0.01,0.01,0.1",
+     "seconds": 109.2
+    },
+    "operator4": {
+     "bal_acc": {
+      "point": 0.7598618318726783,
+      "lo": 0.7435355708444459,
+      "hi": 0.7761358584576451,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 4,
+     "chance": 0.25,
+     "classes": [
+      "Op. 1",
+      "Op. 2",
+      "Op. 3",
+      "Other"
+     ],
+     "n_images": 5271,
+     "C_by_fold": "0.01,0.01,0.1,0.01,0.01",
+     "seconds": 245.1
+    },
+    "machine|Fetal_abdomen": {
+     "bal_acc": {
+      "point": 0.814549929445139,
+      "lo": 0.771682164079947,
+      "hi": 0.8555551277775276,
+      "n_images": 354,
+      "n_clusters": 299,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 354,
+     "C_by_fold": "0.01,0.01,1.0,0.01,0.01",
+     "seconds": 4.5
+    },
+    "machine|Fetal_femur": {
+     "bal_acc": {
+      "point": 0.8329098942611378,
+      "lo": 0.7914487612683863,
+      "hi": 0.8744182035770195,
+      "n_images": 506,
+      "n_clusters": 366,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 506,
+     "C_by_fold": "0.01,0.1,0.1,10.0,1.0",
+     "seconds": 5.1
+    },
+    "machine|Brain_Trans_thalamic": {
+     "bal_acc": {
+      "point": 0.8478932683478139,
+      "lo": 0.8157942363089258,
+      "hi": 0.8779812799290061,
+      "n_images": 747,
+      "n_clusters": 433,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 747,
+     "C_by_fold": "0.1,10.0,0.01,0.01,10.0",
+     "seconds": 8.4
+    },
+    "machine|Other": {
+     "bal_acc": {
+      "point": 0.9117857855146804,
+      "lo": 0.8922482993612916,
+      "hi": 0.9290883540546073,
+      "n_images": 1668,
+      "n_clusters": 353,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 1668,
+     "C_by_fold": "1.0,0.1,0.1,0.01,0.1",
+     "seconds": 22.1
+    },
+    "within_class_mean": {
+     "point": 0.8517847193921928,
+     "lo": 0.8338527683765413,
+     "hi": 0.8690168844989827,
+     "n_images": 3275,
+     "n_clusters": 543,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    }
+   },
+   "imagenet": {
+    "machine4": {
+     "bal_acc": {
+      "point": 0.9220083235407959,
+      "lo": 0.8948527451699575,
+      "hi": 0.9469569023729504,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 4,
+     "chance": 0.25,
+     "classes": [
+      "Aloka",
+      "Other",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 5271,
+     "C_by_fold": "10.0,1.0,1.0,1.0,0.01",
+     "seconds": 49.6
+    },
+    "machine3": {
+     "bal_acc": {
+      "point": 0.9893749352865963,
+      "lo": 0.9855012453707347,
+      "hi": 0.9927738715431191,
+      "n_images": 5214,
+      "n_clusters": 868,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 5214,
+     "C_by_fold": "1.0,0.1,0.1,0.1,1.0",
+     "seconds": 40.7
+    },
+    "operator4": {
+     "bal_acc": {
+      "point": 0.8932897723296138,
+      "lo": 0.8786078133373101,
+      "hi": 0.907053029402607,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 4,
+     "chance": 0.25,
+     "classes": [
+      "Op. 1",
+      "Op. 2",
+      "Op. 3",
+      "Other"
+     ],
+     "n_images": 5271,
+     "C_by_fold": "0.01,0.01,0.01,0.01,0.01",
+     "seconds": 61.7
+    },
+    "machine|Fetal_abdomen": {
+     "bal_acc": {
+      "point": 0.9868767501626783,
+      "lo": 0.9726097667872506,
+      "hi": 0.9979423868312757,
+      "n_images": 354,
+      "n_clusters": 299,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 354,
+     "C_by_fold": "10.0,0.01,10.0,1.0,0.01",
+     "seconds": 4.3
+    },
+    "machine|Fetal_femur": {
+     "bal_acc": {
+      "point": 0.9924034869240348,
+      "lo": 0.9814942220526822,
+      "hi": 0.9990281827016521,
+      "n_images": 506,
+      "n_clusters": 366,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 506,
+     "C_by_fold": "0.1,1.0,10.0,1.0,1.0",
+     "seconds": 5.6
+    },
+    "machine|Brain_Trans_thalamic": {
+     "bal_acc": {
+      "point": 0.993067033976125,
+      "lo": 0.9848237428883092,
+      "hi": 0.9993347301421014,
+      "n_images": 747,
+      "n_clusters": 433,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 747,
+     "C_by_fold": "0.01,0.01,1.0,0.01,0.1",
+     "seconds": 6.8
+    },
+    "machine|Other": {
+     "bal_acc": {
+      "point": 0.9874721236877658,
+      "lo": 0.9790664148638242,
+      "hi": 0.9947857171159797,
+      "n_images": 1668,
+      "n_clusters": 353,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "k": 3,
+     "chance": 0.3333333333333333,
+     "classes": [
+      "Aloka",
+      "Voluson E6",
+      "Voluson S10"
+     ],
+     "n_images": 1668,
+     "C_by_fold": "1.0,1.0,1.0,1.0,0.01",
+     "seconds": 10.8
+    },
+    "within_class_mean": {
+     "point": 0.9899548486876509,
+     "lo": 0.9846814678706672,
+     "hi": 0.9945063228611128,
+     "n_images": 3275,
+     "n_clusters": 543,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    }
+   },
+   "finetuned_minus_imagenet_within_class": {
+    "delta": -0.13817012929545813,
+    "lo": -0.15649016799633492,
+    "hi": -0.1203772199589679,
+    "p_two_sided": 0.0004997501249375312,
+    "point_a": 0.9899548486876509,
+    "point_b": 0.8517847193921928,
+    "n_images": 3275,
+    "n_clusters": 543,
+    "method": "paired_cluster_percentile",
+    "B": 2000,
+    "seed": 20261109,
+    "n_nan": 0
+   }
+  }
+ },
+ "min_cell": 30
+}

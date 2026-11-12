@@ -1,0 +1,726 @@
+{
+ "checks_vs_00_index": {
+  "trainval/Aloka": {
+   "n": 3377,
+   "other_share": 0.6506
+  },
+  "trainval/Voluson E6": {
+   "n": 3456,
+   "other_share": 0.1357
+  },
+  "trainval/Voluson S10": {
+   "n": 11,
+   "other_share": 0.0
+  },
+  "trainval/Other": {
+   "n": 285,
+   "other_share": 0.0421
+  },
+  "test/Aloka": {
+   "n": 1737,
+   "other_share": 0.5204
+  },
+  "test/Voluson E6": {
+   "n": 2406,
+   "other_share": 0.0877
+  },
+  "test/Voluson S10": {
+   "n": 1071,
+   "other_share": 0.5163
+  },
+  "test/Other": {
+   "n": 57,
+   "other_share": 0.1754
+  }
+ },
+ "n_images": 12400,
+ "n_patients": 1792,
+ "cramers_v": {
+  "trainval": {
+   "machine_x_class8": {
+    "point": 0.32323077295563024,
+    "lo": 0.29645627174046735,
+    "hi": 0.4273167343826774,
+    "n_images": 7129,
+    "n_clusters": 896,
+    "method": "cluster_percentile",
+    "B": 2000,
+    "seed": 20261109,
+    "n_nan": 0
+   },
+   "machine_x_collapsed": {
+    "point": 0.3231029089660046,
+    "lo": 0.29553976136736826,
+    "hi": 0.42652580957668657,
+    "n_images": 7129,
+    "n_clusters": 896,
+    "method": "cluster_percentile",
+    "B": 2000,
+    "seed": 20261109,
+    "n_nan": 0
+   },
+   "operator_x_class8": {
+    "point": 0.31007110511079716,
+    "lo": 0.2773336348648732,
+    "hi": 0.3451315590233119,
+    "n_images": 7129,
+    "n_clusters": 896,
+    "method": "cluster_percentile",
+    "B": 2000,
+    "seed": 20261109,
+    "n_nan": 0
+   },
+   "size_bucket_x_class8": {
+    "point": 0.32596391423543886,
+    "lo": 0.3077223689595367,
+    "hi": 0.34650001257460505,
+    "n_images": 7129,
+    "n_clusters": 896,
+    "method": "cluster_percentile",
+    "B": 2000,
+    "seed": 20261109,
+    "n_nan": 0
+   },
+   "size_bucket_x_machine": {
+    "point": 0.7883803398725414,
+    "lo": 0.7816517457972332,
+    "hi": 0.9712224774642686,
+    "n_images": 7129,
+    "n_clusters": 896,
+    "method": "cluster_percentile",
+    "B": 2000,
+    "seed": 20261109,
+    "n_nan": 0
+   }
+  },
+  "test": {
+   "machine_x_class8": {
+    "point": 0.29793673058591175,
+    "lo": 0.28369317530288074,
+    "hi": 0.3161850712483248,
+    "n_images": 5271,
+    "n_clusters": 896,
+    "method": "cluster_percentile",
+    "B": 2000,
+    "seed": 20261109,
+    "n_nan": 0
+   },
+   "machine_x_collapsed": {
+    "point": 0.29702689252998526,
+    "lo": 0.28198954334121634,
+    "hi": 0.314693685983983,
+    "n_images": 5271,
+    "n_clusters": 896,
+    "method": "cluster_percentile",
+    "B": 2000,
+    "seed": 20261109,
+    "n_nan": 0
+   },
+   "operator_x_class8": {
+    "point": 0.3026029667429666,
+    "lo": 0.28159156903734184,
+    "hi": 0.33057067821264546,
+    "n_images": 5271,
+    "n_clusters": 896,
+    "method": "cluster_percentile",
+    "B": 2000,
+    "seed": 20261109,
+    "n_nan": 0
+   },
+   "size_bucket_x_class8": {
+    "point": 0.3446351824683785,
+    "lo": 0.33192343534933616,
+    "hi": 0.3606722193899019,
+    "n_images": 5271,
+    "n_clusters": 896,
+    "method": "cluster_percentile",
+    "B": 2000,
+    "seed": 20261109,
+    "n_nan": 0
+   },
+   "size_bucket_x_machine": {
+    "point": 0.8318005432941643,
+    "lo": 0.8184155290207737,
+    "hi": 0.8567689810808783,
+    "n_images": 5271,
+    "n_clusters": 896,
+    "method": "cluster_percentile",
+    "B": 2000,
+    "seed": 20261109,
+    "n_nan": 0
+   }
+  },
+  "all": {
+   "machine_x_class8": {
+    "point": 0.30718901781602737,
+    "lo": 0.28490007702091935,
+    "hi": 0.32913887091559846,
+    "n_images": 12400,
+    "n_clusters": 1792,
+    "method": "cluster_percentile",
+    "B": 2000,
+    "seed": 20261109,
+    "n_nan": 0
+   },
+   "machine_x_collapsed": {
+    "point": 0.3065799023489629,
+    "lo": 0.28394086959666903,
+    "hi": 0.32834520408877726,
+    "n_images": 12400,
+    "n_clusters": 1792,
+    "method": "cluster_percentile",
+    "B": 2000,
+    "seed": 20261109,
+    "n_nan": 0
+   },
+   "operator_x_class8": {
+    "point": 0.27836486352166795,
+    "lo": 0.25821433742936695,
+    "hi": 0.2997984239162531,
+    "n_images": 12400,
+    "n_clusters": 1792,
+    "method": "cluster_percentile",
+    "B": 2000,
+    "seed": 20261109,
+    "n_nan": 0
+   },
+   "size_bucket_x_class8": {
+    "point": 0.33008297519062274,
+    "lo": 0.3172189978539293,
+    "hi": 0.34374754540683056,
+    "n_images": 12400,
+    "n_clusters": 1792,
+    "method": "cluster_percentile",
+    "B": 2000,
+    "seed": 20261109,
+    "n_nan": 0
+   },
+   "size_bucket_x_machine": {
+    "point": 0.8252687160741753,
+    "lo": 0.8184435628255871,
+    "hi": 0.8371177342463747,
+    "n_images": 12400,
+    "n_clusters": 1792,
+    "method": "cluster_percentile",
+    "B": 2000,
+    "seed": 20261109,
+    "n_nan": 0
+   }
+  }
+ },
+ "other_share": {
+  "trainval": {
+   "Aloka": {
+    "point": 0.6505774355937223,
+    "lo": 0.6025635930047695,
+    "hi": 0.6919627693353143,
+    "n_images": 7129,
+    "n_clusters": 896,
+    "method": "cluster_percentile",
+    "B": 2000,
+    "seed": 20261109,
+    "n_nan": 0
+   },
+   "Voluson E6": {
+    "point": 0.13570601851851852,
+    "lo": 0.09665326459647701,
+    "hi": 0.18048541826370937,
+    "n_images": 7129,
+    "n_clusters": 896,
+    "method": "cluster_percentile",
+    "B": 2000,
+    "seed": 20261109,
+    "n_nan": 0
+   },
+   "Other": {
+    "point": 0.042105263157894736,
+    "lo": 0.018866445850831016,
+    "hi": 0.072679420487713,
+    "n_images": 7129,
+    "n_clusters": 896,
+    "method": "cluster_percentile",
+    "B": 2000,
+    "seed": 20261109,
+    "n_nan": 0
+   }
+  },
+  "test": {
+   "Aloka": {
+    "point": 0.5204375359815774,
+    "lo": 0.4714418636138312,
+    "hi": 0.5610603541530781,
+    "n_images": 5271,
+    "n_clusters": 896,
+    "method": "cluster_percentile",
+    "B": 2000,
+    "seed": 20261109,
+    "n_nan": 0
+   },
+   "Voluson E6": {
+    "point": 0.08769742310889443,
+    "lo": 0.0790102357571858,
+    "hi": 0.09661882021951987,
+    "n_images": 5271,
+    "n_clusters": 896,
+    "method": "cluster_percentile",
+    "B": 2000,
+    "seed": 20261109,
+    "n_nan": 0
+   },
+   "Voluson S10": {
+    "point": 0.5163398692810458,
+    "lo": 0.43977933356965615,
+    "hi": 0.5813297862295577,
+    "n_images": 5271,
+    "n_clusters": 896,
+    "method": "cluster_percentile",
+    "B": 2000,
+    "seed": 20261109,
+    "n_nan": 0
+   },
+   "Other": {
+    "point": 0.17543859649122806,
+    "lo": 0.07545990566037736,
+    "hi": 0.27452205882352937,
+    "n_images": 5271,
+    "n_clusters": 896,
+    "method": "cluster_percentile",
+    "B": 2000,
+    "seed": 20261109,
+    "n_nan": 0
+   }
+  }
+ },
+ "contrasts": {
+  "trainval_other_share_aloka_minus_e6": {
+   "point": 0.5148714170752038,
+   "lo": 0.45046764742695217,
+   "hi": 0.5736719279264725,
+   "n_images": 7129,
+   "n_clusters": 896,
+   "method": "cluster_percentile",
+   "B": 2000,
+   "seed": 20261109,
+   "n_nan": 0
+  },
+  "test_other_share_aloka_minus_e6": {
+   "point": 0.43274011287268294,
+   "lo": 0.38255806469618403,
+   "hi": 0.47333297377720623,
+   "n_images": 5271,
+   "n_clusters": 896,
+   "method": "cluster_percentile",
+   "B": 2000,
+   "seed": 20261109,
+   "n_nan": 0
+  },
+  "test_s10_other_share": {
+   "point": 0.5163398692810458,
+   "lo": 0.43977933356965615,
+   "hi": 0.5813297862295577,
+   "n_images": 5271,
+   "n_clusters": 896,
+   "method": "cluster_percentile",
+   "B": 2000,
+   "seed": 20261109,
+   "n_nan": 0
+  },
+  "trainval_voluson_e6_other_share_prior": {
+   "point": 0.13570601851851852,
+   "lo": 0.09665326459647701,
+   "hi": 0.18048541826370937,
+   "n_images": 7129,
+   "n_clusters": 896,
+   "method": "cluster_percentile",
+   "B": 2000,
+   "seed": 20261109,
+   "n_nan": 0
+  }
+ },
+ "tables": {
+  "trainval": {
+   "machine_x_class8": {
+    "Aloka": {
+     "Brain_Trans_cerebellum": 88,
+     "Brain_Trans_thalamic": 217,
+     "Brain_Trans_ventricular": 64,
+     "Fetal_abdomen": 121,
+     "Fetal_femur": 191,
+     "Fetal_thorax": 184,
+     "Maternal_cervix": 315,
+     "Other": 2197
+    },
+    "Voluson E6": {
+     "Brain_Trans_cerebellum": 268,
+     "Brain_Trans_thalamic": 588,
+     "Brain_Trans_ventricular": 214,
+     "Fetal_abdomen": 199,
+     "Fetal_femur": 293,
+     "Fetal_thorax": 842,
+     "Maternal_cervix": 583,
+     "Other": 469
+    },
+    "Voluson S10": {
+     "Brain_Trans_cerebellum": 1,
+     "Brain_Trans_thalamic": 3,
+     "Brain_Trans_ventricular": 1,
+     "Fetal_abdomen": 2,
+     "Fetal_femur": 1,
+     "Fetal_thorax": 3,
+     "Maternal_cervix": 0,
+     "Other": 0
+    },
+    "Other": {
+     "Brain_Trans_cerebellum": 18,
+     "Brain_Trans_thalamic": 65,
+     "Brain_Trans_ventricular": 16,
+     "Fetal_abdomen": 31,
+     "Fetal_femur": 31,
+     "Fetal_thorax": 29,
+     "Maternal_cervix": 83,
+     "Other": 12
+    }
+   },
+   "machine_x_collapsed": {
+    "Aloka": {
+     "Head": 369,
+     "Abdomen": 121,
+     "Femur": 191,
+     "Thorax": 184,
+     "Cervix": 315,
+     "Other": 2197
+    },
+    "Voluson E6": {
+     "Head": 1070,
+     "Abdomen": 199,
+     "Femur": 293,
+     "Thorax": 842,
+     "Cervix": 583,
+     "Other": 469
+    },
+    "Voluson S10": {
+     "Head": 5,
+     "Abdomen": 2,
+     "Femur": 1,
+     "Thorax": 3,
+     "Cervix": 0,
+     "Other": 0
+    },
+    "Other": {
+     "Head": 99,
+     "Abdomen": 31,
+     "Femur": 31,
+     "Thorax": 29,
+     "Cervix": 83,
+     "Other": 12
+    }
+   },
+   "operator_x_class8": {
+    "Op. 1": {
+     "Brain_Trans_cerebellum": 129,
+     "Brain_Trans_thalamic": 341,
+     "Brain_Trans_ventricular": 111,
+     "Fetal_abdomen": 113,
+     "Fetal_femur": 199,
+     "Fetal_thorax": 411,
+     "Maternal_cervix": 355,
+     "Other": 259
+    },
+    "Op. 2": {
+     "Brain_Trans_cerebellum": 132,
+     "Brain_Trans_thalamic": 232,
+     "Brain_Trans_ventricular": 98,
+     "Fetal_abdomen": 82,
+     "Fetal_femur": 89,
+     "Fetal_thorax": 424,
+     "Maternal_cervix": 226,
+     "Other": 206
+    },
+    "Op. 3": {
+     "Brain_Trans_cerebellum": 88,
+     "Brain_Trans_thalamic": 217,
+     "Brain_Trans_ventricular": 64,
+     "Fetal_abdomen": 121,
+     "Fetal_femur": 191,
+     "Fetal_thorax": 184,
+     "Maternal_cervix": 121,
+     "Other": 1114
+    },
+    "Other": {
+     "Brain_Trans_cerebellum": 26,
+     "Brain_Trans_thalamic": 83,
+     "Brain_Trans_ventricular": 22,
+     "Fetal_abdomen": 37,
+     "Fetal_femur": 37,
+     "Fetal_thorax": 39,
+     "Maternal_cervix": 279,
+     "Other": 1099
+    }
+   }
+  },
+  "test": {
+   "machine_x_class8": {
+    "Aloka": {
+     "Brain_Trans_cerebellum": 46,
+     "Brain_Trans_thalamic": 143,
+     "Brain_Trans_ventricular": 48,
+     "Fetal_abdomen": 91,
+     "Fetal_femur": 103,
+     "Fetal_thorax": 107,
+     "Maternal_cervix": 295,
+     "Other": 904
+    },
+    "Voluson E6": {
+     "Brain_Trans_cerebellum": 224,
+     "Brain_Trans_thalamic": 484,
+     "Brain_Trans_ventricular": 194,
+     "Fetal_abdomen": 167,
+     "Fetal_femur": 330,
+     "Fetal_thorax": 482,
+     "Maternal_cervix": 314,
+     "Other": 211
+    },
+    "Voluson S10": {
+     "Brain_Trans_cerebellum": 67,
+     "Brain_Trans_thalamic": 120,
+     "Brain_Trans_ventricular": 58,
+     "Fetal_abdomen": 96,
+     "Fetal_femur": 73,
+     "Fetal_thorax": 71,
+     "Maternal_cervix": 33,
+     "Other": 553
+    },
+    "Other": {
+     "Brain_Trans_cerebellum": 2,
+     "Brain_Trans_thalamic": 18,
+     "Brain_Trans_ventricular": 2,
+     "Fetal_abdomen": 4,
+     "Fetal_femur": 18,
+     "Fetal_thorax": 0,
+     "Maternal_cervix": 3,
+     "Other": 10
+    }
+   },
+   "machine_x_collapsed": {
+    "Aloka": {
+     "Head": 237,
+     "Abdomen": 91,
+     "Femur": 103,
+     "Thorax": 107,
+     "Cervix": 295,
+     "Other": 904
+    },
+    "Voluson E6": {
+     "Head": 902,
+     "Abdomen": 167,
+     "Femur": 330,
+     "Thorax": 482,
+     "Cervix": 314,
+     "Other": 211
+    },
+    "Voluson S10": {
+     "Head": 245,
+     "Abdomen": 96,
+     "Femur": 73,
+     "Thorax": 71,
+     "Cervix": 33,
+     "Other": 553
+    },
+    "Other": {
+     "Head": 22,
+     "Abdomen": 4,
+     "Femur": 18,
+     "Thorax": 0,
+     "Cervix": 3,
+     "Other": 10
+    }
+   },
+   "operator_x_class8": {
+    "Op. 1": {
+     "Brain_Trans_cerebellum": 53,
+     "Brain_Trans_thalamic": 137,
+     "Brain_Trans_ventricular": 57,
+     "Fetal_abdomen": 62,
+     "Fetal_femur": 138,
+     "Fetal_thorax": 175,
+     "Maternal_cervix": 173,
+     "Other": 79
+    },
+    "Op. 2": {
+     "Brain_Trans_cerebellum": 98,
+     "Brain_Trans_thalamic": 188,
+     "Brain_Trans_ventricular": 73,
+     "Fetal_abdomen": 49,
+     "Fetal_femur": 88,
+     "Fetal_thorax": 270,
+     "Maternal_cervix": 85,
+     "Other": 95
+    },
+    "Op. 3": {
+     "Brain_Trans_cerebellum": 46,
+     "Brain_Trans_thalamic": 143,
+     "Brain_Trans_ventricular": 48,
+     "Fetal_abdomen": 91,
+     "Fetal_femur": 103,
+     "Fetal_thorax": 107,
+     "Maternal_cervix": 18,
+     "Other": 904
+    },
+    "Other": {
+     "Brain_Trans_cerebellum": 142,
+     "Brain_Trans_thalamic": 297,
+     "Brain_Trans_ventricular": 124,
+     "Fetal_abdomen": 156,
+     "Fetal_femur": 195,
+     "Fetal_thorax": 108,
+     "Maternal_cervix": 369,
+     "Other": 600
+    }
+   }
+  },
+  "split_x_machine": {
+   "trainval": {
+    "Aloka": 3377,
+    "Voluson E6": 3456,
+    "Voluson S10": 11,
+    "Other": 285
+   },
+   "test": {
+    "Aloka": 1737,
+    "Voluson E6": 2406,
+    "Voluson S10": 1071,
+    "Other": 57
+   }
+  },
+  "machine_operator_other_share": [
+   {
+    "part": "test",
+    "source_machine": "Aloka",
+    "operator": "Op. 3",
+    "n": 1460,
+    "other_share": 0.6192
+   },
+   {
+    "part": "test",
+    "source_machine": "Aloka",
+    "operator": "Other",
+    "n": 277,
+    "other_share": 0.0
+   },
+   {
+    "part": "test",
+    "source_machine": "Other",
+    "operator": "Other",
+    "n": 57,
+    "other_share": 0.1754
+   },
+   {
+    "part": "test",
+    "source_machine": "Voluson E6",
+    "operator": "Op. 1",
+    "n": 874,
+    "other_share": 0.0904
+   },
+   {
+    "part": "test",
+    "source_machine": "Voluson E6",
+    "operator": "Op. 2",
+    "n": 946,
+    "other_share": 0.1004
+   },
+   {
+    "part": "test",
+    "source_machine": "Voluson E6",
+    "operator": "Other",
+    "n": 586,
+    "other_share": 0.0631
+   },
+   {
+    "part": "test",
+    "source_machine": "Voluson S10",
+    "operator": "Other",
+    "n": 1071,
+    "other_share": 0.5163
+   },
+   {
+    "part": "trainval",
+    "source_machine": "Aloka",
+    "operator": "Op. 3",
+    "n": 2100,
+    "other_share": 0.5305
+   },
+   {
+    "part": "trainval",
+    "source_machine": "Aloka",
+    "operator": "Other",
+    "n": 1277,
+    "other_share": 0.8481
+   },
+   {
+    "part": "trainval",
+    "source_machine": "Other",
+    "operator": "Other",
+    "n": 285,
+    "other_share": 0.0421
+   },
+   {
+    "part": "trainval",
+    "source_machine": "Voluson E6",
+    "operator": "Op. 1",
+    "n": 1918,
+    "other_share": 0.135
+   },
+   {
+    "part": "trainval",
+    "source_machine": "Voluson E6",
+    "operator": "Op. 2",
+    "n": 1489,
+    "other_share": 0.1383
+   },
+   {
+    "part": "trainval",
+    "source_machine": "Voluson E6",
+    "operator": "Other",
+    "n": 49,
+    "other_share": 0.0816
+   },
+   {
+    "part": "trainval",
+    "source_machine": "Voluson S10",
+    "operator": "Other",
+    "n": 11,
+    "other_share": 0.0
+   }
+  ],
+  "machine_image_size": [
+   {
+    "source_machine": "Aloka",
+    "n": 5114,
+    "modal_size": "640x392",
+    "modal_share": 0.5338287055142745,
+    "n_distinct_sizes": 35
+   },
+   {
+    "source_machine": "Voluson E6",
+    "n": 5862,
+    "modal_size": "959x661",
+    "modal_share": 0.7903445922893211,
+    "n_distinct_sizes": 7
+   },
+   {
+    "source_machine": "Voluson S10",
+    "n": 1082,
+    "modal_size": "1137x787",
+    "modal_share": 0.9390018484288355,
+    "n_distinct_sizes": 30
+   },
+   {
+    "source_machine": "Other",
+    "n": 342,
+    "modal_size": "1137x787",
+    "modal_share": 0.7046783625730995,
+    "n_distinct_sizes": 7
+   }
+  ]
+ }
+}

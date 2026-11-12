@@ -7,7 +7,8 @@ Patient-clustered bootstrap: every reported number goes through this module.
   clusters with replacement (``rng.integers(0, K, K)``). All draws for a call are generated
   up front from ``np.random.default_rng(seed)``, so every metric evaluated with the same
   ``seed`` and cluster set sees the same resamples.
-* Fast paths: ``CMMetric`` (confusion-matrix metrics) and ``RatioMetric`` (sum/sum ratios)
+* Fast paths: ``CMMetric`` (confusion-matrix / contingency metrics), ``RatioMetric`` (sum/sum
+  ratios) and ``SumsMetric`` (any vectorised function of column sums)
   aggregate per-cluster statistics and weight them by cluster draw counts. Any other callable
   ``metric(df) -> float`` uses the general path, which materialises each resample by
   repeating rows according to their cluster's draw count. The two paths give the same
@@ -25,7 +26,6 @@ from dataclasses import asdict, dataclass
 import numpy as np
 import pandas as pd
 
-from src.eval.metrics import confusion
 
 B_DEFAULT = 2000
 SEED_DEFAULT = 20261109
@@ -88,31 +88,60 @@ class PairedEstimate:
 
 # --------------------------------------------------------------------------- metrics
 class CMMetric:
-    """Metric computed from a confusion matrix of two label columns.
+    """Metric computed from a confusion matrix (or any contingency table) of two label columns.
 
-    ``classes`` fixes the index order; labels outside it raise. ``fn(cm) -> float``.
+    ``classes`` fixes the row order (``true_col``); ``pred_classes`` the column order
+    (default: same as rows). Labels outside them raise. ``fn(table) -> float``.
     """
 
     def __init__(self, name: str, true_col: str, pred_col: str, classes: Sequence[str],
-                 fn: Callable[[np.ndarray], float]):
+                 fn: Callable[[np.ndarray], float], pred_classes: Sequence[str] | None = None):
         self.name, self.true_col, self.pred_col, self.fn = name, true_col, pred_col, fn
         self.classes = list(classes)
-        self._idx = {c: i for i, c in enumerate(self.classes)}
+        self.pred_classes = list(classes if pred_classes is None else pred_classes)
+        self._ridx = {c: i for i, c in enumerate(self.classes)}
+        self._cidx = {c: i for i, c in enumerate(self.pred_classes)}
+
+    @property
+    def shape(self) -> tuple[int, int]:
+        return len(self.classes), len(self.pred_classes)
 
     def codes(self, df: pd.DataFrame) -> tuple[np.ndarray, np.ndarray]:
-        try:
-            t = df[self.true_col].astype(str).map(self._idx).to_numpy()
-            p = df[self.pred_col].astype(str).map(self._idx).to_numpy()
-            return t.astype(np.int64), p.astype(np.int64)
-        except (TypeError, ValueError) as exc:  # NaN after map -> unknown label
-            raise ValueError(f"{self.name}: label outside {self.classes}") from exc
+        t = df[self.true_col].astype(str).map(self._ridx)
+        p = df[self.pred_col].astype(str).map(self._cidx)
+        if t.isna().any() or p.isna().any():
+            raise ValueError(f"{self.name}: label outside {self.classes} / {self.pred_classes}")
+        return t.to_numpy(np.int64), p.to_numpy(np.int64)
 
     def cm(self, df: pd.DataFrame) -> np.ndarray:
         t, p = self.codes(df)
-        return confusion(t, p, len(self.classes))
+        tab = np.zeros(self.shape, dtype=np.int64)
+        np.add.at(tab, (t, p), 1)
+        return tab
 
     def __call__(self, df: pd.DataFrame) -> float:
         return float(self.fn(self.cm(df)))
+
+
+class SumsMetric:
+    """Any function of column sums, e.g. a difference of two rates in the same resample.
+
+    ``fn(sums)`` receives ``{col: total}``; in the fast path every total is a (B,) array, so
+    ``fn`` must be vectorised (use numpy ops; ``safe_div`` for ratios).
+    """
+
+    def __init__(self, name: str, cols: Sequence[str], fn: Callable[[dict], object]):
+        self.name, self.cols, self.fn = name, list(cols), fn
+
+    def __call__(self, df: pd.DataFrame) -> float:
+        return float(self.fn({c: df[c].to_numpy(dtype=np.float64).sum() for c in self.cols}))
+
+
+def safe_div(a, b):
+    """a / b with NaN where b == 0 (scalars or arrays)."""
+    a, b = np.asarray(a, dtype=np.float64), np.asarray(b, dtype=np.float64)
+    with np.errstate(invalid="ignore", divide="ignore"):
+        return np.where(b > 0, a / np.where(b > 0, b, 1), np.nan)
 
 
 class RatioMetric:
@@ -157,11 +186,16 @@ def replicates(df: pd.DataFrame, metric: Metric, codes: np.ndarray, weights: np.
                path: str = "auto") -> np.ndarray:
     """Metric value for each replicate (rows of ``weights``). ``path``: auto | fast | general."""
     K = weights.shape[1]
-    fast = path == "fast" or (path == "auto" and isinstance(metric, CMMetric | RatioMetric))
+    fast = path == "fast" or (path == "auto" and isinstance(metric, CMMetric | RatioMetric | SumsMetric))
+    if fast and isinstance(metric, SumsMetric):
+        cols = np.column_stack([df[c].to_numpy(dtype=np.float64) for c in metric.cols])
+        per_k = np.zeros((K, cols.shape[1]))
+        np.add.at(per_k, codes, cols)
+        tot = weights @ per_k
+        return np.asarray(metric.fn({c: tot[:, j] for j, c in enumerate(metric.cols)}), dtype=np.float64)
     if fast and isinstance(metric, CMMetric):
         t, p = metric.codes(df)
-        c = len(metric.classes)
-        per = np.zeros((K, c, c), dtype=np.int64)
+        per = np.zeros((K, *metric.shape), dtype=np.int64)
         np.add.at(per, (codes, t, p), 1)
         cms = np.einsum("bk,kij->bij", weights, per)
         return np.array([metric.fn(cm) for cm in cms], dtype=np.float64)

@@ -10,6 +10,7 @@ Model, input size, normalisation and preprocess mode come from the checkpoint
 native-resolution greyscale image before the geometric transform; ``meta`` carries
 ``image_id``, ``dataset`` and the R1 masks (``masks`` is None if no mask file exists).
 Perturbed or re-preprocessed predictions must name a ``variant`` so files never collide.
+Cached preprocess modes (``src.preprocess.pipeline``) read the pre-rendered, pre-resized image.
 
 Scoring columns (see plans/R2_EVALUATION_CORE.md §R2.2):
   pred_fine          8-way argmax
@@ -46,6 +47,7 @@ from src.data.labels import COLLAPSED, FINE_TO_COLLAPSED, collapse_probs
 from src.data.transforms import gray_to_rgb, load_grayscale
 from src.eval.datasets import EvalSet, load_eval_set
 from src.models.loading import REPO_ROOT, load_model
+from src.preprocess.pipeline import cache_path, is_cached
 
 PREDS_ROOT = Path("results/preds")
 Perturb = Callable[[np.ndarray, dict], np.ndarray]
@@ -55,18 +57,26 @@ CATEGORY_COLS = ["dataset", "source_machine", "operator", "centre", "true_label"
 PROVENANCE_COLS = ["run_id", "ckpt_sha256", "git_hash", "preprocess_mode", "variant"]
 
 
-class _FrameDataset(Dataset):
-    def __init__(self, frame: pd.DataFrame, transform: A.Compose, perturb: Perturb | None):
+class FrameDataset(Dataset):
+    """Standard-frame rows -> normalised tensors (optional perturbation; cached modes read the cache)."""
+
+    def __init__(self, frame: pd.DataFrame, transform: A.Compose, perturb: Perturb | None = None,
+                 mode: str = "resize", img_size: int = 224):
         self.frame = frame.reset_index(drop=True)
         self.transform = transform
         self.perturb = perturb
+        self.mode, self.img_size = mode, img_size
+        if is_cached(mode) and perturb is not None:
+            raise ValueError("perturbations act on native-resolution images; not combinable with cached modes")
 
     def __len__(self) -> int:
         return len(self.frame)
 
     def __getitem__(self, i: int) -> torch.Tensor:
         row = self.frame.iloc[i]
-        gray = load_grayscale(row["image_path"])
+        src = (cache_path(self.mode, self.img_size, row["dataset"], row["image_id"]) if is_cached(self.mode)
+               else row["image_path"])
+        gray = load_grayscale(src)
         if self.perturb is not None:
             mp = mask_path(row["image_id"], row["dataset"])
             meta = {"image_id": row["image_id"], "dataset": row["dataset"],
@@ -178,7 +188,7 @@ def predict(ckpt: str | Path, dataset: str, out_dir: str | Path, *, run_id: str 
     lm = load_model(ckpt)
     es = load_eval_set(dataset, manifest)
     mode = preprocess_override or lm.preprocess_mode
-    ds = _FrameDataset(es.frame, lm.eval_transform(mode), perturb)
+    ds = FrameDataset(es.frame, lm.eval_transform(mode), perturb, mode, lm.img_size)
     loader = DataLoader(ds, batch_size=batch_size, shuffle=False, num_workers=num_workers,
                         pin_memory=lm.device.type == "cuda", persistent_workers=False)
     t1 = time.perf_counter()

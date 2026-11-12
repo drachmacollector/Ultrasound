@@ -126,3 +126,31 @@ def test_estimate_format() -> None:
     assert est.fmt().startswith("0.500 [")
     assert est.fmt(pct=True).startswith("50.0% [")
     assert est.to_dict()["B"] == 2000 and est.to_dict()["seed"] == 20261109
+
+
+def test_sums_metric_fast_equals_general() -> None:
+    """Difference of two group rates computed in the same resample."""
+    from src.eval.stats import SumsMetric, safe_div
+
+    df = clustered(40, 5)
+    rng = np.random.default_rng(7)
+    df["g"] = (rng.random(len(df)) < 0.5).astype(int)
+    df["hit_a"] = df["correct"] * df["g"]
+    df["hit_b"] = df["correct"] * (1 - df["g"])
+    df["n_b"] = 1 - df["g"]
+    met = SumsMetric("diff", ["hit_a", "g", "hit_b", "n_b"],
+                     lambda s: safe_div(s["hit_a"], s["g"]) - safe_div(s["hit_b"], s["n_b"]))
+    codes, K = _cluster_codes(df, "patient_id")
+    w = draw_weights(K, B=200, seed=1)
+    assert np.allclose(replicates(df, met, codes, w, path="fast"), replicates(df, met, codes, w, path="general"))
+    a = df[df.g == 1].correct.mean() - df[df.g == 0].correct.mean()
+    assert met(df) == pytest.approx(a)
+
+
+def test_contingency_metric_with_different_axes() -> None:
+    df = pd.DataFrame({"patient_id": [f"p{i}" for i in range(6)], "m": ["x", "x", "y", "y", "y", "x"],
+                       "c": ["A", "B", "C", "C", "A", "A"]})
+    met = CMMetric("tab", "m", "c", ["x", "y"], lambda t: t.sum(), pred_classes=["A", "B", "C"])
+    assert met.cm(df).tolist() == [[2, 1, 0], [1, 0, 2]]
+    with pytest.raises(ValueError, match="label outside"):
+        CMMetric("tab", "m", "c", ["x"], lambda t: 0.0, pred_classes=["A", "B", "C"]).cm(df)

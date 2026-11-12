@@ -1,0 +1,3815 @@
+{
+ "models": {
+  "convnext_tiny": {
+   "per_machine": {
+    "Aloka": {
+     "other_recall": {
+      "point": 0.952433628318584,
+      "lo": 0.935392160021558,
+      "hi": 0.9672430971387248,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "false_rejection": {
+      "point": 0.030012004801920768,
+      "lo": 0.019205608624496048,
+      "hi": 0.04192355117139334,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "n_other": 904,
+     "n_standard": 833
+    },
+    "Voluson E6": {
+     "other_recall": {
+      "point": 0.5213270142180095,
+      "lo": 0.4525054651445227,
+      "hi": 0.587378640776699,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "false_rejection": {
+      "point": 0.030979498861047835,
+      "lo": 0.023287416137343437,
+      "hi": 0.038516697131409615,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "n_other": 211,
+     "n_standard": 2195
+    },
+    "Voluson S10": {
+     "other_recall": {
+      "point": 0.9204339963833634,
+      "lo": 0.8919360324126102,
+      "hi": 0.9481144810301968,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "false_rejection": {
+      "point": 0.052123552123552123,
+      "lo": 0.0353746672668911,
+      "hi": 0.07130125359101591,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "n_other": 553,
+     "n_standard": 518
+    },
+    "Other": {
+     "other_recall": {
+      "point": 0.2,
+      "lo": 0.0,
+      "hi": 0.4444444444444444,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 1
+     },
+     "false_rejection": {
+      "point": 0.0,
+      "lo": 0.0,
+      "hi": 0.0,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "n_other": 10,
+     "n_standard": 47
+    }
+   },
+   "strata": {
+    "Aloka": {
+     "macro_f1_8": {
+      "point": 0.9049982404740426,
+      "lo": 0.8839696738619334,
+      "hi": 0.9240962522743985,
+      "n_images": 1737,
+      "n_clusters": 389,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "bal_acc_8": {
+      "point": 0.9131594581856706,
+      "lo": 0.8915081849909353,
+      "hi": 0.9343615735719395,
+      "n_images": 1737,
+      "n_clusters": 389,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "n_images": 1737,
+     "n_patients": 389,
+     "confusion": [
+      [
+       40,
+       4,
+       0,
+       0,
+       0,
+       0,
+       0,
+       2
+      ],
+      [
+       6,
+       127,
+       5,
+       0,
+       0,
+       0,
+       0,
+       5
+      ],
+      [
+       0,
+       11,
+       36,
+       0,
+       0,
+       0,
+       0,
+       1
+      ],
+      [
+       0,
+       0,
+       0,
+       91,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       100,
+       0,
+       0,
+       3
+      ],
+      [
+       0,
+       0,
+       0,
+       2,
+       0,
+       95,
+       0,
+       10
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       291,
+       4
+      ],
+      [
+       1,
+       9,
+       3,
+       8,
+       18,
+       3,
+       1,
+       861
+      ]
+     ]
+    },
+    "Other": {
+     "macro_f1_8": {
+      "point": 0.5305571621361095,
+      "lo": 0.42604450612316747,
+      "hi": 0.6825487254244138,
+      "n_images": 57,
+      "n_clusters": 28,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "bal_acc_8": {
+      "point": 0.584126984126984,
+      "lo": 0.5116404547930283,
+      "hi": 0.7235430283224401,
+      "n_images": 57,
+      "n_clusters": 28,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "n_images": 57,
+     "n_patients": 28,
+     "confusion": [
+      [
+       0,
+       2,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       1,
+       16,
+       0,
+       0,
+       0,
+       1,
+       0,
+       0
+      ],
+      [
+       0,
+       2,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       4,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       18,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       3,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       5,
+       3,
+       0,
+       0,
+       2
+      ]
+     ]
+    },
+    "Voluson E6": {
+     "macro_f1_8": {
+      "point": 0.8581243622685384,
+      "lo": 0.843104014288638,
+      "hi": 0.8721547581335646,
+      "n_images": 2406,
+      "n_clusters": 391,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "bal_acc_8": {
+      "point": 0.8627535025647388,
+      "lo": 0.8479300783556041,
+      "hi": 0.876907770678091,
+      "n_images": 2406,
+      "n_clusters": 391,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "n_images": 2406,
+     "n_patients": 391,
+     "confusion": [
+      [
+       215,
+       8,
+       0,
+       0,
+       0,
+       0,
+       0,
+       1
+      ],
+      [
+       33,
+       417,
+       24,
+       0,
+       0,
+       0,
+       0,
+       10
+      ],
+      [
+       2,
+       51,
+       138,
+       0,
+       0,
+       0,
+       0,
+       3
+      ],
+      [
+       0,
+       0,
+       0,
+       165,
+       0,
+       1,
+       0,
+       1
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       303,
+       0,
+       0,
+       27
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       0,
+       457,
+       0,
+       25
+      ],
+      [
+       0,
+       0,
+       0,
+       1,
+       0,
+       0,
+       312,
+       1
+      ],
+      [
+       3,
+       11,
+       3,
+       25,
+       42,
+       15,
+       2,
+       110
+      ]
+     ]
+    },
+    "Voluson S10": {
+     "macro_f1_8": {
+      "point": 0.8653844140099266,
+      "lo": 0.8391102685906844,
+      "hi": 0.8900997740814752,
+      "n_images": 1071,
+      "n_clusters": 90,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "bal_acc_8": {
+      "point": 0.8782363787729011,
+      "lo": 0.8535903883472632,
+      "hi": 0.9021382150695477,
+      "n_images": 1071,
+      "n_clusters": 90,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "n_images": 1071,
+     "n_patients": 90,
+     "confusion": [
+      [
+       58,
+       7,
+       0,
+       0,
+       0,
+       0,
+       0,
+       2
+      ],
+      [
+       18,
+       91,
+       8,
+       0,
+       0,
+       0,
+       0,
+       3
+      ],
+      [
+       1,
+       12,
+       45,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       89,
+       0,
+       1,
+       0,
+       6
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       63,
+       0,
+       0,
+       10
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       0,
+       65,
+       0,
+       6
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       33,
+       0
+      ],
+      [
+       4,
+       3,
+       3,
+       7,
+       11,
+       16,
+       0,
+       509
+      ]
+     ]
+    }
+   },
+   "contrasts": {
+    "other_recall_s10_minus_e6": {
+     "point": 0.3991069821653539,
+     "lo": 0.32346528189949414,
+     "hi": 0.47118579173030833,
+     "n_images": 5271,
+     "n_clusters": 896,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "false_rejection_s10_minus_e6": {
+     "point": 0.02114405326250429,
+     "lo": 0.0023008529166256815,
+     "hi": 0.04096856207344392,
+     "n_images": 5271,
+     "n_clusters": 896,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "other_recall_s10_minus_aloka": {
+     "point": -0.031999631935220596,
+     "lo": -0.06564008668635989,
+     "hi": 0.0006019626640712378,
+     "n_images": 5271,
+     "n_clusters": 896,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "false_rejection_s10_minus_aloka": {
+     "point": 0.022111547321631356,
+     "lo": 0.0015178874574794496,
+     "hi": 0.04502316695308741,
+     "n_images": 5271,
+     "n_clusters": 896,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "other_recall_aloka_minus_e6": {
+     "point": 0.4311066141005745,
+     "lo": 0.3623403867553982,
+     "hi": 0.49927490045533246,
+     "n_images": 5271,
+     "n_clusters": 896,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "false_rejection_aloka_minus_e6": {
+     "point": -0.0009674940591270671,
+     "lo": -0.014149659527493696,
+     "hi": 0.012569470179219956,
+     "n_images": 5271,
+     "n_clusters": 896,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    }
+   },
+   "gee": {
+    "reference": "Voluson E6",
+    "adjusted_for": "true class (8)",
+    "cov_struct": "exchangeable",
+    "odds_ratios": {
+     "Aloka": {
+      "odds_ratio": 3.0875155106041388,
+      "lo": 2.1633546184112173,
+      "hi": 4.406467597634111,
+      "p": 5.236265971290178e-10
+     },
+     "Other machine": {
+      "odds_ratio": 0.4787974808189337,
+      "lo": 0.25213473626618177,
+      "hi": 0.9092242942540778,
+      "p": 0.02439823420009792
+     },
+     "Voluson S10": {
+      "odds_ratio": 1.6456389768425557,
+      "lo": 1.1676922182513787,
+      "hi": 2.319213573383952,
+      "p": 0.004433160045475477
+     }
+    }
+   }
+  },
+  "tf_efficientnetv2_s": {
+   "per_machine": {
+    "Aloka": {
+     "other_recall": {
+      "point": 0.918141592920354,
+      "lo": 0.8980040918857972,
+      "hi": 0.9350075220737044,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "false_rejection": {
+      "point": 0.013205282112845138,
+      "lo": 0.00623383311906569,
+      "hi": 0.020907140220578983,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "n_other": 904,
+     "n_standard": 833
+    },
+    "Voluson E6": {
+     "other_recall": {
+      "point": 0.3791469194312796,
+      "lo": 0.31550320373849783,
+      "hi": 0.4449773290914101,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "false_rejection": {
+      "point": 0.01958997722095672,
+      "lo": 0.013525615099427032,
+      "hi": 0.02610585585714839,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "n_other": 211,
+     "n_standard": 2195
+    },
+    "Voluson S10": {
+     "other_recall": {
+      "point": 0.8083182640144665,
+      "lo": 0.7676566835959998,
+      "hi": 0.8421853180344728,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "false_rejection": {
+      "point": 0.025096525096525095,
+      "lo": 0.012194657905483165,
+      "hi": 0.04032413151364763,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "n_other": 553,
+     "n_standard": 518
+    },
+    "Other": {
+     "other_recall": {
+      "point": 0.1,
+      "lo": 0.0,
+      "hi": 0.2733766233766228,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 1
+     },
+     "false_rejection": {
+      "point": 0.0,
+      "lo": 0.0,
+      "hi": 0.0,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "n_other": 10,
+     "n_standard": 47
+    }
+   },
+   "strata": {
+    "Aloka": {
+     "macro_f1_8": {
+      "point": 0.8929451122334862,
+      "lo": 0.8684344254236799,
+      "hi": 0.9143715902117909,
+      "n_images": 1737,
+      "n_clusters": 389,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "bal_acc_8": {
+      "point": 0.9231924493952395,
+      "lo": 0.8986547350560068,
+      "hi": 0.945110302092486,
+      "n_images": 1737,
+      "n_clusters": 389,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "n_images": 1737,
+     "n_patients": 389,
+     "confusion": [
+      [
+       42,
+       2,
+       0,
+       0,
+       0,
+       1,
+       0,
+       1
+      ],
+      [
+       6,
+       132,
+       5,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       12,
+       36,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       87,
+       0,
+       0,
+       0,
+       4
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       103,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       2,
+       0,
+       99,
+       0,
+       6
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       295,
+       0
+      ],
+      [
+       3,
+       9,
+       5,
+       11,
+       31,
+       14,
+       1,
+       830
+      ]
+     ]
+    },
+    "Other": {
+     "macro_f1_8": {
+      "point": 0.5140469286810749,
+      "lo": 0.4186566570456712,
+      "hi": 0.6671937844197665,
+      "n_images": 57,
+      "n_clusters": 28,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "bal_acc_8": {
+      "point": 0.5857142857142856,
+      "lo": 0.5151199494949494,
+      "hi": 0.7083333333333334,
+      "n_images": 57,
+      "n_clusters": 28,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "n_images": 57,
+     "n_patients": 28,
+     "confusion": [
+      [
+       0,
+       2,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       18,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       2,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       4,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       18,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       3,
+       0
+      ],
+      [
+       0,
+       1,
+       0,
+       5,
+       3,
+       0,
+       0,
+       1
+      ]
+     ]
+    },
+    "Voluson E6": {
+     "macro_f1_8": {
+      "point": 0.8500233497224898,
+      "lo": 0.8354843126821277,
+      "hi": 0.8643219307953152,
+      "n_images": 2406,
+      "n_clusters": 391,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "bal_acc_8": {
+      "point": 0.8508710391886356,
+      "lo": 0.8367946008609815,
+      "hi": 0.8645454406885451,
+      "n_images": 2406,
+      "n_clusters": 391,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "n_images": 2406,
+     "n_patients": 391,
+     "confusion": [
+      [
+       201,
+       22,
+       0,
+       0,
+       1,
+       0,
+       0,
+       0
+      ],
+      [
+       21,
+       425,
+       36,
+       0,
+       0,
+       0,
+       0,
+       2
+      ],
+      [
+       1,
+       29,
+       164,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       147,
+       0,
+       3,
+       0,
+       17
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       310,
+       0,
+       0,
+       20
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       0,
+       479,
+       0,
+       3
+      ],
+      [
+       0,
+       0,
+       0,
+       1,
+       0,
+       0,
+       312,
+       1
+      ],
+      [
+       3,
+       23,
+       5,
+       14,
+       61,
+       23,
+       2,
+       80
+      ]
+     ]
+    },
+    "Voluson S10": {
+     "macro_f1_8": {
+      "point": 0.8288752608275934,
+      "lo": 0.7976839550365874,
+      "hi": 0.8553717539608444,
+      "n_images": 1071,
+      "n_clusters": 90,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "bal_acc_8": {
+      "point": 0.8797059605286193,
+      "lo": 0.8517064452485003,
+      "hi": 0.9038955158418438,
+      "n_images": 1071,
+      "n_clusters": 90,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "n_images": 1071,
+     "n_patients": 90,
+     "confusion": [
+      [
+       53,
+       13,
+       0,
+       0,
+       0,
+       0,
+       0,
+       1
+      ],
+      [
+       11,
+       95,
+       14,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       10,
+       48,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       1,
+       0,
+       92,
+       0,
+       1,
+       0,
+       2
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       69,
+       0,
+       0,
+       4
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       0,
+       65,
+       0,
+       6
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       33,
+       0
+      ],
+      [
+       4,
+       14,
+       3,
+       17,
+       19,
+       47,
+       2,
+       447
+      ]
+     ]
+    }
+   },
+   "contrasts": {
+    "other_recall_s10_minus_e6": {
+     "point": 0.4291713445831869,
+     "lo": 0.34946342178201617,
+     "hi": 0.5030589661829106,
+     "n_images": 5271,
+     "n_clusters": 896,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "false_rejection_s10_minus_e6": {
+     "point": 0.005506547875568375,
+     "lo": -0.009494680789225406,
+     "hi": 0.020961124505900278,
+     "n_images": 5271,
+     "n_clusters": 896,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "other_recall_s10_minus_aloka": {
+     "point": -0.10982332890588753,
+     "lo": -0.15460592051335864,
+     "hi": -0.07035584804361228,
+     "n_images": 5271,
+     "n_clusters": 896,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "false_rejection_s10_minus_aloka": {
+     "point": 0.011891242983679957,
+     "lo": -0.0025612299489368635,
+     "hi": 0.02806028663476458,
+     "n_images": 5271,
+     "n_clusters": 896,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "other_recall_aloka_minus_e6": {
+     "point": 0.5389946734890745,
+     "lo": 0.46704029244972306,
+     "hi": 0.6046325041949046,
+     "n_images": 5271,
+     "n_clusters": 896,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "false_rejection_aloka_minus_e6": {
+     "point": -0.0063846951081115814,
+     "lo": -0.016026848953781463,
+     "hi": 0.0031553848581171544,
+     "n_images": 5271,
+     "n_clusters": 896,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    }
+   },
+   "gee": {
+    "reference": "Voluson E6",
+    "adjusted_for": "true class (8)",
+    "cov_struct": "exchangeable",
+    "odds_ratios": {
+     "Aloka": {
+      "odds_ratio": 5.001283566914168,
+      "lo": 3.5787103173911854,
+      "hi": 6.989343953080731,
+      "p": 4.243839821328649e-21
+     },
+     "Other machine": {
+      "odds_ratio": 0.5846794875175403,
+      "lo": 0.32625149473647824,
+      "hi": 1.0478116074223498,
+      "p": 0.07137898995879416
+     },
+     "Voluson S10": {
+      "odds_ratio": 1.897891426981896,
+      "lo": 1.3937261537716843,
+      "hi": 2.5844330027557514,
+      "p": 4.75584503438488e-05
+     }
+    }
+   }
+  },
+  "repvgg_a1": {
+   "per_machine": {
+    "Aloka": {
+     "other_recall": {
+      "point": 0.9358407079646017,
+      "lo": 0.9157217549443055,
+      "hi": 0.9522918615528532,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "false_rejection": {
+      "point": 0.03721488595438175,
+      "lo": 0.023336542881467037,
+      "hi": 0.05176478015448604,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "n_other": 904,
+     "n_standard": 833
+    },
+    "Voluson E6": {
+     "other_recall": {
+      "point": 0.35071090047393366,
+      "lo": 0.2893369911416343,
+      "hi": 0.41474719836615,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "false_rejection": {
+      "point": 0.01776765375854214,
+      "lo": 0.011930896886701396,
+      "hi": 0.024006993925807883,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "n_other": 211,
+     "n_standard": 2195
+    },
+    "Voluson S10": {
+     "other_recall": {
+      "point": 0.8607594936708861,
+      "lo": 0.8210992247537154,
+      "hi": 0.891698539447037,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "false_rejection": {
+      "point": 0.03861003861003861,
+      "lo": 0.021628010719251346,
+      "hi": 0.05917189952904238,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "n_other": 553,
+     "n_standard": 518
+    },
+    "Other": {
+     "other_recall": {
+      "point": 0.0,
+      "lo": 0.0,
+      "hi": 0.0,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 1
+     },
+     "false_rejection": {
+      "point": 0.0,
+      "lo": 0.0,
+      "hi": 0.0,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "n_other": 10,
+     "n_standard": 47
+    }
+   },
+   "strata": {
+    "Aloka": {
+     "macro_f1_8": {
+      "point": 0.8882656566120983,
+      "lo": 0.866663371515347,
+      "hi": 0.9098231833360186,
+      "n_images": 1737,
+      "n_clusters": 389,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "bal_acc_8": {
+      "point": 0.8960257971836317,
+      "lo": 0.8724438499736382,
+      "hi": 0.9185658815920581,
+      "n_images": 1737,
+      "n_clusters": 389,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "n_images": 1737,
+     "n_patients": 389,
+     "confusion": [
+      [
+       39,
+       7,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       5,
+       134,
+       3,
+       0,
+       0,
+       0,
+       0,
+       1
+      ],
+      [
+       0,
+       12,
+       36,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       90,
+       0,
+       0,
+       0,
+       1
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       98,
+       0,
+       0,
+       5
+      ],
+      [
+       0,
+       0,
+       0,
+       2,
+       0,
+       81,
+       0,
+       24
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       295,
+       0
+      ],
+      [
+       1,
+       12,
+       4,
+       11,
+       18,
+       10,
+       2,
+       846
+      ]
+     ]
+    },
+    "Other": {
+     "macro_f1_8": {
+      "point": 0.4817934678561856,
+      "lo": 0.39314065597789616,
+      "hi": 0.6206454506454506,
+      "n_images": 57,
+      "n_clusters": 28,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "bal_acc_8": {
+      "point": 0.5714285714285714,
+      "lo": 0.5,
+      "hi": 0.6666666666666666,
+      "n_images": 57,
+      "n_clusters": 28,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "n_images": 57,
+     "n_patients": 28,
+     "confusion": [
+      [
+       0,
+       2,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       18,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       2,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       4,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       18,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       3,
+       0
+      ],
+      [
+       0,
+       1,
+       0,
+       6,
+       3,
+       0,
+       0,
+       0
+      ]
+     ]
+    },
+    "Voluson E6": {
+     "macro_f1_8": {
+      "point": 0.8345563943477108,
+      "lo": 0.8177654157325517,
+      "hi": 0.8502740773834129,
+      "n_images": 2406,
+      "n_clusters": 391,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "bal_acc_8": {
+      "point": 0.8449179477341169,
+      "lo": 0.8289589987965754,
+      "hi": 0.8602479972672571,
+      "n_images": 2406,
+      "n_clusters": 391,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "n_images": 2406,
+     "n_patients": 391,
+     "confusion": [
+      [
+       197,
+       26,
+       0,
+       0,
+       0,
+       0,
+       0,
+       1
+      ],
+      [
+       24,
+       408,
+       49,
+       2,
+       0,
+       0,
+       0,
+       1
+      ],
+      [
+       1,
+       36,
+       157,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       164,
+       0,
+       2,
+       0,
+       1
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       308,
+       0,
+       1,
+       21
+      ],
+      [
+       0,
+       0,
+       0,
+       2,
+       0,
+       465,
+       0,
+       15
+      ],
+      [
+       0,
+       0,
+       0,
+       1,
+       0,
+       0,
+       313,
+       0
+      ],
+      [
+       7,
+       19,
+       6,
+       32,
+       54,
+       17,
+       2,
+       74
+      ]
+     ]
+    },
+    "Voluson S10": {
+     "macro_f1_8": {
+      "point": 0.827042638064189,
+      "lo": 0.7979888578107794,
+      "hi": 0.8536454964807663,
+      "n_images": 1071,
+      "n_clusters": 90,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "bal_acc_8": {
+      "point": 0.8629830012284359,
+      "lo": 0.8353696686531816,
+      "hi": 0.8875698138903171,
+      "n_images": 1071,
+      "n_clusters": 90,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "n_images": 1071,
+     "n_patients": 90,
+     "confusion": [
+      [
+       56,
+       11,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       14,
+       87,
+       19,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       1,
+       11,
+       46,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       94,
+       0,
+       1,
+       0,
+       1
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       58,
+       0,
+       0,
+       15
+      ],
+      [
+       0,
+       0,
+       0,
+       2,
+       0,
+       65,
+       0,
+       4
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       33,
+       0
+      ],
+      [
+       4,
+       4,
+       4,
+       32,
+       7,
+       23,
+       3,
+       476
+      ]
+     ]
+    }
+   },
+   "contrasts": {
+    "other_recall_s10_minus_e6": {
+     "point": 0.5100485931969525,
+     "lo": 0.43945848860774395,
+     "hi": 0.5768983135916482,
+     "n_images": 5271,
+     "n_clusters": 896,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "false_rejection_s10_minus_e6": {
+     "point": 0.02084238485149647,
+     "lo": 0.0020925309151912583,
+     "hi": 0.04212915555181594,
+     "n_images": 5271,
+     "n_clusters": 896,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "other_recall_s10_minus_aloka": {
+     "point": -0.07508121429371561,
+     "lo": -0.11847609186945113,
+     "hi": -0.036802996982831876,
+     "n_images": 5271,
+     "n_clusters": 896,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "false_rejection_s10_minus_aloka": {
+     "point": 0.0013951526556568589,
+     "lo": -0.02002342226420295,
+     "hi": 0.025719522025855417,
+     "n_images": 5271,
+     "n_clusters": 896,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "other_recall_aloka_minus_e6": {
+     "point": 0.5851298074906681,
+     "lo": 0.5189346942165531,
+     "hi": 0.6480674388784805,
+     "n_images": 5271,
+     "n_clusters": 896,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "false_rejection_aloka_minus_e6": {
+     "point": 0.01944723219583961,
+     "lo": 0.004338844017673445,
+     "hi": 0.03482982786055292,
+     "n_images": 5271,
+     "n_clusters": 896,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    }
+   },
+   "gee": {
+    "reference": "Voluson E6",
+    "adjusted_for": "true class (8)",
+    "cov_struct": "exchangeable",
+    "odds_ratios": {
+     "Aloka": {
+      "odds_ratio": 3.893230989853837,
+      "lo": 2.7021228746565957,
+      "hi": 5.609385007069515,
+      "p": 2.9918212275540634e-13
+     },
+     "Other machine": {
+      "odds_ratio": 0.5685223914314194,
+      "lo": 0.3149721632179942,
+      "hi": 1.026178651016849,
+      "p": 0.06090301179984951
+     },
+     "Voluson S10": {
+      "odds_ratio": 1.688305285366842,
+      "lo": 1.207986272132814,
+      "hi": 2.3596085504887467,
+      "p": 0.0021677812162222638
+     }
+    }
+   }
+  },
+  "repvgg_a2": {
+   "per_machine": {
+    "Aloka": {
+     "other_recall": {
+      "point": 0.9413716814159292,
+      "lo": 0.9204541977300544,
+      "hi": 0.9592478313705884,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "false_rejection": {
+      "point": 0.025210084033613446,
+      "lo": 0.013398294762484775,
+      "hi": 0.0375954420936061,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "n_other": 904,
+     "n_standard": 833
+    },
+    "Voluson E6": {
+     "other_recall": {
+      "point": 0.44075829383886256,
+      "lo": 0.37035480859010267,
+      "hi": 0.504860560729146,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "false_rejection": {
+      "point": 0.026879271070615034,
+      "lo": 0.019315963531019078,
+      "hi": 0.03488959918424974,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "n_other": 211,
+     "n_standard": 2195
+    },
+    "Voluson S10": {
+     "other_recall": {
+      "point": 0.9023508137432188,
+      "lo": 0.8716565452418021,
+      "hi": 0.9279279279279279,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "false_rejection": {
+      "point": 0.03861003861003861,
+      "lo": 0.02147878314189079,
+      "hi": 0.057616138475244986,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "n_other": 553,
+     "n_standard": 518
+    },
+    "Other": {
+     "other_recall": {
+      "point": 0.3,
+      "lo": 0.0,
+      "hi": 0.6666666666666666,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 1
+     },
+     "false_rejection": {
+      "point": 0.02127659574468085,
+      "lo": 0.0,
+      "hi": 0.06976744186046512,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "n_other": 10,
+     "n_standard": 47
+    }
+   },
+   "strata": {
+    "Aloka": {
+     "macro_f1_8": {
+      "point": 0.8888138166358303,
+      "lo": 0.8655872239269752,
+      "hi": 0.9085805644285545,
+      "n_images": 1737,
+      "n_clusters": 389,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "bal_acc_8": {
+      "point": 0.90277350635057,
+      "lo": 0.8798290308274795,
+      "hi": 0.9245495842483051,
+      "n_images": 1737,
+      "n_clusters": 389,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "n_images": 1737,
+     "n_patients": 389,
+     "confusion": [
+      [
+       35,
+       9,
+       0,
+       0,
+       0,
+       0,
+       0,
+       2
+      ],
+      [
+       4,
+       127,
+       10,
+       0,
+       0,
+       0,
+       0,
+       2
+      ],
+      [
+       0,
+       9,
+       39,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       90,
+       0,
+       0,
+       0,
+       1
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       99,
+       0,
+       0,
+       4
+      ],
+      [
+       0,
+       0,
+       0,
+       2,
+       0,
+       93,
+       0,
+       12
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       295,
+       0
+      ],
+      [
+       3,
+       11,
+       4,
+       8,
+       18,
+       8,
+       1,
+       851
+      ]
+     ]
+    },
+    "Other": {
+     "macro_f1_8": {
+      "point": 0.5590074086314688,
+      "lo": 0.44387870697470916,
+      "hi": 0.7359545454545454,
+      "n_images": 57,
+      "n_clusters": 28,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "bal_acc_8": {
+      "point": 0.6063492063492063,
+      "lo": 0.5347172619047619,
+      "hi": 0.7666666666666666,
+      "n_images": 57,
+      "n_clusters": 28,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "n_images": 57,
+     "n_patients": 28,
+     "confusion": [
+      [
+       0,
+       1,
+       0,
+       0,
+       0,
+       0,
+       0,
+       1
+      ],
+      [
+       0,
+       17,
+       1,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       2,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       4,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       18,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       3,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       4,
+       3,
+       0,
+       0,
+       3
+      ]
+     ]
+    },
+    "Voluson E6": {
+     "macro_f1_8": {
+      "point": 0.8435079796758109,
+      "lo": 0.8265926128339928,
+      "hi": 0.8586969938555269,
+      "n_images": 2406,
+      "n_clusters": 391,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "bal_acc_8": {
+      "point": 0.8473338211024292,
+      "lo": 0.8303451169203097,
+      "hi": 0.8624285341086142,
+      "n_images": 2406,
+      "n_clusters": 391,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "n_images": 2406,
+     "n_patients": 391,
+     "confusion": [
+      [
+       192,
+       30,
+       0,
+       0,
+       0,
+       0,
+       0,
+       2
+      ],
+      [
+       20,
+       406,
+       49,
+       0,
+       0,
+       2,
+       0,
+       7
+      ],
+      [
+       1,
+       32,
+       161,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       1,
+       0,
+       155,
+       0,
+       1,
+       0,
+       10
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       302,
+       0,
+       0,
+       28
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       1,
+       470,
+       0,
+       11
+      ],
+      [
+       0,
+       0,
+       0,
+       1,
+       0,
+       0,
+       312,
+       1
+      ],
+      [
+       1,
+       14,
+       8,
+       24,
+       46,
+       23,
+       2,
+       93
+      ]
+     ]
+    },
+    "Voluson S10": {
+     "macro_f1_8": {
+      "point": 0.8363288134827414,
+      "lo": 0.806228371590122,
+      "hi": 0.8636848368480609,
+      "n_images": 1071,
+      "n_clusters": 90,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "bal_acc_8": {
+      "point": 0.8581122198642719,
+      "lo": 0.8262022457526491,
+      "hi": 0.8863839788656183,
+      "n_images": 1071,
+      "n_clusters": 90,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "n_images": 1071,
+     "n_patients": 90,
+     "confusion": [
+      [
+       52,
+       13,
+       0,
+       0,
+       0,
+       1,
+       0,
+       1
+      ],
+      [
+       7,
+       85,
+       25,
+       0,
+       0,
+       1,
+       1,
+       1
+      ],
+      [
+       0,
+       14,
+       44,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       93,
+       0,
+       2,
+       0,
+       1
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       62,
+       0,
+       0,
+       11
+      ],
+      [
+       0,
+       0,
+       0,
+       1,
+       0,
+       64,
+       0,
+       6
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       33,
+       0
+      ],
+      [
+       1,
+       6,
+       6,
+       15,
+       9,
+       16,
+       1,
+       499
+      ]
+     ]
+    }
+   },
+   "contrasts": {
+    "other_recall_s10_minus_e6": {
+     "point": 0.46159251990435624,
+     "lo": 0.38925858197530033,
+     "hi": 0.5374671310905895,
+     "n_images": 5271,
+     "n_clusters": 896,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "false_rejection_s10_minus_e6": {
+     "point": 0.011730767539423575,
+     "lo": -0.007321429037495083,
+     "hi": 0.03173311705597555,
+     "n_images": 5271,
+     "n_clusters": 896,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "other_recall_s10_minus_aloka": {
+     "point": -0.0390208676727104,
+     "lo": -0.07579241755034978,
+     "hi": -0.006486752556226587,
+     "n_images": 5271,
+     "n_clusters": 896,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "false_rejection_s10_minus_aloka": {
+     "point": 0.013399954576425163,
+     "lo": -0.00760090927678007,
+     "hi": 0.03538004023769856,
+     "n_images": 5271,
+     "n_clusters": 896,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "other_recall_aloka_minus_e6": {
+     "point": 0.5006133875770666,
+     "lo": 0.4324974393208585,
+     "hi": 0.5748680256131745,
+     "n_images": 5271,
+     "n_clusters": 896,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "false_rejection_aloka_minus_e6": {
+     "point": -0.0016691870370015884,
+     "lo": -0.015883146415622006,
+     "hi": 0.013037198116238916,
+     "n_images": 5271,
+     "n_clusters": 896,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    }
+   },
+   "gee": {
+    "reference": "Voluson E6",
+    "adjusted_for": "true class (8)",
+    "cov_struct": "exchangeable",
+    "odds_ratios": {
+     "Aloka": {
+      "odds_ratio": 3.3450448049015944,
+      "lo": 2.3627269338182346,
+      "hi": 4.735767213148442,
+      "p": 9.951366243451488e-12
+     },
+     "Other machine": {
+      "odds_ratio": 0.7013440623412782,
+      "lo": 0.3409936772715802,
+      "hi": 1.4425003352470147,
+      "p": 0.33495100282676715
+     },
+     "Voluson S10": {
+      "odds_ratio": 1.56535770444953,
+      "lo": 1.1184941002463022,
+      "hi": 2.1907533909565675,
+      "p": 0.008976899586980159
+     }
+    }
+   }
+  },
+  "mobilenetv3_large_100": {
+   "per_machine": {
+    "Aloka": {
+     "other_recall": {
+      "point": 0.9358407079646017,
+      "lo": 0.9156039462945479,
+      "hi": 0.9536402412753123,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "false_rejection": {
+      "point": 0.03601440576230492,
+      "lo": 0.02188740934786981,
+      "hi": 0.05070950782551162,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "n_other": 904,
+     "n_standard": 833
+    },
+    "Voluson E6": {
+     "other_recall": {
+      "point": 0.3981042654028436,
+      "lo": 0.33031674208144796,
+      "hi": 0.4681845898004435,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "false_rejection": {
+      "point": 0.027790432801822324,
+      "lo": 0.01980974124003496,
+      "hi": 0.03623954867181772,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "n_other": 211,
+     "n_standard": 2195
+    },
+    "Voluson S10": {
+     "other_recall": {
+      "point": 0.8571428571428571,
+      "lo": 0.8257412117358525,
+      "hi": 0.887205703653072,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "false_rejection": {
+      "point": 0.06756756756756757,
+      "lo": 0.04772667041439126,
+      "hi": 0.08874605124605124,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "n_other": 553,
+     "n_standard": 518
+    },
+    "Other": {
+     "other_recall": {
+      "point": 0.0,
+      "lo": 0.0,
+      "hi": 0.0,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 1
+     },
+     "false_rejection": {
+      "point": 0.0,
+      "lo": 0.0,
+      "hi": 0.0,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "n_other": 10,
+     "n_standard": 47
+    }
+   },
+   "strata": {
+    "Aloka": {
+     "macro_f1_8": {
+      "point": 0.8932903491126155,
+      "lo": 0.8687356879741693,
+      "hi": 0.9149975272760794,
+      "n_images": 1737,
+      "n_clusters": 389,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "bal_acc_8": {
+      "point": 0.9025449634183903,
+      "lo": 0.8766933118971156,
+      "hi": 0.9251741730709434,
+      "n_images": 1737,
+      "n_clusters": 389,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "n_images": 1737,
+     "n_patients": 389,
+     "confusion": [
+      [
+       42,
+       3,
+       0,
+       0,
+       0,
+       0,
+       0,
+       1
+      ],
+      [
+       9,
+       131,
+       2,
+       0,
+       0,
+       0,
+       0,
+       1
+      ],
+      [
+       0,
+       12,
+       36,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       83,
+       0,
+       0,
+       0,
+       8
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       100,
+       0,
+       0,
+       3
+      ],
+      [
+       0,
+       0,
+       0,
+       2,
+       0,
+       88,
+       0,
+       17
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       295,
+       0
+      ],
+      [
+       0,
+       13,
+       3,
+       2,
+       32,
+       7,
+       1,
+       846
+      ]
+     ]
+    },
+    "Other": {
+     "macro_f1_8": {
+      "point": 0.4840659340659341,
+      "lo": 0.38797051426475593,
+      "hi": 0.6092252839813815,
+      "n_images": 57,
+      "n_clusters": 28,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "bal_acc_8": {
+      "point": 0.5634920634920635,
+      "lo": 0.49074074074074076,
+      "hi": 0.6666666666666666,
+      "n_images": 57,
+      "n_clusters": 28,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "n_images": 57,
+     "n_patients": 28,
+     "confusion": [
+      [
+       0,
+       2,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       17,
+       0,
+       0,
+       0,
+       1,
+       0,
+       0
+      ],
+      [
+       0,
+       2,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       4,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       18,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       3,
+       0
+      ],
+      [
+       1,
+       1,
+       0,
+       5,
+       3,
+       0,
+       0,
+       0
+      ]
+     ]
+    },
+    "Voluson E6": {
+     "macro_f1_8": {
+      "point": 0.8375369053250299,
+      "lo": 0.820968802671835,
+      "hi": 0.8533642005407498,
+      "n_images": 2406,
+      "n_clusters": 391,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "bal_acc_8": {
+      "point": 0.8355165525641557,
+      "lo": 0.8189343104266464,
+      "hi": 0.8514773424846536,
+      "n_images": 2406,
+      "n_clusters": 391,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "n_images": 2406,
+     "n_patients": 391,
+     "confusion": [
+      [
+       207,
+       17,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       24,
+       433,
+       23,
+       0,
+       0,
+       0,
+       0,
+       4
+      ],
+      [
+       3,
+       55,
+       133,
+       0,
+       1,
+       0,
+       0,
+       2
+      ],
+      [
+       0,
+       0,
+       0,
+       146,
+       0,
+       2,
+       0,
+       19
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       318,
+       0,
+       0,
+       12
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       1,
+       458,
+       0,
+       23
+      ],
+      [
+       0,
+       0,
+       0,
+       1,
+       0,
+       0,
+       312,
+       1
+      ],
+      [
+       2,
+       19,
+       1,
+       19,
+       70,
+       13,
+       3,
+       84
+      ]
+     ]
+    },
+    "Voluson S10": {
+     "macro_f1_8": {
+      "point": 0.8102599490756317,
+      "lo": 0.7792697659308165,
+      "hi": 0.8365535067024086,
+      "n_images": 1071,
+      "n_clusters": 90,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "bal_acc_8": {
+      "point": 0.8395144228605358,
+      "lo": 0.8127351458562087,
+      "hi": 0.8656547260865757,
+      "n_images": 1071,
+      "n_clusters": 90,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "n_images": 1071,
+     "n_patients": 90,
+     "confusion": [
+      [
+       56,
+       10,
+       0,
+       0,
+       0,
+       0,
+       0,
+       1
+      ],
+      [
+       16,
+       93,
+       9,
+       0,
+       0,
+       0,
+       0,
+       2
+      ],
+      [
+       0,
+       18,
+       36,
+       0,
+       0,
+       0,
+       0,
+       4
+      ],
+      [
+       0,
+       0,
+       0,
+       83,
+       0,
+       1,
+       0,
+       12
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       67,
+       0,
+       0,
+       6
+      ],
+      [
+       0,
+       0,
+       0,
+       1,
+       0,
+       60,
+       0,
+       10
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       33,
+       0
+      ],
+      [
+       5,
+       5,
+       2,
+       9,
+       28,
+       25,
+       5,
+       474
+      ]
+     ]
+    }
+   },
+   "contrasts": {
+    "other_recall_s10_minus_e6": {
+     "point": 0.4590385917400135,
+     "lo": 0.382098606363963,
+     "hi": 0.5344231707529581,
+     "n_images": 5271,
+     "n_clusters": 896,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "false_rejection_s10_minus_e6": {
+     "point": 0.03977713476574525,
+     "lo": 0.017687682147290405,
+     "hi": 0.06284612069346582,
+     "n_images": 5271,
+     "n_clusters": 896,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "other_recall_s10_minus_aloka": {
+     "point": -0.07869785082174463,
+     "lo": -0.1157539904152854,
+     "hi": -0.042520236705539186,
+     "n_images": 5271,
+     "n_clusters": 896,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "false_rejection_s10_minus_aloka": {
+     "point": 0.03155316180526265,
+     "lo": 0.008828724366791853,
+     "hi": 0.05628225419340821,
+     "n_images": 5271,
+     "n_clusters": 896,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "other_recall_aloka_minus_e6": {
+     "point": 0.5377364425617581,
+     "lo": 0.46541058217235437,
+     "hi": 0.6101333690767599,
+     "n_images": 5271,
+     "n_clusters": 896,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "false_rejection_aloka_minus_e6": {
+     "point": 0.008223972960482596,
+     "lo": -0.007646393001642434,
+     "hi": 0.02477457891016201,
+     "n_images": 5271,
+     "n_clusters": 896,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    }
+   },
+   "gee": {
+    "reference": "Voluson E6",
+    "adjusted_for": "true class (8)",
+    "cov_struct": "exchangeable",
+    "odds_ratios": {
+     "Aloka": {
+      "odds_ratio": 3.6079692357062036,
+      "lo": 2.503916174570617,
+      "hi": 5.1988329873042565,
+      "p": 5.789577799335135e-12
+     },
+     "Other machine": {
+      "odds_ratio": 0.41020822807859475,
+      "lo": 0.22829492091273368,
+      "hi": 0.7370763646892623,
+      "p": 0.0028801439103587423
+     },
+     "Voluson S10": {
+      "odds_ratio": 1.4980880898302078,
+      "lo": 1.1009881264347927,
+      "hi": 2.038412468768836,
+      "p": 0.010104793435760975
+     }
+    }
+   }
+  },
+  "efficientnet_lite0": {
+   "per_machine": {
+    "Aloka": {
+     "other_recall": {
+      "point": 0.9413716814159292,
+      "lo": 0.9224615040915208,
+      "hi": 0.956979016647775,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "false_rejection": {
+      "point": 0.025210084033613446,
+      "lo": 0.014925373134328358,
+      "hi": 0.03606825181246053,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "n_other": 904,
+     "n_standard": 833
+    },
+    "Voluson E6": {
+     "other_recall": {
+      "point": 0.36492890995260663,
+      "lo": 0.29948370862076445,
+      "hi": 0.4353522960054626,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "false_rejection": {
+      "point": 0.03143507972665148,
+      "lo": 0.022811325205565624,
+      "hi": 0.04106591464712226,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "n_other": 211,
+     "n_standard": 2195
+    },
+    "Voluson S10": {
+     "other_recall": {
+      "point": 0.8716094032549728,
+      "lo": 0.839851024208566,
+      "hi": 0.903226953608957,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "false_rejection": {
+      "point": 0.04247104247104247,
+      "lo": 0.022294314773719504,
+      "hi": 0.06652845081680572,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "n_other": 553,
+     "n_standard": 518
+    },
+    "Other": {
+     "other_recall": {
+      "point": 0.2,
+      "lo": 0.0,
+      "hi": 0.4444444444444444,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 1
+     },
+     "false_rejection": {
+      "point": 0.02127659574468085,
+      "lo": 0.0,
+      "hi": 0.06976744186046512,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "n_other": 10,
+     "n_standard": 47
+    }
+   },
+   "strata": {
+    "Aloka": {
+     "macro_f1_8": {
+      "point": 0.901605630450897,
+      "lo": 0.8765191879326841,
+      "hi": 0.9218340515012367,
+      "n_images": 1737,
+      "n_clusters": 389,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "bal_acc_8": {
+      "point": 0.9172954631714186,
+      "lo": 0.8898108819823922,
+      "hi": 0.9395645837557838,
+      "n_images": 1737,
+      "n_clusters": 389,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "n_images": 1737,
+     "n_patients": 389,
+     "confusion": [
+      [
+       41,
+       4,
+       0,
+       0,
+       0,
+       0,
+       0,
+       1
+      ],
+      [
+       6,
+       128,
+       7,
+       0,
+       0,
+       0,
+       0,
+       2
+      ],
+      [
+       0,
+       9,
+       39,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       1,
+       0,
+       88,
+       0,
+       0,
+       0,
+       2
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       101,
+       0,
+       0,
+       2
+      ],
+      [
+       0,
+       0,
+       0,
+       2,
+       0,
+       91,
+       0,
+       14
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       295,
+       0
+      ],
+      [
+       2,
+       11,
+       3,
+       5,
+       30,
+       1,
+       1,
+       851
+      ]
+     ]
+    },
+    "Other": {
+     "macro_f1_8": {
+      "point": 0.5301455301455301,
+      "lo": 0.4272091885484743,
+      "hi": 0.6825459188362414,
+      "n_images": 57,
+      "n_clusters": 28,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "bal_acc_8": {
+      "point": 0.584126984126984,
+      "lo": 0.5116404547930283,
+      "hi": 0.7235430283224401,
+      "n_images": 57,
+      "n_clusters": 28,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "n_images": 57,
+     "n_patients": 28,
+     "confusion": [
+      [
+       0,
+       1,
+       0,
+       0,
+       0,
+       0,
+       0,
+       1
+      ],
+      [
+       1,
+       16,
+       0,
+       0,
+       0,
+       1,
+       0,
+       0
+      ],
+      [
+       0,
+       2,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       4,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       18,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       3,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       5,
+       3,
+       0,
+       0,
+       2
+      ]
+     ]
+    },
+    "Voluson E6": {
+     "macro_f1_8": {
+      "point": 0.837315284727014,
+      "lo": 0.8220994665752409,
+      "hi": 0.8535489609802606,
+      "n_images": 2406,
+      "n_clusters": 391,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "bal_acc_8": {
+      "point": 0.8493180421956519,
+      "lo": 0.8346775569969932,
+      "hi": 0.8644333536205077,
+      "n_images": 2406,
+      "n_clusters": 391,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "n_images": 2406,
+     "n_patients": 391,
+     "confusion": [
+      [
+       210,
+       13,
+       0,
+       0,
+       1,
+       0,
+       0,
+       0
+      ],
+      [
+       34,
+       397,
+       45,
+       0,
+       0,
+       0,
+       0,
+       8
+      ],
+      [
+       4,
+       25,
+       165,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       1,
+       0,
+       160,
+       0,
+       1,
+       0,
+       5
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       314,
+       0,
+       0,
+       16
+      ],
+      [
+       0,
+       0,
+       0,
+       1,
+       0,
+       441,
+       0,
+       40
+      ],
+      [
+       0,
+       0,
+       0,
+       1,
+       0,
+       0,
+       313,
+       0
+      ],
+      [
+       1,
+       25,
+       2,
+       23,
+       69,
+       12,
+       2,
+       77
+      ]
+     ]
+    },
+    "Voluson S10": {
+     "macro_f1_8": {
+      "point": 0.8340760034120867,
+      "lo": 0.806194837775554,
+      "hi": 0.8599858624085626,
+      "n_images": 1071,
+      "n_clusters": 90,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "bal_acc_8": {
+      "point": 0.8613372221314493,
+      "lo": 0.8308190238523016,
+      "hi": 0.8892495955603353,
+      "n_images": 1071,
+      "n_clusters": 90,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "n_images": 1071,
+     "n_patients": 90,
+     "confusion": [
+      [
+       55,
+       12,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       14,
+       92,
+       13,
+       0,
+       0,
+       0,
+       0,
+       1
+      ],
+      [
+       0,
+       15,
+       43,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       93,
+       0,
+       1,
+       0,
+       2
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       65,
+       0,
+       0,
+       8
+      ],
+      [
+       0,
+       0,
+       0,
+       1,
+       0,
+       59,
+       0,
+       11
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       33,
+       0
+      ],
+      [
+       4,
+       2,
+       7,
+       17,
+       14,
+       27,
+       0,
+       482
+      ]
+     ]
+    }
+   },
+   "contrasts": {
+    "other_recall_s10_minus_e6": {
+     "point": 0.5066804933023662,
+     "lo": 0.431149720071212,
+     "hi": 0.5792365162880636,
+     "n_images": 5271,
+     "n_clusters": 896,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "false_rejection_s10_minus_e6": {
+     "point": 0.01103596274439099,
+     "lo": -0.01151057176706882,
+     "hi": 0.037428292466577875,
+     "n_images": 5271,
+     "n_clusters": 896,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "other_recall_s10_minus_aloka": {
+     "point": -0.06976227816095637,
+     "lo": -0.10714490792010167,
+     "hi": -0.03415126529426798,
+     "n_images": 5271,
+     "n_clusters": 896,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "false_rejection_s10_minus_aloka": {
+     "point": 0.017260958437429023,
+     "lo": -0.005403075869726546,
+     "hi": 0.043403021217060765,
+     "n_images": 5271,
+     "n_clusters": 896,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "other_recall_aloka_minus_e6": {
+     "point": 0.5764427714633226,
+     "lo": 0.5048625414992572,
+     "hi": 0.6438960709898691,
+     "n_images": 5271,
+     "n_clusters": 896,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "false_rejection_aloka_minus_e6": {
+     "point": -0.006224995693038034,
+     "lo": -0.019949429831038135,
+     "hi": 0.007218619263268952,
+     "n_images": 5271,
+     "n_clusters": 896,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    }
+   },
+   "gee": {
+    "reference": "Voluson E6",
+    "adjusted_for": "true class (8)",
+    "cov_struct": "exchangeable",
+    "odds_ratios": {
+     "Aloka": {
+      "odds_ratio": 4.589041478082555,
+      "lo": 3.1449543852640853,
+      "hi": 6.696218484515077,
+      "p": 2.721546120706253e-15
+     },
+     "Other machine": {
+      "odds_ratio": 0.5447889634508871,
+      "lo": 0.2843869407613024,
+      "hi": 1.043630955427747,
+      "p": 0.06707010701375322
+     },
+     "Voluson S10": {
+      "odds_ratio": 1.8480779524737447,
+      "lo": 1.3121833958854314,
+      "hi": 2.602831379461954,
+      "p": 0.00043985253104081713
+     }
+    }
+   }
+  }
+ },
+ "n_patients_multi_machine": 2
+}

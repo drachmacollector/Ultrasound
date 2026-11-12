@@ -50,6 +50,7 @@ from src.data.dataset import (
 from src.data.transforms import get_eval_transform, get_train_transform
 from src.models.backbone import build_model
 from src.models.loading import forbidden_token_in
+from src.preprocess.pipeline import ALL_MODES, cache_dir, is_cached
 from src.train.losses import FocalLoss
 
 # ---------------------------------------------------------------------------
@@ -105,7 +106,7 @@ def build_class_weight_tensor(
 #: Research-protocol options and the values implemented so far. Anything else is
 #: rejected loudly instead of being silently ignored (R5 extends these).
 SUPPORTED_OPTIONS: dict[str, tuple] = {  # type: ignore[type-arg]
-    "preprocess_mode": ("resize",),
+    "preprocess_mode": ALL_MODES,
     "sampler": ("none",),
     "style_aug": (False,),
     "use_acam": (False,),
@@ -323,14 +324,22 @@ def train(cfg: dict) -> None:  # type: ignore[type-arg]
     normalize_std: tuple[float, ...] = tuple(cfg.get("normalize_std", [0.229, 0.224, 0.225]))
 
     # ---- Datasets & DataLoaders ------------------------------------------
+    mode: str = cfg.get("preprocess_mode", "resize")
+    if is_cached(mode) and not (cache_dir(mode, img_size) / "fpdb").is_dir():
+        raise SystemExit(f"cache for preprocess_mode={mode!r} missing: run scripts/research/build_cache.py --mode {mode}")
     train_dataset = FocalPlanesDataset(
         csv_path=cfg["train_csv"],
         transform=get_train_transform(img_size=img_size, mean=normalize_mean, std=normalize_std),
+        preprocess_mode=mode,
+        img_size=img_size,
     )
     val_dataset = FocalPlanesDataset(
         csv_path=cfg["val_csv"],
         transform=get_eval_transform(img_size=img_size, mean=normalize_mean, std=normalize_std),
+        preprocess_mode=mode,
+        img_size=img_size,
     )
+    log.info("Preprocess mode: %s", mode)
 
     num_workers: int = cfg.get("num_workers", 4)
     batch_size: int = cfg.get("batch_size", 32)

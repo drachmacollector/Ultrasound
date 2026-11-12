@@ -35,7 +35,11 @@ edit or import it.
 ## Environment
 Interpreter: `D:\miniconda\envs\fetalplane\python.exe` (Python 3.11, torch 2.11+cu128, timm 1.0.28,
 albumentations 2.0.8). `conda` is not on PATH in agent shells, so call the interpreter by absolute path.
-Windows; run everything from the repo root; use pathlib. Split CSVs contain backslash paths, so normalise
+Windows; run everything from the repo root; use pathlib.
+Resource limits learned in R3: every process that imports torch commits ~2 GB of virtual memory (WinError 1455
+"paging file too small" when ~12+ run at once: training + DataLoader workers + other jobs), so do not overlap
+GPU jobs that each spawn DataLoader workers. CPU-parallel sklearn work must use single-threaded BLAS
+(`OMP_NUM_THREADS=1`) and torch-free worker processes; multi-threaded BLAS made probe fits 10–25× slower. Split CSVs contain backslash paths, so normalise
 on load. albumentations 2.0.x argument names (`gamma_limit`, `PadIfNeeded(fill=...)`) are pinned on purpose.
 
 ## Layout
@@ -51,6 +55,12 @@ python -m pytest
 python -m src.train.train --config configs/convnext_tiny.yaml --out-dir runs/<run_id> [--seed 11] [--epochs-override 1]
 python -m src.eval.predict --ckpt <ckpt> --dataset fpdb_test|hc18|ucl|african --run-id <id>      # R2
 python scripts/research/r2_reevaluate_existing.py [--score-only]                                # R2 + Gate G2
+python scripts/research/e1_confounding_tables.py; e2_metadata_only_model.py; e6_stratified_performance.py  # R3 (CPU)
+python scripts/research/render_box1.py                                                           # Box 1 (after E1/E2/E6)
+python scripts/research/e3_feature_probes.py --extract --probe --score [--jobs 6]                # R3 E3
+python scripts/research/e5_reliance_perturbation.py --predict --score                            # R3 E5 (GPU)
+python scripts/research/build_cache.py --mode nonanat_only overlay_only sector_shape_only        # R3 E4 cache
+python scripts/research/e4_availability_train.py --train --evaluate                              # R3 E4 (~2 GPU-h)
 python scripts/research/r5_run_matrix.py                                                         # R5
 python scripts/research/render_results.py                                                        # R6
 ```

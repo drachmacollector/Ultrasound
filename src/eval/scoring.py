@@ -94,11 +94,12 @@ def ratio(name: str, num: str, den: str | None = None) -> RatioMetric:
 
 
 def other_recall_metric() -> RatioMetric:
-    """Recall of the fine 'Other' class (FPDB); needs the ``_with_other8`` columns."""
+    """Recall of the fine 'Other' class (FPDB); needs the ``with_other8`` columns."""
     return RatioMetric("other_recall", "_hit_other8", "_is_other8")
 
 
-def _with_other8(df: pd.DataFrame) -> pd.DataFrame:
+def with_other8(df: pd.DataFrame) -> pd.DataFrame:
+    """Add the 0/1 columns ``other_recall_metric`` needs (true Other; true and predicted Other)."""
     is_o = df["true_label"].astype(str) == "Other"
     return df.assign(_is_other8=is_o.astype(np.int8),
                      _hit_other8=(is_o & (df["pred_fine"].astype(str) == "Other")).astype(np.int8))
@@ -114,7 +115,7 @@ def score_indist(df: pd.DataFrame, image_ci: bool = False, strict_labels: bool =
     may be missing). ``max_nan_frac`` applies to Other recall (undefined in resamples of small
     strata without Other images).
     """
-    d = add_helper_columns(_with_other8(df))
+    d = add_helper_columns(with_other8(df))
     labels = (CANONICAL_CLASSES if strict_labels
               else [c for c in CANONICAL_CLASSES if c in set(d["true_label"].astype(str))])
     out: dict[str, Estimate | dict] = {
