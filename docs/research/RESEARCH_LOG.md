@@ -109,8 +109,13 @@ outcome: P3b not supported for the pre-declared primary (convnext Grad-CAM, true
 deviation: the plan's "deployable" `epg_pred` still uses the expert mask of the true anatomy and is favoured by construction for wrong predictions (AUROC 0.97); it is reported with that warning and not interpreted. `--report-only` added to re-render without the 13-min bootstrap.
 
 ## 2026-11-13 — R5.1–R5.6, R5.9 — AFP protocol implementation (pre-G4)
-commit: see the R5 pre-registration commit   run_ids: `runs/_smoke/<arm>_<backbone>_s11` (1 epoch), `runs/_smoke/afp_convnext_s11_e2` (2 epochs)
+commit: 91a54aedbc   run_ids: `runs/_smoke/<arm>_<backbone>_s11` (1 epoch), `runs/_smoke/afp_convnext_s11_e2` (2 epochs)
 outputs: `src/preprocess/{pipeline,caliper_aug}.py`, `src/train/{sampler,train}.py`, `src/data/{transforms,dataset}.py`, `configs/research/{b0,b1,b2,afp}_*.yaml`, `scripts/research/r5_{run_matrix,evaluate_matrix,primary_endpoint}.py`, `data/processed/cache/sector_letterbox*/` (gitignored), `docs/research/PREREGISTRATION.md`, `docs/research/GATE_G4.md`
 outcome: all 8 arm configs train, validate and write val predictions end to end (1-epoch smoke). Letterbox caches for 14,273 images. Sampler realised joint within 3.7 pp of target over epochs 1-2 (no clipping). Stopped at Gate G4: the 24-run matrix waits for the OSF registration (PI action).
 deviation: sampler pooling rule = total group size < 30 (the "< 30 in any class" reading would merge Other_machine and contradict the plan's expected multipliers); realised-joint check pools epochs 1-2 (single-epoch false-alarm rate 12.7% in simulation, pooled 0.3%); A4 replaces both B0 photometric entries; letterbox caches at native scale; val predictions written by `predict` to results/preds/<run_id>/; R5.2 detector realism check on 1-px strokes only (R1 templates find 0% of 2-px crosses).
 deviation: letterbox quality depends on the R1 sector masks (FPDB G1 138/150 ok; externals not audited; UCL insets and African full-frame text remain inside the crop); African sector shapes are mostly 'fan' (361/450), not 'full' as the plan expected.
+
+## 2026-11-13 — R6 (part 1) — Reporting and review artefacts independent of R5
+outputs: `scripts/research/{render_results,make_review_figures,check_evidence_table}.py`, `docs/research/templates/RESULTS.template.md`, `docs/research/{RESULTS,REPRODUCE,DATA_CARDS,literature_search_log,review_reference_shortlist}.md`, `docs/research/review_evidence_table.csv`, `results/figures/review_fig{1..4}_*.pdf`
+outcome: RESULTS.md renders every RQ1–RQ3 number from JSON (8 R5 placeholders pending). Six PubMed searches logged (56/114/60/65/73/24 hits). Evidence table: 25 rows, 10 verified against PubMed records. Four review figures drawn and checked in greyscale. FetalCLIP licence = CC BY-NC 4.0 (repository LICENSE).
+deviation: JSON keys containing '|' are addressed with '~' in templates; review figure 3 reuses the R4 grid function.
