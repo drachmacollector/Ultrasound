@@ -39,7 +39,7 @@ Windows; run everything from the repo root; use pathlib.
 Resource limits learned in R3: every process that imports torch commits ~2 GB of virtual memory (WinError 1455
 "paging file too small" when ~12+ run at once: training + DataLoader workers + other jobs), so do not overlap
 GPU jobs that each spawn DataLoader workers. CPU-parallel sklearn work must use single-threaded BLAS
-(`OMP_NUM_THREADS=1`) and torch-free worker processes; multi-threaded BLAS made probe fits 10–25× slower. Split CSVs contain backslash paths, so normalise
+(`OMP_NUM_THREADS=1`) and torch-free worker processes; multi-threaded BLAS made probe fits 10–25× slower. Every new input shape costs ~5 s of cuDNN set-up for fp32 forward+backward, so saliency code pads CAM batches to a fixed size (`SaliencyEngine.cam_batch`). Split CSVs contain backslash paths, so normalise
 on load. albumentations 2.0.x argument names (`gamma_limit`, `PadIfNeeded(fill=...)`) are pinned on purpose.
 
 ## Layout
@@ -61,6 +61,9 @@ python scripts/research/e3_feature_probes.py --extract --probe --score [--jobs 6
 python scripts/research/e5_reliance_perturbation.py --predict --score                            # R3 E5 (GPU)
 python scripts/research/build_cache.py --mode nonanat_only overlay_only sector_shape_only        # R3 E4 cache
 python scripts/research/e4_availability_train.py --train --evaluate                              # R3 E4 (~2 GPU-h)
+python scripts/research/r4_localisation.py --dev                                                 # R4 development (val only)
+python scripts/research/r4_sanity_randomisation.py                                               # R4 Gate G3 (needs clean src/)
+python scripts/research/r4_localisation.py --run; r4_summarise.py; r4_association.py              # R4 test/external (after G3)
 python scripts/research/r5_run_matrix.py                                                         # R5
 python scripts/research/render_results.py                                                        # R6
 ```
