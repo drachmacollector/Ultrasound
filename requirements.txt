@@ -1,20 +1,21 @@
+# Research environment (conda env `fetalplane`, Python 3.11). Exact pins: requirements-lock.txt.
 torch
 torchvision
-timm
+timm==1.0.28
+albumentations==2.0.8   # 2.2.0 renamed *_limit -> *_range; code targets 2.0.x names
 opencv-python
 numpy
 pandas
+scipy
 scikit-learn
+scikit-image
+statsmodels
+pyarrow
 matplotlib
 seaborn
-albumentations
-pillow
 pyyaml
+pillow
 tensorboard
 grad-cam
-types-seaborn
 python-dotenv
-# Demo 1 — web UI and H.264 video writer
-imageio[ffmpeg]
-# Demo 1 — Streamlit primary interface
-streamlit>=1.35
+pytest

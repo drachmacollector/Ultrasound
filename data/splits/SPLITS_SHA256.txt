@@ -1,0 +1,6 @@
+# SHA-256 of the frozen FPDB patient-disjoint splits, computed on LF-normalised bytes
+# (CRLF -> LF, so the value is independent of git core.autocrlf). Recorded 2026-11-12 (R0).
+# Never regenerate the splits; tests/test_splits_frozen.py enforces this.
+5da744a31d32347efe91b2a4f4accbf04d3e0fe24e1a1bbf66ea20705108d487  train.csv
+f80d3207704bcac71601c6aec7e2d94b85c90118964d59dcca4da4a6498f3c49  val.csv
+92415857876d52fa4c5deac6fbdcb64556c8e90c66813c44dd8e3d1d19e084da  test.csv

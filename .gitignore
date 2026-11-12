@@ -1,55 +1,70 @@
 /implementation_plan.md
-# Ignore everything in the data folder
+
+# ---------------------------------------------------------------------------
+# Data: ignore everything under data/ except docs, small provenance files and
+# human-produced labels. data/splits/{train,val,test}.csv are tracked (force-added)
+# and frozen; see data/splits/SPLITS_SHA256.txt.
+# ---------------------------------------------------------------------------
 data/**/*
-# Un-ignore directories so git can traverse them
 !data/**/
-# Un-ignore markdown files
 !data/**/*.md
 !data/**/*.MD
 !data/**/class_weights.json
-# checkpoints/
-# logs/
-__pycache__/
-*.pyc
-pyrightconfig.json
-.vscode/settings.json
-pyrightconfig.json.bak
-docs/PHASE_4_KICKOFF_PROMPT.md
-.env
-ultrasound_project.zip
-convert_utf16.py
-.tmpgit/
-
-events.out.tfevents.*
-*.pt
-!*.txt
-data/raw/fetal_planes_db/LICENSE_NOTE.txt
-!baseline_flicker_report.csv
-!transition_annotations_template.json
-!data/processed/manual_review/**/*
+!data/splits/SPLITS_SHA256.txt
 !data/processed/sanity_checks/**/*
 !data/processed/eval_cross_device/**/*
+# Human binary audit labels (R1) are irreplaceable -> tracked
+!data/processed/audit/**/*
+data/raw/fetal_planes_db/LICENSE_NOTE.txt
 
+# ---------------------------------------------------------------------------
+# Models, runs, results
+# ---------------------------------------------------------------------------
+*.pt
+events.out.tfevents.*
+runs/
+results/preds/
+results/cache/
+# results/tables, results/json and results/figures/*.pdf are tracked
 
-!data/processed/synthetic_clips/**/*
-data/processed/synthetic_clips/single_planes/**/*
-data/processed/synthetic_clips/*.mp4
+# ---------------------------------------------------------------------------
+# Archive: local-only bulk that was never tracked before the pivot
+# ---------------------------------------------------------------------------
+archive/outputs/
+archive/assets/Newsprint_design_prompt.md
+archive/data/processed/**/*.mp4
+archive/data/processed/synthetic_clips/single_planes/
+archive/data/processed/bboxes.json
+archive/data/processed/eval_tier2/
+archive/data/processed/natalia_showcase_clips/
+archive/data/processed/tier2a_tuning/
+archive/data/processed/tier1_tuning/sweep_results.csv
 
+# ---------------------------------------------------------------------------
+# Docs: third-party PDFs are kept locally only
+# ---------------------------------------------------------------------------
+docs/research/background/*.pdf
+docs/PHASE_4_KICKOFF_PROMPT.md
 
-!data/processed/eval_realistic_video/**/*
-
-# Scratch and tree files
-scratch_demo.py
-scratch_collate.py
-scratch_test_loss.py
+# ---------------------------------------------------------------------------
+# Python / tooling
+# ---------------------------------------------------------------------------
+__pycache__/
+*.pyc
+.pytest_cache/
+pyrightconfig.json
+pyrightconfig.json.bak
+.vscode/settings.json
+.env
 .agents/
+.tmpgit/
+ultrasound_project.zip
+convert_utf16.py
+scratch_*.py
 
-# Demo 1 output videos (generated on-the-fly)
-outputs/
-assets/Newsprint_design_prompt.md
-docs/A multicentre benchmark dataset for comprehensive landmark-based fetal ultrasound biometry.pdf
-
-# Ignore all image files everywhere, overriding any un-ignore exceptions above
+# ---------------------------------------------------------------------------
+# Images: ignored everywhere (regenerated); publication figures are tracked as PDF
+# ---------------------------------------------------------------------------
 *.png
 *.PNG
 *.jpg

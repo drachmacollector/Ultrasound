@@ -5,9 +5,7 @@ src/models/cam_localisation.py
 
 CAM-to-bounding-box extraction for weakly-supervised anatomical localisation.
 
-§ Cross-reference: Phase 8, Stage 3, Task 3.1
-  (docs/instructions/08_FINAL_EVALUATION_AND_POLISH.md §4, Task 3.1)
-  Rationale: SonoNet (Baumgartner et al.) demonstrates that a classifier's
+Rationale: SonoNet (Baumgartner et al.) demonstrates that a classifier's
   saliency maps can be thresholded into a bounding box without any detection
   annotations.  This module applies the same principle to the Grad-CAM
   heatmaps already produced by src/models/gradcam.py, requiring zero new
@@ -33,7 +31,7 @@ Design (per Task 3.1 specification):
    largest area and takes its bounding rectangle.
    Rationale: avoids a box spanning the whole image when the CAM has multiple
    small disconnected hot regions — a failure mode directly documented in
-   docs/EXPERIMENTS.md Grad-CAM spot-check notes ("Heatmap was split across
+   archive/docs/EXPERIMENTS.md Grad-CAM spot-check notes ("Heatmap was split across
    two disconnected regions... indicating diffuse uncertainty").
 
 4. MINIMUM AREA FILTER: suppress boxes smaller than `min_area_frac` of the
@@ -51,12 +49,8 @@ Design (per Task 3.1 specification):
 Important framing (from Task 3.2 honesty requirement):
   The box produced here is a "weakly-supervised approximate region" derived
   from classifier saliency, NOT a precisely localised anatomical boundary.
-  It must be displayed with a dashed/semi-transparent style and labelled
-  "approx. region (saliency-derived)" — see src/realtime/app.py for the
-  rendering implementation.
-
-Usage:
-    conda run -n fetalplane python -m src.models.cam_localisation
+  In this study its only use is the CAM-box IoU metric against landmark-derived
+  boxes (R4, src/localisation/metrics.py).
 """
 from __future__ import annotations
 

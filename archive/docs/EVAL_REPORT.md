@@ -1,3 +1,6 @@
+> **SUPERSEDED (2026-11, research pivot).** Numbers here use image-level bootstrap and a single seed.
+> Authoritative results: `docs/research/RESULTS.md`. Kept for provenance only (tag `legacy-fetscan-demo-v1`).
+
 # Phase 6 Evaluation Report: Fetal Standard Plane Real-Time Detection
 
 **Checkpoint evaluated:** `checkpoints/convnext_tiny/best.pt` (`convnext_tiny.fb_in22k_ft_in1k`, class-weighted CE)  

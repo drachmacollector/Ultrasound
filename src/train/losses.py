@@ -60,8 +60,7 @@ class FocalLoss(nn.Module):
             targets: [B] ground-truth class indices (int64).
                      Entries equal to ``ignore_index`` (default -100) are
                      excluded from the loss, matching nn.CrossEntropyLoss
-                     semantics.  This is required for the multitask training
-                     path where detection-only rows carry cls_label = -100.
+                     semantics.
 
         Returns:
             Scalar loss tensor.  Returns 0.0 if all targets are masked.

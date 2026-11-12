@@ -1,3 +1,6 @@
+> **SUPERSEDED (2026-11, research pivot).** Numbers here use image-level bootstrap and a single seed.
+> Authoritative results: `docs/research/RESULTS.md`. Kept for provenance only (tag `legacy-fetscan-demo-v1`).
+
 # Cross-Device Backbone Comparison
 
 **Phase 8, Stage 4** | 2026-08-29  

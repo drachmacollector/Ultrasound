@@ -3,20 +3,17 @@ src/train/train.py
 
 Config-driven training loop for the 8-way fetal plane classifier.
 
-Usage:
-    conda run -n fetalplane python -m src.train.train --config configs/repvgg_a1.yaml
-    # or from repo root:
-    conda run -n fetalplane python src/train/train.py --config configs/repvgg_a1.yaml
+Usage (from repo root):
+    python -m src.train.train --config configs/convnext_tiny.yaml --out-dir runs/<run_id> [--seed 11]
 
-Design notes (cross-referenced against PHASE_4_KICKOFF_PROMPT.md):
-- §4.1  Class weights loaded by explicit CANONICAL_CLASSES index order — never .values()
-- §4.2  Uses FocalPlanesDataset + get_train_transform / get_eval_transform, parameterized
-        by image_size from config so a per-backbone resolution can be specified.
-- §4.3  AdamW + CosineAnnealingLR + torch.cuda.amp (GradScaler)
-- §4.4  Macro-F1 is the early-stopping and model-selection metric (not accuracy).
-        Per-class F1, precision, recall logged at every epoch to TensorBoard.
-        Confusion matrix saved at best-checkpoint epoch and final epoch.
-- §4.5  Saves best.pt + config YAML copy to checkpoints/<backbone_name>/
+Design notes:
+- Leakage guard runs first: train/val paths must not reference test/external data and
+  train/val/test patient sets must be disjoint (assert_no_leakage).
+- Class weights loaded by explicit CANONICAL_CLASSES index order, never .values().
+- AdamW + CosineAnnealingLR + AMP (GradScaler).
+- Validation macro-F1 is the early-stopping and model-selection metric.
+- Never writes into the frozen checkpoints/ folder (resolve_output_dirs); outputs go to
+  --out-dir: best.pt (config embedded), config.yaml, train_log.txt, tb/ (TensorBoard).
 """
 from __future__ import annotations
 
@@ -24,7 +21,6 @@ import argparse
 import json
 import logging
 import random
-import shutil
 import time
 from pathlib import Path
 
@@ -52,8 +48,8 @@ from src.data.dataset import (
     FocalPlanesDataset,
 )
 from src.data.transforms import get_eval_transform, get_train_transform
-from src.models.acam import build_acam
 from src.models.backbone import build_model
+from src.models.loading import forbidden_token_in
 from src.train.losses import FocalLoss
 
 # ---------------------------------------------------------------------------
@@ -105,6 +101,76 @@ def build_class_weight_tensor(
     ).to(device)
     return weights
 
+
+#: Research-protocol options and the values implemented so far. Anything else is
+#: rejected loudly instead of being silently ignored (R5 extends these).
+SUPPORTED_OPTIONS: dict[str, tuple] = {  # type: ignore[type-arg]
+    "preprocess_mode": ("resize",),
+    "sampler": ("none",),
+    "style_aug": (False,),
+    "use_acam": (False,),
+}
+
+
+def assert_supported_options(cfg: dict) -> None:  # type: ignore[type-arg]
+    defaults = {"preprocess_mode": "resize", "sampler": "none", "style_aug": False, "use_acam": False}
+    for key, allowed in SUPPORTED_OPTIONS.items():
+        value = cfg.get(key, defaults[key])
+        if value not in allowed:
+            raise NotImplementedError(f"{key}={value!r} is not implemented yet (allowed: {allowed}).")
+    if float(cfg.get("caliper_aug_p", 0.0)) != 0.0:
+        raise NotImplementedError("caliper_aug_p > 0 is implemented in R5 (src/preprocess/caliper_aug.py).")
+
+
+def assert_no_leakage(cfg: dict, test_csv: str = "data/splits/test.csv") -> None:  # type: ignore[type-arg]
+    """Ground rule 1: never train or select on test/external data.
+
+    * train_csv / val_csv paths must not contain any forbidden token
+      (test, cross_device, external, african, landmark, hc18, ucl, multitask);
+    * train, val and test patient sets must be pairwise disjoint.
+    """
+    import pandas as pd
+
+    for key in ("train_csv", "val_csv"):
+        tok = forbidden_token_in(cfg[key])
+        if tok is not None:
+            raise AssertionError(f"{key}={cfg[key]!r} contains forbidden token {tok!r} (test/external data)")
+
+    patients = {
+        name: set(pd.read_csv(path, usecols=["patient_id"])["patient_id"])
+        for name, path in (("train", cfg["train_csv"]), ("val", cfg["val_csv"]), ("test", test_csv))
+        if Path(path).exists()
+    }
+    names = sorted(patients)
+    for i, a in enumerate(names):
+        for b in names[i + 1:]:
+            overlap = patients[a] & patients[b]
+            if overlap:
+                raise AssertionError(f"patient overlap between {a} and {b}: {len(overlap)} patients")
+
+
+FROZEN_CHECKPOINT_ROOT = Path("checkpoints")
+
+
+def assert_not_frozen(cfg: dict) -> None:  # type: ignore[type-arg]
+    """Refuse any checkpoint_dir/log_dir inside the frozen checkpoints/ folder."""
+    frozen = FROZEN_CHECKPOINT_ROOT.resolve()
+    for key in ("checkpoint_dir", "log_dir"):
+        target = Path(cfg.get(key, f"checkpoints/{cfg['backbone']}")).resolve()
+        if frozen == target or frozen in target.parents:
+            raise SystemExit(
+                f"Refusing to write into frozen {FROZEN_CHECKPOINT_ROOT}/ ({key}={cfg.get(key)}). "
+                "Pass --out-dir runs/<run_id>."
+            )
+
+
+def resolve_output_dirs(cfg: dict, out_dir: str | None) -> dict:  # type: ignore[type-arg]
+    """Apply --out-dir (checkpoint + TensorBoard dirs) and check the frozen-folder rule."""
+    if out_dir is not None:
+        cfg["checkpoint_dir"] = str(Path(out_dir))
+        cfg["log_dir"] = str(Path(out_dir) / "tb")
+    assert_not_frozen(cfg)
+    return cfg
 
 
 # ---------------------------------------------------------------------------
@@ -218,6 +284,10 @@ def validate(
 def train(cfg: dict) -> None:  # type: ignore[type-arg]
     """Full training run controlled by the config dict."""
 
+    assert_no_leakage(cfg)
+    assert_not_frozen(cfg)
+    assert_supported_options(cfg)
+
     # ---- Reproducibility -------------------------------------------------
     seed: int = cfg.get("seed", 42)
     torch.manual_seed(seed)
@@ -243,26 +313,7 @@ def train(cfg: dict) -> None:  # type: ignore[type-arg]
         pretrained=cfg.get("pretrained", True),
     )
 
-    # ---- Optional ACAM wrapping (Phase 8, Stage 5) -----------------------
-    # When use_acam=true, prepend the ACAM module before the backbone so that
-    # ACAM parameters are jointly optimised with backbone weights via the same
-    # AdamW optimiser — matching the paper's end-to-end training (§2.3).
-    # Input/output shape of ACAM is [B,3,H,W] → [B,3,H,W], so the backbone
-    # receives the same tensor shape regardless of the ACAM flag.
-    use_acam: bool = bool(cfg.get("use_acam", False))
-    if use_acam:
-        acam = build_acam(cfg)
-        model: nn.Module = nn.Sequential(acam, backbone)
-        n_acam_params = sum(p.numel() for p in acam.parameters())
-        log.info(
-            "ACAM enabled (K=%d, α∈[%.1f,%.1f]) — %d learnable parameters",
-            acam.K, acam.alpha_min, acam.alpha_max, n_acam_params,
-        )
-    else:
-        model = backbone
-        log.info("ACAM disabled — standard backbone-only training")
-
-    model = model.to(device)
+    model: nn.Module = backbone.to(device)
 
     # ---- Image size & transforms ----------------------------------------
     img_size: int = cfg.get("image_size", 224)
@@ -303,15 +354,18 @@ def train(cfg: dict) -> None:  # type: ignore[type-arg]
     )
 
     # ---- Loss function ---------------------------------------------------
-    weight_tensor = build_class_weight_tensor(cfg["class_weights_json"], device)
+    use_class_weights: bool = bool(cfg.get("use_class_weights", True))
+    weight_tensor = (
+        build_class_weight_tensor(cfg["class_weights_json"], device) if use_class_weights else None
+    )
     loss_fn_name: str = cfg.get("loss_fn", "ce").lower()
     if loss_fn_name == "focal":
         focal_gamma: float = float(cfg.get("focal_gamma", 2.0))
         criterion: nn.Module = FocalLoss(weight=weight_tensor, gamma=focal_gamma)
-        log.info("Loss: FocalLoss (gamma=%.1f, class-weighted)", focal_gamma)
+        log.info("Loss: FocalLoss (gamma=%.1f, class_weights=%s)", focal_gamma, use_class_weights)
     else:
         criterion = nn.CrossEntropyLoss(weight=weight_tensor)
-        log.info("Loss: CrossEntropyLoss (class-weighted)")
+        log.info("Loss: CrossEntropyLoss (class_weights=%s)", use_class_weights)
 
     # ---- Optimizer + scheduler -------------------------------------------
     lr: float = float(cfg.get("lr", 3e-4))
@@ -409,7 +463,6 @@ def train(cfg: dict) -> None:  # type: ignore[type-arg]
                     "model_state_dict": model.state_dict(),
                     "optimizer_state_dict": optimizer.state_dict(),
                     "config": cfg,
-                    "use_acam": use_acam,   # persisted for reproducibility
                 },
                 str(best_ckpt_path),
             )
@@ -495,6 +548,14 @@ def parse_args() -> argparse.Namespace:
         default=None,
         help="Override epochs_max from config (useful for smoke tests).",
     )
+    parser.add_argument("--seed", type=int, default=None, help="Override the config seed.")
+    parser.add_argument(
+        "--out-dir",
+        type=str,
+        default=None,
+        help="Write checkpoint + logs here (overrides checkpoint_dir/log_dir). "
+             "Required whenever checkpoint_dir points inside the frozen checkpoints/ folder.",
+    )
     return parser.parse_args()
 
 
@@ -506,20 +567,18 @@ if __name__ == "__main__":
     if args.epochs_override is not None:
         cfg["epochs_max"] = args.epochs_override
         log.info("epochs_max overridden to %d via CLI", args.epochs_override)
+    if args.seed is not None:
+        cfg["seed"] = args.seed
+        log.info("seed overridden to %d via CLI", args.seed)
+    cfg = resolve_output_dirs(cfg, args.out_dir)
 
-    # Copy config YAML next to checkpoints for reproducibility (§4.5)
-    ckpt_dir = Path(cfg.get("checkpoint_dir", f"checkpoints/{cfg['backbone']}"))
+    ckpt_dir = Path(cfg["checkpoint_dir"])
     ckpt_dir.mkdir(parents=True, exist_ok=True)
-    shutil.copy(args.config, str(ckpt_dir / "config.yaml"))
+    # Persist the effective config (after CLI overrides) next to the checkpoint.
+    with open(ckpt_dir / "config.yaml", "w", encoding="utf-8") as f:
+        yaml.safe_dump(cfg, f, sort_keys=False)
 
-    # Setup file logging to ensure UTF-8 output.
-    # Use the checkpoint_dir's stem as the log filename so that ACAM and other
-    # ablations get distinct log files (e.g. convnext_tiny_acam_training_output.txt)
-    # rather than colliding with the baseline log.
-    run_name: str = Path(cfg.get("checkpoint_dir", f"checkpoints/{cfg['backbone']}")).name
-    log_dir = Path("logs")
-    log_dir.mkdir(parents=True, exist_ok=True)
-    file_handler = logging.FileHandler(log_dir / f"{run_name}_training_output.txt", mode="a", encoding="utf-8")
+    file_handler = logging.FileHandler(ckpt_dir / "train_log.txt", mode="a", encoding="utf-8")
     file_handler.setFormatter(logging.Formatter("%(asctime)s [%(levelname)s] %(message)s", datefmt="%H:%M:%S"))
     logging.getLogger().addHandler(file_handler)
 

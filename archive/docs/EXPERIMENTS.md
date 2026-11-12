@@ -1,3 +1,6 @@
+> **SUPERSEDED (2026-11, research pivot).** Numbers here use image-level bootstrap and a single seed.
+> Authoritative results: `docs/research/RESULTS.md`. Kept for provenance only (tag `legacy-fetscan-demo-v1`).
+
 # EXPERIMENTS.md — Phase 4 Model Training
 
 This file is the living record of all backbone comparison experiments, ablations, and design decisions made in Phase 4. Cross-referenced with [PHASE_4_KICKOFF_PROMPT.md](kickoff & results/PHASE_4_KICKOFF_PROMPT.md).

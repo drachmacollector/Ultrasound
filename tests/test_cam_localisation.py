@@ -1,49 +1,23 @@
 """
-from __future__ import annotations
+tests/test_cam_localisation.py
 
-scripts/tests/test_cam_localisation.py
+Unit tests for src/models/cam_localisation.py (cam_to_bbox), which turns a
+saliency map into an approximate box (used for the CAM-box IoU metric in R4).
 
-Unit tests for src/models/cam_localisation.py (cam_to_bbox).
-
-§ Cross-reference: Phase 8, Stage 3, Task 3.1
-  (docs/instructions/08_FINAL_EVALUATION_AND_POLISH.md §4, Task 3.1)
-
-Covers all four cases specified in the task:
-  1. test_single_blob          — one clear hot blob → sensible box returned
-  2. test_two_blobs_larger_only— two disconnected blobs → only larger returned
-  3. test_flat_cam_returns_none— uniform CAM → None
-  4. test_zero_cam_returns_none— all-zero CAM → None, no crash
-
-Additional robustness cases:
-  5. test_percentile_method    — percentile fallback method works
-  6. test_min_area_filter      — tiny blob below min_area_frac → None
-  7. test_box_clipped_to_frame — returned coords never exceed frame bounds
-
-Usage:
-    conda run -n fetalplane python -m pytest scripts/tests/test_cam_localisation.py -v
-    # or directly (writes log to logs/smoketest/test_cam_localisation_output.txt):
-    conda run -n fetalplane python scripts/tests/test_cam_localisation.py
+Cases: single blob; two blobs (larger kept); flat CAM -> None; zero CAM -> None;
+percentile method; min-area filter; box clipped to frame.
 """
 from __future__ import annotations
 
 import logging
-import sys
-from pathlib import Path
 
 import numpy as np
-
-sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from src.models.cam_localisation import cam_to_bbox
 
 # ---------------------------------------------------------------------------
 # Logging
 # ---------------------------------------------------------------------------
-logging.basicConfig(
-    level=logging.DEBUG,
-    format="%(asctime)s [%(levelname)s] %(message)s",
-    datefmt="%H:%M:%S",
-)
 log = logging.getLogger(__name__)
 
 # ---------------------------------------------------------------------------
@@ -212,46 +186,3 @@ def test_box_clipped_to_frame() -> None:
     assert x1 >= 0 and y1 >= 0, f"Box top-left ({x1},{y1}) out of frame"
     assert x2 < _W and y2 < _H,  f"Box bottom-right ({x2},{y2}) out of frame ({_W},{_H})"
     log.info("test_box_clipped_to_frame PASSED — box=%s", box)
-
-
-# ---------------------------------------------------------------------------
-# Runner
-# ---------------------------------------------------------------------------
-
-_TESTS = [
-    test_single_blob,
-    test_two_blobs_larger_only,
-    test_flat_cam_returns_none,
-    test_zero_cam_returns_none,
-    test_percentile_method,
-    test_min_area_filter,
-    test_box_clipped_to_frame,
-]
-
-if __name__ == "__main__":
-    log_dir = Path("logs/smoketest")
-    log_dir.mkdir(parents=True, exist_ok=True)
-    log_path = log_dir / "test_cam_localisation_output.txt"
-
-    fh = logging.FileHandler(log_path, mode="w", encoding="utf-8")
-    fh.setFormatter(logging.Formatter("%(asctime)s [%(levelname)s] %(message)s", datefmt="%H:%M:%S"))
-    logging.getLogger().addHandler(fh)
-
-    log.info("=" * 60)
-    log.info("cam_localisation unit tests  (src/models/cam_localisation.py)")
-    log.info("=" * 60)
-
-    passed = failed = 0
-    for fn in _TESTS:
-        try:
-            fn()
-            passed += 1
-        except Exception as exc:  # noqa: BLE001
-            log.error("FAILED: %s — %s", fn.__name__, exc)
-            failed += 1
-
-    log.info("-" * 60)
-    log.info("Results: %d passed, %d failed", passed, failed)
-    log.info("Full log → %s", log_path)
-
-    sys.exit(0 if failed == 0 else 1)

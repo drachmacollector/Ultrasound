@@ -15,6 +15,8 @@ normalization values without duplicating the Compose pipeline definition.
 Default values are IMAGENET_MEAN / IMAGENET_STD, which are correct for all
 candidates except tf_efficientnetv2_s (whose config supplies 0.5/0.5).
 """
+from pathlib import Path
+
 import albumentations as A
 import cv2
 import numpy as np
@@ -29,10 +31,8 @@ def get_train_transform(
     img_size: int = IMG_SIZE,
     mean: tuple[float, ...] = IMAGENET_MEAN,
     std: tuple[float, ...] = IMAGENET_STD,
-    with_bboxes: bool = False,
 ) -> A.Compose:
-    """Full augmentation pipeline for training."""
-    bbox_params = A.BboxParams(format='pascal_voc', label_fields=['class_labels']) if with_bboxes else None
+    """Full augmentation pipeline for training (B0 / legacy recipe)."""
     return A.Compose([
         A.Resize(img_size, img_size),
         A.HorizontalFlip(p=0.5),
@@ -41,25 +41,23 @@ def get_train_transform(
         A.MultiplicativeNoise(multiplier=(0.9, 1.1), per_channel=False, elementwise=True, p=0.3),
         A.Normalize(mean=mean, std=std),
         ToTensorV2(),
-    ], bbox_params=bbox_params)
+    ])
 
 
 def get_eval_transform(
     img_size: int = IMG_SIZE,
     mean: tuple[float, ...] = IMAGENET_MEAN,
     std: tuple[float, ...] = IMAGENET_STD,
-    with_bboxes: bool = False,
 ) -> A.Compose:
     """Minimal pipeline for val/test/inference: resize + normalize only."""
-    bbox_params = A.BboxParams(format='pascal_voc', label_fields=['class_labels']) if with_bboxes else None
     return A.Compose([
         A.Resize(img_size, img_size),
         A.Normalize(mean=mean, std=std),
         ToTensorV2(),
-    ], bbox_params=bbox_params)
+    ])
 
 
-def load_and_prep_grayscale_to_rgb(image_path: str) -> np.ndarray:
+def load_and_prep_grayscale_to_rgb(image_path: str | Path) -> np.ndarray:
     """Load an ultrasound image and replicate the single channel to 3 channels.
 
     Ultrasound images are effectively single-channel (greyscale); replicating to
@@ -68,26 +66,10 @@ def load_and_prep_grayscale_to_rgb(image_path: str) -> np.ndarray:
 
     Raises FileNotFoundError if the file does not exist.
     """
-    img = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+    # IMREAD_GRAYSCALE also converts RGB sources (e.g. African/Egypt PNGs) with the
+    # standard luminance formula.
+    img = cv2.imread(str(image_path), cv2.IMREAD_GRAYSCALE)
     if img is None:
         raise FileNotFoundError(f"Could not read image: {image_path}")
     img_rgb = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
-    return img_rgb
-
-
-def prep_frame_grayscale_to_rgb(frame_bgr: np.ndarray) -> np.ndarray:
-    """In-memory equivalent of load_and_prep_grayscale_to_rgb() for live video/webcam
-    frames (cv2.VideoCapture.read() output), which arrive as BGR arrays, not file paths.
-    Must produce bit-identical output to the path-based function for the same underlying
-    image, to guarantee training/serving preprocessing parity.
-
-    Implementation note: uses COLOR_BGR2GRAY → COLOR_GRAY2RGB, which is the direct
-    in-memory equivalent of imread(IMREAD_GRAYSCALE) → cvtColor(GRAY2RGB).  Both
-    apply OpenCV's standard luminance formula (0.114·B + 0.587·G + 0.299·R), so
-    the outputs are bit-identical for any input image.  A previous implementation
-    round-tripped through imencode/imdecode, which was functionally equivalent but
-    unnecessarily slow for a per-frame hot path.
-    """
-    gray = cv2.cvtColor(frame_bgr, cv2.COLOR_BGR2GRAY)
-    img_rgb = cv2.cvtColor(gray, cv2.COLOR_GRAY2RGB)
     return img_rgb

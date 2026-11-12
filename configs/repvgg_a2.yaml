@@ -28,3 +28,11 @@ amp: true
 log_dir: logs/repvgg_a2
 checkpoint_dir: checkpoints/repvgg_a2
 seed: 42
+
+# --- research pivot (R0): explicit B0 defaults (frozen legacy checkpoints lack these keys;
+#     loaders use cfg.get(key, default) so they still load as B0) ---
+preprocess_mode: resize
+caliper_aug_p: 0.0
+sampler: none
+use_class_weights: true
+style_aug: false

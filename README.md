@@ -1,177 +1,71 @@
-# FetScan — A Real-Time Sonography Assistant
+# Anatomy or Acquisition?
 
-<img src="docs/realistic_ultrasound.jpg" alt="Realistic Ultrasound Sonography" width="80%">
+**Auditing shortcut reliance and anatomical grounding of deep-learning fetal standard-plane
+classifiers, with multi-device external validation.**
 
-## Project Overview
-**FetScan** is an advanced assistive diagnostic tool designed for sonographers and maternal-fetal medicine specialists to perform **real-time standard anatomical plane detection**. Given a live video stream (such as a webcam standing in for an ultrasound probe, or a pre-recorded video file), the system continuously classifies each moment of the scan into one of **7 standard anatomical planes**, or *"Other"* (non-standard/transitional). This gives immediate, accurate feedback during critical diagnostic procedures.
+This is a research study, not a product or a clinical tool. It makes no clinical or
+regulatory claims.
 
-### Key Features
-**Stable (Non-Flickering) On-Screen Label**  
-Our temporal smoothing algorithm acts like a shock absorber for predictions, eliminating visual noise and flickering to provide a crystal-clear, steady readout.
+## Question
 
-**Visual Interpretability & Confidence**  
-Not only does the system provide a real-time probability score, but it also uses throttled Grad-CAM visual explanations. This highlights the exact anatomical regions driving the classification, giving you a transparent look into the AI's "brain".
+Fetal standard-plane classifiers trained on FETAL_PLANES_DB (FPDB) report 90–99% accuracy, but
+they degrade on unseen ultrasound machines. In FPDB the class label is entangled with *how* an
+image was acquired. For example, 65% of Aloka training images are "Other" against 14% of
+Voluson E6 images, and image size alone almost identifies the machine. This study measures:
 
-<br clear="all" />
+1. **RQ1, confounding:** is acquisition information (device, operator, image geometry,
+   on-screen overlays) predictive of the label, and is it encoded in trained models?
+2. **RQ2, reliance:** do models *use* non-anatomical content?
+3. **RQ3, grounding:** does saliency fall on fetal anatomy (scored against expert biometry
+   landmarks), and does that predict success on new devices?
+4. **RQ4, mitigation:** does a simple anatomy-focused training protocol (sector masking,
+   overlay handling, acquisition-balanced sampling, device-style augmentation) narrow the
+   external-validity gap? The primary endpoint is pre-registered.
 
----
+Full rationale: [docs/research/01_RESEARCH_PROPOSAL.md](docs/research/01_RESEARCH_PROPOSAL.md).
+Execution plans: [docs/research/plans/](docs/research/plans/). Progress log:
+[docs/research/RESEARCH_LOG.md](docs/research/RESEARCH_LOG.md).
 
-## Target Classes
-The model detects the following standard anatomical planes:
-1. **Brain** — Trans-cerebellum
-2. **Brain** — Trans-thalamic
-3. **Brain** — Trans-ventricular
-4. **Fetal Abdomen**
-5. **Fetal Femur**
-6. **Fetal Thorax**
-7. **Maternal Cervix**
-8. **Other** *(non-standard / transitional / off-plane)*
+## Data (all public and de-identified; no new human data collected)
 
----
+| Dataset | Role | Licence |
+|---|---|---|
+| FETAL_PLANES_DB (Burgos-Artizzu et al., *Sci Rep* 2020) | train / val / in-distribution test (frozen patient-disjoint official split) | per Zenodo record |
+| Landmark biometry benchmark, FP subset (Di Vece et al., 2025) | expert landmarks on FPDB images; localisation ground truth only, never trained on | CC BY-NC-SA 4.0 |
+| HC18 and UCL subsets of the same benchmark | external test sets + landmarks | CC BY-NC-SA 4.0 / challenge terms |
+| African fetal planes (Sendra-Balcells et al., *Sci Rep* 2023; Zenodo 7540448) | external low-resource test set (5 countries, 5 devices) | CC BY 4.0 |
 
-## Datasets Used
-The models in this project are trained and evaluated using the following public datasets:
-- **FETAL_PLANES_DB** *(Burgos-Artizzu et al., 2020)*: Used as the primary dataset for training, validation, and in-distribution testing across all 8 classes.
-- **UCL/HC18 Cross-Device Benchmark**: A combination of the HC18 and UCL subsets used specifically as a held-out test set to measure cross-device and cross-site generalization.
+Raw data lives under `data/raw/` (not in git). Dataset facts and quirks:
+[00_INDEX_AND_VERIFIED_FACTS.md §3](docs/research/plans/00_INDEX_AND_VERIFIED_FACTS.md).
 
----
+## Environment
 
-## Architecture
-The system is designed to run locally on consumer hardware (e.g., an RTX 4060 GPU) with extremely low perceived latency, rather than relying on a cloud backend. 
-
-### System Workflow
-
-```mermaid
-graph TD
-    A[Video Stream / Webcam] -->|Frame Capture| B(Preprocessing)
-    B -->|Resize & Normalize| C{CNN Backbone}
-    C -->|Feature Extraction| D[Classification Head]
-    D -->|Raw Probabilities| E(Temporal Smoothing Buffer)
-    C -->|Activation Maps| F[Grad-CAM Module]
-    E -->|Stable Prediction| G((UI Rendering))
-    F -->|Saliency Overlay| G
-    G --> H[Final Annotated Frame]
-    
-    style A fill:#2d3436,stroke:#74b9ff,stroke-width:2px,color:#fff
-    style C fill:#0984e3,stroke:#74b9ff,stroke-width:2px,color:#fff
-    style E fill:#00b894,stroke:#55efc4,stroke-width:2px,color:#fff
-    style G fill:#d63031,stroke:#ff7675,stroke-width:2px,color:#fff
-```
-
-### Core Components
-- **Backbone**: A lightweight CNN (e.g., RepVGG, EfficientNet, MobileNetV3) for blazing fast feature extraction.
-- **Classification Head**: A single 8-way softmax classifier processing features in a single forward pass.
-- **Interpretability**: A throttled Grad-CAM module that provides visual explanations without severely impacting real-time throughput.
-- **Temporal Stabilization**: A smoothing layer that uses confidence-weighted moving averages, hysteresis, and minimum dwell-times.
-- **Serving**: A local Python real-time loop utilizing OpenCV.
-
----
-
-## Getting Started
-
-### 1. Prerequisites
-- **Hardware**: An NVIDIA GPU (e.g., RTX 4060) is highly recommended for real-time inference.
-- **Drivers**: Update NVIDIA drivers to support CUDA 12.x.
-- **Python**: Python 3.10 or 3.11.
-
-### 2. Environment Setup
-Create a Conda environment and install the required packages:
+Conda env `fetalplane` (Python 3.11, CUDA 12.8, one 8 GB GPU). Exact pins are in
+`requirements-lock.txt`.
 
 ```bash
-conda create -n ultrasound_env python=3.11 -y
-conda activate ultrasound_env
-pip install -r requirements.txt
-```
-*(Ensure that you install the version of PyTorch that matches your system's CUDA version.)*
-
-### 3. Data Preparation
-- Download the datasets and place them into `data/raw/`.
-- Run the provided data pipeline scripts to build manifests, verify data, and generate splits:
-  ```bash
-  python scripts/build_manifest.py
-  python scripts/patient_split.py
-  python scripts/build_cross_device_manifest.py
-  python scripts/run_sanity_checks.py
-  ```
-
-### 4. Training
-To train the model from scratch on the processed dataset:
-```bash
-python src/train/train.py --config configs/convnext_tiny.yaml
+python -m pip install -r requirements.txt
+python -m pytest                     # run from the repo root
 ```
 
-### 5. Evaluation
-To evaluate the trained model on the held-out test set:
-```bash
-python scripts/evaluate_cross_device.py --checkpoint checkpoints/convnext_tiny/best.pt
+## Layout
+
+```
+src/data         datasets, transforms, labels        src/preprocess  sector, overlays, pipeline
+src/models       backbones, loading, saliency         src/localisation anatomy masks, metrics
+src/eval         prediction, statistics, scoring      src/train       training loop
+src/audit        confounding / reliance helpers       scripts/research one script per experiment
+configs/         B0 baselines                         configs/research protocol arms
+results/         tables, json, figures (preds/ local) runs/           training outputs (local)
+docs/research/   proposal, plans, log, gates, results archive/        frozen legacy demo
 ```
 
----
+## Status
 
-## Demo 1: FetScan Web UI
+Phase-by-phase status is in `docs/research/RESEARCH_LOG.md`, with walkthroughs in
+`docs/research/walkthroughs/`.
 
-The web interface accepts an ultrasound video clip upload and returns a fully-annotated MP4 with per-frame plane labels, confidence scores, and optional Grad-CAM saliency overlays.
+## History
 
-**Grad-CAM is OFF by default** — a sonographer has no use for saliency maps at runtime. Enable it in the sidebar for model explanation or research use.
-
-### Quick Start
-```bash
-conda run -n fetalplane streamlit run app_streamlit.py
-# → http://localhost:8501
-```
-
-### What is shown / not shown
-
-| Feature | Demo 1 Status |
-|---|---|
-| Plane label (7 classes + Other) | ✅ Every frame |
-| Confidence score | ✅ Every frame |
-| STABLE / SETTLING badge | ✅ Tier-1 + Tier-2a smoothing |
-| Grad-CAM overlay | ✅ Available (OFF by default; enable in sidebar) |
-| Structure bounding boxes | 🟡 Approx. region (saliency-derived) |
-
-> **Why are bounding boxes approximate?** The multitask object detection model was trained for exactly 1 epoch as a wiring smoke-test. Showing these boxes in a clinical context would be misleading. Instead, we use a weakly-supervised saliency-derived approximation box labeled "approx. region (saliency-derived)" derived from the Grad-CAM.
-
-### Results at a Glance
-- **In-distribution test macro-F1: 0.8927** (patient-disjoint, held-out split).
-- **Cross-device accuracy drop:** 98.0% (in-distribution) → 83.6% on HC18/UCL unseen devices.
-- **NatalIA non-expert-operator (Standard vs Other):** Model correctly defaults to "Other" for out-of-distribution phantom frames — 99.3% "Other" Precision (safe fallback behaviour on unseen anatomy).
-- **Video stabilization latency:** 489.3 ms average latency to stabilize on spurious within-class flicker.
-
-For full evaluation metrics, cross-device confusion matrices, and known limitations, please see the [Evaluation Report (docs/EVAL_REPORT.md)](file:///d:/Code/Ultrasound/docs/EVAL_REPORT.md).
-
-### Non-Goals (Explicitly Out of Scope)
-- No clinical validation, no regulatory claims, no real patient data (research datasets and phantom data only).
-- No real ultrasound hardware integration.
-- No mobile app deployment.
-- No multi-task detection head (stretch goal only, replaced by weakly-supervised bounding boxes).
-- No production-grade auth/security/multi-user serving.
-
----
-
-## 6. Real-Time Local Inference (Desktop App)
-For local real-time inference with a GPU-equipped machine, the desktop app is available:
-```bash
-conda run -n fetalplane python -m src.realtime.app --source data/processed/synthetic_clips/multiplane_scan_01.mp4 --loop
- 
-or
-
-conda run -n fetalplane python -m src.realtime.app `
-    --source data/processed/synthetic_clips/multiplane_scan_01.mp4 `
-    --loop
-
-
-# Add --debug to enable Grad-CAM overlay (off by default = clinical mode)
-conda run -n fetalplane python -m src.realtime.app --source data/processed/synthetic_clips/multiplane_scan_01.mp4 --loop --debug
-```
-
-**Controls during playback:**
-- `q` / `ESC`: Quit
-- `g`: Toggle Grad-CAM overlay
-- `h`: Toggle HUD
-- `space`: Pause
-
-> **Grad-CAM is OFF by default** (clinical mode). Use `--debug` to enable it for model explanation or development runs. The `--no-gradcam` flag is a deprecated no-op (kept for backwards compatibility).
-
-*Validated at **23.6–23.7 fps** stable on RTX 4060 over a 120-second run with no thermal throttling.*
-
+This repository began as **FetScan**, a real-time plane-classification demo. That code is
+frozen at tag `legacy-fetscan-demo-v1` and kept under `archive/` for provenance.

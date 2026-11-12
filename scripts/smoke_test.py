@@ -128,9 +128,10 @@ def smoke_test_backbone(config_path: str) -> dict[str, bool]:
     cfg_smoke = dict(cfg)
     cfg_smoke["epochs_max"] = cfg.get("epochs_smoke_test", 5)
     cfg_smoke["early_stopping_patience"] = 999  # don't early-stop during smoke test
-    # Use a subdirectory so smoke logs don't pollute the real run's TensorBoard
-    cfg_smoke["log_dir"] = str(Path(cfg["log_dir"]) / "smoke_test")
-    cfg_smoke["checkpoint_dir"] = str(Path(cfg["checkpoint_dir"]) / "smoke_test")
+    # Smoke outputs go to runs/_smoke/<config stem>; checkpoints/ is frozen.
+    smoke_dir = Path("runs/_smoke") / Path(cfg["checkpoint_dir"]).name
+    cfg_smoke["log_dir"] = str(smoke_dir / "tb")
+    cfg_smoke["checkpoint_dir"] = str(smoke_dir)
 
     # ---- Run training ----
     pipeline_ok = False

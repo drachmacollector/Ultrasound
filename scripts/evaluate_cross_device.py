@@ -52,7 +52,7 @@ from src.data.dataset import (
     IDX_TO_CLASS,
     CANONICAL_CLASSES,
 )
-from src.realtime.model_loader import load_inference_model
+from src.models.loading import load_model as load_inference_model
 
 # -------------------------------------------------------------------------
 
@@ -109,7 +109,7 @@ def run_cross_device_inference(
     # but we must pass the model's own transform so img_size/mean/std are consistent.
     dataset = CrossDeviceDataset(
         csv_path=csv_path,
-        transform=loaded.transform,
+        transform=loaded.eval_transform(),
     )
     loader = DataLoader(
         dataset,
@@ -159,7 +159,7 @@ def run_indist_collapsed_baselines(
     model = loaded.model
     device = loaded.device
 
-    dataset = FocalPlanesDataset(csv_path=test_csv, transform=loaded.transform)
+    dataset = FocalPlanesDataset(csv_path=test_csv, transform=loaded.eval_transform())
     loader = DataLoader(
         dataset,
         batch_size=batch_size,

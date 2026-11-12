@@ -6,11 +6,11 @@ PyTorch Dataset classes for the fetal plane classification project.
 FocalPlanesDataset: reads any split CSV (train.csv, val.csv, test.csv)
   produced by patient_split.py. Returns (image_tensor, label_idx) pairs.
 
-CrossDeviceDataset: reads cross_device_manifest.csv; returns the same tuple
-  format. Useful for Phase 6 generalization evaluation.
+CrossDeviceDataset: legacy reader for cross_device_manifest.csv (HC18/UCL).
+  Superseded in R1 by ExternalDataset over data/processed/external/*.csv.
 
-Both use the same CANONICAL_CLASSES list for consistent label → index mapping
-across the whole pipeline (training, eval, inference).
+CANONICAL_CLASSES is the single source of truth for the label -> index mapping
+across training, evaluation and analysis.
 """
 from collections.abc import Callable
 from pathlib import Path
@@ -19,10 +19,9 @@ from typing import ClassVar
 import pandas as pd
 from torch.utils.data import Dataset
 
-import json
 from src.data.transforms import get_eval_transform, load_and_prep_grayscale_to_rgb
 
-# Single source of truth for label ordering — must match IDX_TO_CLASS in inference.py
+# Single source of truth for label ordering (index = model output position).
 CANONICAL_CLASSES = [
     "Brain_Trans_cerebellum",   # 0
     "Brain_Trans_thalamic",     # 1
@@ -46,7 +45,6 @@ class FocalPlanesDataset(Dataset):
         csv_path: Path to the split CSV file.
         transform: Callable albumentations pipeline. If None, uses get_eval_transform().
         label_col: Column name holding the canonical class label string.
-        bboxes_path: Path to bboxes.json to load bounding box annotations.
     """
 
     def __init__(
@@ -54,24 +52,15 @@ class FocalPlanesDataset(Dataset):
         csv_path: str,
         transform: Callable | None = None,
         label_col: str = "plane_label",
-        bboxes_path: str | None = None,
     ):
         self.df = pd.read_csv(csv_path)
-        self.transform = transform if transform is not None else get_eval_transform(with_bboxes=(bboxes_path is not None))
+        self.transform = transform if transform is not None else get_eval_transform()
         self.label_col = label_col
-        self.bboxes_dict = None
-        
-        if bboxes_path:
-            with open(bboxes_path, 'r', encoding='utf-8') as f:
-                self.bboxes_dict = json.load(f)
 
-        # Validate that every label in the CSV is known
-        unique_labels = set(str(x) for x in self.df[label_col].unique())
-        allowed_labels = set(CANONICAL_CLASSES) | {"-100"}
-        unknown = unique_labels - allowed_labels
+        unknown = set(str(x) for x in self.df[label_col].unique()) - set(CANONICAL_CLASSES)
         if unknown:
             raise ValueError(
-                f"CSV contains unknown labels not in CANONICAL_CLASSES or -100: {unknown}\n"
+                f"CSV contains unknown labels not in CANONICAL_CLASSES: {unknown}. "
                 f"Expected: {CANONICAL_CLASSES}"
             )
 
@@ -80,49 +69,10 @@ class FocalPlanesDataset(Dataset):
 
     def __getitem__(self, index: int):
         row = self.df.iloc[index]
-        image_path = row["image_path"]
-        label_str = str(row[self.label_col])
-
-        img = load_and_prep_grayscale_to_rgb(image_path)  # HxWx3 uint8
-        label_idx = -100 if label_str == "-100" else CLASS_TO_IDX[label_str]
-
-        if self.bboxes_dict is not None:
-            import torch
-            bboxes: list = []
-            class_labels: list = []
-
-            # Determine if this row is expected to have a bbox.
-            # The 'has_valid_bbox' column is written by build_multitask_manifest.py;
-            # if the column is absent (legacy CSV), fall back to always trying.
-            row_has_bbox: bool = bool(row.get("has_valid_bbox", True))
-
-            if row_has_bbox:
-                # Primary key: full posix path (set by build_multitask_manifest.py)
-                posix_path = Path(image_path).as_posix()
-                item = self.bboxes_dict.get(posix_path) or self.bboxes_dict.get(Path(image_path).name)
-
-                if item is not None:
-                    bbox = item["bbox"]
-                    h, w = img.shape[:2]
-                    xmin = max(0.0, min(float(bbox[0]), w - 1))
-                    ymin = max(0.0, min(float(bbox[1]), h - 1))
-                    xmax = max(0.0, min(float(bbox[2]), w - 1))
-                    ymax = max(0.0, min(float(bbox[3]), h - 1))
-
-                    if xmax > xmin and ymax > ymin:
-                        bboxes.append([xmin, ymin, xmax, ymax])
-                        class_labels.append(item["class_id"])
-
-            augmented = self.transform(image=img, bboxes=bboxes, class_labels=class_labels)
-            tensor = augmented["image"]
-            aug_bboxes = torch.tensor(augmented["bboxes"], dtype=torch.float32)
-            aug_labels = torch.tensor(augmented["class_labels"], dtype=torch.long)
-
-            return tensor, label_idx, aug_bboxes, aug_labels
-        else:
-            augmented = self.transform(image=img)
-            tensor = augmented["image"]  # [3, H, W] float32, normalized
-            return tensor, label_idx
+        img = load_and_prep_grayscale_to_rgb(row["image_path"])  # HxWx3 uint8
+        label_idx = CLASS_TO_IDX[str(row[self.label_col])]
+        tensor = self.transform(image=img)["image"]  # [3, H, W] float32, normalized
+        return tensor, label_idx
 
 
 class CrossDeviceDataset(Dataset):
@@ -176,32 +126,3 @@ class CrossDeviceDataset(Dataset):
         tensor = augmented["image"]
 
         return tensor, label_str, is_collapsed, source_subset
-
-
-def multitask_collate_fn(batch):
-    """
-    Custom collate_fn for heterogeneous batching with bounding boxes.
-    Expects batch elements to be (tensor, label_idx, bboxes, class_labels)
-    or just (tensor, label_idx).
-    """
-    import torch
-    images = []
-    labels = []
-    bboxes = []
-    class_labels = []
-    
-    has_bboxes = len(batch[0]) == 4
-    
-    for item in batch:
-        images.append(item[0])
-        labels.append(item[1])
-        if has_bboxes:
-            bboxes.append(item[2])
-            class_labels.append(item[3])
-        
-    images = torch.stack(images, dim=0)
-    labels = torch.tensor(labels, dtype=torch.long)
-    
-    if has_bboxes:
-        return images, labels, bboxes, class_labels
-    return images, labels
