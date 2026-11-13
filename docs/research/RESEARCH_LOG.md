@@ -131,3 +131,7 @@ deviation: P3b pools the three seeds as rows keyed `image_id|seed` (clusters rem
 outputs: `scripts/research/{make_figures,check_orphan_json}.py`, `results/figures/F{3,7,8}_*.pdf`, `results/figures/STUDY_FIGURES.md`, `docs/research/review_evidence_table.csv`, `literature_search_log.md`, `review_reference_shortlist.md`, `templates/RESULTS.template.md`, `DATA_CARDS.md`
 outcome: 7 of 8 study figures present (6, the R5 forest plot, waits for R5). All six PubMed searches screened (376 unique records); 19 rows added and 10 existing rows newly verified, so 39 of 44 evidence rows are verified (target 30). Reference shortlist: 39 references, 5 preprints (13%). Orphan check: every results JSON is used. "FetScan/real-time/demo" wording occurs only in historical context. RESULTS.md now also renders R1 data quality and Gates G1/G2; its 32 pending placeholders are all R5.
 deviation: study figures 1, 2, 4, 5 and 6 stay in the scripts that produce their data (one implementation per panel); `make_figures.py` draws the cross-phase figures 3, 7, 8 and the index. Geirhos 2020 was verified against its Semantic Scholar record (publisher page behind a login). Five references stay unverified (reasons in the search log). The landmark benchmark is cited as its published Sci Rep 2026 version.
+
+## 2026-11-13 — Gate G4 passed
+outputs: `docs/research/GATE_G4.md`
+outcome: the PI lodged PREREGISTRATION.md on OSF (https://osf.io/635sf/overview; pending automatic approval at commit time), quoting commit b81bf61ed3. The R5 matrix starts after this commit.
