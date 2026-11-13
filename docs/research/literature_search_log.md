@@ -40,13 +40,8 @@ Each search block lists the date, database, exact query, filters and hit count. 
 - arXiv abstract pages: Adebayo 2018, Mikolaj 2023, Wong 2025, Barrientos 2026 and Maani 2025.
 - Di Vece is now published in *Sci Rep* 2026 (PMID 41981094), and its row was updated to that version.
 - Geirhos 2020 was checked against its Semantic Scholar record, because the publisher page needs a login.
-- Still unverified, with reasons:
-  - DeGrave 2021 (*Nat Mach Intell*): publisher login; the PubMed record 32995822 is the 2020 medRxiv preprint;
-  - Saporta 2022: publisher login, and the metadata-API request was not permitted;
-  - Lim 2024 (*WFUMB Ultrasound Open*): the publisher returned only a placeholder page;
-  - Phutke 2018 (IJME): the article page was not found;
-  - ICMR 2023: the guideline PDF has not been located.
-- The human can verify these through institutional access.
+- Verified later the same day from full-text PDFs supplied by the user (`docs/research/background/`): DeGrave 2021 (*Nat Mach Intell* 3:610–9), Saporta 2022 (*Nat Mach Intell* 4:867–78), the ICMR 2023 guideline (ISBN 978-93-5811-343-3; notes in `background/ICMR_2023_notes.md`), and the article number of Di Vece 2026 (16:17405).
+- Still unverified: Lim 2024 (*WFUMB Ultrasound Open*), where the publisher returned a placeholder page; and Phutke 2018 (IJME), whose article page was not found.
 
 **Notes**
 - Wildcards (`confound*`, `generali*`, `sonograph*`, `explainab*`) are not accepted by the connector. They were expanded to the explicit word forms shown above. PubMed's automatic term mapping adds MeSH synonyms; the full translated queries are kept in the connector output.

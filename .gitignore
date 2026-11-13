@@ -45,6 +45,7 @@ archive/data/processed/cross_device_manifest.csv
 # Docs: third-party PDFs are kept locally only
 # ---------------------------------------------------------------------------
 docs/research/background/*.pdf
+docs/research/background/*.txt
 docs/PHASE_4_KICKOFF_PROMPT.md
 
 # ---------------------------------------------------------------------------
