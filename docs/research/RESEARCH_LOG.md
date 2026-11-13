@@ -140,3 +140,8 @@ outcome: the PI lodged PREREGISTRATION.md on OSF (https://osf.io/635sf/overview;
 outputs: `scripts/research/e8_error_concordance.py`, `src/eval/metrics.py::{fleiss_kappa_binary, all_wrong_ratio}` (hand-computed tests in `tests/test_metrics.py`), `results/{json,tables}/E8.*`, `results/figures/E8_error_concordance.pdf`
 outcome: errors pile up on the same images: Fleiss' kappa 0.56 FPDB test, 0.72 HC18, 0.48 UCL, 0.53 African (pooled external 0.62 [0.58, 0.65]). 6.5% of external images are wrong for all six models, far above the independence expectation within dataset x class. On external images all six get wrong, most models answer 'Other' in 78% (100% on UCL and African), against 6% in distribution: shared external failures are rejections, not confusions.
 deviation: E8 is a post-hoc addition (not in the plans or the pre-registration), run on legacy R2 predictions only, while the R5 matrix trains; it is reported as exploratory.
+
+## 2026-11-13 — R5 matrix paused (14 of 25 runs done)
+run_ids: `runs/{b0,b1,b2,afp}_{convnext,effv2s}_s11`, `runs/{b0,b1,b2}_{convnext,effv2s}_s22` (all with DONE)
+outcome: matrix started 10:54 at commit 7f61029; sanity check passed (B0 convnext s11 val macro-F1 0.9186 vs legacy 0.9180). Stopped at 16:31 by the PI's request (laptop shutdown), right after b2_effv2s_s22 wrote DONE; no partial run was left. Resume with `python scripts/research/r5_run_matrix.py` (runs with DONE are skipped); 11 runs remain (afp s22, all s33, afp_cw_convnext_s11).
+deviation: none; the pause does not change any run (each run trains from scratch with its fixed seed).
