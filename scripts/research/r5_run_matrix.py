@@ -2,7 +2,9 @@
 scripts/research/r5_run_matrix.py  (R5.6: the 24-run training matrix)
 
 4 arms (B0, B1, B2, AFP) x 2 backbones (convnext_tiny, tf_efficientnetv2_s) x 3 seeds (11, 22, 33),
-run sequentially and ordered by seed first, so a partial matrix stays balanced:
+run sequentially and ordered by seed first, so a partial matrix stays balanced, then the one
+pre-registered sensitivity run (PREREGISTRATION §6.9: AFP + class weights, convnext_tiny, seed 11,
+``runs/afp_cw_convnext_s11``):
 
     runs/<arm>_<convnext|effv2s>_s<seed>/   (best.pt, config.yaml, train_log.txt, env.txt, DONE, stdout.log)
 
@@ -33,6 +35,7 @@ from sklearn.metrics import f1_score
 ARMS = ("b0", "b1", "b2", "afp")
 BACKBONES = {"convnext_tiny": "convnext", "tf_efficientnetv2_s": "effv2s"}
 SEEDS = (11, 22, 33)
+SENSITIVITY = ("afp_cw", "convnext_tiny", 11)   # PREREGISTRATION §6.9: AFP + class weights (double reweighting)
 GATE = Path("docs/research/GATE_G4.md")
 PREDS = Path("results/preds")
 LEGACY_VAL = PREDS / "legacy_convnext_s42" / "fpdb_val.parquet"
@@ -42,8 +45,8 @@ MIN_FREE_MB = 6000
 
 
 def matrix() -> list[tuple[str, str, int]]:
-    """(arm, backbone, seed), seed-major."""
-    return [(arm, bb, s) for s in SEEDS for arm in ARMS for bb in BACKBONES]
+    """(arm, backbone, seed), seed-major; the single sensitivity run comes last."""
+    return [(arm, bb, s) for s in SEEDS for arm in ARMS for bb in BACKBONES] + [SENSITIVITY]
 
 
 def run_id(arm: str, bb: str, seed: int) -> str:

@@ -1,0 +1,40 @@
+# configs/research/afp_cw_convnext_tiny.yaml  (R5 sensitivity run, PREREGISTRATION §6.9)
+#
+# AFP with class weights ON as well as the acquisition-balanced sampler (double reweighting).
+# Identical to afp_convnext_tiny.yaml except use_class_weights and the run directories.
+# One seed (11): --out-dir runs/afp_cw_convnext_s11 (scripts/research/r5_run_matrix.py runs it after the 24).
+
+backbone: convnext_tiny.fb_in22k_ft_in1k
+num_classes: 8
+pretrained: true
+image_size: 224
+normalize_mean:
+- 0.485
+- 0.456
+- 0.406
+normalize_std:
+- 0.229
+- 0.224
+- 0.225
+train_csv: data/splits/train.csv
+val_csv: data/splits/val.csv
+class_weights_json: data/processed/class_weights.json
+batch_size: 64
+num_workers: 4
+epochs_smoke_test: 5
+epochs_max: 60
+early_stopping_patience: 8
+optimizer: adamw
+lr: 1e-4
+weight_decay: 0.01
+scheduler: cosine
+amp: true
+preprocess_mode: sector_letterbox_inpaint
+caliper_aug_p: 0.3
+sampler: acquisition_balanced
+style_aug: true
+use_class_weights: true
+run_root: runs/
+checkpoint_dir: runs/afp_cw_convnext
+log_dir: runs/afp_cw_convnext/tb
+seed: 11

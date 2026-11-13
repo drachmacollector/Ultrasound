@@ -8,8 +8,11 @@
 **Code that will run** (commit hashes are recorded in `GATE_G4.md` once this file is committed):
 - training: `src/train/train.py`, `src/train/sampler.py`, `src/preprocess/{pipeline,caliper_aug}.py`, `src/data/transforms.py`;
 - run matrix: `scripts/research/r5_run_matrix.py`;
-- evaluation: `scripts/research/r5_evaluate_matrix.py`;
+- evaluation: `scripts/research/r5_evaluate_matrix.py`, covering §6 items 3–7 and 9; P3b reuses `scripts/research/r4_association.py::glm/discrimination` unchanged;
+- foundation-model probe: `scripts/research/r5_fm_linear_probe.py` (§6 item 8);
 - primary analysis: `scripts/research/r5_primary_endpoint.py`, whose SHA-256 is written into its own output.
+
+The code for every analysis in §5–6 exists and is unit-tested on synthetic data at the commit recorded in `GATE_G4.md`.
 
 ---
 
@@ -153,7 +156,7 @@ None of these are multiplicity-corrected. All are labelled exploratory except P3
    - Multinomial logistic regression on FPDB-train features, with C ∈ {0.01, 0.1, 1, 10} chosen on FPDB-val macro-F1.
    - Inputs: `resize` vs `sector_letterbox_inpaint` prepared images.
    - Same scoring. Reported as a secondary table.
-9. Sensitivity run: one seed of AFP with class weights **and** the sampler on (double reweighting).
+9. Sensitivity run: one seed of AFP with class weights **and** the sampler on (double reweighting): convnext_tiny, seed 11, `configs/research/afp_cw_convnext_tiny.yaml`, run id `afp_cw_convnext_s11`, trained after the 24 matrix runs. It is compared with `afp_convnext_s11` (paired, descriptive) on the primary endpoint and FPDB-test macro-F1.
 
 ## 7. Stopping and re-run rules
 
@@ -179,6 +182,10 @@ None of these are multiplicity-corrected. All are labelled exploratory except P3
   - The protocol is run as specified, without manual masks. This limitation is reported.
 - **African sector shapes.** The plan expected African images to be mostly 'full'. In practice the cache build reports fan 361, linear 53 and full 36 (of 450), because the authors cropped to the field of view, not to the sector.
 - **Validation predictions** of each run are written by the evaluation predictor to `results/preds/<run_id>/fpdb_val.parquet`, not `runs/<run_id>/val_preds.parquet`.
+- **Clarifications added before lodging (2026-11-13), no change of endpoint or analysis:**
+  - §6 item 9 names the backbone and seed of the sensitivity run.
+  - §6 item 7 (P3b) pools the three seeds as rows of one table. Each row is keyed `image_id|seed`, and every bootstrap and cross-validation fold still clusters by patient.
+  - §6 item 8 (FM probe): each arm's prepared image goes through that arm's own geometry to 224 × 224 (B0: resize; AFP: letterbox). It then passes through the FetalCLIP eval transform, whose resize is a no-op at 224 × 224 and whose normalisation applies. Probe inputs therefore match what the CNN arms see.
 - **Policy for deviations after registration:** any deviation is logged in `RESEARCH_LOG.md` with a `deviation:` tag, and listed in the Deviations section of `RESULTS.md`.
 
 ## 9. What was already known at registration
