@@ -51,3 +51,8 @@ def test_missing_key_raises_unless_allowed(store) -> None:
 def test_paired_percent() -> None:
     v = {"delta": -0.048, "lo": -0.06, "hi": -0.03, "p_two_sided": 0.001}
     assert rr.fmt_value(v, {"pct": ""}) == "-4.8 pp [-6.0, -3.0], p = 0.001"
+
+
+def test_raw_integer_has_no_separators() -> None:
+    assert rr.fmt_value(20261109, {"raw": ""}) == "20261109"
+    assert rr.fmt_value(20261109, {}) == "20,261,109"

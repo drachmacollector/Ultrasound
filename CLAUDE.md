@@ -30,7 +30,7 @@ edit or import it.
 - NatalIA is a phantom; supplementary only. No clinical or regulatory claims anywhere.
 - New metrics require unit tests with hand-computed answers. Log every task in `docs/research/RESEARCH_LOG.md`
   (run_id, git hash, outcome, deviations). Write a walkthrough per phase in `docs/research/walkthroughs/`.
-- The user makes all git commits manually. Do not commit or push.
+- Commits: since R4 (2026-11-13), at the user's request, Claude commits each phase on `main` with plain-language messages and no attribution lines. Never push.
 
 ## Environment
 Interpreter: `D:\miniconda\envs\fetalplane\python.exe` (Python 3.11, torch 2.11+cu128, timm 1.0.28,
@@ -66,8 +66,11 @@ python scripts/research/r4_sanity_randomisation.py                              
 python scripts/research/r4_localisation.py --run; r4_summarise.py; r4_association.py              # R4 test/external (after G3)
 python scripts/research/build_cache.py --mode sector_letterbox sector_letterbox_inpaint          # R5 caches (native-scale crops)
 python scripts/research/r5_run_matrix.py --smoke                                                 # R5 1-epoch smoke runs (allowed before G4)
-python scripts/research/r5_run_matrix.py                                                         # R5 24 runs (refuses before Gate G4: OSF link)
+python scripts/research/r5_run_matrix.py                                                         # R5 24 runs + 1 sensitivity run (refuses before Gate G4: OSF link)
 python scripts/research/r5_evaluate_matrix.py --predict --saliency --probes --score              # R5 secondary analyses
 python scripts/research/r5_primary_endpoint.py                                                   # R5 pre-registered primary (never edit)
+python scripts/research/r5_fm_linear_probe.py --extract --probe --score                        # R5.8 FetalCLIP probe (after G4; needs open_clip + weights)
+python scripts/research/make_figures.py                                                          # R6 study figures 3/7/8 + STUDY_FIGURES.md
+python scripts/research/check_orphan_json.py; check_evidence_table.py                            # R6 checks
 python scripts/research/render_results.py                                                        # R6
 ```

@@ -28,6 +28,7 @@
 | field | value |
 |---|---|
 | Source | Multicentre fetal-biometry landmark benchmark (`data/raw/ucl_hc18/README-general.md`): 4,513 images, 1,904 subjects, 4 sites, 7 devices |
+| Citation | Di Vece C, Mao Z, Avisdris N, et al. A multicentre benchmark dataset for comprehensive landmark-based fetal ultrasound biometry. *Sci Rep* 2026;16. doi:10.1038/s41598-026-47854-3 (PMID 41981094; preprint arXiv:2512.16710). The published abstract gives the same counts (4,513 images, 1,904 subjects, four sites, seven devices); checked 2026-11-13 |
 | Licence | CC BY-NC-SA 4.0. Status: per proposal; the local copy has no LICENSE file, so verify against the repository record. The HC18 subset is also subject to the HC18 challenge terms (van den Heuvel TLA, et al. *PLoS One* 2018;13:e0200412) |
 | FP subset | 3,090 images, **pixel-identical to FPDB images** (verified 3,090/3,090). Used **only as localisation ground truth**: val (238) for development, test (1,486) for reporting. Never trained on |
 | HC18 subset | 999 Head images, 806 patients (filename prefix), GE Voluson E8/730, Radboud UMC (NL). External test set |

@@ -38,11 +38,14 @@ plt.rcParams.update({
 })
 
 
-def save(fig: plt.Figure, stem: str) -> Path:
-    """Write results/figures/<stem>.pdf and .png (200 dpi); close the figure."""
+def save(fig: plt.Figure, stem: str, sources: str | None = None, dpi: int = 200) -> Path:
+    """Write results/figures/<stem>.pdf and .png; close the figure.
+
+    ``sources`` (the JSON/parquet inputs) goes into the PDF's Subject metadata field.
+    """
     FIG_DIR.mkdir(parents=True, exist_ok=True)
     pdf = FIG_DIR / f"{stem}.pdf"
-    fig.savefig(pdf, bbox_inches="tight")
-    fig.savefig(FIG_DIR / f"{stem}.png", dpi=200, bbox_inches="tight")
+    fig.savefig(pdf, bbox_inches="tight", metadata={"Subject": f"sources: {sources}"} if sources else None)
+    fig.savefig(FIG_DIR / f"{stem}.png", dpi=dpi, bbox_inches="tight")
     plt.close(fig)
     return pdf

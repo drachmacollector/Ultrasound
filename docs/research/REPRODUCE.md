@@ -59,9 +59,12 @@ python scripts/research/r2_reevaluate_existing.py      # 6 frozen checkpoints x 
 |---|---|---|
 | Letterbox caches (CPU) | `python scripts/research/build_cache.py --mode sector_letterbox sector_letterbox_inpaint` | about 5 min |
 | Smoke runs | `python scripts/research/r5_run_matrix.py --smoke --only <run ids>` | 1 epoch each; allowed before G4 |
-| **Human:** lodge `PREREGISTRATION.md` on OSF | | Paste the link into `GATE_G4.md` as `OSF: https://...` and commit |
-| 24-run matrix | `python scripts/research/r5_run_matrix.py` | Refuses to start without G4 |
-| Secondary analyses | `python scripts/research/r5_evaluate_matrix.py --predict --saliency --probes --score` | |
+| **Human:** lodge `PREREGISTRATION.md` on OSF | step-by-step: `docs/research/OSF_REGISTRATION_GUIDE.md` | Paste the link into `GATE_G4.md` as `OSF: https://...` and commit |
+| 24-run matrix + sensitivity run | `python scripts/research/r5_run_matrix.py` | Refuses to start without G4; 24 runs, then `afp_cw_convnext_s11` |
+| Secondary analyses | `python scripts/research/r5_evaluate_matrix.py --predict --saliency --probes --score` | Includes P3b on R5 models, rejection vs confusion, sensitivity run |
+| FM probe: install | `D:\miniconda\envsetalplane\python.exe -m pip install open_clip_torch` | The FetalCLIP repository pins open-clip-torch 2.26.1 with torch 2.0; record the version actually installed in `env.txt` |
+| FM probe: model files | `FetalCLIP_config.json` from github.com/BioMedIA-MBZUAI/FetalCLIP; `FetalCLIP_weights.pt` (1.7 GB) from huggingface.co/numansaeed/fetalclip-model, both into `data/external_models/fetalclip/` | Licence CC BY-NC 4.0 (`DATA_CARDS.md`) |
+| FM probe | `python scripts/research/r5_fm_linear_probe.py --extract --probe --score` | GPU for `--extract` (about 30 k images, ViT-L/14, fp16); refuses before G4 |
 | Primary endpoint | `python scripts/research/r5_primary_endpoint.py` | Pre-registered; never edited |
 
 ## 6. Reporting (R6) — CPU
@@ -71,5 +74,8 @@ python scripts/research/r2_reevaluate_existing.py      # 6 frozen checkpoints x 
 | Results | `python scripts/research/render_results.py` (fails on any missing number; `--allow-missing` gives a draft) |
 | Box 1 | `python scripts/research/render_box1.py` |
 | Review figures | `python scripts/research/make_review_figures.py` |
+| Study figures 3, 7, 8 + index | `python scripts/research/make_figures.py` (writes `results/figures/STUDY_FIGURES.md`; run after R5 to add the R5 arms) |
+| Orphan check | `python scripts/research/check_orphan_json.py` (every `results/json/*.json` is used by RESULTS.md or a figure) |
+| Evidence table | `python scripts/research/check_evidence_table.py` |
 
-Study figures are written by the experiment scripts above (`results/figures/*.pdf`, tracked; `.png`, regenerated).
+Study figures 1, 2, 4, 5 and 6 are written by the experiment scripts above, and 3, 7 and 8 by `make_figures.py`. PDFs are tracked; PNGs are regenerated. `results/figures/STUDY_FIGURES.md` maps figure numbers to files.

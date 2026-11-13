@@ -6,7 +6,8 @@ Fills docs/research/templates/RESULTS.template.md and writes docs/research/RESUL
 Placeholders:
   {{E2.prior.seen_machines.auroc}}           value at that key path of results/json/E2.json
   {{E1.other_share_gap|pct}}                 modifiers after '|': pct (x100, 1 dp, '%' / ' pp' for deltas),
-  {{R4_localisation.methods|join}}           dp=N (decimals, default 3), bare (no n / p suffix), join (list)
+  {{R4_localisation.methods|join}}           dp=N (decimals, default 3), bare (no n / p suffix), join (list),
+  {{R4_subsets.seed|raw}}                    raw (integer without thousands separators, e.g. seeds and IDs)
   {{@deviations}}                            every RESEARCH_LOG line starting 'deviation:', grouped by entry
 
 List indices are written as path parts (``foo.0.bar``). A key that contains '|' is written with
@@ -68,7 +69,7 @@ def fmt_value(v, mods: dict[str, str]) -> str:
     if isinstance(v, bool):
         return "yes" if v else "no"
     if isinstance(v, int):
-        return f"{v:,}"
+        return str(v) if "raw" in mods else f"{v:,}"
     if isinstance(v, float):
         return _num(v, dp, pct=pct) + ("%" if pct else "")
     if isinstance(v, list) and "join" in mods:

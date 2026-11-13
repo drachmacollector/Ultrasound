@@ -13,7 +13,18 @@ FETAL_PLANES_DB: {{E1.n_images}} images from {{E1.n_patients}} patients. Externa
 | UCL | {{R2_existing_models.models.convnext_tiny.external.ucl.n_images}} | {{R2_existing_models.models.convnext_tiny.external.ucl.n_patients}} |
 | African (5 centres) | {{R2_existing_models.models.convnext_tiny.external.african.n_images}} | {{R2_existing_models.models.convnext_tiny.external.african.n_patients}} |
 
-Details are in `DATA_CARDS.md`.
+FPDB images per machine: Aloka {{R1_metadata_summary.fpdb_by_machine.Aloka.n}}, Voluson E6 {{R1_metadata_summary.fpdb_by_machine.Voluson E6.n}}, Voluson S10 {{R1_metadata_summary.fpdb_by_machine.Voluson S10.n}}, other {{R1_metadata_summary.fpdb_by_machine.Other.n}}. Details are in `DATA_CARDS.md`.
+
+**Data quality (R1).**
+- **Exact duplicates.** {{R1_exact_duplicates.exact_duplicate_images}} FPDB images fall in {{R1_exact_duplicates.exact_duplicate_groups}} groups of byte-identical files. Of these groups, {{R1_exact_duplicates.groups_spanning_splits}} span splits and {{R1_exact_duplicates.groups_with_label_conflict}} carry conflicting labels.
+- **Near-duplicates.** FPDB test images with a near-duplicate in the same patient-and-plane acquisition group (SSIM ≥ 0.90 within the sector): {{R1_caliper_pairs.near_duplicate_images}}.
+- **Expert landmarks.** Landmarks link pixel-identically to FPDB images for {{R1_landmark_linkage.fp_report.Head.total}} head, {{R1_landmark_linkage.fp_report.Abdomen.total}} abdomen and {{R1_landmark_linkage.fp_report.Femur.total}} femur images. Identity failures: {{R1_landmark_linkage.fp_report.Head.identity_failures}} / {{R1_landmark_linkage.fp_report.Abdomen.identity_failures}} / {{R1_landmark_linkage.fp_report.Femur.identity_failures}}.
+
+**Gates.**
+- **G1 (data audit).** The caliper detector found {{G1.detector.train.calipers.tp}} and missed {{G1.detector.train.calipers.fn}} of the caliper-marked audit images, so it did not pass (passes = {{G1.decisions.caliper_detector_passes}}). Overlays are therefore not a primary analysis axis.
+- **G2 (legacy results reproduced).** {{G2.gate.passed}}.
+- **G3.** See RQ3.
+- **G4 (pre-registration).** See `GATE_G4.md`.
 
 ## Legacy models in and out of distribution (R2)
 
@@ -81,6 +92,7 @@ Details are in `DATA_CARDS.md`.
 - **Ground-truth-free monitor on the African set.** Out-of-sector share of the predicted-class map:
   - AUROC: {{R4_association.african_out_sector_pred.discrimination.auroc_score|bare}}
   - Δ AUROC over confidence: {{R4_association.african_out_sector_pred.discrimination.delta_both_minus_conf}}
+- Occlusion maps and the figure examples use fixed image subsets drawn with seed {{R4_subsets.seed|raw}} (`R4_subsets.json`).
 
 ## RQ4: does the anatomy-focused protocol help? (R5, pre-registered)
 
@@ -91,13 +103,39 @@ Primary endpoint: pooled external full-argmax balanced accuracy, AFP − B0.
 | convnext_tiny | {{R5_primary.per_backbone.convnext_tiny.afp_vs_b0}} | {{R5_primary.per_backbone.convnext_tiny.holm_p|dp=4}} | {{R5_primary.per_backbone.convnext_tiny.success}} | {{R5_primary.per_backbone.convnext_tiny.non_inferiority_macro_f1_8.non_inferior}} |
 | tf_efficientnetv2_s | {{R5_primary.per_backbone.tf_efficientnetv2_s.afp_vs_b0}} | {{R5_primary.per_backbone.tf_efficientnetv2_s.holm_p|dp=4}} | {{R5_primary.per_backbone.tf_efficientnetv2_s.success}} | {{R5_primary.per_backbone.tf_efficientnetv2_s.non_inferiority_macro_f1_8.non_inferior}} |
 
+**Secondary analyses** (exploratory; no multiplicity correction; PREREGISTRATION §6).
+
+Incremental ladder on the primary endpoint, and in-distribution 8-way macro-F1:
+
+| backbone | B1 − B0 | B2 − B0 | AFP − B0, FPDB-test macro-F1 (90% CI; lower end = one-sided 95% bound) |
+|---|---|---|---|
+| convnext_tiny | {{R5_primary.per_backbone.convnext_tiny.b1_vs_b0|bare}} | {{R5_primary.per_backbone.convnext_tiny.b2_vs_b0|bare}} | {{R5_primary.per_backbone.convnext_tiny.non_inferiority_macro_f1_8|bare}} |
+| tf_efficientnetv2_s | {{R5_primary.per_backbone.tf_efficientnetv2_s.b1_vs_b0|bare}} | {{R5_primary.per_backbone.tf_efficientnetv2_s.b2_vs_b0|bare}} | {{R5_primary.per_backbone.tf_efficientnetv2_s.non_inferiority_macro_f1_8|bare}} |
+
+- **Shortcut index (P4b).** Within-class machine decodability, B0 vs AFP:
+  - convnext_tiny: {{R5_evaluation.by_arm.b0~convnext_tiny~within_class_machine|bare}} vs {{R5_evaluation.by_arm.afp~convnext_tiny~within_class_machine|bare}}
+  - tf_efficientnetv2_s: {{R5_evaluation.by_arm.b0~tf_efficientnetv2_s~within_class_machine|bare}} vs {{R5_evaluation.by_arm.afp~tf_efficientnetv2_s~within_class_machine|bare}}
+- **Rejection rate, pooled external** (share predicted outside the set's classes), B0 vs AFP:
+  - convnext_tiny: {{R5_evaluation.errors_by_arm.b0~convnext_tiny.pooled.rejection_rate|pct,bare}} vs {{R5_evaluation.errors_by_arm.afp~convnext_tiny.pooled.rejection_rate|pct,bare}}
+  - tf_efficientnetv2_s: {{R5_evaluation.errors_by_arm.b0~tf_efficientnetv2_s.pooled.rejection_rate|pct,bare}} vs {{R5_evaluation.errors_by_arm.afp~tf_efficientnetv2_s.pooled.rejection_rate|pct,bare}}
+- **P3b on R5 models** (confirmatory for AFP; claim holds only if OR > 1 with a CI excluding 1 for both backbones).
+  - Claim holds: {{R5_evaluation.p3b_confirmatory.confirmed}}.
+  - OR per +0.1 EPG − area, AFP convnext_tiny: {{R5_evaluation.p3b_confirmatory.cells.afp~convnext_tiny.landmark.glm.or|dp=2}} [{{R5_evaluation.p3b_confirmatory.cells.afp~convnext_tiny.landmark.glm.or_lo|dp=2}}, {{R5_evaluation.p3b_confirmatory.cells.afp~convnext_tiny.landmark.glm.or_hi|dp=2}}].
+  - AFP tf_efficientnetv2_s: {{R5_evaluation.p3b_confirmatory.cells.afp~tf_efficientnetv2_s.landmark.glm.or|dp=2}} [{{R5_evaluation.p3b_confirmatory.cells.afp~tf_efficientnetv2_s.landmark.glm.or_lo|dp=2}}, {{R5_evaluation.p3b_confirmatory.cells.afp~tf_efficientnetv2_s.landmark.glm.or_hi|dp=2}}].
+- **Foundation-model probe** (frozen FetalCLIP + linear probe; pooled external balanced accuracy):
+  - resize input: {{R5_fm_probe.by_mode.resize.pooled|bare}}
+  - sector-letterbox-inpaint input: {{R5_fm_probe.by_mode.sector_letterbox_inpaint.pooled|bare}}
+  - paired Δ: {{R5_fm_probe.paired_letterbox_minus_resize.pooled}}
+
+Full tables are in `results/tables/R5_primary.md`, `R5_evaluation.md` and `R5_fm_probe.md`.
+
 ## Deviations
 
 {{@deviations}}
 
 ## Limitations
 
-- **Public data only.** FPDB comes from one centre and four device groups; external sets are small (UCL 51 pregnancies; African 5 centres, 450 images). Nothing here is a clinical claim.
+- **Public data only.** FPDB comes from one centre and four device groups, and the external sets are small (see the Data table). Nothing here is a clinical claim.
 - **Overlay detection.** The caliper detector failed validation (Gate G1), so the overlay analyses are limited to UI and text outside the sector.
 - **Saliency.** Saliency metrics depend on method resolution and mask area. EPG is reported with its area baseline, and "deployable" EPG variants still need expert masks.
 - **Prior knowledge.** The legacy-model results (R1–R4) were known before the R5 protocol was registered.
