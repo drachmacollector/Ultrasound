@@ -101,3 +101,26 @@ def test_risk_coverage_hand() -> None:
 def test_cramers_v() -> None:
     assert M.cramers_v(np.array([[50, 0], [0, 50]])) == pytest.approx(1.0)
     assert M.cramers_v(np.array([[25, 25], [25, 25]])) == pytest.approx(0.0)
+
+
+# ----------------------------------------------------------------------------- E8 concordance metrics
+def test_fleiss_kappa_binary_hand_computed():
+    from src.eval.metrics import fleiss_kappa_binary
+    assert fleiss_kappa_binary(np.array([2, 0]), 2) == pytest.approx(1.0)     # full agreement, p = 0.5
+    assert fleiss_kappa_binary(np.array([1, 1]), 2) == pytest.approx(-1.0)    # always split, P = 0, Pe = 0.5
+    # m = 3, items n = [3, 0, 1]: P_i = [1, 1, 1/3], Pbar = 7/9; p = 4/9, Pe = 16/81 + 25/81 = 41/81
+    assert fleiss_kappa_binary(np.array([3, 0, 1]), 3) == pytest.approx((7 / 9 - 41 / 81) / (1 - 41 / 81))
+    with pytest.raises(ValueError):
+        fleiss_kappa_binary(np.array([4]), 3)
+
+
+def test_all_wrong_ratio_hand_computed():
+    from src.eval.metrics import all_wrong_ratio
+    # 4 items, 2 raters, one stratum. Rater error rates 0.5 and 0.5 -> expected all-wrong 0.25.
+    w = np.array([[1, 1], [1, 1], [0, 0], [0, 0]], bool)                     # observed all-wrong 0.5
+    assert all_wrong_ratio(w, np.zeros(4)) == pytest.approx(2.0)
+    w2 = np.array([[1, 0], [0, 1], [1, 0], [0, 1]], bool)                    # never both: ratio 0
+    assert all_wrong_ratio(w2, np.zeros(4)) == pytest.approx(0.0)
+    # two strata of 2 items: stratum A both raters always wrong (exp 1), B never (exp 0): exp = 0.5, obs = 0.5
+    w3 = np.array([[1, 1], [1, 1], [0, 0], [0, 0]], bool)
+    assert all_wrong_ratio(w3, np.array(["A", "A", "B", "B"])) == pytest.approx(1.0)

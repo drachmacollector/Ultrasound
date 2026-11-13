@@ -96,3 +96,20 @@ Every PDF names its sources in the Subject metadata field; the shared `save()` g
   - run the Scopus/Scholar/arXiv searches;
   - verify the five pending references;
   - confirm the JAPI article format with the editorial office.
+
+## 6. Post-hoc exploratory addition: E8 error concordance (2026-11-13, after G4)
+
+**Question.** Do the six legacy architectures fail on the *same* external images? This is CPU only and uses the R2 prediction parquets.
+
+**Code.**
+- New metrics `fleiss_kappa_binary` and `all_wrong_ratio`, each with hand-computed tests.
+- Script `scripts/research/e8_error_concordance.py`.
+- Patient-cluster CIs on every estimate.
+
+**Result.**
+- Errors are strongly shared across architectures: pooled external Fleiss' κ about 0.6.
+- The images every model gets wrong are mostly rejected as "Other": about three quarters externally, against a few per cent in distribution.
+
+**Why it matters.** External failure is a property of the image, plausibly its acquisition, not of the architecture. It supports testing an acquisition-level remedy (R5) rather than another architecture. It is labelled post hoc in RESULTS.md and the log.
+
+Figure `E8_error_concordance.pdf` was checked visually; the legend was moved off the data.

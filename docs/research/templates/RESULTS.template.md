@@ -94,6 +94,20 @@ FPDB images per machine: Aloka {{R1_metadata_summary.fpdb_by_machine.Aloka.n}}, 
   - Δ AUROC over confidence: {{R4_association.african_out_sector_pred.discrimination.delta_both_minus_conf}}
 - Occlusion maps and the figure examples use fixed image subsets drawn with seed {{R4_subsets.seed|raw}} (`R4_subsets.json`).
 
+## Post-hoc exploratory: do different architectures fail on the same images? (E8)
+
+*Added after Gate G4; not pre-registered; legacy checkpoints only.*
+
+- **Agreement.** Agreement between the six legacy architectures on which images they get wrong (Fleiss' κ):
+  - FPDB test: {{E8.by_set.fpdb_test.fleiss_kappa|bare}}
+  - HC18: {{E8.by_set.hc18.fleiss_kappa|bare}}
+  - UCL: {{E8.by_set.ucl.fleiss_kappa|bare}}
+  - African: {{E8.by_set.african.fleiss_kappa|bare}}
+  - pooled external: {{E8.by_set.pooled_external.fleiss_kappa|bare}}
+- **Images all six get wrong.** These are {{E8.by_set.pooled_external.all_wrong_share|pct,bare}} of external images.
+- **How they fail.** Of the external images all six get wrong, {{E8.by_set.pooled_external.all_wrong_majority_other|pct}} are rejected as "Other" by most models, against {{E8.by_set.fpdb_test.all_wrong_majority_other|pct}} in distribution.
+- **Reading.** External failures are largely shared across architectures, so they are a property of the images rather than of one model. Figure: `E8_error_concordance.pdf`.
+
 ## RQ4: does the anatomy-focused protocol help? (R5, pre-registered)
 
 Primary endpoint: pooled external full-argmax balanced accuracy, AFP − B0.

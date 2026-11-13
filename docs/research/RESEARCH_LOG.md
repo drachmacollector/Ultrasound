@@ -135,3 +135,8 @@ deviation: study figures 1, 2, 4, 5 and 6 stay in the scripts that produce their
 ## 2026-11-13 — Gate G4 passed
 outputs: `docs/research/GATE_G4.md`
 outcome: the PI lodged PREREGISTRATION.md on OSF (https://osf.io/635sf/overview; pending automatic approval at commit time), quoting commit b81bf61ed3. The R5 matrix starts after this commit.
+
+## 2026-11-13 — E8 (post-hoc, exploratory) — error concordance across the six legacy architectures
+outputs: `scripts/research/e8_error_concordance.py`, `src/eval/metrics.py::{fleiss_kappa_binary, all_wrong_ratio}` (hand-computed tests in `tests/test_metrics.py`), `results/{json,tables}/E8.*`, `results/figures/E8_error_concordance.pdf`
+outcome: errors pile up on the same images: Fleiss' kappa 0.56 FPDB test, 0.72 HC18, 0.48 UCL, 0.53 African (pooled external 0.62 [0.58, 0.65]). 6.5% of external images are wrong for all six models, far above the independence expectation within dataset x class. On external images all six get wrong, most models answer 'Other' in 78% (100% on UCL and African), against 6% in distribution: shared external failures are rejections, not confusions.
+deviation: E8 is a post-hoc addition (not in the plans or the pre-registration), run on legacy R2 predictions only, while the R5 matrix trains; it is reported as exploratory.

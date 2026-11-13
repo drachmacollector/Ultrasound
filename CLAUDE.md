@@ -57,6 +57,7 @@ python -m src.eval.predict --ckpt <ckpt> --dataset fpdb_test|hc18|ucl|african --
 python scripts/research/r2_reevaluate_existing.py [--score-only]                                # R2 + Gate G2
 python scripts/research/e1_confounding_tables.py; e2_metadata_only_model.py; e6_stratified_performance.py  # R3 (CPU)
 python scripts/research/render_box1.py                                                           # Box 1 (after E1/E2/E6)
+python scripts/research/e8_error_concordance.py                                                  # E8 post-hoc error concordance (CPU, ~1 min)
 python scripts/research/e3_feature_probes.py --extract --probe --score [--jobs 6]                # R3 E3
 python scripts/research/e5_reliance_perturbation.py --predict --score                            # R3 E5 (GPU)
 python scripts/research/build_cache.py --mode nonanat_only overlay_only sector_shape_only        # R3 E4 cache

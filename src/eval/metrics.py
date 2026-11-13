@@ -36,6 +36,8 @@ __all__ = [
     "risk_coverage",
     "coverage_at_accuracy",
     "cramers_v",
+    "fleiss_kappa_binary",
+    "all_wrong_ratio",
 ]
 
 
@@ -202,3 +204,37 @@ def cramers_v(table: np.ndarray) -> float:
     kc = k - (k - 1) ** 2 / (n - 1)
     den = min(kc - 1, rc - 1)
     return float(np.sqrt(phi2c / den)) if den > 0 else float("nan")
+
+
+def fleiss_kappa_binary(n_pos: np.ndarray, m: int) -> float:
+    """Fleiss' kappa for m raters giving a binary rating (e.g. 'wrong') to each item.
+
+    ``n_pos[i]`` = number of the m raters that rated item i positive. 1 = perfect agreement,
+    0 = chance agreement given the overall positive rate, < 0 = less than chance.
+    """
+    n = np.asarray(n_pos, dtype=np.float64)
+    if n.size == 0 or m < 2:
+        return float("nan")
+    if ((n < 0) | (n > m)).any():
+        raise ValueError("n_pos must lie in [0, m]")
+    p_i = (n * (n - 1) + (m - n) * (m - n - 1)) / (m * (m - 1))
+    p = n.sum() / (n.size * m)
+    pe = p * p + (1 - p) * (1 - p)
+    return float((p_i.mean() - pe) / (1 - pe)) if pe < 1 else float("nan")
+
+
+def all_wrong_ratio(wrong: np.ndarray, strata: np.ndarray) -> float:
+    """Observed share of items that every rater gets wrong / share expected if raters erred independently.
+
+    ``wrong`` is (N, m) boolean. The independence expectation is computed within each stratum
+    (e.g. dataset x true class) as the product of the m raters' error rates in that stratum,
+    averaged over items. > 1 means errors pile up on the same items.
+    """
+    w = np.asarray(wrong, dtype=bool)
+    s = np.asarray(strata)
+    obs = w.all(axis=1).mean()
+    exp = 0.0
+    for v in np.unique(s):
+        k = s == v
+        exp += k.mean() * np.prod(w[k].mean(axis=0))
+    return float(obs / exp) if exp > 0 else float("nan")
