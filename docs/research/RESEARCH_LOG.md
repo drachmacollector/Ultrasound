@@ -145,3 +145,9 @@ deviation: E8 is a post-hoc addition (not in the plans or the pre-registration),
 run_ids: `runs/{b0,b1,b2,afp}_{convnext,effv2s}_s11`, `runs/{b0,b1,b2}_{convnext,effv2s}_s22` (all with DONE)
 outcome: matrix started 10:54 at commit 7f61029; sanity check passed (B0 convnext s11 val macro-F1 0.9186 vs legacy 0.9180). Stopped at 16:31 by the PI's request (laptop shutdown), right after b2_effv2s_s22 wrote DONE; no partial run was left. Resume with `python scripts/research/r5_run_matrix.py` (runs with DONE are skipped); 11 runs remain (afp s22, all s33, afp_cw_convnext_s11).
 deviation: none; the pause does not change any run (each run trains from scratch with its fixed seed).
+
+## 2026-11-14 — R5 matrix complete; pre-registered primary endpoint
+commit: (this commit)   run_ids: `runs/{b0,b1,b2,afp}_{convnext,effv2s}_s{11,22,33}`, `runs/afp_cw_convnext_s11`
+outputs: `results/preds/<run_id>/{fpdb_val,fpdb_test,hc18,ucl,african}.parquet` (+ features), `results/{json,tables}/R5_primary.*`, `results/figures/R5_forest.pdf`
+outcome: all 25 runs trained (resumed 2026-11-13 18:47 after the pause; finished about 23:30), none diverged. Primary (seed-averaged, paired patient-cluster bootstrap, Holm over 2 backbones): convnext_tiny AFP − B0 = +0.037 [+0.016, +0.058], Holm p = 0.001, success, non-inferior in distribution; tf_efficientnetv2_s +0.016 [−0.002, +0.034], Holm p = 0.096, not a success, non-inferior. Exploratory: B2 − B0 = +0.076 (convnext) and +0.079 (effv2s), with the gain concentrated on the African set.
+deviation: none. The primary script and its dependencies are byte-identical to the PREREGISTRATION commit b81bf61ed3. open_clip_torch 3.3.0 was installed with timm pinned at 1.0.28 (REPRODUCE.md); FetalCLIP weights SHA-256 recorded.

@@ -62,8 +62,8 @@ python scripts/research/r2_reevaluate_existing.py      # 6 frozen checkpoints x 
 | **Human:** lodge `PREREGISTRATION.md` on OSF | step-by-step: `docs/research/OSF_REGISTRATION_GUIDE.md` | Paste the link into `GATE_G4.md` as `OSF: https://...` and commit |
 | 24-run matrix + sensitivity run | `python scripts/research/r5_run_matrix.py` | Refuses to start without G4; 24 runs, then `afp_cw_convnext_s11` |
 | Secondary analyses | `python scripts/research/r5_evaluate_matrix.py --predict --saliency --probes --score` | Includes P3b on R5 models, rejection vs confusion, sensitivity run |
-| FM probe: install | `D:\miniconda\envsetalplane\python.exe -m pip install open_clip_torch` | The FetalCLIP repository pins open-clip-torch 2.26.1 with torch 2.0; record the version actually installed in `env.txt` |
-| FM probe: model files | `FetalCLIP_config.json` from github.com/BioMedIA-MBZUAI/FetalCLIP; `FetalCLIP_weights.pt` (1.7 GB) from huggingface.co/numansaeed/fetalclip-model, both into `data/external_models/fetalclip/` | Licence CC BY-NC 4.0 (`DATA_CARDS.md`) |
+| FM probe: install | `python -m pip install open_clip_torch "timm==1.0.28"` | Pinning timm stops pip upgrading it (the default install pulls timm 1.0.31). Used here: open_clip_torch 3.3.0 with timm 1.0.28 (2026-11-13). The FetalCLIP repository itself pins open-clip-torch 2.26.1 with torch 2.0 |
+| FM probe: model files | `FetalCLIP_config.json` from github.com/BioMedIA-MBZUAI/FetalCLIP; `FetalCLIP_weights.pt` (1.7 GB) from huggingface.co/numansaeed/fetalclip-model, both into `data/external_models/fetalclip/` | Licence CC BY-NC 4.0 (`DATA_CARDS.md`). SHA-256 of the weights used: `90916caa408baf9374ee3f8c1533463331a4ace37a13e61385e782905b35c310` |
 | FM probe | `python scripts/research/r5_fm_linear_probe.py --extract --probe --score` | GPU for `--extract` (about 30 k images, ViT-L/14, fp16); refuses before G4 |
 | Primary endpoint | `python scripts/research/r5_primary_endpoint.py` | Pre-registered; never edited |
 

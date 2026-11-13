@@ -2,11 +2,11 @@
 
 **Date:** 2026-11-13 · **Branch:** `main` · **Plan:** `docs/research/plans/R5_AFP_TRAINING.md`
 
-**Status:** ⏸ **Stopped at Gate G4. The PI needs to act.**
-- Everything the plan allows before G4 is built, tested and smoke-run.
-- `PREREGISTRATION.md` is committed.
-- The 24-run matrix needs the OSF registration link in `GATE_G4.md`. `r5_run_matrix.py` refuses to start without it.
-- No R5 model has been trained beyond one or two smoke epochs. No R5 model has been evaluated on test or external data.
+**Status:** 🟡 **Matrix trained and primary endpoint computed (2026-11-14). Secondary analyses pending.**
+- Gate G4 passed on 2026-11-13 (OSF link in `GATE_G4.md`).
+- All 25 runs trained (24-run matrix + sensitivity run) and predicted on FPDB val/test, HC18, UCL and African.
+- The pre-registered primary analysis ran unmodified: `results/tables/R5_primary.md` (section 6).
+- Still to run: `r5_evaluate_matrix.py --saliency --probes --score`, the FetalCLIP probe, `make_figures.py`, `render_results.py`.
 
 ## 1. What was built (R5.1–R5.9)
 
@@ -119,3 +119,27 @@ A check of PREREGISTRATION §6 against the code found three analyses that were r
 - **Smoke run** of `afp_cw_convnext_s11` (1 epoch, `runs/_smoke/`): the log confirms `class_weights=True` together with the acquisition-balanced sampler, and DONE was written.
 
 **Still open (needs the PI):** lodge `PREREGISTRATION.md` on OSF. `docs/research/OSF_REGISTRATION_GUIDE.md` gives a step-by-step guide.
+
+## 6. Part 3: the matrix and the primary endpoint (2026-11-13 to 2026-11-14, after G4)
+
+**Training.** `r5_run_matrix.py` started at 10:54 on 2026-11-13 from commit 7f61029 (the G4 commit).
+- The built-in sanity check passed: B0 convnext seed 11 val macro-F1 matched the legacy model within the ±0.02 tolerance.
+- The PI paused the matrix at 16:31 after 14 runs (a clean stop right after a run wrote DONE) and resumed it at 18:47. Runs with DONE are skipped, and each run trains from scratch with its fixed seed, so the pause changed nothing.
+- All 25 runs finished by about 23:30; none diverged or needed a re-run. Per-run validation scores are in each `runs/<run_id>/DONE`.
+
+**Predictions.** `r5_evaluate_matrix.py --predict` wrote per-image parquet for FPDB test, HC18, UCL and African (plus features, and the other-letterbox FPDB test for marker sensitivity) for every run, in about two hours.
+
+**Primary endpoint.** `r5_primary_endpoint.py` ran unmodified. `git diff b81bf61ed3 HEAD` is empty for the script and for `src/eval/{stats,scoring}.py`; its SHA-256 is recorded in the output. Results: `results/tables/R5_primary.md`, `results/json/R5_primary.json`, `results/figures/R5_forest.pdf`.
+- **convnext_tiny:** AFP beats B0 on the pooled external balanced accuracy (Holm-adjusted p < 0.05) and is non-inferior in distribution. **Pre-registered success.**
+- **tf_efficientnetv2_s:** the AFP − B0 difference is positive but its CI includes 0 (Holm p > 0.05). **Not a success.** It is non-inferior in distribution.
+- So the co-primary hypothesis holds for one of the two backbones. This is reported as such, not as a general result.
+
+**Exploratory reading (secondary, no multiplicity correction).**
+- **B2 is the largest gain on both backbones.** B2 is the sector letterbox plus caliper-marker inpainting and synthetic-caliper augmentation. Its pooled gain over B0 is about twice AFP's, and nearly identical across the two backbones.
+- **The gain is concentrated in the African set** (several centres, low-resource devices). HC18 and UCL change little; HC18 has only the Head class.
+- **AFP = B2 + acquisition-balanced sampler + device-style augmentation, with class weights off.** That AFP scores below B2 suggests that, of the extra AFP components, at least one (or dropping class weights) costs external balanced accuracy.
+- Isolating which component costs the accuracy was not pre-registered. Any follow-up is labelled post hoc. The class-weight sensitivity run (`afp_cw_convnext_s11`) speaks to the class-weight part and is scored with `--score`.
+- **Pooled plain accuracy is unchanged** between AFP and B0. The balanced-accuracy gain therefore comes from the minority external classes, not from the majority Head class.
+
+**Forest plot** (`R5_forest.pdf`) was checked visually; it is produced by the frozen script and left as is.
+
