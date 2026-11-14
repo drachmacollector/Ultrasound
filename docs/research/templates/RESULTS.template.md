@@ -143,6 +143,36 @@ Incremental ladder on the primary endpoint, and in-distribution 8-way macro-F1:
 
 Full tables are in `results/tables/R5_primary.md`, `R5_evaluation.md` and `R5_fm_probe.md`.
 
+## Post-hoc exploratory: where does the external gain come from? (R7: E9, E10)
+
+*Planned after the R5 results (`plans/R7_POSTHOC_FOLLOWUP.md`); not pre-registered. Seed-averaged paired patient-cluster bootstrap on the R5 primary endpoint.*
+
+- **Input-cleaning ladder** (pooled external balanced accuracy):
+
+  | backbone | B1 − B0 (sector letterbox) | B2 − B1 (marker inpainting + synthetic calipers) |
+  |---|---|---|
+  | convnext_tiny | {{E9.per_backbone.convnext_tiny.ladder.b1-b0}} | {{E9.per_backbone.convnext_tiny.ladder.b2-b1}} |
+  | tf_efficientnetv2_s | {{E9.per_backbone.tf_efficientnetv2_s.ladder.b1-b0}} | {{E9.per_backbone.tf_efficientnetv2_s.ladder.b2-b1}} |
+
+- **Marker stratification.** These are external images where the R1 detector finds a measurement marker ({{E9.per_backbone.convnext_tiny.marker_strata.with_marker.n_images|int}} images) and images where it finds none ({{E9.per_backbone.convnext_tiny.marker_strata.without_marker.n_images|int}}).
+
+  | backbone | subset | B1 − B0 | B2 − B1 |
+  |---|---|---|---|
+  | convnext_tiny | with marker | {{E9.per_backbone.convnext_tiny.marker_strata.with_marker.b1-b0|bare}} | {{E9.per_backbone.convnext_tiny.marker_strata.with_marker.b2-b1|bare}} |
+  | convnext_tiny | without marker | {{E9.per_backbone.convnext_tiny.marker_strata.without_marker.b1-b0|bare}} | {{E9.per_backbone.convnext_tiny.marker_strata.without_marker.b2-b1|bare}} |
+  | tf_efficientnetv2_s | with marker | {{E9.per_backbone.tf_efficientnetv2_s.marker_strata.with_marker.b1-b0|bare}} | {{E9.per_backbone.tf_efficientnetv2_s.marker_strata.with_marker.b2-b1|bare}} |
+  | tf_efficientnetv2_s | without marker | {{E9.per_backbone.tf_efficientnetv2_s.marker_strata.without_marker.b1-b0|bare}} | {{E9.per_backbone.tf_efficientnetv2_s.marker_strata.without_marker.b2-b1|bare}} |
+
+- **AFP − B2** (cost of the extra AFP components): convnext_tiny {{E9.per_backbone.convnext_tiny.components_vs_b2.afp-b2}}; tf_efficientnetv2_s {{E9.per_backbone.tf_efficientnetv2_s.components_vs_b2.afp-b2}}.
+- **Shared failures (E10, seed {{E10.primary_seed|raw}}).** This is the share of pooled-external images that both backbones get wrong:
+  - B0: {{E10.by_seed.11.b0.both_wrong|pct,bare}}
+  - B2: {{E10.by_seed.11.b2.both_wrong|pct,bare}}
+  - Δ (percentage points): {{E10.by_seed.11.b2.vs_b0.both_wrong_delta|pct,bare}}
+  - Of B0's shared failures, B2 rescues {{E10.by_seed.11.b2.vs_b0.rescued_share_of_b0_shared|pct,bare}}.
+  - Seeds 22 and 33 are in `results/tables/E10.md`.
+
+Full tables: `results/tables/E9.md`, `E10.md`.
+
 ## Deviations
 
 {{@deviations}}
