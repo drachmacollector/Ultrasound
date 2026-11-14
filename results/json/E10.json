@@ -211,6 +211,126 @@
       "n_nan": 0
      }
     }
+   },
+   "b2smp": {
+    "n_images": 1873,
+    "both_wrong": {
+     "point": 0.12867058195408435,
+     "lo": 0.10976110038610039,
+     "hi": 0.14715733093849026,
+     "n_images": 1873,
+     "n_clusters": 984,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "ratio_vs_independence": {
+     "point": 2.8970596412194927,
+     "lo": 2.626202920558164,
+     "hi": 3.1757108633518536,
+     "n_images": 1873,
+     "n_clusters": 984,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "vs_b0": {
+     "both_wrong_delta": {
+      "point": 0.03043246129204484,
+      "lo": 0.01752440422984669,
+      "hi": 0.043986424453176375,
+      "n_images": 1873,
+      "n_clusters": 984,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "rescued_share_of_b0_shared": {
+      "point": 0.2391304347826087,
+      "lo": 0.18077938316198944,
+      "hi": 0.30357142857142855,
+      "n_images": 1873,
+      "n_clusters": 984,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "new_share_of_arm_shared": {
+      "point": 0.4190871369294606,
+      "lo": 0.35064695452149325,
+      "hi": 0.48897576075884897,
+      "n_images": 1873,
+      "n_clusters": 984,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     }
+    }
+   },
+   "b2sty": {
+    "n_images": 1873,
+    "both_wrong": {
+     "point": 0.0993059263214095,
+     "lo": 0.0836396491873406,
+     "hi": 0.11538668098818475,
+     "n_images": 1873,
+     "n_clusters": 984,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "ratio_vs_independence": {
+     "point": 3.8685814572890305,
+     "lo": 3.3838164648420976,
+     "hi": 4.389229930048116,
+     "n_images": 1873,
+     "n_clusters": 984,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "vs_b0": {
+     "both_wrong_delta": {
+      "point": 0.0010678056593699942,
+      "lo": -0.01016624238286499,
+      "hi": 0.01272280825857807,
+      "n_images": 1873,
+      "n_clusters": 984,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "rescued_share_of_b0_shared": {
+      "point": 0.30978260869565216,
+      "lo": 0.24377793772255474,
+      "hi": 0.3812392230003166,
+      "n_images": 1873,
+      "n_clusters": 984,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "new_share_of_arm_shared": {
+      "point": 0.3172043010752688,
+      "lo": 0.2416795498897534,
+      "hi": 0.4014199684085823,
+      "n_images": 1873,
+      "n_clusters": 984,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     }
+    }
    }
   },
   "22": {
@@ -418,6 +538,126 @@
       "n_nan": 0
      }
     }
+   },
+   "b2smp": {
+    "n_images": 1873,
+    "both_wrong": {
+     "point": 0.12760277629471437,
+     "lo": 0.10828337763737986,
+     "hi": 0.14611364748483066,
+     "n_images": 1873,
+     "n_clusters": 984,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "ratio_vs_independence": {
+     "point": 2.6307794095652204,
+     "lo": 2.3693717571022512,
+     "hi": 2.9161809834059533,
+     "n_images": 1873,
+     "n_clusters": 984,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "vs_b0": {
+     "both_wrong_delta": {
+      "point": 0.025093432995194884,
+      "lo": 0.012637641853993662,
+      "hi": 0.0372772923450814,
+      "n_images": 1873,
+      "n_clusters": 984,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "rescued_share_of_b0_shared": {
+      "point": 0.20833333333333334,
+      "lo": 0.1509433962264151,
+      "hi": 0.2701488296740497,
+      "n_images": 1873,
+      "n_clusters": 984,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "new_share_of_arm_shared": {
+      "point": 0.36401673640167365,
+      "lo": 0.2985734214951842,
+      "hi": 0.4291860676977893,
+      "n_images": 1873,
+      "n_clusters": 984,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     }
+    }
+   },
+   "b2sty": {
+    "n_images": 1873,
+    "both_wrong": {
+     "point": 0.10411105178857448,
+     "lo": 0.08881867380478813,
+     "hi": 0.1195536785130592,
+     "n_images": 1873,
+     "n_clusters": 984,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "ratio_vs_independence": {
+     "point": 3.476141231194145,
+     "lo": 3.08440217524837,
+     "hi": 3.8656139092481228,
+     "n_images": 1873,
+     "n_clusters": 984,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "vs_b0": {
+     "both_wrong_delta": {
+      "point": 0.0016017084890549982,
+      "lo": -0.01005242040408619,
+      "hi": 0.012975873779538691,
+      "n_images": 1873,
+      "n_clusters": 984,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "rescued_share_of_b0_shared": {
+      "point": 0.3229166666666667,
+      "lo": 0.2582373271889401,
+      "hi": 0.3920574022939676,
+      "n_images": 1873,
+      "n_clusters": 984,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "new_share_of_arm_shared": {
+      "point": 0.3333333333333333,
+      "lo": 0.2639593908629442,
+      "hi": 0.40595250701540736,
+      "n_images": 1873,
+      "n_clusters": 984,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     }
+    }
    }
   },
   "33": {
@@ -617,6 +857,126 @@
       "point": 0.2304147465437788,
       "lo": 0.1681258703562284,
       "hi": 0.29546614100185525,
+      "n_images": 1873,
+      "n_clusters": 984,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     }
+    }
+   },
+   "b2smp": {
+    "n_images": 1873,
+    "both_wrong": {
+     "point": 0.13934863854778431,
+     "lo": 0.1212221014586674,
+     "hi": 0.15736317889895193,
+     "n_images": 1873,
+     "n_clusters": 984,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "ratio_vs_independence": {
+     "point": 2.6327655187859604,
+     "lo": 2.3873506431766027,
+     "hi": 2.8899720929657793,
+     "n_images": 1873,
+     "n_clusters": 984,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "vs_b0": {
+     "both_wrong_delta": {
+      "point": 0.01121195942338496,
+      "lo": -0.002118756522364986,
+      "hi": 0.024595608263839386,
+      "n_images": 1873,
+      "n_clusters": 984,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "rescued_share_of_b0_shared": {
+      "point": 0.2833333333333333,
+      "lo": 0.2256695411364672,
+      "hi": 0.3480216340580356,
+      "n_images": 1873,
+      "n_clusters": 984,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "new_share_of_arm_shared": {
+      "point": 0.34099616858237547,
+      "lo": 0.279407602663707,
+      "hi": 0.4055204592626758,
+      "n_images": 1873,
+      "n_clusters": 984,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     }
+    }
+   },
+   "b2sty": {
+    "n_images": 1873,
+    "both_wrong": {
+     "point": 0.11532301121195943,
+     "lo": 0.09757294116034029,
+     "hi": 0.1331873316550464,
+     "n_images": 1873,
+     "n_clusters": 984,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "ratio_vs_independence": {
+     "point": 3.606604078549386,
+     "lo": 3.2171706479785867,
+     "hi": 4.010222899221199,
+     "n_images": 1873,
+     "n_clusters": 984,
+     "method": "cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0
+    },
+    "vs_b0": {
+     "both_wrong_delta": {
+      "point": -0.01281366791243993,
+      "lo": -0.0249755385403886,
+      "hi": -0.000540504115975809,
+      "n_images": 1873,
+      "n_clusters": 984,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "rescued_share_of_b0_shared": {
+      "point": 0.3,
+      "lo": 0.2303915152448414,
+      "hi": 0.3711881008681843,
+      "n_images": 1873,
+      "n_clusters": 984,
+      "method": "cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "new_share_of_arm_shared": {
+      "point": 0.2222222222222222,
+      "lo": 0.1649845890410959,
+      "hi": 0.28502524755721687,
       "n_images": 1873,
       "n_clusters": 984,
       "method": "cluster_percentile",

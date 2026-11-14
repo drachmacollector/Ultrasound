@@ -48,11 +48,21 @@ AFP combines input cleaning with training-time device invariance. The two parts 
   | + device-style augmentation | {{E9.per_backbone.convnext_tiny.components_vs_b2.b2sty-b2|bare}} | {{E9.per_backbone.tf_efficientnetv2_s.components_vs_b2.b2sty-b2|bare}} |
   | + both (AFP) | {{E9.per_backbone.convnext_tiny.components_vs_b2.afp-b2|bare}} | {{E9.per_backbone.tf_efficientnetv2_s.components_vs_b2.afp-b2|bare}} |
 
-  These components lower how well the scanner can be decoded from the features (convnext_tiny B2 {{E9.per_backbone.convnext_tiny.per_arm.b2.within_class_machine|bare}} vs AFP {{E9.per_backbone.convnext_tiny.per_arm.afp.within_class_machine|bare}}). So removing device information from the features is not what drives external accuracy.
+  - The sampler is the main cost. It raises pooled-external "Other" rejections:
+    - convnext_tiny: {{E9.per_backbone.convnext_tiny.per_arm.b2smp.rejection_rate|pct,bare}} vs {{E9.per_backbone.convnext_tiny.per_arm.b2.rejection_rate|pct,bare}} for B2;
+    - tf_efficientnetv2_s: {{E9.per_backbone.tf_efficientnetv2_s.per_arm.b2smp.rejection_rate|pct,bare}} vs {{E9.per_backbone.tf_efficientnetv2_s.per_arm.b2.rejection_rate|pct,bare}}.
+
+    Both recipes target the same class balance: class weights in B2, a uniform class mix in the sampler. So the difference lies in how balance is reached (resampling with replacement vs loss weighting) and in balancing by device. This ablation does not separate the two.
+  - **Device information in the features does not track external accuracy.** Within-class machine decodability (convnext_tiny):
+    - B2: {{E9.per_backbone.convnext_tiny.per_arm.b2.within_class_machine|bare}};
+    - with the sampler: {{E9.per_backbone.convnext_tiny.per_arm.b2smp.within_class_machine|bare}};
+    - AFP: {{E9.per_backbone.convnext_tiny.per_arm.afp.within_class_machine|bare}}.
+
+    The arm with the most device information removed (AFP) still generalises worse than input cleaning alone.
 
 ## 4. What is not solved
 
-- **[post hoc] A shared core of hard external images remains after cleaning.** Under every arm, the two backbones fail on the same images about {{E10.by_seed.11.b2.ratio_vs_independence|dp=1}}× more often than independence would predict (B2, seed 11). Cleaning rescues part of the shared failure set but adds new shared failures, and the net change varies by seed.
+- **[post hoc] A shared core of hard external images remains after cleaning.** Under every arm, the two backbones fail on the same images far more often than independence would predict (B2, seed 11: about {{E10.by_seed.11.b2.ratio_vs_independence.point|dp=1}}×; all arms and seeds in `E10.md`). Cleaning rescues part of the shared failure set but adds new shared failures, and the net change varies by seed.
 - **External calibration stays poor**, worst on the African set (`R5_evaluation.md`).
 
 ## Practical recommendations
@@ -63,3 +73,4 @@ These are for reporting and preprocessing; they are not clinical.
 3. **Clean the input before training and testing**: sector crop, marker inpainting, synthetic-caliper augmentation. The tool is `scripts/clean_ultrasound.py` (`INPUT_CLEANING.md`). Check its QC overlays; it does not remove dotted measurement traces.
 4. **Do not use saliency maps as evidence that a model "looks at the anatomy"** without a sanity check (Gate G3) and an association test against correctness.
 5. **Test device-invariance methods against an input-cleaning baseline**, not only against plain resizing.
+6. **Treat device-balanced resampling with caution.** It is a common default for multi-device data, and here it cost external accuracy on both architectures without any in-distribution benefit.

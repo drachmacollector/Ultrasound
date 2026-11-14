@@ -163,7 +163,21 @@ Full tables are in `results/tables/R5_primary.md`, `R5_evaluation.md` and `R5_fm
   | tf_efficientnetv2_s | with marker | {{E9.per_backbone.tf_efficientnetv2_s.marker_strata.with_marker.b1-b0|bare}} | {{E9.per_backbone.tf_efficientnetv2_s.marker_strata.with_marker.b2-b1|bare}} |
   | tf_efficientnetv2_s | without marker | {{E9.per_backbone.tf_efficientnetv2_s.marker_strata.without_marker.b1-b0|bare}} | {{E9.per_backbone.tf_efficientnetv2_s.marker_strata.without_marker.b2-b1|bare}} |
 
-- **AFP − B2** (cost of the extra AFP components): convnext_tiny {{E9.per_backbone.convnext_tiny.components_vs_b2.afp-b2}}; tf_efficientnetv2_s {{E9.per_backbone.tf_efficientnetv2_s.components_vs_b2.afp-b2}}.
+- **AFP component ablation (E9).** Each AFP training component was added to B2 on its own (Holm over 6 tests):
+
+  | contrast vs B2 | convnext_tiny | tf_efficientnetv2_s |
+  |---|---|---|
+  | + acquisition-balanced sampler (class weights off) | {{E9.per_backbone.convnext_tiny.components_vs_b2.b2smp-b2}} | {{E9.per_backbone.tf_efficientnetv2_s.components_vs_b2.b2smp-b2}} |
+  | + device-style augmentation | {{E9.per_backbone.convnext_tiny.components_vs_b2.b2sty-b2}} | {{E9.per_backbone.tf_efficientnetv2_s.components_vs_b2.b2sty-b2}} |
+  | + both (AFP) | {{E9.per_backbone.convnext_tiny.components_vs_b2.afp-b2}} | {{E9.per_backbone.tf_efficientnetv2_s.components_vs_b2.afp-b2}} |
+
+  Holm-adjusted p for the sampler: {{E9.per_backbone.convnext_tiny.components_vs_b2.b2smp-b2.holm_p|dp=4}} (convnext_tiny), {{E9.per_backbone.tf_efficientnetv2_s.components_vs_b2.b2smp-b2.holm_p|dp=4}} (tf_efficientnetv2_s).
+
+  Pooled-external rejection rate with the sampler vs B2:
+  - convnext_tiny: {{E9.per_backbone.convnext_tiny.per_arm.b2smp.rejection_rate|pct,bare}} vs {{E9.per_backbone.convnext_tiny.per_arm.b2.rejection_rate|pct,bare}}
+  - tf_efficientnetv2_s: {{E9.per_backbone.tf_efficientnetv2_s.per_arm.b2smp.rejection_rate|pct,bare}} vs {{E9.per_backbone.tf_efficientnetv2_s.per_arm.b2.rejection_rate|pct,bare}}
+
+  Within-class machine decodability (convnext_tiny): B2 {{E9.per_backbone.convnext_tiny.per_arm.b2.within_class_machine|bare}}, + sampler {{E9.per_backbone.convnext_tiny.per_arm.b2smp.within_class_machine|bare}}, AFP {{E9.per_backbone.convnext_tiny.per_arm.afp.within_class_machine|bare}}.
 - **Shared failures (E10, seed {{E10.primary_seed|raw}}).** This is the share of pooled-external images that both backbones get wrong:
   - B0: {{E10.by_seed.11.b0.both_wrong|pct,bare}}
   - B2: {{E10.by_seed.11.b2.both_wrong|pct,bare}}

@@ -71,6 +71,10 @@ python scripts/research/r5_run_matrix.py                                        
 python scripts/research/r5_evaluate_matrix.py --predict --saliency --probes --score              # R5 secondary analyses
 python scripts/research/r5_primary_endpoint.py                                                   # R5 pre-registered primary (never edit)
 python scripts/research/r5_fm_linear_probe.py --extract --probe --score                        # R5.8 FetalCLIP probe (after G4; needs open_clip + weights)
+python scripts/research/e9_run_ablation.py                                                      # R7 E9 post-hoc ablation (12 runs, GPU, resume-safe)
+python scripts/research/e9_ablation.py --probes; e10_shared_failures.py                          # R7 E9/E10 analyses (CPU)
+python scripts/clean_ultrasound.py --in <dir> --out <dir> [--size 224] [--save-masks]            # R7 E11 input-cleaning tool
+python scripts/research/render_results.py --template docs/research/templates/KEY_FINDINGS.template.md --out docs/research/KEY_FINDINGS.md
 python scripts/research/make_figures.py                                                          # R6 study figures 3/7/8 + STUDY_FIGURES.md
 python scripts/research/check_orphan_json.py; check_evidence_table.py                            # R6 checks
 python scripts/research/render_results.py                                                        # R6

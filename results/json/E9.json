@@ -6,18 +6,52 @@
    "b0",
    "b1",
    "b2",
+   "b2smp",
+   "b2sty",
    "afp"
   ],
   "tf_efficientnetv2_s": [
    "b0",
    "b1",
    "b2",
+   "b2smp",
+   "b2sty",
    "afp"
   ]
  },
  "per_backbone": {
   "convnext_tiny": {
    "components_vs_b2": {
+    "b2smp-b2": {
+     "delta": -0.06301071814700265,
+     "lo": -0.08038831855946348,
+     "hi": -0.04774916225052965,
+     "p_two_sided": 0.0004997501249375312,
+     "point_a": 0.8370606045643871,
+     "point_b": 0.7740498864173845,
+     "n_images": 1873,
+     "n_clusters": 984,
+     "method": "paired_multi_seed_cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0,
+     "holm_p": 0.0029985007496251873
+    },
+    "b2sty-b2": {
+     "delta": -0.037720401608691945,
+     "lo": -0.05223320172710831,
+     "hi": -0.02380062091295878,
+     "p_two_sided": 0.0004997501249375312,
+     "point_a": 0.8370606045643871,
+     "point_b": 0.7993402029556952,
+     "n_images": 1873,
+     "n_clusters": 984,
+     "method": "paired_multi_seed_cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0,
+     "holm_p": 0.0029985007496251873
+    },
     "afp-b2": {
      "delta": -0.03860320421711483,
      "lo": -0.053583657852855696,
@@ -31,7 +65,7 @@
      "B": 2000,
      "seed": 20261109,
      "n_nan": 0,
-     "holm_p": 0.0009995002498750624
+     "holm_p": 0.0029985007496251873
     }
    },
    "ladder": {
@@ -482,6 +516,126 @@
       "n_nan": 0
      }
     },
+    "b2smp": {
+     "endpoint": {
+      "point": 0.7740498864173845,
+      "lo": 0.7406828095689507,
+      "hi": 0.8034730218535583,
+      "n_images": 1873,
+      "n_clusters": 984,
+      "method": "multi_seed_cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "rejection_rate": {
+      "point": 0.16764548852108918,
+      "lo": 0.14910744728176642,
+      "hi": 0.18622219909147966,
+      "n_images": 1873,
+      "n_clusters": 984,
+      "method": "multi_seed_cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "fpdb_test_macro_f1_8": {
+      "point": 0.8871259626294187,
+      "lo": 0.8784162288678182,
+      "hi": 0.8955782431928478,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "multi_seed_cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "within_class_machine": {
+      "point": 0.9209690880127922,
+      "lo": 0.912199754417436,
+      "hi": 0.9300169842137661,
+      "n_images": 3275,
+      "n_clusters": 543,
+      "method": "multi_seed_cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "fpdb_test_macro_f1_8_vs_b2": {
+      "delta": -0.0002003064253195408,
+      "lo": -0.004790664638907946,
+      "hi": 0.004372501485551517,
+      "p_two_sided": 0.941,
+      "point_a": 0.8873262690547382,
+      "point_b": 0.8871259626294187,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "paired_multi_seed_cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     }
+    },
+    "b2sty": {
+     "endpoint": {
+      "point": 0.7993402029556952,
+      "lo": 0.7678815989932839,
+      "hi": 0.8283919032409662,
+      "n_images": 1873,
+      "n_clusters": 984,
+      "method": "multi_seed_cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "rejection_rate": {
+      "point": 0.15358604733938422,
+      "lo": 0.13535023533565754,
+      "hi": 0.17179548685145696,
+      "n_images": 1873,
+      "n_clusters": 984,
+      "method": "multi_seed_cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "fpdb_test_macro_f1_8": {
+      "point": 0.8900424933005421,
+      "lo": 0.8809934057208798,
+      "hi": 0.8985775329820138,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "multi_seed_cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "within_class_machine": {
+      "point": 0.8991942800104648,
+      "lo": 0.8879570983701126,
+      "hi": 0.9096493378703303,
+      "n_images": 3275,
+      "n_clusters": 543,
+      "method": "multi_seed_cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "fpdb_test_macro_f1_8_vs_b2": {
+      "delta": 0.0027162242458038666,
+      "lo": -0.0017560635036203865,
+      "hi": 0.007072932014934599,
+      "p_two_sided": 0.23,
+      "point_a": 0.8873262690547382,
+      "point_b": 0.8900424933005421,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "paired_multi_seed_cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     }
+    },
     "afp": {
      "endpoint": {
       "point": 0.7984574003472723,
@@ -546,6 +700,36 @@
   },
   "tf_efficientnetv2_s": {
    "components_vs_b2": {
+    "b2smp-b2": {
+     "delta": -0.11048188948021587,
+     "lo": -0.13217208666232946,
+     "hi": -0.09026654666284523,
+     "p_two_sided": 0.0004997501249375312,
+     "point_a": 0.785468945137461,
+     "point_b": 0.6749870556572451,
+     "n_images": 1873,
+     "n_clusters": 984,
+     "method": "paired_multi_seed_cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0,
+     "holm_p": 0.0029985007496251873
+    },
+    "b2sty-b2": {
+     "delta": -0.016601783307803153,
+     "lo": -0.037557320950079555,
+     "hi": 0.005569079899846259,
+     "p_two_sided": 0.138,
+     "point_a": 0.785468945137461,
+     "point_b": 0.7688671618296579,
+     "n_images": 1873,
+     "n_clusters": 984,
+     "method": "paired_multi_seed_cluster_percentile",
+     "B": 2000,
+     "seed": 20261109,
+     "n_nan": 0,
+     "holm_p": 0.138
+    },
     "afp-b2": {
      "delta": -0.0629628182987726,
      "lo": -0.08390428938748087,
@@ -559,7 +743,7 @@
      "B": 2000,
      "seed": 20261109,
      "n_nan": 0,
-     "holm_p": 0.0009995002498750624
+     "holm_p": 0.0029985007496251873
     }
    },
    "ladder": {
@@ -1010,6 +1194,126 @@
       "n_nan": 0
      }
     },
+    "b2smp": {
+     "endpoint": {
+      "point": 0.6749870556572451,
+      "lo": 0.6421928707367127,
+      "hi": 0.7052400471699911,
+      "n_images": 1873,
+      "n_clusters": 984,
+      "method": "multi_seed_cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "rejection_rate": {
+      "point": 0.23384943940202882,
+      "lo": 0.21552721791998028,
+      "hi": 0.2532650430776238,
+      "n_images": 1873,
+      "n_clusters": 984,
+      "method": "multi_seed_cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "fpdb_test_macro_f1_8": {
+      "point": 0.8541653383766379,
+      "lo": 0.8445477697910573,
+      "hi": 0.863775651909998,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "multi_seed_cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "within_class_machine": {
+      "point": 0.9018449303530809,
+      "lo": 0.8898148701508589,
+      "hi": 0.9132414831314193,
+      "n_images": 3275,
+      "n_clusters": 543,
+      "method": "multi_seed_cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "fpdb_test_macro_f1_8_vs_b2": {
+      "delta": -0.019813935502210556,
+      "lo": -0.02571733435560464,
+      "hi": -0.013371646522019554,
+      "p_two_sided": 0.0004997501249375312,
+      "point_a": 0.8739792738788484,
+      "point_b": 0.8541653383766379,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "paired_multi_seed_cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     }
+    },
+    "b2sty": {
+     "endpoint": {
+      "point": 0.7688671618296579,
+      "lo": 0.7380881672104064,
+      "hi": 0.7984362006577811,
+      "n_images": 1873,
+      "n_clusters": 984,
+      "method": "multi_seed_cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "rejection_rate": {
+      "point": 0.1573233671471792,
+      "lo": 0.13966173401661172,
+      "hi": 0.1743312816451899,
+      "n_images": 1873,
+      "n_clusters": 984,
+      "method": "multi_seed_cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "fpdb_test_macro_f1_8": {
+      "point": 0.8705864458056528,
+      "lo": 0.8612027637712593,
+      "hi": 0.8793344513900405,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "multi_seed_cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "within_class_machine": {
+      "point": 0.8372097088259837,
+      "lo": 0.8221065586363905,
+      "hi": 0.8517181546803725,
+      "n_images": 3275,
+      "n_clusters": 543,
+      "method": "multi_seed_cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     },
+     "fpdb_test_macro_f1_8_vs_b2": {
+      "delta": -0.0033928280731956306,
+      "lo": -0.00889984617357394,
+      "hi": 0.0023094281597224593,
+      "p_two_sided": 0.247,
+      "point_a": 0.8739792738788484,
+      "point_b": 0.8705864458056528,
+      "n_images": 5271,
+      "n_clusters": 896,
+      "method": "paired_multi_seed_cluster_percentile",
+      "B": 2000,
+      "seed": 20261109,
+      "n_nan": 0
+     }
+    },
     "afp": {
      "endpoint": {
       "point": 0.7225061268386884,
@@ -1073,5 +1377,5 @@
    }
   }
  },
- "multiplicity": "Holm over 2 component tests (reported; analysis exploratory)"
+ "multiplicity": "Holm over 6 component tests (reported; analysis exploratory)"
 }
