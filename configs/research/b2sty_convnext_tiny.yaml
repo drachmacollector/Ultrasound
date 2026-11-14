@@ -1,0 +1,40 @@
+# configs/research/b2sty_convnext_tiny.yaml  (E9 post-hoc ablation, 2026-11-14; derived from b2_convnext_tiny.yaml)
+#
+# B2STY: B2 + device-style augmentation (AFP's style component only; class weights on, no sampler).
+# Backbone hyperparameters are copied verbatim from the B0 config; only the arm keys differ.
+# Seeds 11/22/33 via --seed; --out-dir runs/b2sty_convnext_s<seed> (scripts/research/e9_run_ablation.py).
+
+backbone: convnext_tiny.fb_in22k_ft_in1k
+num_classes: 8
+pretrained: true
+image_size: 224
+normalize_mean:
+- 0.485
+- 0.456
+- 0.406
+normalize_std:
+- 0.229
+- 0.224
+- 0.225
+train_csv: data/splits/train.csv
+val_csv: data/splits/val.csv
+class_weights_json: data/processed/class_weights.json
+batch_size: 64
+num_workers: 4
+epochs_smoke_test: 5
+epochs_max: 60
+early_stopping_patience: 8
+optimizer: adamw
+lr: 1e-4
+weight_decay: 0.01
+scheduler: cosine
+amp: true
+preprocess_mode: sector_letterbox_inpaint
+caliper_aug_p: 0.3
+sampler: none
+style_aug: true
+use_class_weights: true
+run_root: runs/
+checkpoint_dir: runs/b2sty_convnext
+log_dir: runs/b2sty_convnext/tb
+seed: 11
