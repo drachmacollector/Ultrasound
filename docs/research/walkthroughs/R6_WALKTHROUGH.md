@@ -2,7 +2,7 @@
 
 **Date:** 2026-11-13 · **Branch:** `main` · **Plan:** `docs/research/plans/R6_REPORTING_AND_REVIEW.md`
 
-**Status:** 🟡 Every part that does not depend on R5 results is built and checked. RQ4 renders as `⟨pending⟩` (32 placeholders, all R5) until the R5 matrix runs, which waits on Gate G4.
+**Status:** ✅ Complete (2026-11-14): RESULTS.md renders with 0 pending placeholders; 8 of 8 study figures; orphan check clean. Human items remain (section 5).
 
 ## 1. What was built
 

@@ -2,11 +2,8 @@
 
 **Date:** 2026-11-13 · **Branch:** `main` · **Plan:** `docs/research/plans/R5_AFP_TRAINING.md`
 
-**Status:** 🟡 **Matrix trained and primary endpoint computed (2026-11-14). Secondary analyses pending.**
-- Gate G4 passed on 2026-11-13 (OSF link in `GATE_G4.md`).
-- All 25 runs trained (24-run matrix + sensitivity run) and predicted on FPDB val/test, HC18, UCL and African.
-- The pre-registered primary analysis ran unmodified: `results/tables/R5_primary.md` (section 6).
-- Still to run: `r5_evaluate_matrix.py --saliency --probes --score`, the FetalCLIP probe, `make_figures.py`, `render_results.py`.
+**Status:** ✅ **Complete (2026-11-14).** Gate G4 passed, all 25 runs trained and evaluated, the pre-registered primary endpoint and every secondary analysis computed. `RESULTS.md` renders with 0 pending placeholders.
+- Primary endpoint and exploratory reading: section 6. Secondary analyses: section 7.
 
 ## 1. What was built (R5.1–R5.9)
 
@@ -142,4 +139,44 @@ A check of PREREGISTRATION §6 against the code found three analyses that were r
 - **Pooled plain accuracy is unchanged** between AFP and B0. The balanced-accuracy gain therefore comes from the minority external classes, not from the majority Head class.
 
 **Forest plot** (`R5_forest.pdf`) was checked visually; it is produced by the frozen script and left as is.
+
+## 7. Part 4: secondary analyses (2026-11-14)
+
+**Runs.** These steps ran from the committed predictions. Logs are in `runs/R5_EVAL_{saliency,probes,score}.log` and `runs/R5_FM_{extract,probe}.log`.
+- `r5_evaluate_matrix.py --saliency`: Grad-CAM for 24 runs × 4 sets, about 4 min per run on the GPU. It ran alongside `--probes` (CPU, 4 torch-free workers, `OMP_NUM_THREADS=1`).
+- `r5_evaluate_matrix.py --score` ran on the CPU while FetalCLIP extracted features on the GPU.
+- FetalCLIP: about 14,000 images in each of two input modes (7 min), then the probe (`--probe --score`).
+- Then `make_figures.py` (8 of 8 figures present), `render_results.py` without `--allow-missing` (0 pending) and `check_orphan_json.py` (all 21 JSON files used).
+- F7 and F8 now include the R5 arms and were checked visually.
+
+**What the secondary analyses show.** All are exploratory and have no multiplicity correction. Numbers are in `results/tables/R5_evaluation.md`, `R5_fm_probe.md` and `RESULTS.md`.
+- **Machine decodability falls with the protocol.**
+  - Within-class machine decodability from the penultimate features is lower for AFP than for B0, on both backbones.
+  - The convnext drop is the larger one.
+  - So AFP removes machine information from the features. Yet AFP generalises worse than B2, so less machine information in the features is not, by itself, what drives external accuracy.
+- **Rejection vs confusion.**
+  - On every arm, most external errors are "Other" rejections (E8 found the same in the legacy models).
+  - B1 and B2 lower the rejection rate. AFP brings it back to B0's level.
+  - The share of B2's errors that are an absent class grows, as rejections turn into anatomical guesses.
+- **Calibration.**
+  - Temperature scaling fitted on val lowers ECE in distribution for every run.
+  - External ECE stays higher, and highest on the African set.
+- **P3b on R5 models (confirmatory for AFP): the claim does not hold.**
+  - On HC18 + UCL landmark images, the odds ratio for correctness per +0.1 EPG − area runs in opposite directions on the two backbones. Below 1 for convnext; above 1 for EfficientNetV2-S, strongly so for B0–B2.
+  - So whether on-anatomy saliency goes with being correct depends on the architecture. That matches R4, where the legacy primary model showed no association.
+  - Reported as a negative confirmatory result.
+- **African ground-truth-free monitor.**
+  - For convnext arms, the out-of-sector saliency share flags African errors beyond confidence (Δ AUROC > 0).
+  - For EfficientNetV2-S it does not.
+- **Sensitivity run (AFP + class weights, convnext seed 11).** Adding class weights back to AFP lowers pooled external balanced accuracy further. So AFP's deficit against B2 is not caused by turning class weights off. The remaining candidates are the acquisition-balanced sampler and the device-style augmentation; which one it is, is not tested.
+- **FetalCLIP probe.**
+  - A frozen fetal-ultrasound foundation model with a linear probe gains on pooled external balanced accuracy when given the B2 input (sector letterbox + marker inpainting) instead of a plain resize.
+  - The paired gain is about the same size as B2 − B0 in the fine-tuned models, and is driven by UCL and African.
+  - So the input-cleaning effect holds across an independently pretrained encoder, not just our two backbones.
+
+**Overall reading (exploratory).** The pre-registered AFP protocol helps external balanced accuracy for convnext only. The consistent, larger gain comes from cleaning the input: cropping to the sector and removing caliper markers. That gain:
+- appears in both fine-tuned backbones (B2) and in a frozen foundation model;
+- is concentrated on the low-resource African set.
+
+The extra AFP components (balanced sampler and style augmentation) reduce machine information in the features but give back part of the gain. None of this is a clinical claim.
 
