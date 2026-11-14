@@ -200,16 +200,60 @@ def markdown(res: dict) -> str:
     return "\n".join(L)
 
 
+def figure(res: dict) -> None:
+    """Left: input-cleaning steps by marker stratum. Right: AFP components added to B2."""
+    from src.audit.plotting import SERIES, plt, save
+
+    bbs = [("convnext_tiny", "ConvNeXt-T"), ("tf_efficientnetv2_s", "EffNetV2-S")]
+    fig, (a1, a2) = plt.subplots(1, 2, figsize=(7.2, 3.0), sharex=False)
+    rows = [("without_marker", "b1-b0", "sector crop · no marker"), ("with_marker", "b1-b0", "sector crop · marker"),
+            ("without_marker", "b2-b1", "marker removal · no marker"), ("with_marker", "b2-b1", "marker removal · marker")]
+    for j, (bb, lab) in enumerate(bbs):
+        st = res["per_backbone"][bb]["marker_strata"]
+        for i, (s, c, _) in enumerate(rows):
+            e = st[s][c]
+            y = i + (j - 0.5) * 0.3
+            a1.errorbar(e["delta"], y, xerr=[[e["delta"] - e["lo"]], [e["hi"] - e["delta"]]], fmt="o", ms=4,
+                        color=SERIES[j], capsize=2, label=lab if i == 0 else None)
+    a1.set_yticks(range(len(rows)), [r[2] for r in rows])
+    a1.axvline(0, color="#999", lw=0.8, ls=":")
+    a1.set_ylim(len(rows) - 0.5, -0.5)
+    a1.set_xlabel("Δ external balanced accuracy")
+    a1.set_title("Which cleaning step helps which images", loc="left", fontsize=9)
+    comps = [("b2smp-b2", "+ balanced sampler"), ("b2sty-b2", "+ style augmentation"), ("afp-b2", "+ both (AFP)")]
+    for j, (bb, lab) in enumerate(bbs):
+        cv = res["per_backbone"][bb]["components_vs_b2"]
+        for i, (c, _) in enumerate(comps):
+            if c in cv:
+                e = cv[c]
+                a2.errorbar(e["delta"], i + (j - 0.5) * 0.3, xerr=[[e["delta"] - e["lo"]], [e["hi"] - e["delta"]]],
+                            fmt="o", ms=4, color=SERIES[j], capsize=2)
+    a2.set_yticks(range(len(comps)), [c[1] for c in comps])
+    a2.axvline(0, color="#999", lw=0.8, ls=":")
+    a2.set_ylim(len(comps) - 0.5, -0.5)
+    a2.set_xlabel("Δ vs B2 (input cleaning only)")
+    a2.set_title("Adding device-invariance training to B2", loc="left", fontsize=9)
+    h, lab = a1.get_legend_handles_labels()
+    fig.legend(h, lab, loc="lower center", ncol=2, fontsize=7, bbox_to_anchor=(0.5, -0.02))
+    fig.tight_layout(rect=(0, 0.07, 1, 1))
+    save(fig, "E9_cleaning_and_components", sources="results/json/E9.json", dpi=300)
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--figure-only", action="store_true", help="redraw the figure from results/json/E9.json")
     ap.add_argument("--probes", action="store_true")
     ap.add_argument("--jobs", type=int, default=4)
     a = ap.parse_args()
+    if a.figure_only:
+        figure(json.loads(OUT_JSON.read_text(encoding="utf-8")))
+        return
     if a.probes:
         run_probes(a.jobs)
     res = analyse()
     OUT_JSON.write_text(json.dumps(res, indent=1), encoding="utf-8")
     OUT_MD.write_text(markdown(res), encoding="utf-8")
+    figure(res)
     print(markdown(res))
 
 
